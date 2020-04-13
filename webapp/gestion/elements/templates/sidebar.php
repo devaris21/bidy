@@ -1,0 +1,102 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <h1 class="logo-name text-center" style="font-size: 50px; letter-spacing: 5px; margin: 0% auto !important; padding: 0% !important;">BIDY</h1>
+            <li class="nav-header" style="padding: 15px 10px !important">
+                <div class="dropdown profile-element">                        
+                    <div class="row">
+                        <div class="col-3">
+                            <img alt="image" class="rounded-circle" style="width: 35px" src="<?= $this->stockage("images", "gestionnaires", $employe->image) ?>"/>
+                        </div>
+                        <div class="col-9">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="block m-t-xs font-bold"><?= $employe->name(); ?></span>
+                                <span class="text-muted text-xs block"><?= $employe->typeadministrateur->name(); ?> <b class="caret"></b></span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a class="dropdown-item" href="profile.html">Mon profil</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="mailbox.html">Vérouiller la session</a></li>
+                                <li><a class="dropdown-item" href="login.html">Déconnexion</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-element">
+                    BIDY
+                </div>
+            </li>
+            <ul class="nav metismenu" id="side-menu">
+                <li class="" id="dashboard">
+                    <a href="<?= $this->url("gestion", "master", "dashboard") ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">Tableau de bord</span></a>
+                </li>
+                <li class="" id="clients">
+                    <a href="<?= $this->url("gestion", "master", "clients") ?>"><i class="fa fa-users"></i> <span class="nav-label">Liste des clients</span></a>
+                </li>
+                <li class="dropdown-divider"></li>
+
+
+                <li class="groupe">
+                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Stocks & production</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li class="" id="production"><a href="<?= $this->url("gestion", "production", "production", 7) ?>">Stock de production</a></li>
+                        <li class="" id="ressources"><a href="<?= $this->url("gestion", "production", "ressources", 7) ?>">Stock de ressources</a></li>
+                    </ul>
+                </li>
+                <li class="" id="commandes">
+                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes en cours</span></a>
+                </li>
+                <li class="" id="livraisons">
+                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span></a>
+                </li>
+                <li class="" id="approvisionnements">
+                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnements</span></a>
+                </li>
+                <li class="dropdown-divider"></li>
+
+
+                <li class="" id="personnel">
+                    <a href="<?= $this->url("gestion", "master", "personnel") ?>"><i class="fa fa-users"></i> <span class="nav-label">Le personnel</span></a>
+                </li>
+                <li class="" id="machines">
+                    <a href="<?= $this->url("gestion", "master", "machines") ?>"><i class="fa fa-steam"></i> <span class="nav-label">Véhicules et machines</span></a>
+                </li>            
+                <li class="" id="pannes">
+                    <a href="<?= $this->url("gestion", "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretiens</span></a>
+                </li>
+                <li class="dropdown-divider"></li>
+
+
+
+                <li class="" id="comptedujour">
+                    <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Compte du Jour</span></a>
+                </li>
+                <li class="" id="caisse">
+                    <a href="<?= $this->url("gestion", "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">Compte de caisse</span></a>
+                </li>
+                <li class="groupe">
+                    <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Etats récapitulatifs</span> <span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
+                        <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
+                        <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
+                        <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown-divider"></li>
+
+
+                <li class="" id="configuration">
+                    <a href="<?= $this->url("gestion", "parametre", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
+                </li>
+                <li class="" id="abonnement">
+                    <a href="<?= $this->url("gestion", "parametre", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span></a>
+                </li>
+
+                <li></li>
+            </ul>
+
+        </ul>
+
+    </div>
+</nav>
