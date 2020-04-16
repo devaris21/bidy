@@ -10,48 +10,80 @@ extract($_POST);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-if ($action == "approuver") {
-	$datas = SINISTRE::findBy(["id ="=>$id]);
-	if (count($datas) == 1) {
-		$sinistre = $datas[0];
-		$data = $sinistre->approuver();
-	}else{
-		$data->status = false;
-		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
-	}
-	echo json_encode($data);
-}
 
-
-
-if ($action == "entretien2") {
-	if (getSession("sinistre") != null) {
-		$entretien = new ENTRETIENVEHICULE;
-		$sinistre = getSession("sinistre");
-		$entretien->cloner($sinistre);
-		$entretien->hydrater($_POST);
-		$entretien->name = "Entretein suite au sinitre #".$sinistre->ticket." // ".$sinistre->typesinistre->name;
-		$entretien->typeentretienvehicule_id = 1;
-		$entretien->setId(null);
-		$data = $entretien->enregistre();
-		if ($data->status) {
-			unset_session("sinistre");
+if ($action == "annuler") {
+	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+	if (count($datas) > 0) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
+			$datas = LIVRAISON::findBy(["id ="=>$id]);
+			if (count($datas) == 1) {
+				$livraison = $datas[0];
+				$data = $livraison->annuler();
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Votre mot de passe ne correspond pas !";
 		}
 	}else{
 		$data->status = false;
-		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+		$data->message = "Vous ne pouvez pas effectué cette opération !";
 	}
 	echo json_encode($data);
 }
 
 
 
+if ($action == "validerLivraison") {
+	$id = getSession("livraison_id");
+	$datas = LIVRAISON::findBy(["id ="=>$id]);
+	if (count($datas) > 0) {
+		$livraison = $datas[0];
+		$livraison->fourni("lignelivraison");
 
-if ($action == "refuser") {
-	$datas = SINISTRE::findBy(["id ="=>$id]);
-	if (count($datas) == 1) {
-		$sinistre = $datas[0];
-		$data = $sinistre->refuser();
+		$produits = explode(",", $tableau);
+		if (count($produits) > 0) {
+			$tests = $produits;
+			foreach ($tests as $key => $value) {
+				$lot = explode("-", $value);
+				$id = $lot[0];
+				$qte = end($lot);
+				foreach ($livraison->lignelivraisons as $key => $lgn) {
+					if (($lgn->produit_id == $id) && ($lgn->quantite >= $qte)) {
+						unset($tests[$key]);
+					}
+				}
+			}
+			if (count($tests) == 0) {
+				$livraison->hydrater($_POST);
+				$data = $livraison->terminer();
+				if ($data->status) {
+					foreach ($produits as $key => $value) {
+						$lot = explode("-", $value);
+						$id = $lot[0];
+						$qte = end($lot);
+						foreach ($livraison->lignelivraisons as $key => $lgn) {
+							if ($lgn->produit_id == $id) {
+								$lgn->quantite_livree = $qte;
+								$lgn->reste = $livraison->groupecommande->reste($id) - $qte;
+								$lgn->save();
+								break;
+							}
+						}
+					}
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+			}			
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+		}
 	}else{
 		$data->status = false;
 		$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";

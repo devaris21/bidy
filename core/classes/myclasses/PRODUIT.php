@@ -21,7 +21,7 @@ class PRODUIT extends TABLE
 		if ($this->name != "") {
 			$data = $this->save();
 			if ($data->status) {
-				$this->uploading($files);
+				$this->uploading($this->files);
 				foreach (ZONELIVRAISON::getAll() as $key => $zonelivraison) {
 					$ligne = new PRIX_ZONELIVRAISON();
 					$ligne->produit_id = $data->lastid;

@@ -50,6 +50,52 @@ class LIVRAISON extends TABLE
 	}
 	
 
+
+	public function annuler(){
+		$data = new RESPONSE;
+		if ($this->etat_id == ETAT::ENCOURS) {
+			$this->etat_id = ETAT::ANNULEE;
+			$this->historique("La livraison en reference $this->reference vient d'être annulée !");
+			$data = $this->save();
+			if ($data->status) {
+				$this->actualise();
+				$this->chauffeur->etat_id = ETATCHAUFFEUR::LIBRE;
+				$this->chauffeur->save();
+				
+				$this->vehicule->etat_id = ETATVEHICULE::RAS;
+				$this->vehicule->save();
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette livraison !";
+		}
+		return $data;
+	}
+
+
+
+	public function terminer(){
+		$data = new RESPONSE;
+		if ($this->etat_id == ETAT::ENCOURS) {
+			$this->etat_id = ETAT::TERMINEE;
+			$this->historique("La livraison en reference $this->reference vient d'être terminé !");
+			$data = $this->save();
+			if ($data->status) {
+				$this->actualise();
+				$this->chauffeur->etat_id = ETATCHAUFFEUR::LIBRE;
+				$this->chauffeur->save();
+				
+				$this->vehicule->etat_id = ETATVEHICULE::RAS;
+				$this->vehicule->save();
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette livraison !";
+		}
+		return $data;
+	}
+
+
 	public function sentenseCreate(){}
 	public function sentenseUpdate(){}
 	public function sentenseDelete(){}

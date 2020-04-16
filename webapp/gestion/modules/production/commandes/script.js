@@ -17,7 +17,7 @@ $(function(){
 
     $("#top-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("table.table-sinistre tr").filter(function() {
+        $("table.table-commande tr:not[no]").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });

@@ -11,8 +11,7 @@ public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
 	public $sentense; // phrase de l'historique
-	public $gestionnaire_id = null;
-	public $utilisateur_id = null;
+	public $employe_id = null;
 	public $carplan_id = null;
 	public $prestataire_id = null;
 	public $isOperationCaisse = 0; //1 si operation de caisse, 1 sinon
@@ -34,8 +33,8 @@ public static $tableName = __CLASS__;
 		$story->type_save = $type_save;
 		$story->sentense =  $element->sentense;
 
-		if (getSession("gestionnaire_connecte_id") != null) {
-			$story->gestionnaire_id = getSession("gestionnaire_connecte_id");
+		if (getSession("employe_connecte_id") != null) {
+			$story->employe_id = getSession("employe_connecte_id");
 		}
 		if ($story->type_save == "insert") {
 			$story->sentense = $element->sentenseCreate();
@@ -67,9 +66,8 @@ public static $tableName = __CLASS__;
 
 	public function auteur(){
 		$this->actualise();
-		if ($this->gestionnaire_id != null) {
-			return $this->gestionnaire->name();
-
+		if ($this->employe_id != null) {
+			return $this->employe->name();
 		}elseif ($this->utilisateur_id != null) {
 			return $this->utilisateur->name();
 
@@ -83,8 +81,8 @@ public static $tableName = __CLASS__;
 
 
 	public function type(){
-		if ($this->gestionnaire_id != null) {
-			return "Gestionnaire AMB";
+		if ($this->employe_id != null) {
+			return "Employe AMB";
 
 		}elseif ($this->utilisateur_id != null) {
 			return "Responsable Direction";

@@ -11,7 +11,7 @@
                         <div class="col-9">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="block m-t-xs font-bold"><?= $employe->name(); ?></span>
-                                <span class="text-muted text-xs block"><?= $employe->typeadministrateur->name(); ?> <b class="caret"></b></span>
+                                <span class="text-muted text-xs block"><b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="dropdown-item" href="profile.html">Mon profil</a></li>
@@ -44,13 +44,13 @@
                     </ul>
                 </li>
                 <li class="" id="commandes">
-                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes en cours</span></a>
+                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes <span class="label label-warning float-right">9</span></span></a>
                 </li>
                 <li class="" id="livraisons">
-                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span></a>
+                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <span class="label label-warning float-right">2</span></a>
                 </li>
                 <li class="" id="approvisionnements">
-                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnements</span></a>
+                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <span class="label label-warning float-right">2</span></a>
                 </li>
                 <li class="dropdown-divider"></li>
 
@@ -62,7 +62,7 @@
                     <a href="<?= $this->url("gestion", "master", "machines") ?>"><i class="fa fa-steam"></i> <span class="nav-label">Véhicules et machines</span></a>
                 </li>            
                 <li class="" id="pannes">
-                    <a href="<?= $this->url("gestion", "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretiens</span></a>
+                    <a href="<?= $this->url("gestion", "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretien <span class="label label-warning float-right">2</span></span></a>
                 </li>
                 <li class="dropdown-divider"></li>
 
@@ -89,8 +89,11 @@
                 <li class="" id="configuration">
                     <a href="<?= $this->url("gestion", "parametre", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
                 </li>
+                 <li class="" id="historiques">
+                    <a href="<?= $this->url("gestion", "parametre", "historiques") ?>"><i class="fa fa-clock-o"></i> <span class="nav-label">Historiques</span></a>
+                </li>
                 <li class="" id="abonnement">
-                    <a href="<?= $this->url("gestion", "parametre", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span></a>
+                    <a href="<?= $this->url("gestion", "parametre", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
                 </li>
 
                 <li></li>

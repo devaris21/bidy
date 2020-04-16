@@ -57,6 +57,18 @@
 						</div>
 					</div>
 					<div class="">
+						<label>Unité de mesure </label>
+						<div class="form-group">
+							<input type="text" class="form-control" name="unite" required placeholder="Ex... tonne">
+						</div>
+					</div>
+					<div class="">
+						<label>abbréviation </label>
+						<div class="form-group">
+							<input type="text" class="form-control" name="abbr" placeholder="Ex... T" required>
+						</div>
+					</div>
+					<div class="">
 						<label>Illustration de la ressource</label>
 						<div class="">
 							<img style="width: 80px;" src="" class="img-thumbnail logo">

@@ -31,7 +31,7 @@
 
                     <label>Le personnel qui travaille</label>
                     <div>
-                        <?php Native\BINDING::html("select", "groupepersonnel") ?>
+                        <?php Native\BINDING::html("select", "groupemanoeuvre") ?>
                     </div>
                 </div><hr>
 

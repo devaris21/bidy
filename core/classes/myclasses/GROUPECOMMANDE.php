@@ -21,9 +21,8 @@ class GROUPECOMMANDE extends TABLE
 	public static function etat(){
 		foreach (static::findBy(["etat_id ="=>0]) as $key => $groupe) {
 			$test = false;
-			$datas = $groupe->fourni("lignegroupecommande");
-			foreach ($datas as $key => $ligne) {
-				if ($ligne->quantite > 0) {
+			foreach (PRODUIT::getAll() as $key => $produit) {
+				if ($groupe->reste($produit->getId()) > 0) {
 					$test = true;
 					break;
 				}
@@ -37,6 +36,22 @@ class GROUPECOMMANDE extends TABLE
 
 	public static function encours(){
 		return static::findBy(["etat_id ="=>0]);
+	}
+
+
+	public function reste(int $produit_id){
+		$total = 0;
+		$datas = $this->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
+		foreach ($datas as $key => $item) {
+			$lots = $item->fourni("lignecommande", ["produit_id ="=>$produit_id]);
+			$total += comptage($lots, "quantite", "somme");
+		}
+		$datas = $this->fourni("livraison", ["etat_id !="=>ETAT::ANNULEE]);
+		foreach ($datas as $key => $item) {
+			$lots = $item->fourni("lignelivraison", ["produit_id ="=>$produit_id]);
+			$total -= comptage($lots, "quantite_livree", "somme");
+		}
+		return $total;
 	}
 
 

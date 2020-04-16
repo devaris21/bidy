@@ -39,7 +39,7 @@ class UTILISATEUR extends AUTH
 			if (count($datas) == 0) {
 				$data = $this->save();
 				if ($data->status) {
-					$this->uploading($files);
+					$this->uploading($this->files);
 					$this->setId($data->lastid)->actualise();
 
 					ob_start();

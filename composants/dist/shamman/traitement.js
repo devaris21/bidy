@@ -88,7 +88,7 @@
                     title: 'Récupération du mot de passe !',
                     inputType : "password",
                     cancelLabel : "Annuler",
-                    okLabel : "Mot de passe"
+                    okLabel : "Valider"
                 }, function(password){
                     Loader.start();
                     $.post(url, {action:"lock", table:table, id:id, password:password}, (data)=>{

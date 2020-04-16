@@ -13,6 +13,8 @@ class RESSOURCE extends TABLE
 
 	public $name;
 	public $description;
+	public $unite;
+	public $abbr;
 	public $image = "default.png";
 
 
@@ -21,7 +23,7 @@ class RESSOURCE extends TABLE
 		if ($this->name != "") {
 			$data = $this->save();
 			if ($data->status) {
-				$this->uploading($files);
+				$this->uploading($this->files);
 			}
 		}else{
 			$data->status = false;
@@ -71,7 +73,7 @@ class RESSOURCE extends TABLE
 		foreach ($datas as $key => $ligne) {
 			$ligne->actualise();
 			if ($ligne->approvisionnement->created <= $date && $ligne->approvisionnement->etat_id == ETAT::VALIDEE) {
-				$total += $ligne->quantite;
+				$total += intval($ligne->quantite);
 			}			
 		}
 
@@ -79,7 +81,7 @@ class RESSOURCE extends TABLE
 		foreach ($datas as $key => $ligne) {
 			$ligne->actualise();
 			if ($ligne->productionjour->ladate <= $date) {
-				$total -= $ligne->consommation;
+				$total -= intval($ligne->consommation);
 			}			
 		}
 		return $total;

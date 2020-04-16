@@ -33,7 +33,7 @@ class CARTEGRISE extends TABLE
 					$this->name = "CARTE GRISE ".date("Y", strtotime($this->date_etablissement));
 					$data = $this->save();
 					if ($data->status) {
-						$this->uploading($files);
+						$this->uploading($this->files);
 					}
 				}else{
 					$data->status = false;

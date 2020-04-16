@@ -20,9 +20,7 @@
                 <span>au <?= datecourt(dateAjoute())  ?></span>
             </div>
             <div class="col-sm-5">
-                <div class="title-action">
-                    <a href="" class="btn btn-primary">This is action area</a>
-                </div>
+               
             </div>
         </div>
 

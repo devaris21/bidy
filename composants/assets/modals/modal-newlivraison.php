@@ -18,20 +18,20 @@
                         <div class="table-responsive">
                             <table class="table  table-striped">
                                 <tbody class="commande">
-                                    <?php foreach ($groupecommande->lignegroupecommandes as $key => $ligne) {
-                                        $ligne->actualise();
-                                        if ($ligne->quantite > 0) { ?>
-                                           <tr class="border-0 border-bottom " id="ligne<?= $ligne->getId() ?>" data-id="<?= $ligne->produit->getId() ?>">
-                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $ligne->getId() ?>)" style="font-size: 18px;"></i></td>
+                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
+                                        $reste = $groupecommande->reste($produit->getId());
+                                        if ($reste > 0) { ?>
+                                           <tr class="border-0 border-bottom " id="ligne<?= $produit->getId() ?>" data-id="<?= $produit->getId() ?>">
+                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $produit->getId() ?>)" style="font-size: 18px;"></i></td>
                                             <td >
-                                                <img style="width: 40px" src="<?= $rooter->stockage("images", "produit", $ligne->produit->image) ?>">
+                                                <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
                                             </td>
                                             <td class="text-left">
-                                                <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
-                                                <small><?= $ligne->produit->description ?></small>
+                                                <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+                                                <small><?= $produit->description ?></small>
                                             </td>
-                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $ligne->quantite ?>" max="<?= $ligne->quantite ?>"></td>
-                                            <td> / <?= $ligne->quantite ?></td>
+                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
+                                            <td> / <?= $reste ?></td>
                                         </tr>
                                     <?php }   
                                 } ?>

@@ -38,7 +38,7 @@ class PRESTATAIRE extends AUTH
 					$this->password = hasher($pass);
 					$data = $this->save();
 					if ($data->status) {
-						$this->uploading($files);
+						$this->uploading($this->files);
 						ob_start();
 						include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
 						$contenu = ob_get_contents();

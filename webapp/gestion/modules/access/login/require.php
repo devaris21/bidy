@@ -4,5 +4,5 @@
 unset($_GET);
 unset($_POST);
 
-$title = "BIDY | Authentification gestionnaire";
+$title = "BIDY | Espace d'authentification";
 ?>

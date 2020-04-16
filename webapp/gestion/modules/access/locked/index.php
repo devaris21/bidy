@@ -12,9 +12,9 @@
 
         <div class="middle-box">
             <div class="m-b-md">
-            <img alt="image" style="width: 100px" class="rounded-circle circle-border" src="<?= $this->stockage("images", "gestionnaires", $gestionnaire->image) ?>">
+            <img alt="image" style="width: 100px" class="rounded-circle circle-border" src="<?= $this->stockage("images", "employes", $employe->image) ?>">
             </div>
-            <h3><?= $gestionnaire->name()  ?></h3>
+            <h3><?= $employe->name()  ?></h3>
             <p>Votre session a été vérouillée pour inactivité.<br>
             Veuillez renseigner votre mot de passe pour retourner à l'application !</p>
             <form class="m-t" role="form" id="lockedForm" method="POST">

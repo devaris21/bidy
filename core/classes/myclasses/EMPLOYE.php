@@ -17,7 +17,6 @@ class EMPLOYE extends AUTH
 	public $is_allowed = 1;
 	public $started;
 	public $is_new = 1;
-	public $typeadministrateur_id;
 	public $code;
 	public $image = "default.png";
 	public $is_connecte = false;

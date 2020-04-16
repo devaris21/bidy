@@ -51,7 +51,7 @@ class SINISTRE extends TABLE
 				$this->gestionnaire_id = getSession("gestionnaire_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
-					$this->uploading($files);
+					$this->uploading($this->files);
 				}
 				$data->message = "La déclaration de sinistre a été enregistré avec succes !";
 			}else{

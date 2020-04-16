@@ -6,23 +6,23 @@ use Native\RESPONSE;/**
 class ETATCHAUFFEUR extends TABLE
 {
 
-	/* -1 = annuler;
-		0= encours
-		1= terminer
-		*/
 
-		public static $tableName = __CLASS__;
-		public static $namespace = __NAMESPACE__;
+	const INDISPONIBLE = -1;
+	const LIBRE = 0;
+	const MISSION = 1;
 
-		public $name;
-		public $class;
+	public static $tableName = __CLASS__;
+	public static $namespace = __NAMESPACE__;
 
-		public function enregistre(){}
+	public $name;
+	public $class;
+
+	public function enregistre(){}
 
 
-		public function sentenseCreate(){}
-		public function sentenseUpdate(){}
-		public function sentenseDelete(){}
+	public function sentenseCreate(){}
+	public function sentenseUpdate(){}
+	public function sentenseDelete(){}
 
-	}
-	?>
+}
+?>

@@ -27,7 +27,8 @@
                                     <button class="btn btn-white dim newressource" data-id="<?= $ressource->getId() ?>" data-toggle="tooltip" title="<?= $ressource->unite ?>"><?= $ressource->name(); ?></button>
                                 <?php }  ?>
                             </div>
-                        </div>
+                        </div><br>
+                        <button id="actualise" class="btn btn-default dim pull-right btn-sm" onclick="calcul()"><i class="fa fa-refresh"></i> Actualiser</button>
                     </div>
                 </div>
             </div>
@@ -46,17 +47,11 @@
                             </div><br>
                             <div>
                                 <label>Etat de l'approvisionnement <span style="color: red">*</span> </label>                                
-                                <select class="select2 form-control" name="type" style="width: 100%;">
+                                <select class="select2 form-control" name="etat_id" style="width: 100%;">
                                     <option value="<?= Home\ETAT::ENCOURS ?>">Pas encore livré</option>
                                     <option value="<?= Home\ETAT::TERMINEE ?>">Déjà livré</option>
                                 </select>
                             </div><hr>
-                            <div>
-                                <label>Montant de l'approvisionnement <span style="color: red">*</span> </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" name="datelivraison" class="form-control" required>
-                                </div>
-                            </div><br>
                             <div>
                                 <label>Mode de payement <span style="color: red">*</span> </label>                                
                                 <div class="input-group">
@@ -64,8 +59,9 @@
                                 </div>
                             </div>
                         </form><br>
+                        <h2 class="font-bold total text-right total">0 Fcfa</h2>
                         <hr/>
-                        <button onclick="enregistrerApprovisionnement()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
+                        <button onclick="validerApprovisionnement()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
                     </div>
                 </div>
 

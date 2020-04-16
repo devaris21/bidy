@@ -1,121 +1,196 @@
+
+
 $(function(){
+	$("div.fini").hide()
 
+	$("input[type=checkbox]").change(function(event) {
+		if($(this).is(":checked")){
+			Loader.start()
+			setTimeout(function(){
+				Loader.stop()
+				$("div.fini").fadeIn(400)
+			}, 500);
+		}else{
+			$("div.fini").fadeOut(400)
+		}
+	});
 
-    $("input[type=checkbox].onoffswitch-checkbox").change(function(event) {
-        if($(this).is(":checked")){
-            Loader.start()
-            setTimeout(function(){
-                Loader.stop()
-                $("#tableCarplan tr").hide()
-                $("tr.encours").fadeIn(400)
-            }, 500);
-        }else{
-            $("#tableCarplan tr").fadeIn(400)
-        }
-    });
-
-
-    $("#top-search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table.table-sinistre tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
+	$("#top-search").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$("div.vote-item").filter(function() {
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
 
 
 
-    terminerAffectation = function(id){
-        var url = "../../webapp/gestionnaire/modules/master/affectations/ajax.php";
-        alerty.confirm("Voulez-vous vraiment terminer cette affectation de véhicule ?", {
-            title: "Affectation terminée",
-            cancelLabel : "Non",
-            okLabel : "OUI, approuver",
-        }, function(){
-            alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
-                title: 'Récupération du mot de passe !',
-                inputType : "password",
-                cancelLabel : "Annuler",
-                okLabel : "Mot de passe"
-            }, function(password){
-                $.post(url, {action:"approuver", id:id, password:password}, (data)=>{
-                    if (data.status) {
-                        window.location.reload();
-                    }else{
-                        Alerter.error('Erreur !', data.message);
-                    }
-                },"json");
-            })
-        })
-    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    renouveler = function(id){
-        var url = "../../composants/dist/shamman/traitement.php";
-        alerty.confirm("Voulez-vous vraiment renouveler cette affectation de véhicule ?", {
-            title: "Renouvelement d'affectation",
-            cancelLabel : "Non",
-            okLabel : "OUI, renouveler",
-        }, function(){
-            alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
-                title: 'Récupération du mot de passe !',
-                inputType : "password",
-                cancelLabel : "Annuler",
-                okLabel : "Mot de passe"
-            }, function(password){
-                Loader.start();
-                $.post(url, {action:"verifierPassword", password:password}, (data)=>{
-                    if (data.status) {
-                        session('affectation_id', id);
-                        modal("#modal-renouvelement");
-                        Loader.stop();
-                    }else{
-                        Alerter.error('Erreur !', data.message);
-                    }
-                },"json");
-            })
-        })
-    }
 
-    $("form#formRenouvelement").submit( function(event) {
-        Loader.start()
-        var url = "../../webapp/gestionnaire/modules/master/affectations/ajax.php";
-        var formdata = new FormData($(this)[0]);
-        formdata.append('action', "renouveler");
-        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            if (data.status) {
-                window.location.reload();
-            }else{
-                Alerter.error('Erreur !', data.message);
-            }
-        }, 'json')
-        return false;
-    });
+$("form.formEntretien").submit(function(event) {
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	var formdata = new FormData($(this)[0]);
+	alerty.confirm("Voulez-vous vraiment valider cette demande d'entretien pour ce véhicule ?", {
+		title: "Validation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, approuver",
+	}, function(){
+		Loader.start()
+		formdata.append('action', "demandeEntretien");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			if (data.status) {
+				window.location.reload();
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		}, 'json')
+	})
+	return false;
+});
 
 
-    annulerAffectation = function(id){
-        var url = "../../webapp/gestionnaire/modules/master/affectations/ajax.php";
-        alerty.confirm("Voulez-vous vraiment refuser cette declaration de sinistre de ce véhicule ?", {
-            title: "Annulation de la declaration",
-            cancelLabel : "Non",
-            okLabel : "OUI, refuser",
-        }, function(){
-            alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
-                title: 'Récupération du mot de passe !',
-                inputType : "password",
-                cancelLabel : "Annuler",
-                okLabel : "Mot de passe"
-            }, function(password){
-                $.post(url, {action:"refuser", id:id, password:password}, (data)=>{
-                    if (data.status) {
-                        window.location.reload()
-                    }else{
-                        Alerter.error('Erreur !', data.message);
-                    }
-                },"json");
-            })
-        })
-    }
+annulerDemandeEntretien = function(id){
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	alerty.confirm("Voulez-vous vraiment refuser cette demande d'entretien pour ce véhicule ?", {
+		title: "Annulation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, refuser",
+	}, function(){
+		$.post(url, {action:"annulerDemandeEntretien", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
 
+
+$("form.formValiderEntretienVehicule").submit(function(event) {
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	var formdata = new FormData($(this)[0]);
+	alerty.confirm("Cet entretien est-il vraiment terminé ?", {
+		title: "Entretein terminé",
+		cancelLabel : "Non",
+		okLabel : "OUI, Terminer",
+	}, function(){
+		Loader.start()
+		formdata.append('action', "validerEntretienVehicule");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			if (data.status) {
+				window.location.reload();
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		}, 'json')
+	})
+	return false;
+});
+
+
+annulerEntretienVehicule = function(id){
+	var url = "../../webapp/gestionnaire/modules/master/entretiensencours/ajax.php";
+	alerty.confirm("Voulez-vous vraiment refuser cette demande d'entretien pour ce véhicule ?", {
+		title: "Annulation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, refuser",
+	}, function(){
+		$.post(url, {action:"annulerEntretienVehicule", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$("form.formPanne").submit(function(event) {
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	var formdata = new FormData($(this)[0]);
+	alerty.confirm("Voulez-vous vraiment valider cette demande d'entretien pour ce véhicule ?", {
+		title: "Validation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, approuver",
+	}, function(){
+		Loader.start()
+		formdata.append('action', "panne");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			if (data.status) {
+				window.location.reload();
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		}, 'json')
+	})
+	return false;
+});
+
+
+annulerPanne = function(id){
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	alerty.confirm("Voulez-vous vraiment refuser cette demande d'entretien pour ce véhicule ?", {
+		title: "Annulation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, refuser",
+	}, function(){
+		$.post(url, {action:"annulerPanne", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
+
+
+$("form.formValiderEntretienMachine").submit(function(event) {
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	var formdata = new FormData($(this)[0]);
+	alerty.confirm("Cet entretien est-il vraiment terminé ?", {
+		title: "Entretein terminé",
+		cancelLabel : "Non",
+		okLabel : "OUI, Terminer",
+	}, function(){
+		Loader.start()
+		formdata.append('action', "validerEntretienMachine");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			if (data.status) {
+				window.location.reload();
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		}, 'json')
+	})
+	return false;
+});
+
+
+annulerEntretienMachine = function(id){
+	var url = "../../webapp/gestionnaire/modules/master/entretiensencours/ajax.php";
+	alerty.confirm("Voulez-vous vraiment refuser cette demande d'entretien pour ce véhicule ?", {
+		title: "Annulation de la demande",
+		cancelLabel : "Non",
+		okLabel : "OUI, refuser",
+	}, function(){
+		$.post(url, {action:"annulerEntretienMachine", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
 
 })

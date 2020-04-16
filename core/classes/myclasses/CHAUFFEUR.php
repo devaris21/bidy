@@ -34,7 +34,7 @@ class CHAUFFEUR extends PERSONNE
 		if ($this->name ) {
 			$data = $this->save();
 			if ($data->status) {
-				$this->uploading($files);
+				$this->uploading($this->files);
 			}
 		}else{
 			$data->status = false;

@@ -42,7 +42,7 @@ class VISITETECHNIQUE extends TABLE
 					$this->gestionnaire_id = getSession("gestionnaire_connecte_id");
 					$data = $this->save();
 					if ($data->status) {
-						$this->uploading($files);
+						$this->uploading($this->files);
 					}
 				}else{
 					$data->status = false;

@@ -13,19 +13,12 @@ class MANOEUVRE extends PERSONNE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $matricule;
+	public $groupemanoeuvre_id;
 	public $name;
-	public $lastname;
-	public $nationalite;
 	public $adresse;
-	public $sexe_id;
-	public $typepermis;	
-	public $numero_permis;
-	public $date_fin_permis;
-	public $email;
 	public $contact;
 	public $image = "default.png";
-	public $etatchauffeur_id;
+	public $etatmanoeuvre_id;
 
 
 
@@ -34,7 +27,7 @@ class MANOEUVRE extends PERSONNE
 		if ($this->name ) {
 			$data = $this->save();
 			if ($data->status) {
-				$this->uploading($files);
+				$this->uploading($this->files);
 			}
 		}else{
 			$data->status = false;
@@ -50,13 +43,52 @@ class MANOEUVRE extends PERSONNE
 			$image->hydrater($this->image);
 			if ($image->is_image()) {
 				$a = substr(uniqid(), 5);
-				$result = $image->upload("images", "chauffeurs", $a);
+				$result = $image->upload("images", "manoeuvres", $a);
 				$this->image = $result->filename;
 				$this->save();
 			}
 		}
 	}
 
+
+	public function solde(){
+		$total = 0;
+		$datas = $this->fourni("lignepayejour");
+		$total += comptage($datas, 'montant', "somme");
+
+		$datas = $this->fourni("operation", ["categorieoperation_id ="=> CATEGORIEOPERATION::PAYE]);
+		$total -= comptage($datas, 'montant', "somme");
+		return $total;
+	}
+
+
+	public function payer(int $montant, int $modepayement_id){
+		$data = new RESPONSE;
+		$solde = $this->solde();
+		if ($solde > 0) {
+			if ($solde >= $montant) {
+				if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement = new OPERATION();
+					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE;
+					$payement->modepayement_id = $modepayement_id;
+					$payement->montant = $montant;
+					$payement->manoeuvre_id = $this->getId();
+					$payement->comment = "Réglement de la paye de ".$this->name();
+					$data = $payement->enregistre();
+				}else{
+					$data->status = false;
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour effectuer cette opération !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le montant à verser est plus élévé que sa paye !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous etes déjà à jour pour la paye de ce manoeuvre !";
+		}
+		return $data;
+	}
 
 
 

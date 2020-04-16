@@ -2,6 +2,7 @@
 namespace Home;
 use Native\RESPONSE;
 use Native\EMAIL;
+use Native\FICHIER;
 use Native\ROOTER;
 
 
@@ -16,7 +17,7 @@ class ENTRETIENVEHICULE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 
-	public $ticket;
+	public $reference;
 	public $typeentretienvehicule_id;
 	public $name;
 	public $vehicule_id;
@@ -24,7 +25,7 @@ class ENTRETIENVEHICULE extends TABLE
 	public $price;
 	public $started;
 	public $finished;
-	public $gestionnaire_id;
+	public $employe_id;
 	public $etat_id = 0;
 	public $date_approuve; 
 	public $image; 
@@ -40,13 +41,13 @@ class ENTRETIENVEHICULE extends TABLE
 			$this->name = $item->name;
 			$datas = VEHICULE::findBy(["id ="=>$this->vehicule_id]);
 			if (count($datas) == 1) {
-				$this->ticket = strtoupper(substr(uniqid(), 5, 6));
+				$this->reference = strtoupper(substr(uniqid(), 5, 6));
 					// TODO verifier les dates
 					// TODO champ pour rejouter au commentaire quand ca vient des demandes d'entretien
-				$this->gestionnaire_id = getSession("gestionnaire_connecte_id");
+				$this->employe_id = getSession("demploye_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
-					$this->uploading($files);
+					$this->uploading($this->files);
 				}
 			}else{
 				$data->status = false;
@@ -60,26 +61,26 @@ class ENTRETIENVEHICULE extends TABLE
 	}
 
 
+
 	public function uploading(Array $files){
-		if (isset($this->image1) && $this->image1["tmp_name"] != "") {
-			$image = new FICHIER();
-			$image->hydrater($this->image1);
-			if ($image->is_image()) {
-				$a = substr(uniqid(), 5);
-				$result = $image->upload("images", "entretienvehicules", $a);
-				$this->image1 = $result->filename;
-				$this->save();
-			}
-		}
-		if (isset($this->image2) && $this->image2["tmp_name"] != "") {
-			$image = new FICHIER();
-			$image->hydrater($this->image2);
-			if ($image->is_image()) {
-				$a = substr(uniqid(), 5);
-				$result = $image->upload("images", "entretienvehicules", $a);
-				$this->image2 = $result->filename;
-				$this->save();
-			}
+		//les proprites d'images;
+		$tab = ["image1", "image2"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "entretienvehicules", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
 		}
 	}
 
@@ -121,6 +122,13 @@ class ENTRETIENVEHICULE extends TABLE
 			session("demandeentretien", $this);
 		}
 		return $data;
+	}
+
+
+	public function annuler(){
+		$this->etat_id = -1;
+		$this->historique("Annulation de l'entretien de véhicule N° $this->reference N°".$commande->reference);
+		return $this->save();
 	}
 	
 

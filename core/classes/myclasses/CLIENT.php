@@ -37,7 +37,7 @@ class CLIENT extends TABLE
 
 
 	public static function getSemaine(){
-		return static::findBy(["DATE(created) >= " => (new DateTime())->sub(new DateInterval('P7D'))->format("Y-m-d") ]);
+		return static::findBy(["DATE(created) >= " => dateAjoute(-7)]);
 	}
 
 

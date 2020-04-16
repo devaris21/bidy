@@ -51,6 +51,8 @@
                                     <div role="tabpanel" id="donnees" class="tab-pane active">
                                         <div class="row">
 infos params dans admin
+les fournisseurs
+vehicules & machines
                                             <div class="col-md-4 col-sm-6 col-xs-12 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">

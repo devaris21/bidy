@@ -18,6 +18,7 @@ class OPERATION extends TABLE
 	public $etat_id = ETAT::VALIDEE;
 	public $comment;
 	public $client_id = CLIENT::CLIENTSYSTEME;
+	public $manoeuvre_id;
 
 
 	public function enregistre(){
@@ -25,11 +26,32 @@ class OPERATION extends TABLE
 		$this->employe_id = getSession("employe_connecte_id");
 		$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 		if (count($datas) == 1) {
-			$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-			if (!in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
-				$this->etat_id = ETAT::ENCOURS;
+			$datas = CATEGORIEOPERATION::findBy(["id ="=>$this->categorieoperation_id]);
+			if (count($datas) == 1) {
+				$cat = $datas[0];
+				if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
+
+					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1(+1)) < $this->montant)) {
+
+						$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+						if ($cat->typeoperationcaisse_id != TYPEOPERATIONCAISSE::SORTIE && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
+
+							$this->etat_id = ETAT::ENCOURS;
+						}
+						
+						$data = $this->save();
+					}else{
+						$data->status = false;
+						$data->message = "Vous ne pouvez pas effectuer cette opération, le solde du compte est insuffisant !";
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour effectuer cette opération !!";
+				}				
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 			}
-			$data = $this->save();
 		}else{
 			$data->status = false;
 			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";

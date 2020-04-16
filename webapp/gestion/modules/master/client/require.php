@@ -9,7 +9,7 @@ if ($this->getId() != null) {
 		$client = $datas[0];
 		$client->actualise();
 
-		$client->fourni("groupecommande");
+		$client->fourni("groupecommande", ["etat_id ="=>ETAT::ENCOURS]);
 
 		$datas1 = $datas2 = [];
 		foreach ($client->groupecommandes as $key => $groupecommande) {

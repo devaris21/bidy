@@ -496,7 +496,7 @@ function money($a = 0)
 #
 function start0($a)
 {
-	if (intval($a) < 10) {
+	if (intval($a) < 10 && intval($a) > 0) {
 		return "0".intval($a);
 	}else{
 		return $a;

@@ -68,7 +68,7 @@
                     </form><br><br>
                     <h5><span>Total </span> <span class="pull-right montant">0 Fcfa </span></h5>
                     <h5><span>TVA (<?= $params->tva ?> %)</span> <span class="pull-right tva">0 Fcfa </span></h5>
-                    <h2 class="font-bold total text-right">0 Fcfa</h2>
+                    <h2 class="font-bold total text-right total">0 Fcfa</h2>
                     <hr/>
                     <button onclick="validerCommande()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                 </div>

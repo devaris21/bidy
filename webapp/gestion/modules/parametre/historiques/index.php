@@ -1,57 +1,73 @@
+<!DOCTYPE html>
+<html>
 
-<?php require("../../webapp/administration/assets/includes/head.php") ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/head.php")); ?>
 
-<body>
 
-    <?php require("../../webapp/administration/assets/includes/preloader.php") ?>
+<body class="fixed-sidebar">
 
-    <div id="pcoded" class="pcoded">
-        <div class="pcoded-overlay-box"></div>
-        <div class="pcoded-container navbar-wrapper">
+    <div id="wrapper">
 
-           <?php require("../../webapp/administration/assets/includes/header.php") ?>
+        <?php include($this->rootPath("webapp/gestion/elements/templates/sidebar.php")); ?>  
 
-           <!-- Sidebar inner chat end-->
-           <div class="pcoded-main-container">
-            <div class="pcoded-wrapper">
+        <div id="page-wrapper" class="gray-bg">
 
-               <?php require("../../webapp/administration/assets/includes/sidebar.php") ?>
+          <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
-               <div class="pcoded-content">
-                <div class="pcoded-inner-content"><br>
-
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div>
-                                        <label>Début de la période</label>
-                                        <input type="date" name="date1" class="form-control" value="2019-09-01">
-                                    </div><br>
-                                    <div>
-                                        <label>Début de la période</label>
-                                        <input type="date" name="date2" class="form-control" value="<?= date("Y-m-d") ?>">
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-
-                        <div class="col-md-9 affichage">
-                            <!-- remplit en ajax -->
-                        </div>
-                    </div>
+          <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2>This is main title</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">This is</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <strong>Breadcrumb</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-sm-8">
+                <div class="title-action">
+                    <a href="" class="btn btn-primary">This is action area</a>
                 </div>
-
             </div>
         </div>
+
+        <div class="wrapper wrapper-content">
+            <div class="animated fadeInRightBig">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div>
+                                    <label>Début de la période</label>
+                                    <input type="date" name="date1" class="form-control" value="2019-09-01">
+                                </div><br>
+                                <div>
+                                    <label>Début de la période</label>
+                                    <input type="date" name="date2" class="form-control" value="<?= date("Y-m-d") ?>">
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="col-md-9 affichage">
+                        <!-- remplit en ajax -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+
     </div>
 </div>
-</div>
-</div>
 
 
-<?php require("../../webapp/administration/assets/includes/footer.php") ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+
 
 </body>
 

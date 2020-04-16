@@ -2,10 +2,10 @@
 namespace Home;
 $title = "BIDY | Session vérouillée ";
 
-$datas = GESTIONNAIRE::findBy(["id = "=>getSession("gestionnaire_connecte_id")]);
+$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 if (count($datas) >0) {
-	$gestionnaire = $datas[0];
-	$gestionnaire->actualise();
+	$employe = $datas[0];
+	$employe->actualise();
 	session("page_session", 1);
 }else{
 	header("Location: ../master/parcauto");

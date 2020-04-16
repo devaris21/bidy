@@ -145,7 +145,6 @@ if ($action == "validerCommande") {
 					$groupecommande->hydrater($_POST);
 					$groupecommande->enregistre();
 				}
-				$groupecommande->fourni("lignegroupecommande");
 
 				$commande = new COMMANDE();
 				$commande->hydrater($_POST);
@@ -172,24 +171,7 @@ if ($action == "validerCommande") {
 							$lignecommande->produit_id = $data[0];
 							$lignecommande->quantite = $qte;
 							$lignecommande->price =  $prix * $qte;
-							$lignecommande->save();
-
-							$test = false;
-							foreach ($groupecommande->lignegroupecommandes as $key => $lgn) {
-								if ($lgn->produit_id == $lignecommande->produit_id) {
-									$lgn->quantite += $qte;
-									$lgn->save();
-									$test = true;
-									break;
-								}
-							}
-							if (!$test) {
-								$lignegroupecommande = new LIGNEGROUPECOMMANDE;
-								$lignegroupecommande->groupecommande_id = $groupecommande->getId();
-								$lignegroupecommande->produit_id = $data[0];
-								$lignegroupecommande->quantite = $qte;
-								$lignegroupecommande->enregistre();
-							}	
+							$lignecommande->save();	
 						}
 					}
 
@@ -206,7 +188,6 @@ if ($action == "validerCommande") {
 						$data = $payement->enregistre();
 					}
 					
-
 					$commande->montant = $tva;
 					$commande->montant = $montant + $tva;
 					$commande->operation_id = $data->lastid;
@@ -244,10 +225,8 @@ if ($action == "livraisonCommande") {
 					$lot = explode("-", $value);
 					$id = $lot[0];
 					$qte = end($lot);
-					foreach ($groupecommande->lignegroupecommandes as $key => $lgn) {
-						if (($lgn->produit_id == $id) && ($lgn->quantite >= $qte)) {
-							unset($tests[$key]);
-						}
+					if ($groupecommande->reste($id) >= $qte) {
+						unset($tests[$key]);
 					}
 				}
 				if (count($tests) == 0) {
@@ -269,23 +248,23 @@ if ($action == "livraisonCommande") {
 								$lignecommande = new LIGNELIVRAISON;
 								$lignecommande->livraison_id = $livraison->getId();
 								$lignecommande->produit_id = $id;
-								$lignecommande->quantite = $lignecommande->quantite_livree = $qte;
+								$lignecommande->quantite = $qte;
 								$lignecommande->enregistre();
-
-								foreach ($groupecommande->lignegroupecommandes as $key => $lgn) {
-									if ($lgn->produit_id == $id) {
-										$lgn->quantite -= $qte;
-										$lgn->save();
-										break;
-									}
-								}
 							}
 							
 						}
 						$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
 						if (count($datas) > 0) {
+							$vehicule = $datas[0];
 							$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
 							$vehicule->save();
+						}
+
+						$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
+						if (count($datas) > 0) {
+							$chauffeur = $datas[0];
+							$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
+							$chauffeur->save();
 						}
 					}					
 				}else{
@@ -317,7 +296,6 @@ if ($action == "fichecommande") {
 		session('commande-encours', $id);
 		$groupecommande = $datas[0];
 		$groupecommande->actualise();
-		$groupecommande->fourni("lignegroupecommande");
 		include("../../../../../composants/assets/modals/modal-groupecommande.php");
 	}
 }
@@ -332,7 +310,6 @@ if ($action == "newlivraison") {
 		session('commande-encours', $id);
 		$groupecommande = $datas[0];
 		$groupecommande->actualise();
-		$groupecommande->fourni("lignegroupecommande");
 		$groupecommande->fourni("commande");
 		include("../../../../../composants/assets/modals/modal-newlivraison.php");
 	}

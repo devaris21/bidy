@@ -5,29 +5,28 @@ use Native\EMAIL;
 /**
  * 
  */
-class LIGNEGROUPECOMMANDE extends TABLE
+class LIGNEPAYEJOUR extends TABLE
 {
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $groupecommande_id;
-	public $produit_id;
-	public $quantite;
-	public $price;
+	public $productionjour_id;
+	public $manoeuvre_id;
+	public $montant = 0;
 
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = GROUPECOMMANDE::findBy(["id ="=>$this->groupecommande_id]);
+		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
 		if (count($datas) == 1) {
-			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+			$datas = MANOEUVRE::findBy(["id ="=>$this->manoeuvre_id]);
 			if (count($datas) == 1) {
-				if ($this->quantite > 0) {
+				if ($this->montant >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;
-					$data->message = "La quantité n'est pas correcte !";
+					$data->message = "Le montant entrée n'est pas correcte !";
 				}
 			}else{
 				$data->status = false;
@@ -44,7 +43,7 @@ class LIGNEGROUPECOMMANDE extends TABLE
 
 
 	public function sentenseCreate(){
-		
+	
 	}
 
 
@@ -53,7 +52,6 @@ class LIGNEGROUPECOMMANDE extends TABLE
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "on a retiré le chauffeur ".$this->chauffeur->name()." sur vehicule ".$this->vehicule->marque->name." ".$this->vehicule->modele." immatriculé ".$this->vehicule->immatriculation;
 	}
 
 }

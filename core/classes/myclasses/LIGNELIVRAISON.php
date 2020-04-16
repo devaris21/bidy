@@ -25,6 +25,7 @@ class LIGNELIVRAISON extends TABLE
 			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
 				if ($this->quantite > 0) {
+					$this->quantite_livree = $this->quantite;
 					$data = $this->save();
 				}else{
 					$data->status = false;
@@ -49,14 +50,10 @@ class LIGNELIVRAISON extends TABLE
 	}
 
 
-	public function sentenseUpdate(){
-		return $this->sentense = "Modification des infos de l'accessoire N°$this->id  $this->name .";
-	}
+	public function sentenseUpdate(){}
 
 
-	public function sentenseDelete(){
-		return $this->sentense = "on a retiré le chauffeur ".$this->chauffeur->name()." sur vehicule ".$this->vehicule->marque->name." ".$this->vehicule->modele." immatriculé ".$this->vehicule->immatriculation;
-	}
+	public function sentenseDelete(){}
 
 }
 

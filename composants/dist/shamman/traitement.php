@@ -40,6 +40,7 @@ if ($action === "save-formShamman") {
 			$data = $item->save();
 			$item->uploading($files);
 		}else{
+			$item->files = $files;
 			$data = $item->enregistre();
 		}
 	}else{

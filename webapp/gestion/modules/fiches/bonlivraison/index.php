@@ -63,27 +63,27 @@
                             <thead class="text-uppercase" style="background-color: #dfdfdf">
                                 <tr>
                                     <th colspan="2"></th>
-                                    <th>Quantité à livrer</th>
-                                    <th>Quantité livrées</th>
-                                    <th width="90">perte</th>
-                                    <th>Reste à livrer</th>
+                                    <th class="text-center">Quantité à livrer</th>
+                                    <th class="text-center">Quantité livrées</th>
+                                    <th class="text-center" width="120">perte</th>
+                                    <th class="text-center">Reste à livrer</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
                                     $ligne->actualise(); ?>
                                     <tr>
-                                        <td width="50">
-                                            <img style="width: 120%" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">
+                                        <td width="80">
+                                            <img style="width: 100%; height: 60px" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">
                                         </td>
                                         <td class="desc">
                                             <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
                                             <span><?= $ligne->produit->description ?></span>
                                         </td>
-                                        <td class="text-center gras"><h3><?= $ligne->quantite ?></h3></td>
-                                        <td class="text-center"><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->quantite_livree : "" ?></h3></td>
-                                        <td class="text-center"><h3><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? ($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
-                                        <td class="text-center"><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->reste : "" ?></h3></td>
+                                        <td class="text-center"><br><h2 class="gras"><?= money($ligne->quantite) ?></h2></td>
+                                        <td class="text-center"><br><h2><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? $ligne->quantite_livree : "" ?></h2></td>
+                                        <td class="text-center text-red"><br><h3><h3><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? ($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
+                                        <td class="text-center gras text-muted"><br><h3><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? $ligne->reste : "" ?></h3></td>
                                     </tr>
                                 <?php } ?>                            
                             </tbody>
@@ -100,15 +100,15 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Livraison reçue le : </td>
+                                            <td class="gras">Livraison reçue le : </td>
                                             <td><?= datecourt($livraison->datelivraison) ?></td>
                                         </tr>
                                         <tr style="height: 60px">
-                                            <td>Observation : </td>
+                                            <td class="gras">Observation : </td>
                                             <td><?= $livraison->comment ?></td>
                                         </tr>
                                         <tr style="height: 80px">
-                                            <td>Noms, contacts & signature : </td>
+                                            <td class="gras">Noms, contacts & signature : </td>
                                             <td>
                                                 <span><?= $livraison->nom_receptionniste ?></span><br>
                                                 <span><?= $livraison->contact_receptionniste ?></span>
