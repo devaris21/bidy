@@ -29,6 +29,11 @@ class PRODUIT extends TABLE
 					$ligne->price = 0;
 					$ligne->enregistre();
 				}
+
+				$ligne = new PAYE_PRODUIT();
+				$ligne->produit_id = $data->lastid;
+				$ligne->price = 0;
+				$ligne->enregistre();
 			}
 		}else{
 			$data->status = false;

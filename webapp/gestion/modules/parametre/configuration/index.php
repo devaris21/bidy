@@ -39,91 +39,75 @@
                         <div class="ibox-content" style="min-height: 400px;">
                             <div class="tabs-container">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class=""><a class="nav-link active" data-toggle="tab" href="#donnees"><i class="fa fa-th-large"></i> Les Types de données</a></li>
-                                    <li class=""><a class="nav-link " data-toggle="tab" href="#metier"><i class="fa fa-briefcase"></i> Configuration du Metier </a></li>
+                                    <li class=""><a class="nav-link active" data-toggle="tab" href="#general"><i class="fa fa-th-large"></i> Infos Générales</a></li>
+                                    <li class=""><a class="nav-link " data-toggle="tab" href="#metier"><i class="fa fa-briefcase"></i> Gestion & Production </a></li>
+                                    <li class=""><a class="nav-link " data-toggle="tab" href="#tabpersonnel"><i class="fa fa-male"></i> Personnel & Exte </a></li>
+                                    <li class=""><a class="nav-link " data-toggle="tab" href="#tabvehicules"><i class="fa fa-male"></i> Véhicules & Machines </a></li>
                                     <li class=""><a class="nav-link " data-toggle="tab" href="#optioncaisse"><i class="fa fa-money"></i> Options de caisse </a></li>
-                                    <li class=""><a class="nav-link " data-toggle="tab" href="#personnel"><i class="fa fa-male"></i> Configuration Utilisateurs </a></li>
                                     <li class=""><a class="nav-link " data-toggle="tab" href="#admin"><i class="fa fa-gears"></i> Administration </a></li>
                                 </ul><br>                               
                                 <div class="tab-content">
 
 
-                                    <div role="tabpanel" id="donnees" class="tab-pane active">
+                                    <div role="tabpanel" id="general" class="tab-pane active">
                                         <div class="row">
-infos params dans admin
-les fournisseurs
-vehicules & machines
-                                            <div class="col-md-4 col-sm-6 col-xs-12 bloc">
-                                                <div class="ibox border">
-                                                    <div class="ibox-title">
-                                                        <h5 class="text-uppercase">Type de client</h5>
-                                                        <div class="ibox-tools">
-                                                            <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
-                                                                <i class="fa fa-plus"></i> Ajouter
-                                                            </a>
+
+                                            <div class="col-md-8 col-xs-12 bloc">
+                                                <div class="ibox">
+                                                    <div class="ibox-content"><br>
+                                                        <div class="row">
+                                                            <div class="col-sm-8">
+                                                                <span class="text-muted">Raison sociale</span>
+                                                                <h2 class="gras text-uppercase"><?= $params->societe ?></h2>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Votre logo</span><br>
+                                                                <img style="height: 50px" src="<?= $this->stockage("images", "societe", "logo.png")  ?>" alt="placeholder+image">
+                                                            </div>
+                                                        </div><br>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Situation Géographique</span>
+                                                                <h4><?= $params->adresse ?></h4>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Contacts</span>
+                                                                <h4><?= $params->contact ?></h4>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Email</span>
+                                                                <h4><?= $params->email ?></h4>
+                                                            </div>
+                                                        </div><br>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Boite Postale</span>
+                                                                <h4><?= $params->postale ?></h4>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Fax</span>
+                                                                <h4><?= $params->fax ?></h4>
+                                                            </div>
+
+                                                            <div class="col-sm-4">
+                                                                <span class="text-muted">Devise</span>
+                                                                <h4><?= $params->devise ?></h4>
+                                                            </div>
+                                                        </div><br>
+
+                                                        <div>
+                                                            <button class="btn btn-primary dim pull-right" data-toggle="modal" data-target="#modl-params"><i class="fa fa-pencil"></i> Modifier les informations</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="ibox-content">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Libéllé</th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php $i =0; foreach (Home\TYPECLIENT::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                    $i++; ?>
-                                                                    <tr>
-                                                                        <td><?= $i ?></td>
-                                                                        <td class="gras"><?= $item->name(); ?></td>
-                                                                        <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('typeequipement', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                        <td title="supprimer l'élément" onclick="suppression('typeequipement', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                                    </tr>
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 col-sm-6 col-xs-12 bloc">
-                                                <div class="ibox border">
-                                                    <div class="ibox-title">
-                                                        <h5 class="text-uppercase">Type de véhicule</h5>
-                                                        <div class="ibox-tools">
-                                                            <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
-                                                                <i class="fa fa-plus"></i> Ajouter
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ibox-content">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Libéllé</th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php $i =0; foreach (Home\TYPEVEHICULE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                    $i++; ?>
-                                                                    <tr>
-                                                                        <td><?= $i ?></td>
-                                                                        <td class="gras"><?= $item->name(); ?></td>
-                                                                        <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                        <td title="supprimer l'élément" onclick="suppression('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                                    </tr>
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="col-md-4 col-sm-6 col-xs-12 bloc">
                                                 <div class="ibox border">
@@ -161,44 +145,10 @@ vehicules & machines
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 col-sm-6 col-xs-12 bloc">
-                                                <div class="ibox border">
-                                                    <div class="ibox-title">
-                                                        <h5 class="text-uppercase">Type de sinistre</h5>
-                                                        <div class="ibox-tools">
-                                                            <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
-                                                                <i class="fa fa-plus"></i> Ajouter
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="ibox-content">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Libéllé</th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php $i =0; foreach (Home\TYPESINISTRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                    $i++; ?>
-                                                                    <tr>
-                                                                        <td><?= $i ?></td>
-                                                                        <td class="gras"><?= $item->name(); ?></td>
-                                                                        <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('typesinistre', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                        <td title="supprimer l'élément" onclick="suppression('typesinistre', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                                    </tr>
-                                                                <?php } ?>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                         </div>
                                     </div>
+
 
 
                                     <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -287,7 +237,7 @@ vehicules & machines
                                             </div>
 
 
-                                            <div class="col-md-12 bloc">
+                                            <div class="col-md-8 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">
                                                         <h5 class="text-uppercase">Exigence de production par ressource</h5>
@@ -333,6 +283,42 @@ vehicules & machines
                                                 <div class="col-md-4 col-sm-6 col-xs-12 bloc">
                                                     <div class="ibox border">
                                                         <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Paye par production</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-zonelivraison">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Produit</th>
+                                                                        <th>Prix</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\PAYE_PRODUIT::findBy() as $key => $item) {
+                                                                        $item->actualise() ?>
+                                                                        <tr>
+                                                                            <td class="gras"><img style="width: 30px; margin-right: 2%" src="<?= $this->stockage("images", "produits", $item->produit->image); ?>"> <?= $item->produit->name(); ?></td>
+                                                                            <td><?= money($item->price) ?> <?= $params->devise ?></td>
+                                                                            <td data-toggle="modal" data-target="#modal-paye_produit" title="modifier la zone de livraison" onclick="modification('paye_produit', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-4 col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
                                                             <h5 class="text-uppercase">Les zones de livraison</h5>
                                                             <div class="ibox-tools">
                                                                 <a class="btn_modal" data-toggle="modal" data-target="#modal-zonelivraison">
@@ -344,17 +330,14 @@ vehicules & machines
                                                             <table class="table">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>#</th>
                                                                         <th>Libéllé</th>
                                                                         <th></th>
                                                                         <th></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <?php $i =0; foreach (Home\ZONELIVRAISON::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                                        $i++; ?>
+                                                                    <?php $i =0; foreach (Home\ZONELIVRAISON::findBy([], [], ["name"=>"ASC"]) as $key => $item) { ?>
                                                                         <tr>
-                                                                            <td><?= $i ?></td>
                                                                             <td class="gras"><?= $item->name(); ?></td>
                                                                             <td data-toggle="modal" data-target="#modal-zonelivraison" title="modifier la zone de livraison" onclick="modification('zonelivraison', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                             <td title="supprimer la zone de livraison" onclick="suppressionWithPassword('zonelivraison', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
@@ -403,6 +386,129 @@ vehicules & machines
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                        <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+                                        <div role="tabpanel" id="tabvehicules" class="tab-pane">
+                                            <div class="row">
+
+                                                <div class="col-md-4 col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Type de véhicule</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Libéllé</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\TYPEVEHICULE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                        $i++; ?>
+                                                                        <tr>
+                                                                            <td><?= $i ?></td>
+                                                                            <td class="gras"><?= $item->name(); ?></td>
+                                                                            <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td title="supprimer l'élément" onclick="suppression('typevehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Catégorie de véhicule</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Libéllé</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\GROUPEVEHICULE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                        $i++; ?>
+                                                                        <tr>
+                                                                            <td><?= $i ?></td>
+                                                                            <td class="gras"><?= $item->name(); ?></td>
+                                                                            <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('groupevehicule', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td title="supprimer l'élément" onclick="suppression('groupevehicule', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Panne de véhicule</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-produit">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Libéllé</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\TYPEENTRETIENVEHICULE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                        $i++; ?>
+                                                                        <tr>
+                                                                            <td><?= $i ?></td>
+                                                                            <td class="gras"><?= $item->name(); ?></td>
+                                                                            <td data-toggle="modal" data-target="#modal-produit" title="modifier l'élément" onclick="modification('typeequipement', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td title="supprimer l'élément" onclick="suppression('typeequipement', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
 
 
                                             </div>
@@ -504,7 +610,7 @@ vehicules & machines
 
 
 
-                                        <div role="tabpanel" id="personnel" class="tab-pane">
+                                        <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                             <div class="row">
 
                                                 <div class="col-sm-6 col-xs-12 bloc">
@@ -521,8 +627,8 @@ vehicules & machines
                                                             <table class="table">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>#</th>
                                                                         <th>Libéllé</th>
+                                                                        <th>Coordonnées</th>
                                                                         <th></th>
                                                                         <th></th>
                                                                     </tr>
@@ -531,8 +637,14 @@ vehicules & machines
                                                                     <?php $i =0; foreach (Home\CHAUFFEUR::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
                                                                         $i++; ?>
                                                                         <tr>
-                                                                            <td><?= $i ?></td>
-                                                                            <td class="gras"><?= $item->name(); ?></td>
+                                                                            <td>
+                                                                                <span class="gras"><?= $item->name(); ?></span><br>
+                                                                                Permis <?= $item->typepermis ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <i class="fa fa-map-marker"></i> <?= $item->adresse  ?><br>
+                                                                                <i class="fa fa-phone"></i> <?= $item->contact  ?><br>                        
+                                                                            </td>
                                                                             <td data-toggle="modal" data-target="#modal-chauffeur" title="modifier ce chauffeur" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                             <td title="supprimer ce chauffeur" onclick="suppression('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                         </tr>
@@ -557,6 +669,48 @@ vehicules & machines
                                                             <table class="table">
                                                                 <thead>
                                                                     <tr>
+                                                                        <th>Libéllé</th>
+                                                                        <th>Coordonnées</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\MANOEUVRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                        $item->actualise(); ?>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span class="gras"><?= $item->name(); ?></span><br>
+                                                                                <?= $item->groupemanoeuvre->name() ?>
+                                                                            </td>
+                                                                            <td>
+                                                                                <i class="fa fa-map-marker"></i> <?= $item->adresse  ?><br>
+                                                                                <i class="fa fa-phone"></i> <?= $item->contact  ?><br>                        
+                                                                            </td>
+                                                                            <td data-toggle="modal" data-target="#modal-manoeuvre" title="modifier ce manoeuvre" onclick="modification('manoeuvre', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td title="supprimer ce manoeuvre" onclick="suppression('manoeuvre', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Vos fournisseurs de ressources</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-chauffeur">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
                                                                         <th>#</th>
                                                                         <th>Libéllé</th>
                                                                         <th></th>
@@ -564,7 +718,43 @@ vehicules & machines
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <?php $i =0; foreach (Home\MANOEUVRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                    <?php $i =0; foreach (Home\FOURNISSEUR::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                        $i++; ?>
+                                                                        <tr>
+                                                                            <td><?= $i ?></td>
+                                                                            <td class="gras"><?= $item->name(); ?></td>
+                                                                            <td data-toggle="modal" data-target="#modal-chauffeur" title="modifier ce chauffeur" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td title="supprimer ce chauffeur" onclick="suppression('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
+                                                                        </tr>
+                                                                    <?php } ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-xs-12 bloc">
+                                                    <div class="ibox border">
+                                                        <div class="ibox-title">
+                                                            <h5 class="text-uppercase">Vos prestataires de services</h5>
+                                                            <div class="ibox-tools">
+                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-manoeuvre">
+                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ibox-content">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>Libéllé</th>
+                                                                        <th></th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i =0; foreach (Home\PRESTATAIRE::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
                                                                         $i++; ?>
                                                                         <tr>
                                                                             <td><?= $i ?></td>
@@ -578,6 +768,7 @@ vehicules & machines
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -618,49 +809,49 @@ vehicules & machines
                                                                             $rem->actualise();
                                                                             $lots[] = $rem->role->getId(); ?>
                                                                             <button class="btn btn-primary btn-xs"><?= $rem->role->name() ?></button>
-                                                                        <?php } ?><br>
+                                                                            <?php } ?><br>
 
-                                                                        <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                                            if (!in_array($role->getId(), $lots)) { ?>
-                                                                               <button class="btn btn-white btn-xs"><?= $role->name() ?></button>
-                                                                           <?php } } ?>                
-                                                                       </td>
-                                                                       <td class="text-right">          
-                                                                        <button class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
-                                                                        <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i></button>
-                                                                        <button class="btn btn-white btn-xs"><i class="fa fa-close text-red"></i></button>
-                                                                        <button class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
-                                                                    </td>
-                                                                </tr>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
+                                                                            <?php foreach (Home\ROLE::getAll() as $key => $role) {
+                                                                                if (!in_array($role->getId(), $lots)) { ?>
+                                                                                 <button class="btn btn-white btn-xs"><?= $role->name() ?></button>
+                                                                             <?php } } ?>                
+                                                                         </td>
+                                                                         <td class="text-right">          
+                                                                            <button class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
+                                                                            <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i></button>
+                                                                            <button class="btn btn-white btn-xs"><i class="fa fa-close text-red"></i></button>
+                                                                            <button class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                        </td>
+                                                                    </tr>
+                                                                <?php } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+
+
+                <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+                <?php include($this->relativePath("modals.php")); ?>
+
+
             </div>
-
-
-
-
-            <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-            <?php include($this->relativePath("modals.php")); ?>
-
-
         </div>
-    </div>
 
 
-    <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+        <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 
 
-</body>
+    </body>
 
-</html>
+    </html>
