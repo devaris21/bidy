@@ -14,10 +14,8 @@
                                 <span class="text-muted text-xs block"><b class="caret"></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a class="dropdown-item" href="profile.html">Mon profil</a></li>
-                                <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="mailbox.html">Vérouiller la session</a></li>
-                                <li><a class="dropdown-item" href="login.html">Déconnexion</a></li>
+                                <li><a class="dropdown-item" href="<?= $this->url("gestion", "access", "locked") ?>">Vérouiller la session</a></li>
+                                <li><a class="dropdown-item" href="#" id="btn-deconnexion" >Déconnexion</a></li>
                             </ul>
                         </div>
                     </div>

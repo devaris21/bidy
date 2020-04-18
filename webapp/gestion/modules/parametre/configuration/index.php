@@ -16,7 +16,7 @@
 
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-sm-4">
-                    <h2>Configuration de Base</h2>
+                    <h2 class="text-uppercase">Configuration de Base</h2>
                 </div>
                 <div class="col-sm-8">
 
@@ -43,14 +43,9 @@
                                                 <div class="ibox">
                                                     <div class="ibox-content"><br>
                                                         <div class="row">
-                                                            <div class="col-sm-10">
+                                                            <div class="col-sm-12">
                                                                 <span class="text-muted">Raison sociale</span>
                                                                 <h2 class="gras text-uppercase text-primary"><?= $params->societe ?></h2>
-                                                            </div>
-
-                                                            <div class="col-sm-2">
-                                                                <span class="text-muted">Votre logo</span><br>
-                                                                <img style="height: 50px" src="<?= $this->stockage("images", "societe", $params->image)  ?>">
                                                             </div>
                                                         </div><br>
 
@@ -86,21 +81,21 @@
                                                                 <span class="text-muted">Devise</span>
                                                                 <h4><?= $params->devise ?></h4>
                                                             </div>
-                                                        </div><br>
-
-                                                        <div>
-                                                            <button onclick="modification('params', <?= $params->getId() ?>)" class="btn btn-primary dim pull-right" data-toggle="modal" data-target="#modal-params"><i class="fa fa-pencil"></i> Modifier les informations</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
 
-                                            <div class="col-md-4 col-sm-6 bloc">
-
+                                            <div class="col-md-4 col-sm-6 text-center">
+                                                <h4 class="text-muted text-uppercase">Votre logo</h4>
+                                                <img style="width: 240px" src="<?= $this->stockage("images", "societe", $params->image)  ?>">
                                             </div>
 
-                                        </div>
+                                        </div><hr>
+                                        <div>
+                                            <button onclick="modification('params', <?= $params->getId() ?>)" class="btn btn-primary dim pull-right" data-toggle="modal" data-target="#modal-params"><i class="fa fa-pencil"></i> Modifier les informations</button>
+                                        </div><br><br><br>
                                     </div>
 
 

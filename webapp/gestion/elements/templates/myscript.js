@@ -27,7 +27,7 @@
     			cancelLabel : "Non",
     			okLabel : "OUI, me deconnecter",
     		}, function(){
-    			window.location.href = "/access/logout";
+    			window.location.href = "../../gestion/access/logout";
     		})
     	});
 

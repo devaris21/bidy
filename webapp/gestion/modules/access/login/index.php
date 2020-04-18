@@ -9,8 +9,8 @@
         <div class="row">
             <div class="col-md-6">
 
-                <h2 class="font-bold text-uppercase"><i class="fa fa-shield"></i> Gestionnaire BIDY</h2>
-
+                <h2 class="font-bold text-uppercase"><i class="fa fa-shield"></i> espace de connexion</h2>
+                <br>
                 <p>Veuillez entrer vos informations de connexion pour avoir accès à la plateforme de gestion.</p>
 
                 <p>En cas d'oubli ou de perte de votre mot de passe, vous pouvez le recupérer à l'aide de votre email en cliquant sur <br><a href="<?= $this->url("gestion", "access", "reset") ?>">J'ai oublié mon mot de passe !</a>
@@ -18,25 +18,21 @@
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
 
-                <p style="margin-top: 40%;"><a href="<?= $this->url("amb", "start", "select") ?>"><i class="fa fa-arrow-left"></i> Retour à la plateforme</a></p>
-
-
-              <!--   <p>
-                    <small>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</small>
-                </p> -->
+                <p style="margin-top: 35%;"><a href="<?= $this->url("amb", "start", "select") ?>"><i class="fa fa-arrow-left"></i> Retour à la plateforme</a></p>
 
             </div>
             <div class="col-md-6">
-                <div class="ibox-content">
-                    <h1 class="logo-name text-center" style="font-size: 120px; margin: 0% !important; padding: 0% !important;">BIDY</h1>
+                <div class="ibox-content text-center">
+                    <img style="width: 80px" src="<?= $this->stockage("images", "societe", "logo.png") ?>">
+                    <h1 class="logo-name text-center" style="font-size: 90px; letter-spacing: 5px; margin: 0% !important; padding: 0% !important;">BRIXS</h1>
                     <form method="POST" class="m-t" role="form" id="formConnexion" >
                         <div class="form-group">
                             <input type="text" name="login" class="form-control" placeholder="identifiant" required>
                         </div>
                         <div class="form-group">
                             <input type="password" name="password" class="form-control" placeholder="mot de passe" required>
-                        </div>
-                        <button type="submit" class="btn btn-danger block full-width m-b"><i class="fa fa-check"></i> Se connecter</button>
+                        </div><br>
+                        <button type="submit" class="btn btn-primary block full-width m-b dim"><i class="fa fa-check"></i> Se connecter</button>
 
                         <br><p class="text-center"><a href="<?= $this->url("gestion", "access", "reset") ?>">
                             J'ai oublié mon mot de passe !
@@ -48,16 +44,16 @@
         <hr/>
         <div class="row">
             <div class="col-md-6">
-                Copyright AMD, tous droits reservés
+                &copy; DEVARIS 21, tous droits reservés
             </div>
             <div class="col-md-6 text-right">
-             <small>© 2019-2020</small>
-         </div>
-     </div>
- </div>
+               <small>© 2019-2020</small>
+           </div>
+       </div>
+   </div>
 
 
- <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal inmodal" id="modal-newUser" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
