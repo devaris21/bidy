@@ -793,7 +793,7 @@
                             <div role="tabpanel" id="optioncaisse" class="tab-pane">
                                 <div class="row">
 
-                                    <div class="col-sm-7 bloc">
+                                    <div class="col-sm-8 bloc">
                                         <div class="ibox border">
                                             <div class="ibox-title">
                                                 <h5 class="text-uppercase">Type d'opération</h5>
@@ -834,43 +834,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-5 col-sm-6 bloc">
-                                        <div class="ibox border">
-                                            <div class="ibox-title">
-                                                <h5 class="text-uppercase">Mode de payement</h5>
-                                                <div class="ibox-tools">
-                                                    <a class="btn_modal" data-toggle="modal" data-target="#modal-modepayement">
-                                                        <i class="fa fa-plus"></i> Ajouter
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="ibox-content">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Libéllé</th>
-                                                            <th></th>
-                                                            <th>Attente</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php $i =0; foreach (Home\MODEPAYEMENT::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
-                                                            $item->actualise();  ?>
-                                                            <tr>
-                                                                <td class="gras"><?= $item->name(); ?></td>
-                                                                <td class="gras"><?= $item->initial; ?></td>
-                                                                <td class="gras"><?= ($item->etat_id == Home\ETAT::ENCOURS)?"*":""; ?></td>
-                                                                <td data-toggle="modal" data-target="#modal-modepayement" title="modifier ce mode" onclick="modification('modepayement', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
-                                                                <td title="supprimer ce mode" onclick="suppression('modepayement', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
-                                                            </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
 
@@ -887,7 +850,7 @@
                                     <div class="ibox-title">
                                         <h5 class="text-uppercase">Administrateurs et gerants</h5>
                                         <div class="ibox-tools">
-                                            <a class="btn_modal" data-toggle="modal" data-target="#modal-chauffeur">
+                                            <a class="btn_modal" data-toggle="modal" data-target="#modal-employe">
                                                 <i class="fa fa-plus"></i> Ajouter
                                             </a>
                                         </div>
@@ -899,7 +862,11 @@
                                                     $item->actualise();  ?>
                                                     <tr>
                                                         <td>
-                                                            <span class="label label-primary">Added</span>
+                                                            <?php if ($item->is_allowed == 1) { ?>
+                                                                <span class="label label-success">Actif</span>
+                                                            <?php }else{ ?>
+                                                                <span class="label label-red">Bloqué</span>
+                                                            <?php } ?>
                                                         </td>
                                                         <td class="">
                                                             <span class="gras text-uppercase"><?= $item->name() ?></span><br>
@@ -912,19 +879,24 @@
                                                             foreach ($datas as $key => $rem) {
                                                                 $rem->actualise();
                                                                 $lots[] = $rem->role->getId(); ?>
-                                                                <button class="btn btn-primary btn-xs"><?= $rem->role->name() ?></button>
+                                                                <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
                                                                 <?php } ?><hr class="mp3">
 
                                                                 <?php foreach (Home\ROLE::getAll() as $key => $role) {
                                                                     if (!in_array($role->getId(), $lots)) { ?>
-                                                                       <button class="btn btn-white btn-xs"><?= $role->name() ?></button>
+                                                                       <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
                                                                    <?php } } ?>                
                                                                </td>
                                                                <td class="text-right">          
-                                                                <button class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
-                                                                <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i></button>
-                                                                <button class="btn btn-white btn-xs"><i class="fa fa-close text-red"></i></button>
-                                                                <button class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
+
+                                                                <?php if ($item->is_allowed == 1) { ?>
+                                                                    <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                <?php }else{ ?>
+                                                                    <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
+                                                                <?php } ?>
+                                                                <button class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
+                                                                <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
                                                             </td>
                                                         </tr>
                                                     <?php } ?>

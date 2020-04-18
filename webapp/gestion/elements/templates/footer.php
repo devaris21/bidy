@@ -1,5 +1,5 @@
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/aside.php")); ?> 
+<?php //include($this->rootPath("webapp/gestion/elements/templates/aside.php")); ?> 
 
 
 <div id="small-chat">
@@ -9,17 +9,18 @@
 	</a>
 </div>
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/chat.php")); ?> 
+<?php //include($this->rootPath("webapp/gestion/elements/templates/chat.php")); ?> 
 
 <div class="footer">
 	<div class="float-right">
-		Copyright &copy; 2019-2020 | <strong>BIDY</strong>.
+		Copyright &copy; 2019-2020 | <strong>DEVARIS 21</strong>.
 	</div>
 	<div>
-		<strong>BIDY | Plateforme de gestion de parc Auto-Moto-Bateau</strong>
+		<strong class="text-uppercase"><?= $params->societe  ?></strong>
 	</div>
 </div>
 
 <!-- Le loader est placé dans le fichier head.php -->
 
 
+<?php include($this->rootPath("composants/assets/modals/modal-productionjour.php") );  ?>

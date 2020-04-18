@@ -189,35 +189,6 @@ class EMPLOYE extends AUTH
 	}
 
 
-	public function reinitialiserCompte(){
-		$data = new RESPONSE;
-		if ($this->set_login(substr(md5(uniqid()), 0, 9))) {
-			$this->set_password("6ed78djf21ga");
-			$this->is_new = 0;
-			$this->historique("Reinitialisation des parametres de compte de $this->name $this->lastname");
-			$data = $this->save();
-		}else{
-			$data->status = false;
-			$data->message = "Cet identifiant est déjà utilisé. Veuillez reessayer !!!";
-		}	
-		return $data;
-	}
-
-
-	public function interdireCompte(){
-		$this->allowed = 0;
-		$this->historique("Restriction d'accès pour le compte de $this->name $this->lastname");
-		$data = $this->save();	
-		return $data;
-	}
-
-
-	public function accesCompte(){
-		$this->allowed = 1;
-		$this->historique("Reouverture d'accès pour le compte de $this->name $this->lastname");
-		$data = $this->save();	
-		return $data;
-	}
 
 
 	public function supprimerCompte(){

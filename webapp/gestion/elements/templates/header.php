@@ -108,8 +108,8 @@
 
                 
                 <li>
-                    <a class="right-sidebar-toggle" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
-                        <i class="fa fa-tasks"></i> Productions du jour
+                    <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
+                        <i class="fa fa-tasks"></i> Rapport du jour
                     </a>
                 </li>
                 <li>

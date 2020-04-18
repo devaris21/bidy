@@ -41,7 +41,7 @@
                         <div class="ibox-content" style="background-image: url(<?= $this->stockage("images", "societe", "filigrane.png")  ?>) ; background-size: 50%; background-position: center center; background-repeat: no-repeat;">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <img style="width: 25%" src="<?= $this->stockage("images", "societe", "logo.png") ?>">
+                                    <img style="width: 25%" src="<?= $this->stockage("images", "societe", $params->image) ?>">
                                 </div>
                                 <div class="col-sm-9 text-right">
                                     <h2 class="title text-uppercase gras">Etat récapitulatif de la production<br>et des ressources</h2>

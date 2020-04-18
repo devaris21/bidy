@@ -19,9 +19,9 @@ class ROLE_EMPLOYE extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = ROLE::findBy(["id ="=>$this->produit_id]);
+		$datas = ROLE::findBy(["id ="=>$this->role_id]);
 		if (count($datas) == 1) {
-			$datas = EMPLOYE::findBy(["id ="=>$this->zonelivraison_id]);
+			$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 			if (count($datas) == 1) {
 				$data = $this->save();
 			}else{
@@ -34,9 +34,6 @@ class ROLE_EMPLOYE extends TABLE
 		}
 		return $data;
 	}
-
-
-
 
 
 

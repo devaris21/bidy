@@ -146,7 +146,7 @@
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('Content de vous revoir de nouveau!', 'Bonjour <?= $gestionnaire->name(); ?>');
+                toastr.success('Content de vous revoir de nouveau!', 'Bonjour <?= $employe->name(); ?>');
                 unset_session("new");
             }, 1300);
         }
@@ -196,32 +196,7 @@
                 tooltip: false
             }
             );
-
-
-
-        var doughnutData = {
-            labels: ["App","Software","Laptop" ],
-            datasets: [{
-                data: [300,50,100],
-                backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-            }]
-        } ;
-
-
-        var doughnutOptions = {
-            responsive: false,
-            legend: {
-                display: false
-            }
-        };
-
-        var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-        new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-
-
-
-        
+      
 
     });
 </script>

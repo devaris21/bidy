@@ -382,7 +382,7 @@
 
 
 <div class="modal inmodal fade" id="modal-categorieoperation">
-	<div class="modal-dialog modal-sm">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -390,7 +390,8 @@
 			</div>
 			<form method="POST" class="formShamman" classname="categorieoperation">
 				<div class="modal-body">
-					<div class="">
+				<div class="row">
+						<div class="">
 						<label>Type d'opération <span1>*</span1></label>
 						<div class="form-group">
 							<?php Native\BINDING::html("select", "typeoperationcaisse") ?>
@@ -402,10 +403,11 @@
 							<input type="text" class="form-control" name="name" required>
 						</div>
 					</div>
+				</div>
 					<div class="">
 						<label>Couleur spécifique </label>
 						<div class="form-group">
-							<input type="color" class="form-control" name="color">
+							<input type="color" name="color">
 						</div>
 					</div>
 				</div><hr>
@@ -419,6 +421,11 @@
 		</div>
 	</div>
 </div>
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<?php include($this->rootPath("composants/assets/modals/modal-employe.php") ); ?>
+
 
 
 

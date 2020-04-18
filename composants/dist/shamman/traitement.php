@@ -130,9 +130,9 @@ if ($action === "suppression") {
 if ($action === "verifierPassword") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
-		$gestionnaire = $datas[0];
-		$gestionnaire->actualise();
-		if ($gestionnaire->checkPassword($password)) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
 			$data->status = true;
 		}else{
 			$data->status = false;
@@ -151,9 +151,9 @@ if ($action === "verifierPassword") {
 if ($action === "lock") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
-		$gestionnaire = $datas[0];
-		$gestionnaire->actualise();
-		if ($gestionnaire->checkPassword($password)) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
 			$class = TABLE::fullyClassName($table);
 			if (class_exists($class)) {
 				$element = new $class();
@@ -177,12 +177,42 @@ if ($action === "lock") {
 
 
 //veroouiller un user
+if ($action === "resetPassword") {
+	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+	if (count($datas) > 0) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
+			$class = TABLE::fullyClassName($table);
+			if (class_exists($class)) {
+				$element = new $class();
+				$element->setId($id);
+				$element->actualise();
+				$data = $element->resetPassword();
+			}else{
+				$data->status = false;
+				$data->message = "Erreur lors de la suppression de l'element !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Votre mot de passe ne correspond pas !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas effectué cette opération !";
+	}
+	echo json_encode($data);
+}
+
+
+
+//reinitialiser le mot de passe
 if ($action === "unlock") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
-		$gestionnaire = $datas[0];
-		$gestionnaire->actualise();
-		if ($gestionnaire->checkPassword($password)) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
 			$class = TABLE::fullyClassName($table);
 			if (class_exists($class)) {
 				$element = new $class();
@@ -210,9 +240,9 @@ if ($action === "unlock") {
 if ($action === "suppression_with_password") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
-		$gestionnaire = $datas[0];
-		$gestionnaire->actualise();
-		if ($gestionnaire->checkPassword($password)) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
 			$class = TABLE::fullyClassName($table);
 			if (class_exists($class)) {
 				$element = new $class();
@@ -252,9 +282,9 @@ if ($action === "delete_suppression") {
 if ($action === "delete_with_password") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
-		$gestionnaire = $datas[0];
-		$gestionnaire->actualise();
-		if ($gestionnaire->checkPassword($password)) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
 			$class = TABLE::fullyClassName($table);
 			if (class_exists($class)) {
 				$element = new $class();

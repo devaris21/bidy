@@ -49,7 +49,7 @@
             $.post(url, {action:"get_data", table:table, id:id}, function(data){
                 Loader.start();
                 if (data.status) {
-                    $("form[classname="+table+"] input:not('[type=file]') ").each(function() {
+                    $("form[classname="+table+"] input:not('[type=file]'):not('[type=radio]'):not('[type=checkbox]') ").each(function() {
                         var name = $(this).attr("name");
                         $(this).val(data[name]);
                     });
@@ -67,6 +67,20 @@
                         $this.change();
                     });
 
+                    $("form[classname="+table+"] input[type=radio]").each(function(){
+                        var name = $(this).attr("name");
+                        if ($(this).val() == data[name]) {
+                            $(this).prop('selected', 'selected')
+                        }
+                    });
+
+                    $("form[classname="+table+"] input[type=checkbox]").each(function(){
+                        var name = $(this).attr("name");
+                        if ($(this).val() == data[name]) {
+                            $(this).prop('checked', 'checked')
+                        }
+                    });
+
                     $("form[classname="+table+"] textarea[name=comment]").val(data.comment);
                     $("form[classname="+table+"] .unmodified").hide();
                     Loader.stop();
@@ -77,7 +91,7 @@
         }
 
 
-         lock = function(table, id){
+        lock = function(table, id){
             url = "../../composants/dist/shamman/traitement.php";
             alerty.confirm("Voulez-vous vraiment bloquer tout accès à cette personne ?", {
                 title: "Restriction d'accès",
@@ -104,7 +118,7 @@
 
 
 
-         unlock = function(table, id){
+        unlock = function(table, id){
             url = "../../composants/dist/shamman/traitement.php";
             alerty.confirm("Vous êtes sur le point de redonner les accès à cette personne. Continuer ?", {
                 title: "Restriction d'accès",
@@ -119,6 +133,33 @@
                 }, function(password){
                     Loader.start();
                     $.post(url, {action:"unlock", table:table, id:id, password:password}, (data)=>{
+                        if (data.status) {
+                            window.location.reload()
+                        }else{
+                            Alerter.error('Erreur !', data.message);
+                        }
+                    },"json");
+                })
+            })
+        }
+
+
+
+        resetPassword = function(table, id){
+            url = "../../composants/dist/shamman/traitement.php";
+            alerty.confirm("Voulez-vous vraiment bloquer tout accès à cette personne ?", {
+                title: "Restriction d'accès",
+                cancelLabel : "Non",
+                okLabel : "OUI, bloquer",
+            }, function(){
+                alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
+                    title: 'Récupération du mot de passe !',
+                    inputType : "password",
+                    cancelLabel : "Annuler",
+                    okLabel : "Valider"
+                }, function(password){
+                    Loader.start();
+                    $.post(url, {action:"resetPassword", table:table, id:id}, (data)=>{
                         if (data.status) {
                             window.location.reload()
                         }else{

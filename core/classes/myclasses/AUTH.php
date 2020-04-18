@@ -95,7 +95,7 @@ abstract class AUTH extends TABLE
 		$this->login = substr(uniqid(), 6);
 		$pass = substr(uniqid(), 5);
 		$this->password = hasher($pass);
-		$this->historique("Reinitialisation des parametres de connexion de $this->name $this->lastname");
+		$this->historique("Reinitialisation des parametres de connexion de ".$this->name());
 		$data = $this->save();
 		if ($data->status) {
 			ob_start();

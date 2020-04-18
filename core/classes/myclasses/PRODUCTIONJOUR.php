@@ -11,6 +11,7 @@ class PRODUCTIONJOUR extends TABLE
 
 	public $ladate;
 	public $comment = "";
+	public $groupemanoeuvre_id = 0;
 	public $employe_id = 0;
 	
 

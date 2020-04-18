@@ -83,6 +83,7 @@ class ROOTER extends PATH
                         $employe->actualise();
 
                         $productionjour = PRODUCTIONJOUR::today();
+                        $productionjour->actualise();
                     }else{
                         $this->new_root($this->section, "access", "login");
                         $this->render();

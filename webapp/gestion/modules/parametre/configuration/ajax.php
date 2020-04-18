@@ -52,3 +52,25 @@ if ($action == "exigence") {
 	}
 	echo json_encode($data);
 }
+
+
+
+if ($action == "autoriser") {
+	$datas = ROLE_EMPLOYE::findBy(["employe_id ="=> $employe_id, "role_id ="=> $role_id]);
+	if (count($datas) == 0) {
+		$rem = new ROLE_EMPLOYE();
+		$rem->hydrater($_POST);
+		$data = $rem->enregistre();
+	}
+	echo json_encode($data);
+}
+
+
+if ($action == "refuser") {
+	$datas = ROLE_EMPLOYE::findBy(["employe_id ="=> $employe_id, "role_id ="=> $role_id]);
+	if (count($datas) == 1) {
+		$rem = $datas[0];
+		$data = $rem->delete();
+	}
+	echo json_encode($data);
+}

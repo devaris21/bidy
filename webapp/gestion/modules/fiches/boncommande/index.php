@@ -24,19 +24,17 @@
                            <div>
                               <div class="row">
                                 <div class="col-sm-5">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <img style="width: 120%" src="<?= $this->stockage("images", "societe", "logo.png") ?>">
-                                        </div>
-                                        <div class="col-9">
-                                            <h5 class="gras text-uppercase text-orange">Briqueterie industrielle de yaou</h5>
-                                            <h5 class="mp0">06 BP 6067 Abidjan 06</h5>
-                                            <h5 class="mp0">Tél 21350198 / 46015555</h5>
-                                            <h5 class="mp0">RC: CI-ABJ-09-A-8527</h5>
-                                            <h5 class="mp0">CC: N°0721697 B</h5>
-                                            <h5 class="mp0">Email: info@dleg.net</h5>
-                                        </div>
-                                    </div>
+                                   <div class="row">
+                            <div class="col-3">
+                                <img style="width: 120%" src="<?= $this->stockage("images", "societe", $params->image) ?>">
+                            </div>
+                            <div class="col-9">
+                                <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
+                                <h5 class="mp0"><?= $params->postale ?></h5>
+                                <h5 class="mp0">Tél: <?= $params->contact ?></h5>
+                                <h5 class="mp0">Email: <?= $params->email ?></h5>
+                            </div>
+                        </div>
                                 </div>
                                 <div class="col-sm-7 text-right">
                                     <h2 class="title text-uppercase gras text-blue">Bon de commande</h2>
