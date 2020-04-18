@@ -131,9 +131,9 @@ abstract class AUTH extends TABLE
 	}
 
 
-	public function emailIsValide(String $email){
-		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-			$datas = static::findBy(["email = "=>$email]);
+	public function emailIsValide(){
+		if(filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+			$datas = static::findBy(["email = "=>$this->email]);
 			if (count($datas) == 0) {
 				return true;
 			}else{
@@ -141,7 +141,6 @@ abstract class AUTH extends TABLE
 				if ($item->id === $this->id) {
 					return true;
 				}else{
-					$this->email = null;
 					return false;
 				}
 			}

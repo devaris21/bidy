@@ -55,8 +55,8 @@ abstract class TABLE
     }
 
 
-    public function is_protected(){
-        if ($this->get_protected() == 1) {
+    public function isProtected(){
+        if ($this->getProtected() == 1) {
             return true;
         }else{
             return false;
@@ -85,7 +85,7 @@ abstract class TABLE
     }
 
 /////////////////////////////////////////////////
-    public function get_protected(){
+    public function getProtected(){
         return $this->protected;
     }
 

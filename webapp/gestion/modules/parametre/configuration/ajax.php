@@ -69,8 +69,13 @@ if ($action == "autoriser") {
 if ($action == "refuser") {
 	$datas = ROLE_EMPLOYE::findBy(["employe_id ="=> $employe_id, "role_id ="=> $role_id]);
 	if (count($datas) == 1) {
-		$rem = $datas[0];
-		$data = $rem->delete();
+		if (!$rem->isProtected()) {
+			$rem = $datas[0];
+			$data = $rem->delete();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez pas supprimer cet accès, il est protégé !";
+		}
 	}
 	echo json_encode($data);
 }

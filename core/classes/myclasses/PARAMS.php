@@ -24,7 +24,7 @@ class PARAMS extends TABLE
 	public $devise;
 	public $image;
 
-	public $timeout;
+	public $tva;
 
 
 
@@ -56,11 +56,12 @@ class PARAMS extends TABLE
 	}
 
 
+
+
 	//verifier le temps de latente entre deux actions de l'utilisateur
 	public static function checkTimeout($section){
 		$data = new RESPONSE;
-		$params = self::findLastId();
-		$session = $params->timeout * 60;
+		$session = 10 * 60;
 		//umpeu moins de 2x le temps;
 		if(is_null(getSession("last_access")) OR (time() - getSession("last_access") > $session * 2) ){
 			$data->status = false;
@@ -77,7 +78,6 @@ class PARAMS extends TABLE
 		}
 		return $data;
 	}
-
 
 
 

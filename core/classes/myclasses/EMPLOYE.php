@@ -17,7 +17,6 @@ class EMPLOYE extends AUTH
 	public $is_allowed = 1;
 	public $started;
 	public $is_new = 1;
-	public $code;
 	public $image = "default.png";
 	public $is_connecte = false;
 	
@@ -29,7 +28,8 @@ class EMPLOYE extends AUTH
 		$pass = substr(uniqid(), 5);
 		$this->password = hasher($pass);
 		if ($this->login != "" && $this->password != "") {
-			$datas = static::findBy(["email ="=>$this->email]);
+			if ($this->emailIsValide()) {
+				$datas = static::findBy(["email ="=>$this->email]);
 			if (count($datas) == 0) {
 				$datas = static::findBy(["login ="=>$this->login]);
 				if (count($datas) == 0) {
@@ -50,6 +50,10 @@ class EMPLOYE extends AUTH
 				$data->status = false;
 				$data->message = "Cet email a déjà un compte. Veuillez en prendre un autre !";
 			}
+			}else{
+				$data->status = false;
+			$data->message = "Veuillez renseigner un email valide svp !";
+		}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner le login et le mot de passe du nouvel employé !";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  sam. 18 avr. 2020 à 21:29
+-- Généré le :  Dim 19 avr. 2020 à 09:36
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.19
 
@@ -30,20 +30,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `approvisionnement` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) NOT NULL,
+  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `prestataire_id` int(11) NOT NULL,
   `operation_id` int(11) DEFAULT NULL,
   `datelivraison` datetime DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
-  `comment` text,
+  `comment` text COLLATE utf8_bin,
   `employe_id_reception` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -53,25 +53,25 @@ CREATE TABLE `approvisionnement` (
 
 CREATE TABLE `carplan` (
   `id` int(11) NOT NULL,
-  `matricule` varchar(20) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `lastname` varchar(150) DEFAULT NULL,
+  `matricule` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `lastname` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   `sexe_id` int(2) DEFAULT NULL,
-  `adresse` varchar(150) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `contact` varchar(200) DEFAULT NULL,
-  `fonction` varchar(100) DEFAULT NULL,
-  `login` varchar(50) DEFAULT NULL,
-  `password` text,
+  `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `fonction` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  `login` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `password` text COLLATE utf8_bin,
   `is_new` int(11) NOT NULL DEFAULT '0',
-  `image` varchar(50) DEFAULT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `allowed` int(11) NOT NULL DEFAULT '1',
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1',
   `visibility` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -82,13 +82,13 @@ CREATE TABLE `carplan` (
 CREATE TABLE `categorieoperation` (
   `id` int(11) NOT NULL,
   `typeoperationcaisse_id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `color` varchar(10) DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `color` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `categorieoperation`
@@ -108,24 +108,24 @@ INSERT INTO `categorieoperation` (`id`, `typeoperationcaisse_id`, `name`, `color
 
 CREATE TABLE `chauffeur` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `lastname` varchar(150) DEFAULT NULL,
-  `matricule` varchar(50) DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `lastname` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `matricule` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `sexe_id` int(2) NOT NULL,
-  `nationalite` varchar(200) DEFAULT NULL,
-  `adresse` varchar(150) DEFAULT NULL,
-  `typepermis` varchar(50) DEFAULT NULL,
-  `numero_permis` varchar(200) DEFAULT NULL,
+  `nationalite` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `typepermis` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `numero_permis` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `date_fin_permis` date DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `contact` varchar(200) DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `etatchauffeur_id` int(11) NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -135,17 +135,17 @@ CREATE TABLE `chauffeur` (
 
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
   `typeclient_id` int(2) NOT NULL,
   `acompte` int(11) DEFAULT NULL,
-  `adresse` varchar(150) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `contact` varchar(200) DEFAULT NULL,
+  `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -155,11 +155,11 @@ CREATE TABLE `client` (
 
 CREATE TABLE `code` (
   `id` int(11) NOT NULL,
-  `code` varchar(25) NOT NULL,
+  `code` varchar(25) COLLATE utf8_bin NOT NULL,
   `jour` int(11) NOT NULL,
-  `matricule` varchar(50) DEFAULT NULL,
+  `matricule` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -169,10 +169,10 @@ CREATE TABLE `code` (
 
 CREATE TABLE `commande` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) NOT NULL,
+  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `groupecommande_id` int(20) NOT NULL,
   `zonelivraison_id` int(11) NOT NULL,
-  `lieu` varchar(200) NOT NULL,
+  `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
   `tva` int(11) NOT NULL,
   `montant` int(11) NOT NULL,
   `operation_id` int(11) DEFAULT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE `commande` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -201,7 +201,7 @@ CREATE TABLE `connexion` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `connexion`
@@ -219,11 +219,11 @@ INSERT INTO `connexion` (`id`, `date_connexion`, `date_deconnexion`, `employe_id
 CREATE TABLE `demandeentretien` (
   `id` int(11) NOT NULL,
   `typeentretienvehicule_id` int(11) NOT NULL,
-  `reference` varchar(10) DEFAULT NULL,
+  `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `vehicule_id` int(11) NOT NULL,
   `carplan_id` int(11) DEFAULT NULL,
-  `comment` text NOT NULL,
-  `image` varchar(200) DEFAULT NULL,
+  `comment` text COLLATE utf8_bin NOT NULL,
+  `image` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `date_approuve` datetime DEFAULT NULL,
   `employe_id` int(11) DEFAULT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE `demandeentretien` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -241,13 +241,13 @@ CREATE TABLE `demandeentretien` (
 
 CREATE TABLE `employe` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `adresse` varchar(150) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `contact` varchar(200) DEFAULT NULL,
-  `login` varchar(50) NOT NULL,
-  `password` text NOT NULL,
-  `image` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `login` varchar(50) COLLATE utf8_bin NOT NULL,
+  `password` text COLLATE utf8_bin NOT NULL,
+  `image` varchar(50) COLLATE utf8_bin NOT NULL,
   `is_new` int(11) NOT NULL DEFAULT '0',
   `is_allowed` int(11) NOT NULL DEFAULT '1',
   `visibility` int(11) NOT NULL DEFAULT '0',
@@ -255,7 +255,7 @@ CREATE TABLE `employe` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `employe`
@@ -273,12 +273,12 @@ INSERT INTO `employe` (`id`, `name`, `adresse`, `email`, `contact`, `login`, `pa
 
 CREATE TABLE `energie` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `energie`
@@ -300,8 +300,8 @@ INSERT INTO `energie` (`id`, `name`, `created`, `modified`, `protected`, `valide
 
 CREATE TABLE `entretienmachine` (
   `id` int(11) NOT NULL,
-  `reference` varchar(10) DEFAULT NULL,
-  `name` varchar(200) NOT NULL,
+  `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `machine_id` int(11) NOT NULL,
   `started` datetime DEFAULT NULL,
   `finished` datetime DEFAULT NULL,
@@ -310,12 +310,12 @@ CREATE TABLE `entretienmachine` (
   `etat_id` int(11) NOT NULL,
   `date_approuve` datetime DEFAULT NULL,
   `employe_id` int(11) NOT NULL,
-  `comment` text,
+  `comment` text COLLATE utf8_bin,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -325,8 +325,8 @@ CREATE TABLE `entretienmachine` (
 
 CREATE TABLE `entretienvehicule` (
   `id` int(11) NOT NULL,
-  `reference` varchar(10) DEFAULT NULL,
-  `name` varchar(200) NOT NULL,
+  `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `typeentretienvehicule_id` int(11) NOT NULL,
   `vehicule_id` int(11) NOT NULL,
   `started` datetime DEFAULT NULL,
@@ -335,13 +335,13 @@ CREATE TABLE `entretienvehicule` (
   `price` int(11) DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `date_approuve` datetime DEFAULT NULL,
-  `comment` text,
+  `comment` text COLLATE utf8_bin,
   `employe_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -351,11 +351,11 @@ CREATE TABLE `entretienvehicule` (
 
 CREATE TABLE `etat` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `class` varchar(50) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `class` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `etat`
@@ -376,11 +376,11 @@ INSERT INTO `etat` (`id`, `name`, `class`, `protected`, `valide`) VALUES
 
 CREATE TABLE `etatchauffeur` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `class` varchar(50) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `class` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `etatchauffeur`
@@ -399,11 +399,11 @@ INSERT INTO `etatchauffeur` (`id`, `name`, `class`, `protected`, `valide`) VALUE
 
 CREATE TABLE `etatmanoeuvre` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `class` varchar(50) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `class` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `etatmanoeuvre`
@@ -422,11 +422,11 @@ INSERT INTO `etatmanoeuvre` (`id`, `name`, `class`, `protected`, `valide`) VALUE
 
 CREATE TABLE `etatvehicule` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `class` varchar(50) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `class` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `etatvehicule`
@@ -453,7 +453,7 @@ CREATE TABLE `exigenceproduction` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -463,17 +463,17 @@ CREATE TABLE `exigenceproduction` (
 
 CREATE TABLE `fournisseur` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `contact` varchar(150) NOT NULL,
-  `fax` varchar(200) NOT NULL,
-  `email` text,
-  `adresse` text NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `contact` varchar(150) COLLATE utf8_bin NOT NULL,
+  `fax` varchar(200) COLLATE utf8_bin NOT NULL,
+  `email` text COLLATE utf8_bin,
+  `adresse` text COLLATE utf8_bin NOT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -489,7 +489,7 @@ CREATE TABLE `groupecommande` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -499,22 +499,19 @@ CREATE TABLE `groupecommande` (
 
 CREATE TABLE `groupemanoeuvre` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `groupemanoeuvre`
 --
 
 INSERT INTO `groupemanoeuvre` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Groupe 1', NULL, '2020-04-17 23:20:39', 1, 1),
-(2, 'Magasin de pièces détachées', NULL, '2019-09-21 04:46:16', 1, 1),
-(3, 'Lavage Automobile', '2019-09-21 04:48:43', '2019-09-23 12:55:59', 1, 1),
-(4, 'Parc Automobile', '2019-09-21 05:40:11', '2019-09-21 05:40:11', 1, 1);
+(1, 'Groupe 1', NULL, '2020-04-17 23:20:39', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -524,22 +521,20 @@ INSERT INTO `groupemanoeuvre` (`id`, `name`, `created`, `modified`, `protected`,
 
 CREATE TABLE `groupevehicule` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `groupevehicule`
 --
 
 INSERT INTO `groupevehicule` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Véhicules de Pool', NULL, '2019-10-01 15:36:02', 1, 1),
-(2, 'Cars de ramassage', NULL, '2019-09-23 14:05:30', 1, 1),
-(3, 'Véhicules de missions', '2019-09-23 13:18:55', '2019-09-23 13:18:55', 1, 1),
-(4, 'Véhicule du ministère', '2019-10-01 15:36:38', '2019-10-01 15:36:38', 0, 1);
+(2, 'Camion de livraison', NULL, '2020-04-18 21:42:14', 1, 1),
+(3, 'Véhicules de missions', '2019-09-23 13:18:55', '2019-09-23 13:18:55', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -549,9 +544,9 @@ INSERT INTO `groupevehicule` (`id`, `name`, `created`, `modified`, `protected`, 
 
 CREATE TABLE `history` (
   `id` int(11) NOT NULL,
-  `sentense` text NOT NULL,
-  `type_save` varchar(50) NOT NULL,
-  `record` varchar(200) NOT NULL,
+  `sentense` text COLLATE utf8_bin NOT NULL,
+  `type_save` varchar(50) COLLATE utf8_bin NOT NULL,
+  `record` varchar(200) COLLATE utf8_bin NOT NULL,
   `employe_id` int(11) DEFAULT NULL,
   `carplan_id` int(11) DEFAULT NULL,
   `prestataire_id` int(11) DEFAULT NULL,
@@ -560,14 +555,19 @@ CREATE TABLE `history` (
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1',
   `record_key` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `history`
 --
 
 INSERT INTO `history` (`id`, `sentense`, `type_save`, `record`, `employe_id`, `carplan_id`, `prestataire_id`, `created`, `modified`, `protected`, `valide`, `record_key`) VALUES
-(1, 'Nouvelle connexion', 'insert', 'connexion', 1, NULL, NULL, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1, 1);
+(1, 'Nouvelle connexion', 'insert', 'connexion', 1, NULL, NULL, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1, 1),
+(2, 'Modification des informations du type de sinistre 5 : Tricycle ', 'update', 'typevehicule', 1, NULL, NULL, '2020-04-18 21:39:27', '2020-04-18 21:39:27', 0, 1, 5),
+(3, 'Modification des informations du groupe de vehicule 2 : Véhicule de livraison ', 'update', 'groupevehicule', 1, NULL, NULL, '2020-04-18 21:41:47', '2020-04-18 21:41:47', 0, 1, 2),
+(4, 'Modification des informations du groupe de vehicule 2 : Camion de livraison ', 'update', 'groupevehicule', 1, NULL, NULL, '2020-04-18 21:42:14', '2020-04-18 21:42:14', 0, 1, 2),
+(5, 'Modification des informations du type d\'entretien de vehicule 1 : Accrochage ', 'update', 'typeentretienvehicule', 1, NULL, NULL, '2020-04-18 21:43:19', '2020-04-18 21:43:19', 0, 1, 1),
+(6, 'Modification des informations du type d\'entretien de vehicule 2 : Crevaison ', 'update', 'typeentretienvehicule', 1, NULL, NULL, '2020-04-18 21:43:32', '2020-04-18 21:43:32', 0, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -586,7 +586,7 @@ CREATE TABLE `ligneapprovisionnement` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -604,7 +604,7 @@ CREATE TABLE `lignecommande` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -621,7 +621,7 @@ CREATE TABLE `ligneconsommationjour` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `ligneconsommationjour`
@@ -648,7 +648,7 @@ CREATE TABLE `ligneexigenceproduction` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -665,7 +665,7 @@ CREATE TABLE `lignegroupecommande` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -684,7 +684,7 @@ CREATE TABLE `lignelivraison` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -701,7 +701,7 @@ CREATE TABLE `lignepayejour` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -719,7 +719,7 @@ CREATE TABLE `ligneproductionjour` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `ligneproductionjour`
@@ -739,23 +739,23 @@ INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `produit_id`, `pro
 
 CREATE TABLE `livraison` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) NOT NULL,
+  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `groupecommande_id` int(20) NOT NULL,
   `zonelivraison_id` int(11) NOT NULL,
-  `lieu` varchar(200) NOT NULL,
+  `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
   `vehicule_id` int(11) NOT NULL,
   `chauffeur_id` int(11) NOT NULL,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) DEFAULT NULL,
   `datelivraison` date DEFAULT NULL,
-  `comment` text,
-  `nom_receptionniste` varchar(50) DEFAULT NULL,
-  `contact_receptionniste` varchar(50) DEFAULT NULL,
+  `comment` text COLLATE utf8_bin,
+  `nom_receptionniste` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `contact_receptionniste` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -765,16 +765,16 @@ CREATE TABLE `livraison` (
 
 CREATE TABLE `machine` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `marque` varchar(50) NOT NULL,
-  `modele` varchar(200) NOT NULL,
-  `image` text,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `marque` varchar(50) COLLATE utf8_bin NOT NULL,
+  `modele` varchar(200) COLLATE utf8_bin NOT NULL,
+  `image` text COLLATE utf8_bin,
   `etatvehicule_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -784,27 +784,17 @@ CREATE TABLE `machine` (
 
 CREATE TABLE `manoeuvre` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
   `groupemanoeuvre_id` int(2) NOT NULL,
-  `adresse` varchar(150) DEFAULT NULL,
-  `contact` varchar(200) DEFAULT NULL,
+  `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `etatmanoeuvre_id` int(11) NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `manoeuvre`
---
-
-INSERT INTO `manoeuvre` (`id`, `name`, `groupemanoeuvre_id`, `adresse`, `contact`, `etatmanoeuvre_id`, `image`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Aboulaye touré', 1, '22 rue des chantilles, korogho 24 Bd', '47 58 93 21', 0, '', '2020-02-07 20:54:42', '2020-04-01 17:22:07', 0, 1),
-(2, 'Aya', 2, '22 rue des chantilles, korogho 24 Bd', '47 58 93 21', 0, '0212e9a4.png', '2020-02-07 20:55:02', '2020-04-01 17:22:08', 0, 1),
-(3, 'Kouamé Yves', 1, '22 rue des chantilles, korogho 24 Bd', '47 58 93 21', 0, 'fffe5c6a.png', '2020-02-07 20:55:58', '2020-04-01 17:22:08', 0, 1),
-(4, '21shamman06', 2, 'Port-Bouet Rue de la baltique', '47 58 93 21', 0, '5bab6315.png', '2020-02-08 08:47:28', '2020-04-17 23:21:31', 0, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -821,7 +811,7 @@ CREATE TABLE `manoeuvredujour` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -831,13 +821,13 @@ CREATE TABLE `manoeuvredujour` (
 
 CREATE TABLE `marque` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `logo` varchar(50) DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `logo` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `marque`
@@ -967,14 +957,14 @@ INSERT INTO `marque` (`id`, `name`, `logo`, `created`, `modified`, `protected`, 
 
 CREATE TABLE `modepayement` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `initial` varchar(3) NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin NOT NULL,
+  `initial` varchar(3) COLLATE utf8_bin NOT NULL,
   `etat_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `modepayement`
@@ -995,12 +985,12 @@ INSERT INTO `modepayement` (`id`, `name`, `initial`, `etat_id`, `created`, `modi
 
 CREATE TABLE `mycompte` (
   `id` int(11) NOT NULL,
-  `identifiant` varchar(9) NOT NULL,
+  `identifiant` varchar(9) COLLATE utf8_bin NOT NULL,
   `tentative` int(11) NOT NULL,
   `expired` datetime NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `mycompte`
@@ -1018,19 +1008,19 @@ INSERT INTO `mycompte` (`id`, `identifiant`, `tentative`, `expired`, `protected`
 CREATE TABLE `operation` (
   `id` int(11) NOT NULL,
   `categorieoperation_id` int(11) NOT NULL,
-  `reference` varchar(20) NOT NULL,
+  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `manoeuvre_id` int(11) DEFAULT NULL,
   `modepayement_id` int(11) NOT NULL,
-  `comment` text,
+  `comment` text COLLATE utf8_bin,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1040,12 +1030,12 @@ CREATE TABLE `operation` (
 
 CREATE TABLE `panne` (
   `id` int(11) NOT NULL,
-  `title` text NOT NULL,
-  `reference` varchar(10) DEFAULT NULL,
+  `title` text COLLATE utf8_bin NOT NULL,
+  `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `machine_id` int(11) NOT NULL,
   `manoeuvre_id` int(11) DEFAULT NULL,
-  `comment` text NOT NULL,
-  `image` varchar(200) DEFAULT NULL,
+  `comment` text COLLATE utf8_bin NOT NULL,
+  `image` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `date_approuve` datetime DEFAULT NULL,
   `employe_id` int(11) DEFAULT NULL,
@@ -1053,7 +1043,7 @@ CREATE TABLE `panne` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1063,26 +1053,25 @@ CREATE TABLE `panne` (
 
 CREATE TABLE `params` (
   `id` int(11) NOT NULL,
-  `societe` varchar(50) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `contact` varchar(50) DEFAULT NULL,
-  `fax` varchar(50) DEFAULT NULL,
-  `timeout` int(11) NOT NULL DEFAULT '5',
-  `devise` varchar(50) NOT NULL,
+  `societe` varchar(50) COLLATE utf8_bin NOT NULL,
+  `email` varchar(200) COLLATE utf8_bin NOT NULL,
+  `contact` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `fax` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `devise` varchar(50) COLLATE utf8_bin NOT NULL,
   `tva` int(11) NOT NULL,
-  `adresse` varchar(200) DEFAULT NULL,
-  `postale` varchar(200) DEFAULT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `adresse` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `postale` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `params`
 --
 
-INSERT INTO `params` (`id`, `societe`, `email`, `contact`, `fax`, `timeout`, `devise`, `tva`, `adresse`, `postale`, `image`, `protected`, `valide`) VALUES
-(1, 'bidy', 'info@bidy.com', '47 58 93 21', '45 45 45 89', 70, 'Fcfa', 18, 'Port-Bouet Rue de la baltique', '54 BP 64 ABIDJAN 45', '2568eb7f.png', 1, 1);
+INSERT INTO `params` (`id`, `societe`, `email`, `contact`, `fax`, `devise`, `tva`, `adresse`, `postale`, `image`, `protected`, `valide`) VALUES
+(1, 'bidy', 'info@bidy.com', '47 58 93 21', '45 45 45 89', 'Fcfa', 18, 'Port-Bouet Rue de la baltique', '54 BP 64 ABIDJAN 45', '2568eb7f.png', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1098,17 +1087,7 @@ CREATE TABLE `paye_produit` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `paye_produit`
---
-
-INSERT INTO `paye_produit` (`id`, `produit_id`, `price`, `created`, `modified`, `protected`, `valide`) VALUES
-(2, 1, 45, '2020-04-12 23:48:56', '2020-04-17 20:52:09', 0, 1),
-(3, 2, 200, '2020-04-12 23:48:56', '2020-04-13 08:53:56', 0, 1),
-(4, 3, 90, '2020-04-12 23:48:56', '2020-04-17 20:52:38', 0, 1),
-(5, 4, 300, '2020-04-12 23:48:56', '2020-04-13 08:53:56', 0, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1118,31 +1097,30 @@ INSERT INTO `paye_produit` (`id`, `produit_id`, `price`, `created`, `modified`, 
 
 CREATE TABLE `prestataire` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `typeprestataire_id` int(11) NOT NULL,
-  `contact` varchar(150) NOT NULL,
-  `fax` varchar(200) NOT NULL,
-  `email` text,
-  `adresse` text NOT NULL,
-  `registre` varchar(50) DEFAULT NULL,
-  `login` text NOT NULL,
-  `password` text NOT NULL,
+  `contact` varchar(150) COLLATE utf8_bin DEFAULT NULL,
+  `fax` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `email` text COLLATE utf8_bin,
+  `adresse` text COLLATE utf8_bin,
+  `registre` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `login` text COLLATE utf8_bin NOT NULL,
+  `password` text COLLATE utf8_bin NOT NULL,
   `is_new` int(11) NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `is_allowed` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `prestataire`
 --
 
 INSERT INTO `prestataire` (`id`, `name`, `typeprestataire_id`, `contact`, `fax`, `email`, `adresse`, `registre`, `login`, `password`, `is_new`, `image`, `is_allowed`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Universal Garage', 1, '47 58 93 21', '15 45 45 478', 'Universalinfod@artci.com', 'angré 8em tranche tranche star 10', NULL, '230ec0df', '41cd8c3af6317039f0e2fbb3a89ce6cd45669cb0', 1, '', 1, '2020-02-08 15:22:24', '2020-02-08 15:22:24', 1, 1),
-(3, 'Lavage Pro', 3, '47 58 93 21', '15 45 45 478', 'ffrsalinfod@artci.com', 'angré 9em tranche tranche star 10', '89484dfhdfhf', '25c662de', '1e2a1b15342e2d01328a8c39bec735eb7533c2a1', 1, '8a17cc7c.png', 1, '2020-02-08 15:23:08', '2020-02-08 19:14:41', 0, 1);
+(1, 'Universal Garage', 1, '47 58 93 21', '15 45 45 478', 'Universalinfod@artci.com', 'angré 8em tranche tranche star 10', NULL, '230ec0df', '41cd8c3af6317039f0e2fbb3a89ce6cd45669cb0', 1, '', 1, '2020-02-08 15:22:24', '2020-02-08 15:22:24', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1159,7 +1137,7 @@ CREATE TABLE `prix_zonelivraison` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1170,14 +1148,14 @@ CREATE TABLE `prix_zonelivraison` (
 CREATE TABLE `productionjour` (
   `id` int(11) NOT NULL,
   `ladate` date NOT NULL,
-  `comment` text NOT NULL,
+  `comment` text COLLATE utf8_bin NOT NULL,
   `groupemanoeuvre_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `productionjour`
@@ -1194,24 +1172,14 @@ INSERT INTO `productionjour` (`id`, `ladate`, `comment`, `groupemanoeuvre_id`, `
 
 CREATE TABLE `produit` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `produit`
---
-
-INSERT INTO `produit` (`id`, `name`, `description`, `image`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'AC 15', 'Agglos creux 15', 'c23bed5a.png', '2020-02-08 20:27:34', '2020-04-12 22:54:50', 0, 1),
-(2, 'AP 15', 'Agglos pleins 15', 'c4e02301.png', '2020-02-08 20:28:05', '2020-04-12 22:55:43', 0, 1),
-(3, 'HOURDIS', 'Hourdis', '', '2020-02-08 20:28:35', '2020-04-12 22:56:28', 0, 1),
-(4, 'BTC', 'Briques en terre compressée', '', '2020-02-08 20:52:24', '2020-04-12 22:55:54', 0, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1221,25 +1189,15 @@ INSERT INTO `produit` (`id`, `name`, `description`, `image`, `created`, `modifie
 
 CREATE TABLE `ressource` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `unite` varchar(20) DEFAULT NULL,
-  `abbr` varchar(20) NOT NULL,
-  `image` varchar(50) DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `unite` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `abbr` varchar(20) COLLATE utf8_bin NOT NULL,
+  `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `ressource`
---
-
-INSERT INTO `ressource` (`id`, `name`, `unite`, `abbr`, `image`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Gravier', 'en Tonne', 'T', NULL, '2020-02-08 20:27:34', '2020-02-08 21:54:04', 0, 1),
-(2, 'CIMENT', 'En sac', 'Sacs', 'fcc179bc.jpg', '2020-02-08 20:28:05', '2020-04-12 23:10:04', 0, 1),
-(3, 'Sables', 'En chargement', 'Chgs', NULL, '2020-02-08 20:28:35', '2020-02-08 21:51:21', 0, 1),
-(4, 'Eau', 'en Litres', 'L', NULL, '2020-02-08 20:52:24', '2020-02-08 20:52:24', 0, 1);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1249,13 +1207,13 @@ INSERT INTO `ressource` (`id`, `name`, `unite`, `abbr`, `image`, `created`, `mod
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `description` text NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `role`
@@ -1283,7 +1241,7 @@ CREATE TABLE `role_employe` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1293,12 +1251,12 @@ CREATE TABLE `role_employe` (
 
 CREATE TABLE `sexe` (
   `id` int(11) NOT NULL,
-  `name` varchar(15) NOT NULL,
-  `abreviation` varchar(11) NOT NULL,
-  `icon` varchar(50) NOT NULL,
+  `name` varchar(15) COLLATE utf8_bin NOT NULL,
+  `abreviation` varchar(11) COLLATE utf8_bin NOT NULL,
+  `icon` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `sexe`
@@ -1317,10 +1275,10 @@ INSERT INTO `sexe` (`id`, `name`, `abreviation`, `icon`, `protected`, `valide`) 
 
 CREATE TABLE `suggestion` (
   `id` int(11) NOT NULL,
-  `ticket` varchar(10) NOT NULL,
+  `ticket` varchar(10) COLLATE utf8_bin NOT NULL,
   `typesuggestion_id` int(11) NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `description` text NOT NULL,
+  `title` varchar(200) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
   `etat_id` int(11) NOT NULL,
   `date_approuve` datetime DEFAULT NULL,
   `gestionnaire_id` int(11) DEFAULT NULL,
@@ -1331,7 +1289,7 @@ CREATE TABLE `suggestion` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `suggestion`
@@ -1344,42 +1302,17 @@ INSERT INTO `suggestion` (`id`, `ticket`, `typesuggestion_id`, `title`, `descrip
 -- --------------------------------------------------------
 
 --
--- Structure de la table `typeadministrateur`
---
-
-CREATE TABLE `typeadministrateur` (
-  `id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `typeadministrateur`
---
-
-INSERT INTO `typeadministrateur` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Gestionnaire', NULL, NULL, 1, 1),
-(2, 'Gestionnaire en Chef', NULL, NULL, 1, 1),
-(3, 'Administrateur', NULL, NULL, 1, 1),
-(4, 'Super Administrateur', NULL, NULL, 1, 1);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `typeclient`
 --
 
 CREATE TABLE `typeclient` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typeclient`
@@ -1400,26 +1333,21 @@ INSERT INTO `typeclient` (`id`, `name`, `created`, `modified`, `protected`, `val
 
 CREATE TABLE `typeentretienvehicule` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typeentretienvehicule`
 --
 
 INSERT INTO `typeentretienvehicule` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'entretien dû au sinistre', NULL, '2019-10-02 10:12:14', 1, 1),
-(2, 'Lavage Auto', NULL, NULL, 1, 1),
-(3, 'Révision', NULL, NULL, 1, 1),
-(4, 'Autre', NULL, NULL, 1, 1),
-(5, 'Réparation Technique', '2019-09-22 07:57:03', '2019-09-22 07:57:03', 0, 1),
-(6, 'Vidange + changement filtre', '2019-10-02 10:08:38', '2019-10-02 10:08:38', 0, 1),
-(7, 'Simple vidange', '2019-10-02 10:09:00', '2019-10-02 10:09:00', 0, 0),
-(8, 'simple vidange', NULL, NULL, 0, 1);
+(1, 'Accrochage', NULL, '2020-04-18 21:43:19', 1, 1),
+(2, 'Crevaison', NULL, '2020-04-18 21:43:32', 1, 1),
+(4, 'Autre', NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1429,12 +1357,12 @@ INSERT INTO `typeentretienvehicule` (`id`, `name`, `created`, `modified`, `prote
 
 CREATE TABLE `typeoperationcaisse` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typeoperationcaisse`
@@ -1452,12 +1380,12 @@ INSERT INTO `typeoperationcaisse` (`id`, `name`, `created`, `modified`, `protect
 
 CREATE TABLE `typeprestataire` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typeprestataire`
@@ -1470,43 +1398,17 @@ INSERT INTO `typeprestataire` (`id`, `name`, `created`, `modified`, `protected`,
 -- --------------------------------------------------------
 
 --
--- Structure de la table `typesinistre`
---
-
-CREATE TABLE `typesinistre` (
-  `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `typesinistre`
---
-
-INSERT INTO `typesinistre` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'accrochage', NULL, NULL, 0, 1),
-(2, 'Crevaison', NULL, NULL, 0, 1),
-(3, 'Défaillanec moteur', '2019-09-22 07:50:45', '2019-09-22 07:50:45', 0, 0),
-(4, 'Vol', '2019-10-02 10:03:19', '2019-10-02 10:03:19', 0, 1),
-(5, 'Accident garve', '2019-10-02 10:03:53', '2019-10-02 10:03:53', 0, 1);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `typesuggestion`
 --
 
 CREATE TABLE `typesuggestion` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typesuggestion`
@@ -1524,12 +1426,12 @@ INSERT INTO `typesuggestion` (`id`, `name`, `created`, `modified`, `protected`, 
 
 CREATE TABLE `typetransmission` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typetransmission`
@@ -1547,12 +1449,12 @@ INSERT INTO `typetransmission` (`id`, `name`, `created`, `modified`, `protected`
 
 CREATE TABLE `typevehicule` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `typevehicule`
@@ -1563,7 +1465,7 @@ INSERT INTO `typevehicule` (`id`, `name`, `created`, `modified`, `protected`, `v
 (2, 'Moto', NULL, NULL, 0, 0),
 (3, 'Camion', '2019-09-22 07:38:31', '2019-09-22 07:38:31', 0, 0),
 (4, 'Camion Benne', '2019-09-22 07:38:48', '2020-04-17 23:34:23', 0, 1),
-(5, 'pick-up', '2019-10-18 12:20:33', '2019-10-18 12:20:33', 0, 1);
+(5, 'Tricycle', '2019-10-18 12:20:33', '2020-04-18 21:39:27', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1573,26 +1475,26 @@ INSERT INTO `typevehicule` (`id`, `name`, `created`, `modified`, `protected`, `v
 
 CREATE TABLE `vehicule` (
   `id` int(11) NOT NULL,
-  `immatriculation` varchar(20) NOT NULL,
+  `immatriculation` varchar(20) COLLATE utf8_bin NOT NULL,
   `typevehicule_id` int(11) NOT NULL,
   `prestataire_id` int(11) DEFAULT NULL,
   `nb_place` int(11) DEFAULT NULL,
   `nb_porte` int(11) DEFAULT NULL,
   `marque_id` int(11) NOT NULL,
-  `modele` varchar(200) NOT NULL,
+  `modele` varchar(200) COLLATE utf8_bin NOT NULL,
   `energie_id` int(11) DEFAULT NULL,
   `typetransmission_id` int(11) DEFAULT NULL,
   `affectation` int(11) DEFAULT NULL,
   `puissance` int(10) DEFAULT NULL,
-  `date_mise_circulation` varchar(20) DEFAULT NULL,
+  `date_mise_circulation` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `date_sortie` date DEFAULT NULL,
   `date_visitetechnique` date DEFAULT NULL,
   `date_assurance` date DEFAULT NULL,
   `date_vidange` datetime DEFAULT NULL,
-  `image` text,
+  `image` text COLLATE utf8_bin,
   `groupevehicule_id` int(11) DEFAULT NULL,
-  `chasis` text,
-  `date_acquisition` varchar(20) DEFAULT NULL,
+  `chasis` text COLLATE utf8_bin,
+  `date_acquisition` varchar(20) COLLATE utf8_bin DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `etatvehicule_id` int(11) NOT NULL,
   `possession` int(11) NOT NULL,
@@ -1602,7 +1504,7 @@ CREATE TABLE `vehicule` (
   `valide` int(11) NOT NULL DEFAULT '1',
   `kilometrage` int(11) DEFAULT NULL,
   `location` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1612,12 +1514,12 @@ CREATE TABLE `vehicule` (
 
 CREATE TABLE `zonelivraison` (
   `id` int(11) NOT NULL,
-  `name` varchar(200) NOT NULL,
+  `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `zonelivraison`
@@ -1939,12 +1841,6 @@ ALTER TABLE `suggestion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `typeadministrateur`
---
-ALTER TABLE `typeadministrateur`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `typeclient`
 --
 ALTER TABLE `typeclient`
@@ -1966,12 +1862,6 @@ ALTER TABLE `typeoperationcaisse`
 -- Index pour la table `typeprestataire`
 --
 ALTER TABLE `typeprestataire`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `typesinistre`
---
-ALTER TABLE `typesinistre`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2144,7 +2034,7 @@ ALTER TABLE `groupevehicule`
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `ligneapprovisionnement`
@@ -2210,7 +2100,7 @@ ALTER TABLE `machine`
 -- AUTO_INCREMENT pour la table `manoeuvre`
 --
 ALTER TABLE `manoeuvre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `manoeuvredujour`
@@ -2258,7 +2148,7 @@ ALTER TABLE `params`
 -- AUTO_INCREMENT pour la table `paye_produit`
 --
 ALTER TABLE `paye_produit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `prestataire`
@@ -2282,13 +2172,13 @@ ALTER TABLE `productionjour`
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ressource`
 --
 ALTER TABLE `ressource`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `role`
@@ -2315,12 +2205,6 @@ ALTER TABLE `suggestion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `typeadministrateur`
---
-ALTER TABLE `typeadministrateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT pour la table `typeclient`
 --
 ALTER TABLE `typeclient`
@@ -2343,12 +2227,6 @@ ALTER TABLE `typeoperationcaisse`
 --
 ALTER TABLE `typeprestataire`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT pour la table `typesinistre`
---
-ALTER TABLE `typesinistre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `typesuggestion`
