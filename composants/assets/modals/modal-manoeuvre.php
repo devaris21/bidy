@@ -1,4 +1,4 @@
-<div class="modal inmodal fade" id="modal-chauffeur">
+<div class="modal inmodal fade" id="modal-manoeuvre">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                 <h4 class="modal-title">Formulaire pour le personnel roulant</h4>
                 <small class="font-bold">Renseigner ces champs pour enregistrer les informations</small>
             </div>
-            <form method="POST" class="formShamman" classname="chauffeur">
+            <form method="POST" class="formShamman" classname="manoeuvre">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
@@ -18,7 +18,7 @@
                         <div class="col-md-4 col-sm-6">
                             <label>Prenom <span1>*</span1></label>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="lastname">
+                                <input type="text" class="form-control" name="lastname" required>
                             </div>
                         </div>
                     </div>
@@ -39,14 +39,14 @@
                            <div class="col-md-4 col-sm-6">
                             <label>Categorie du permis <span1>*</span1></label>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="typepermis" uppercase required placeholder="EX...ABCDE">
+                                <input type="text" class="form-control" name="typepermis" required placeholder="EX...ABCDE">
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-4">
-                            <label>Photo du chauffeur</label>
+                            <label>Photo du manoeuvre</label>
                             <div class="">
                                 <img style="width: 80px;" src="" class="img-thumbnail logo">
                                 <input class="hide" type="file" name="image">

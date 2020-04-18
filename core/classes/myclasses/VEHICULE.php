@@ -23,8 +23,8 @@ class VEHICULE extends TABLE
 	public $comment;
 	public $date_acquisition;
 	public $modele;
-	public $energie_id;
-	public $typetransmission_id;
+	public $energie_id = 1;
+	public $typetransmission_id = 1;
 	public $puissance;
 	public $kilometrage;
 	public $date_mise_circulation;
@@ -34,6 +34,7 @@ class VEHICULE extends TABLE
 	public $date_assurance;
 	public $etatvehicule_id = 0;
 	public $location = 0;
+	public $possession = 0;
 
 
 	public function enregistre(){
@@ -48,16 +49,7 @@ class VEHICULE extends TABLE
 				if (count($datas) == 1) {
 					$data = $this->save();
 					if ($data->status) {
-						if (isset($this->photo) && $this->photo["tmp_name"] != "") {
-							$image = new FICHIER();
-							$image->hydrater($this->photo);
-							if ($image->is_image()) {
-								$a = substr(uniqid(), 5);
-								$result = $image->upload("images", "vehicules", $a);
-								$this->image = $result->filename;
-								$this->save();
-							}
-						}
+						$this->uploading($this->files);
 					}
 				}else{
 					$data->status = false;
@@ -74,6 +66,29 @@ class VEHICULE extends TABLE
 		return $data;
 	}
 	
+
+
+	public function uploading(Array $files){
+		//les proprites d'images;
+		$tab = ["image"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "vehicules", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
+		}
+	}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////

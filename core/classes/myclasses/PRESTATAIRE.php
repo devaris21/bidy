@@ -12,7 +12,7 @@ class PRESTATAIRE extends AUTH
 	public static $namespace = __NAMESPACE__;
 
 	public $name;
-	public $typeprestataire_id;
+	public $typeprestataire_id = 1;
 	public $login;
 	public $password;
 	public $adresse;
@@ -39,10 +39,10 @@ class PRESTATAIRE extends AUTH
 					$data = $this->save();
 					if ($data->status) {
 						$this->uploading($this->files);
-						ob_start();
-						include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
-						$contenu = ob_get_contents();
-						ob_end_clean();
+						// ob_start();
+						// include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
+						// $contenu = ob_get_contents();
+						// ob_end_clean();
 						// TODO gerer les mails
 						//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
 					}
@@ -65,15 +65,24 @@ class PRESTATAIRE extends AUTH
 
 
 	public function uploading(Array $files){
-		if (isset($this->image) && $this->image["tmp_name"] != "") {
-			$image = new FICHIER();
-			$image->hydrater($this->image);
-			if ($image->is_image()) {
-				$a = substr(uniqid(), 5);
-				$result = $image->upload("images", "prestataires", $a);
-				$this->image = $result->filename;
-				$this->save();
-			}
+		//les proprites d'images;
+		$tab = ["image"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "prestataires", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
 		}
 	}
 
@@ -107,6 +116,8 @@ class PRESTATAIRE extends AUTH
 	}
 
 
+
+
 	public function produits(){
 		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>1]);
 	}
@@ -119,56 +130,6 @@ class PRESTATAIRE extends AUTH
 		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>3]);
 	}
 
-
-
-	public function statistiques(){
-		$tableau_mois = ["", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-		$mois1 = date("m", strtotime("-1 year")); $year1 = date("Y", strtotime("-1 year"));
-		$mois2 = date("m"); $year2 = date("Y");
-		$tableaux = [];
-		while ( $year2 >= $year1) {
-			$debut = $year1."-".$mois1."-01";
-			$fin = $year1."-".$mois1."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);
-			$data = new RESPONSE;
-			//$data->name = $tableau_mois[intval($mois1)]." ".$year1;
-			$data->name = $year1."-".start0($mois1)."-".cal_days_in_month(CAL_GREGORIAN, ($mois1), $year1);;
-			$data->no = $data->ex = $data->ci = $data->af = $data->mo = 0;
-			$data->Nno = $data->Nex = $data->Nci = $data->Naf = $data->Nmo = 0;
-			////////////
-			$datas = COMMANDE::findBy(["entrepriselivreur_id="=>$this->getId(), "etatcommande_id ="=>3, "modified >= "=>$debut, "modified <="=>$fin]);
-			foreach ($datas as $key => $commande) {
-				if ($commande->typecommande_id == 1) {
-					$data->no += $commande->price;
-					$data->Nno++;
-				}else if ($commande->typecommande_id == 2) {
-					$data->ex += $commande->price;
-					$data->Nex++;
-				}else if ($commande->typecommande_id == 3) {
-					$data->ci += $commande->price;
-					$data->Nci++;
-				}else if ($commande->typecommande_id == 4) {
-					$data->af += $commande->price;
-					$data->Naf++;
-				}else if ($commande->typecommande_id == 5) {
-					$data->mo += $commande->price;
-					$data->Nmo++;
-				}
-			}
-			$tableaux[] = $data;
-			///////////////////////
-			if ($mois2 == $mois1 && $year2 == $year1) {
-				break;
-			}else{
-				if ($mois1 == 12) {
-					$mois1 = 01;
-					$year1++;
-				}else{
-					$mois1++;
-				}
-			}
-		}
-		return $tableaux;
-	}
 
 
 

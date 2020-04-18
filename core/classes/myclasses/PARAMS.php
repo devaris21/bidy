@@ -1,6 +1,7 @@
 <?php
 namespace Home;
 use Native\RESPONSE;
+use Native\FICHIER;
 use \DateTime;
 use \DateInterval;
 /**
@@ -15,20 +16,44 @@ class PARAMS extends TABLE
 	const DATE_DEFAULT = "2020-04-01";
 
 
-	public $societe_name;
-	public $timeout;
+	public $societe;
 	public $email;
-	public $email_rh;
-	public $email_dg;
-	public $delai_alert;
-	public $email_csdg;
-	public $price_min_local;
-	public $pourcent_colis_local;
-	public $price_min_afrique;
-	public $pourcent_colis_afrique;
+	public $contact;
+	public $fax;
+	public $postale;
 	public $devise;
+	public $image;
+
+	public $timeout;
 
 
+
+	public function enregistre(){
+		return  $this->save();
+	}
+
+
+	public function uploading(Array $files){
+		//les proprites d'images;
+		$tab = ["image"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "societe", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
+		}
+	}
 
 
 	//verifier le temps de latente entre deux actions de l'utilisateur
@@ -54,9 +79,6 @@ class PARAMS extends TABLE
 	}
 
 
-	public function enregistre(){
-		return  $this->save();
-	}
 
 
 

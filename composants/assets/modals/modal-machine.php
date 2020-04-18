@@ -30,11 +30,11 @@
                                 <input type="text" class="form-control input-xs" name="modele">
                             </div>
                         </div>
-                        <div class="col-sm-6 unmodified">
+                        <div class="col-sm-6">
                             <label>Image de la machine</label>
                             <div class="">
                                 <img style="width: 80px;" src="" class="img-thumbnail logo">
-                                <input class="hide" type="file" name="photo">
+                                <input class="hide" type="file" name="image">
                                 <button type="button" class="btn btn-sm bg-orange pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
                             </div>
                         </div>
