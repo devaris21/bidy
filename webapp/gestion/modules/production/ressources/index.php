@@ -70,52 +70,45 @@
                                             foreach ($ressources as $key => $ressource) {
                                                 foreach ($production->ligneconsommationjours as $key => $ligne) {
                                                     if ($ressource->getId() == $ligne->ressource_id) { 
-                                                       $requette = "SELECT ligneapprovisionnement.ressource_id, SUM(quantite) as quantite FROM ressource, approvisionnement, ligneapprovisionnement WHERE ressource.id = ligneapprovisionnement.ressource_id AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id  AND ressource.id = ? AND DATE(approvisionnement.created) = ? AND approvisionnement.etat_id = ? GROUP BY ligneapprovisionnement.ressource_id ";
-                                                       $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::VALIDEE]);
-                                                       if (count($datas) > 0) {
+                                                     $requette = "SELECT ligneapprovisionnement.ressource_id, SUM(quantite) as quantite FROM ressource, approvisionnement, ligneapprovisionnement WHERE ressource.id = ligneapprovisionnement.ressource_id AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id  AND ressource.id = ? AND DATE(approvisionnement.created) = ? AND approvisionnement.etat_id = ? GROUP BY ligneapprovisionnement.ressource_id ";
+                                                     $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::VALIDEE]);
+                                                     if (count($datas) > 0) {
                                                         $item = $datas[0];
                                                     }else{
                                                         $item = new \stdclass();
                                                         $item->appro = 0;
                                                     }
                                                     ?>
-                                                    <td class="cursor" data-toggle="popover" data-html="true" data-trigger="click"
-                                                    itle="<small class='text-uppercase'><b><?= $ressource->name() ?></b> | <?= datecourt($production->ladate) ?></small>"  
-                                                    data-content="<table>
-                                                        <tr><td>Stock de veille :</td>  <td class='gras'><?= start0($ressource->stock(dateAjoute1($production->ladate, -1))) ?></td></tr>
-                                                        <tr><td>Consommation du jour :</td>  <td class='gras'><?= start0($ligne->consommation) ?></td></tr>
-                                                        <tr><td>Approvisionnement du jour :</td>  <td class='gras'><?= start0($item->appro) ?></td></tr>
-                                                    </table> <hr style='margin:1.5%'>
-                                                    <span>En stock à ce jour : <b><?= start0($ressource->stock($production->ladate)) ?></b></span>">
-                                                    <h3 class="d-inline text-success gras"><?= start0($ligne->consommation) ?></h3> &nbsp; | &nbsp;
-                                                    <h4 class="d-inline text-red"><?= start0($item->appro) ?></h4>
-                                                </td>
-                                            <?php }
-                                        }
-                                    } ?>
-                                </tr>
-                            <?php } ?>
-                            <tr style="height: 18px;"></tr>
-                            <tr>
-                                <td style="width: 20%"><h2 class="text-center gras text-uppercase">Stock actuel</h2></td>
-                                <?php foreach ($ressources as $key => $ressource) { ?>
-                                    <td><h2 class="text-green gras" ><?= start0($ressource->stock(dateAjoute())) ?></h2></td>
+                                                    <td>
+                                                        <h3 class="d-inline text-red gras"><?= start0($ligne->consommation) ?></h3> &nbsp; | &nbsp;
+                                                        <h4 class="d-inline text-green"><?= start0($item->appro) ?></h4>
+                                                    </td>
+                                                <?php }
+                                            }
+                                        } ?>
+                                    </tr>
                                 <?php } ?>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr style="height: 18px;"></tr>
+                                <tr>
+                                    <td style="width: 20%"><h2 class="text-center gras text-uppercase">Stock actuel</h2></td>
+                                    <?php foreach ($ressources as $key => $ressource) { ?>
+                                        <td><h2 class="text-success gras" ><?= start0($ressource->stock(dateAjoute())) ?></h2></td>
+                                    <?php } ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
 
+
         </div>
-
-
     </div>
-</div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-<?php include($this->rootPath("composants/assets/modals/modal-approvisionnement.php")); ?>  
+    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+    <?php include($this->rootPath("composants/assets/modals/modal-approvisionnement.php")); ?>  
 
 </div>
 </div>

@@ -1,6 +1,7 @@
 <?php 
 namespace Home;
 
+GROUPECOMMANDE::etat();
 
 $title = "BIDY | Tableau de bord";
 

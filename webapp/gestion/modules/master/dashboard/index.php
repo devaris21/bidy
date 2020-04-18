@@ -16,7 +16,7 @@
 
           <div class="wrapper wrapper-content">
             <div class="animated fadeInRightBig">
-                <div class="row" style="margin-top: -2%;">
+                <div class="row" >
                     <div class="col-lg-3">
                         <div class="ibox ">
                             <div class="ibox-title">
@@ -67,53 +67,71 @@
                             <h3 class="text-uppercase">Stock des produits</h3>
                             <ul class="list-group clear-list m-t">
                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                    <li class="list-group-item fist-item cursor">
+                                    <li class="list-group-item">
                                         <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
-                                            <i class="fa fa-cab"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
+                                            <i class="fa fa-cubes"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
                                             <span class="float-right">
-                                                <span class="label label-default"><?= $produit->stock(dateAjoute()) ?></span>
+                                                <span class="label label-success"><?= money($produit->stock(dateAjoute())) ?></span>
                                             </span>
                                         </a>
                                     </li>
                                 <?php } ?>
-                            </ul>
+                                <li class="list-group-item"></li>
+                            </ul><hr>
+                            <div style="background-color: #dedede; padding: 2%;">
+                                <label>Vous....</label>
+                                <h3><?= $employe->name()  ?></h3>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="flot-chart dashboard-chart">
+                        <div class="col-md-6 border-right border-left">
+                            <div class="flot-chart dashboard-chart" style="margin-top: 0%">
                                 <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                            </div><hr class="mp0">
+                            </div><br>
+                            <h6 class="text-uppercase text-center">Courbe de production des 5 derniers jours</h6>
+                            <hr class="">
                             <div class="row text-center">
                                 <div class="col">
                                     <div class=" m-l-md">
-                                        <span class="h5 font-bold m-t block"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?> <?= $params->devise ?></span>
+                                        <span class="h5 font-bold m-t block"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></span>
                                         <small class="text-muted m-b block">En caisse actuellement</small>
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <span class="h5 font-bold m-t block">213515 <?= $params->devise ?></span>
+                                    <span class="h5 font-bold m-t block">213515</span>
                                     <small class="text-muted m-b block">Coût annuel de la paperasse</small>
                                 </div>
                                 <div class="col">
                                     <span class="h5 font-bold m-t block">**</span>
                                     <small class="text-muted m-b block">En Versements attente</small>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-3 text-center">
                             <h3 class="text-uppercase">Stock des ressources</h3>
                             <ul class="list-group  text-left clear-list m-t">
                               <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
-                                <li class="list-group-item fist-item cursor">
+                                <li class="list-group-item">
                                     <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
-                                        <i class="fa fa-cab"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
+                                        <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
                                         <span class="float-right">
-                                            <span class="label label-default"><?= $ressource->stock(dateAjoute()) ?> <?= $ressource->abbr ?></span>
+                                            <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
                                         </span>
                                     </a>
                                 </li>
                             <?php } ?>
-                        </ul> 
+                             <li class="list-group-item"></li>
+                        </ul> <hr>
+                        <div class="row">
+                            <div class="col-2">
+                                <img style="width: 40px" src="<?= $this->stockage("images", "societe", $params->image) ?>">
+                            </div>
+                            <div class="col-10 text-left">
+                                <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
+                                <h5 class="mp0"><?= $params->postale ?></h5>
+                                <h5 class="mp0">Tél: <?= $params->contact ?></h5>
+                                <h5 class="mp0">Email: <?= $params->email ?></h5>
+                            </div>
+                        </div>
                     </div>
                 </div>                    
             </div>
@@ -196,7 +214,7 @@
                 tooltip: false
             }
             );
-      
+
 
     });
 </script>

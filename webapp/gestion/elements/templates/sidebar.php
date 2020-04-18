@@ -1,7 +1,7 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <h1 class="logo-name text-center" style="font-size: 50px; letter-spacing: 5px; margin: 0% auto !important; padding: 0% !important;">BIDY</h1>
+            <h1 class="logo-name text-center" style="font-size: 50px; letter-spacing: 5px; margin: 0% auto !important; padding: 0% !important;">BRIXS</h1>
             <li class="nav-header" style="padding: 15px 10px !important">
                 <div class="dropdown profile-element">                        
                     <div class="row">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="logo-element">
-                    BIDY
+                    BRIXS
                 </div>
             </li>
             <ul class="nav metismenu" id="side-menu">

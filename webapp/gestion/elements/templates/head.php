@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="#">
-    <meta name="keywords" content="flat ui, admin Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
-    <meta name="author" content="Arictide Manyessé">
+    <meta name="keywords" content="Application de gestion des metiers d'une briqueterie industrielle">
+    <meta name="author" content="Aristide Manyessé">
 
-    <link rel="icon" href="<?= $this->stockage("images", "societe", "favicon.ico") ?>" type="image/x-icon">
+    <link rel="icon" href="<?= $this->stockage("images", "societe", $params->image) ?>" type="image/x-icon">
     <title><?= $title ?> </title>
 
     <link href="<?= $this->rootPath("composants/dist/css/bootstrap.min.css") ?>" rel="stylesheet">
@@ -34,6 +34,9 @@
 
     <!-- FooTable -->
     <link href="<?= $this->rootPath("composants/dist/css/plugins/footable/footable.core.css") ?>" rel="stylesheet">
+    
+    <!-- FooTable -->
+    <link href="<?= $this->rootPath("composants/dist/css/plugins/chosen/bootstrap-chosen.css") ?>" rel="stylesheet">
     
     <!-- feuille de style de Shamman -->
     <link rel="stylesheet" type="text/css" href="<?= $this->relativePath("style.css") ?>">

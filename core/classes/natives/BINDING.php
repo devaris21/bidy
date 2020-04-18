@@ -45,7 +45,7 @@ class BINDING
 		$types = explode("-", $type);
 		if (in_array("select", $types)) { 
 			if (!in_array("tableau", $types)  && $name == ""){ $name = $object."_id"; } ?>
-			<select class="select2 form-control" <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
+			<select class="chosen-select " <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
 <!-- 			<select data-placeholder="Choisissez ..." class="chosen-select" <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
 	-->				<?php 
 	$column = $name;

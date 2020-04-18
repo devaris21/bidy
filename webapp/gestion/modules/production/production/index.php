@@ -20,7 +20,7 @@
                 <span>au <?= datecourt(dateAjoute())  ?></span>
             </div>
             <div class="col-sm-5">
-               
+
             </div>
         </div>
 
@@ -78,53 +78,45 @@
                                                             $item->livree = 0;
                                                         }
                                                         ?>
-                                                        <td class="myPopover cursor" data-toggle="popover" data-html="true" data-trigger="click"
-                                                        title="<small class='text-uppercase'><b><?= $produit->name() ?></b> | <?= datecourt($production->ladate) ?></small>"  
-                                                        data-content="<table>
-                                                            <tr><td>Stock de veille :</td>  <td class='gras'><?= start0($produit->stock(dateAjoute1($production->ladate, -1))) ?></td></tr>
-                                                            <tr><td>Production du jour :</td>  <td class='gras'><?= start0($ligne->production) ?></td></tr>
-                                                            <tr><td>Livraisons du jour :</td>  <td class='gras'><?= start0($item->livree) ?></td></tr>
-                                                            <tr><td>Perte :</td>  <td class='gras'><?= start0($ligne->perte + ($item->quantite - $item->livree)) ?></td></tr>
-                                                        </table> <hr style='margin:1.5%'>
-                                                        <span>En stock à ce jour : <b><?= start0($produit->stock($production->ladate)) ?></b></span>">
-                                                        <h3 class="d-inline text-success gras"><?= start0($ligne->production) ?></h3> &nbsp; | &nbsp;
-                                                        <h4 class="d-inline"><?= start0($item->livree) ?></h4> &nbsp; | &nbsp;
-                                                        <small class="text-red"><?= start0($ligne->perte + ($item->quantite - $item->livree)) ?></small>
-                                                    </td>
-                                                <?php }
-                                            }
-                                        } ?>
+                                                        <td class="">
+                                                            <h3 class="d-inline text-success gras"><?= start0($ligne->production) ?></h3> &nbsp; | &nbsp;
+                                                            <h4 class="d-inline"><?= start0($item->livree) ?></h4> &nbsp; | &nbsp;
+                                                            <small class="text-red"><?= start0($ligne->perte + ($item->quantite - $item->livree)) ?></small>
+                                                        </td>
+                                                    <?php }
+                                                }
+                                            } ?>
+                                        </tr>
+                                    <?php } ?>
+                                    <tr style="height: 18px;"></tr>
+                                    <tr>
+                                        <td style="width: 20%"><h2 class="text-center gras text-uppercase">Stock actuel</h2></td>
+                                        <?php foreach ($produits as $key => $produit) { ?>
+                                            <td><h2 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h2></td>
+                                        <?php } ?>
                                     </tr>
-                                <?php } ?>
-                                <tr style="height: 18px;"></tr>
-                                <tr>
-                                    <td style="width: 20%"><h2 class="text-center gras text-uppercase">Stock actuel</h2></td>
-                                    <?php foreach ($produits as $key => $produit) { ?>
-                                        <td><h2 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h2></td>
-                                    <?php } ?>
-                                </tr>
-                                <tr>
-                                    <td style="width: 20%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
-                                    <?php foreach ($produits as $key => $produit) { ?>
-                                        <td><h3 class="text-success text-muted gras" ><?= start0($produit->livrable()) ?></h3></td>
-                                    <?php } ?>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td style="width: 20%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
+                                        <?php foreach ($produits as $key => $produit) { ?>
+                                            <td><h3 class="text-success text-muted gras" ><?= start0($produit->livrable()) ?></h3></td>
+                                        <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
 
+
             </div>
-
-
         </div>
+
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+
     </div>
-
-
-    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-
-</div>
 </div>
 
 

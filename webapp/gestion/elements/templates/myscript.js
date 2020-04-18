@@ -33,20 +33,6 @@
 
 
 
-	//Date range picker with time picker
-	$('#modal-note #datetimepickernote').datetimepicker({
-		language:  'fr',
-		weekStart: 1,
-		todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1
-	})
-
-
-
-
-
-
 	horloge = function(){
 		tabMois = ["Janvier", "Février", "Mars","Avril","Mai","Juin", "Juillet", "Août","Septembre","Octobre","Novembre", "Décembre"];
 		tabSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi","jeudi","Vendredi","Samedi"];
@@ -67,6 +53,8 @@
 		$("#date_actu").html(jour+' '+jj+' '+MM+' '+yy)
 	}
 
-	setInterval(()=>{horloge()}, 1000);
+	setInterval(function(){
+        horloge();
+    }, 1000);
 
 })

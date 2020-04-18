@@ -123,8 +123,11 @@ class PRODUIT extends TABLE
 
 	public function livrable(){
 		$total = 0;
-		$datas = $this->fourni("lignegroupecommande");
-		return comptage($datas, "quantite", "somme");
+		$datas = GROUPECOMMANDE::encours();
+		foreach ($datas as $key => $comm) {
+			$total += $comm->reste($this->getId());
+		}
+		return $total;
 	}
 
 
