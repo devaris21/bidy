@@ -16,7 +16,7 @@ class ROOTER extends PATH
 
     private $url;
     private $language = "fr";
-    public $section = "devari";
+    public $section = "devaris21";
     public $module = "start";
     public $page = "select";
     public $id ;
@@ -25,7 +25,7 @@ class ROOTER extends PATH
     private $token;
 
 
-    const SECTION_SIMPLE = ["devari"];
+    const SECTION_SIMPLE = ["devaris21"];
     const SECTION_ADMIN = ["gestion"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
@@ -36,6 +36,7 @@ class ROOTER extends PATH
         }
         $this->createRoot();
     }
+
 
 
     private function createRoot(){
@@ -75,15 +76,39 @@ class ROOTER extends PATH
                 //pour les etats recaps
                 $datea = PARAMS::DATE_DEFAULT;
                 $dateb = dateAjoute(1);
+
                 
                 if ($this->section == "gestion") {
                     $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
                     if (count($datas) >0) {
                         $employe = $datas[0];
-                        $employe->actualise();
-
-                        $productionjour = PRODUCTIONJOUR::today();
-                        $productionjour->actualise();
+                        $tableauDeRoles = [];
+                        foreach ($employe->fourni("role_employe") as $key => $value) {
+                            $tableauDeRoles[] = $value->role_id;
+                        };
+                        if (!in_array($this->module, ROLE::MODULEEXCEPT())) {
+                            $datas = ROLE::findBy(["name ="=>$this->module]);
+                            if (count($datas) == 1) {
+                                $role = $datas[0];
+                                if (in_array($role->getId(), $tableauDeRoles)) {
+                                    $employe->actualise();
+                                    $productionjour = PRODUCTIONJOUR::today();
+                                    $productionjour->actualise();
+                                }else{
+                                    $this->new_root($this->section, "access", "erreur500");
+                                    $this->render();
+                                    return false;
+                                }
+                            }else{
+                                $this->new_root($this->section, "access", "erreur500");
+                                $this->render();
+                                return false;
+                            }
+                        }else{
+                            $this->new_root($this->section, "access", "erreur500");
+                            $this->render();
+                            return false;
+                        }
                     }else{
                         $this->new_root($this->section, "access", "login");
                         $this->render();
@@ -91,88 +116,83 @@ class ROOTER extends PATH
                     }
                 }
 
+
             }else{
-             $this->new_root($this->section, "access", "login");
-             $this->render();
-             return false;
-         }
+                $this->new_root($this->section, "access", "login");
+                $this->render();
+                return false;
+            }
+        }
 
-     }
 
+        $path = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/index.php";
+        $require = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/require.php";
 
-     $path = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/index.php";
-     $require = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/require.php";
+        if (file_exists($path)) {
+            $path = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/index.php";
+            $require = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/require.php";
 
-     if (file_exists($path)) {
-      $path = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/index.php";
-      $require = __DIR__."/../../../webapp/$this->section/modules/$this->module/$this->page/require.php";
+            require realpath($require);
+            require realpath($path);
 
-      require realpath($require);
-      require realpath($path);
+            $token = hasher(bin2hex(random_bytes(32)));
+            session("token", $token);
+            session("verif_token", $token);
 
-      $token = hasher(bin2hex(random_bytes(32)));
-      session("token", $token);
-      session("verif_token", $token);
-
-  }else{
-    if (in_array($this->section, array_merge(static::SECTION_SIMPLE, static::SECTION_ADMIN))) {
-        $this->new_root($this->section, "access", "erreur404");
-        echo "page inconnue";
-    }else{
-        header("HTTP/1.0 404 Not Found");
-        $this->new_root("amb", "access", "erreur404");
-        echo "page inconnue 2";
+        }else{
+            $path = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/index.php";
+            $require = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/require.php";
+            require realpath($require);
+            require realpath($path);
+        }
     }
-    //$this->render();
-}
-}
 
 
 
 
     //redefinir la route
-private function new_root($section, $module, $page="", $id=""){
-    $this->section = $section;
-    $this->module = $module;
-    $this->page   = $page;
-    $this->id     = $id;
-}
+    private function new_root($section, $module, $page="", $id=""){
+        $this->section = $section;
+        $this->module = $module;
+        $this->page   = $page;
+        $this->id     = $id;
+    }
 
 
 
 
-public function url($section, $module, $page="", $id=""){
-    return $this->url = "../../$section/$module/$page|$id";
-}
+    public function url($section, $module, $page="", $id=""){
+        return $this->url = "../../$section/$module/$page|$id";
+    }
 
-public function setUrl(String $url){
-    $this->url = $url;
-    return $this;
-}
+    public function setUrl(String $url){
+        $this->url = $url;
+        return $this;
+    }
 
-public function getUrl(){
-    return $this->url;
-}
+    public function getUrl(){
+        return $this->url;
+    }
 
 
-public function set_module($module)
-{
-    $this->module = $module;
-    return $this;
-}
+    public function set_module($module)
+    {
+        $this->module = $module;
+        return $this;
+    }
 
-public function getModule(){
-    return $this->module;
-}
+    public function getModule(){
+        return $this->module;
+    }
 
-public function getPage(){
-    return $this->page;
-}
+    public function getPage(){
+        return $this->page;
+    }
 
-public function getId()
-{
-    return $this->id;
-}
+    public function getId()
+    {
+        return $this->id;
+    }
 
 
 

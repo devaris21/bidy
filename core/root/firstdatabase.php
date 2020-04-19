@@ -61,7 +61,7 @@ foreach ($datas as $key => $value) {
 }
 
 
-$datas = ["Master", "Production", "Caisse", "Paye des manoeuvre", "Administration", "Modifier-supprimer"];
+$datas = ["master", "production", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer"];
 foreach ($datas as $key => $value) {
 	$item = new ROLE();
 	$item->name = $value;
@@ -248,7 +248,7 @@ foreach (ROLE::getAll() as $key => $value) {
 	$tr->employe_id = $data->lastid;
 	$tr->role_id = $value;
 	$item->protected = 1;
-	$tr->save();
+	$tr->enregistre();
 }
 
 

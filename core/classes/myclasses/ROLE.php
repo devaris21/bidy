@@ -9,6 +9,14 @@ class ROLE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const MODULEEXCEPT = ["fiches", "access"];
+	const MASTER     = 1;
+	const PRODUCTION = 2;
+	const CAISSE     = 3;
+	const PARAMETRES = 4;
+	const PAYE       = 5;
+	const UPDATE     = 6;
+
 	public $name;
 
 	public function enregistre(){

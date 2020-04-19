@@ -23,7 +23,13 @@ class ROLE_EMPLOYE extends TABLE
 		if (count($datas) == 1) {
 			$datas = EMPLOYE::findBy(["id ="=>$this->employe_id]);
 			if (count($datas) == 1) {
+				$datas = static::findBy(["employe_id ="=>$this->employe_id, "role_id ="=>$this->role_id,]);
+			if (count($datas) == 0) {
 				$data = $this->save();
+			}else{
+				$data->status = false;
+				$data->message = "Vous avez déjà un accès à cette fonctionnalité !";
+			}
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors du prix !";

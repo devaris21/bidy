@@ -30,30 +30,36 @@ class EMPLOYE extends AUTH
 		if ($this->login != "" && $this->password != "") {
 			if ($this->emailIsValide()) {
 				$datas = static::findBy(["email ="=>$this->email]);
-			if (count($datas) == 0) {
-				$datas = static::findBy(["login ="=>$this->login]);
 				if (count($datas) == 0) {
-					$data = $this->save();
-					$this->setId($data->lastid)->actualise();
+					$datas = static::findBy(["login ="=>$this->login]);
+					if (count($datas) == 0) {
+						$data = $this->save();
+						$this->actualise();
+
+						$tr = new ROLE_EMPLOYE();
+						$tr->employe_id = $data->lastid;
+						$tr->role_id = ROLE::MASTER;
+						$item->protected = 1;
+						$tr->enregistre();
 
 					//@TODO refaire email welcome employe
-					ob_start();
-					include(__DIR__."/../../sections/home/elements/mails/welcome_employe.php");
-					$contenu = ob_get_contents();
-					ob_end_clean();
+						ob_start();
+						include(__DIR__."/../../sections/home/elements/mails/welcome_employe.php");
+						$contenu = ob_get_contents();
+						ob_end_clean();
 					//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
+					}else{
+						$data->status = false;
+						$data->message = "Ce login ne peut plus etre utilisé !";
+					}
 				}else{
 					$data->status = false;
-					$data->message = "Ce login ne peut plus etre utilisé !";
+					$data->message = "Cet email a déjà un compte. Veuillez en prendre un autre !";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Cet email a déjà un compte. Veuillez en prendre un autre !";
+				$data->message = "Veuillez renseigner un email valide svp !";
 			}
-			}else{
-				$data->status = false;
-			$data->message = "Veuillez renseigner un email valide svp !";
-		}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner le login et le mot de passe du nouvel employé !";
