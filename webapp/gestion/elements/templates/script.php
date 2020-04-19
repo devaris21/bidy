@@ -19,6 +19,7 @@
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/pace/pace.min.js") ?>"></script>
     <!-- ChartJS-->
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/chartJs/Chart.min.js") ?>"></script>
+    <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/chartist/chartist.min.js") ?>"></script>
     <!-- Sparkline -->
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/sparkline/jquery.sparkline.min.js") ?>"></script>
     <!-- Toastr -->
@@ -26,8 +27,6 @@
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/footable/footable.all.min.js") ?>"></script>
     <!-- IonRangeSlider -->
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/ionRangeSlider/ion.rangeSlider.min.js") ?>"></script>
-    <!-- Idle Timer plugin -->
-    <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/idle-timer/idle-timer.min.js") ?>"></script>
 
     <!-- Input Mask-->
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/js/plugins/jasny/jasny-bootstrap.min.js") ?>"></script>

@@ -44,7 +44,7 @@
                                                     <div class="ibox-content"><br>
                                                         <div class="row">
                                                             <div class="col-sm-12">
-                                                                <span class="text-muted">Raison sociale</span>
+                                                                <span class="text-muted">Raison sociale ou nom de la société</span>
                                                                 <h2 class="gras text-uppercase text-primary"><?= $params->societe ?></h2>
                                                             </div>
                                                         </div><br>
@@ -811,12 +811,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php $i =0; foreach (Home\CATEGORIEOPERATION::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                        <?php $i =0; foreach (Home\CATEGORIEOPERATION::findBy([], [], ["typeoperationcaisse_id"=>"ASC", "name"=>"ASC"]) as $key => $item) {
                                                             $item->actualise();
                                                             $i++; ?>
                                                             <tr>
                                                                 <td><?= $i ?></td>
-                                                                <td><div style="width: 20px; height: 20px; background-color: <?= $item->color ?>"></div></td>
+                                                                <td><div class="border" style="width: 20px; height: 20px; background-color: <?= $item->color ?>"></div></td>
                                                                 <td class="gras"><?= $item->name(); ?></td>
                                                                 <td class="gras text-<?= ($item->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"green":"red"  ?>"><?= $item->typeoperationcaisse->name(); ?></td>
                                                                 <td data-toggle="modal" data-target="#modal-categorieoperation" title="modifier la categorie" onclick="modification('categorieoperation', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
@@ -830,9 +830,20 @@
                                     </div>
 
                                     <div class="col-md-4">
-                                        tva
+                                        <form method="POST" class="formShamman" classname="params" reload="false">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>% de tva appliquable </label>
+                                                    <input type="number" number class="form-control" name="tva" value="<?= $params->tva ?>">
+                                                    <input type="hidden" name="id" value="<?= $params->getId() ?>">
+                                                </div>
+                                                <div class="col-6">
+                                                    <br>
+                                                    <button class="btn btn-primary dim "><i class="fa fa-check"></i> Mettre à jour</button>
+                                                </div>
+                                            </div><hr>
+                                        </form>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -869,9 +880,10 @@
                                                         </td>
                                                         <td class="">
                                                             <span class="gras text-uppercase"><?= $item->name() ?></span><br>
-                                                            <span><?= $item->email ?></span>
+                                                            <span><i class="fa fa-envelope"></i> <?= $item->email ?></span>
                                                         </td>
-                                                        <td><?= $item->contact ?> <br> <i class="fa fa-map-marker"></i> <?= $item->adresse ?></td>
+                                                        <td><i class="fa fa-phone"></i> <?= $item->contact ?> <br> 
+                                                            <i class="fa fa-map-marker"></i> <?= $item->adresse ?></td>
                                                         <td class="">
                                                             <?php $datas = $item->fourni("role_employe");
                                                             $lots = [];

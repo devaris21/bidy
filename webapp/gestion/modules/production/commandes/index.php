@@ -95,7 +95,7 @@
             </tbody>
         </table>
     <?php }else{ ?>
-        <h1 style="margin-top: 20%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour ce client !</h1>
+        <h1 style="margin: 6% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour le moment</h1>
     <?php } ?>
 
 </div>

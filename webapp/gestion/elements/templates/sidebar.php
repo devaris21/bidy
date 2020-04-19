@@ -24,6 +24,14 @@
                     BRIXS
                 </div>
             </li>
+
+            <?php 
+            $groupes__ = Home\GROUPECOMMANDE::encours();
+            $livraisons__ = Home\LIVRAISON::encours();
+            $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
+            $datas1__ = array_merge(Home\PANNE::encours(), Home\DEMANDEENTRETIEN::encours(), Home\ENTRETIENVEHICULE::encours(), Home\ENTRETIENMACHINE::encours());
+
+            ?>
             <ul class="nav metismenu" id="side-menu">
                 <li class="" id="dashboard">
                     <a href="<?= $this->url("gestion", "master", "dashboard") ?>"><i class="fa fa-tachometer"></i> <span class="nav-label">Tableau de bord</span></a>
@@ -42,13 +50,13 @@
                     </ul>
                 </li>
                 <li class="" id="commandes">
-                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes <span class="label label-warning float-right">9</span></span></a>
+                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes</span> <?php if (count($groupes__) > 0) { ?> <span class="label label-warning float-right"><?= count($groupes__) ?></span> <?php } ?></a>
                 </li>
                 <li class="" id="livraisons">
-                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <span class="label label-warning float-right">2</span></a>
+                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
                 </li>
                 <li class="" id="approvisionnements">
-                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <span class="label label-warning float-right">2</span></a>
+                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
                 </li>
                 <li class="dropdown-divider"></li>
 
@@ -60,7 +68,7 @@
                     <a href="<?= $this->url("gestion", "master", "machines") ?>"><i class="fa fa-steam"></i> <span class="nav-label">Véhicules et machines</span></a>
                 </li>            
                 <li class="" id="pannes">
-                    <a href="<?= $this->url("gestion", "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretien <span class="label label-warning float-right">2</span></span></a>
+                    <a href="<?= $this->url("gestion", "master", "pannes") ?>"><i class="fa fa-wrench"></i> <span class="nav-label">Pannes et entretien</span> <?php if (count($datas1__) > 0) { ?> <span class="label label-warning float-right"><?= count($datas1__) ?></span> <?php } ?></a>
                 </li>
                 <li class="dropdown-divider"></li>
 
@@ -85,13 +93,13 @@
 
 
                 <li class="" id="configuration">
-                    <a href="<?= $this->url("gestion", "parametre", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
+                    <a href="<?= $this->url("gestion", "parametres", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
                 </li>
-                 <li class="" id="historiques">
-                    <a href="<?= $this->url("gestion", "parametre", "historiques") ?>"><i class="fa fa-clock-o"></i> <span class="nav-label">Historiques</span></a>
+                <li class="" id="historiques">
+                    <a href="<?= $this->url("gestion", "parametres", "historiques") ?>"><i class="fa fa-clock-o"></i> <span class="nav-label">Historiques</span></a>
                 </li>
                 <li class="" id="abonnement">
-                    <a href="<?= $this->url("gestion", "parametre", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
+                    <a href="<?= $this->url("gestion", "parametres", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
                 </li>
 
                 <li></li>

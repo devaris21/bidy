@@ -1,9 +1,7 @@
 <?php 
 namespace Home;
 
-VEHICULE::etat();
-
-$vehicules = VEHICULE::parcauto();
+$vehicules = VEHICULE::getAll();
 
 $machines = MACHINE::getAll();
 

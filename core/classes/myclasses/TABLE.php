@@ -89,7 +89,7 @@ abstract class TABLE
         return $this->protected;
     }
 
-    public function set_protected(int $protected){
+    public function setProtected(int $protected){
         $this->protected = $protected;
         return $this;
     }

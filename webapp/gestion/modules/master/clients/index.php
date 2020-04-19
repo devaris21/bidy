@@ -63,7 +63,7 @@
             <?php } ?>
         </div>
     <?php }else{ ?>
-        <h1 style="margin-top: 20%;" class="text-center text-muted"><i class="fa fa-user sfa-3x"></i> <br> Vous n'avez pas encore inscrit de client !</h1>
+        <h1 style="margin-top: 10%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Vous n'avez pas encore inscrit de client !</h1>
     <?php } ?>
 
 </div>

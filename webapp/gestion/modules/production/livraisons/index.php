@@ -59,7 +59,7 @@
             <div class="ibox-title">
                 <h5>Toutes les livraisons</h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content" style="min-height: 300px">
              <?php if (count($livraisons) > 0) { ?>
                 <table class="table table-hover table-livraison">
                     <tbody>
@@ -123,7 +123,7 @@
                 </tbody>
             </table>
         <?php }else{ ?>
-            <h1 style="margin-top: 20%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune commande en cours pour ce client !</h1>
+            <h1 style="margin-top: 30% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune livraison en cours pour le moment !</h1>
         <?php } ?>
 
     </div>

@@ -12,6 +12,11 @@ $livraisons = LIVRAISON::findBy(["DATE(created) = " => $date]);
 $approvisionnements = APPROVISIONNEMENT::findBy(["DATE(created) = " => $date]);
 $operations = OPERATION::findBy(["DATE(created) = " => $date]);
 
+$datas = PRODUCTIONJOUR::findBy(["ladate = " => $date]);
+if (count($datas) == 1) {
+	$productionjour = $datas[0];
+	$productionjour->actualise();
+}
 // $clients = CLIENT::getAll();
 // foreach ($clients as $key => $client) {
 // 	$lot1 = $lot2 = [];

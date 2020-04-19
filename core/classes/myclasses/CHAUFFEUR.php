@@ -69,21 +69,12 @@ class CHAUFFEUR extends PERSONNE
 
 
 
-	public static function etat(){
-		$requette = "UPDATE chauffeur SET etatchauffeur_id = 1";
-		static::query($requette, []);
-		$requette = "SELECT * FROM chauffeur WHERE chauffeur.id NOT IN (SELECT mission.chauffeur_id FROM mission WHERE etat_id = 1)";
-		$datas =  static::execute($requette, []);
-		foreach ($datas as $key => $chauffeur) {
-			$chauffeur->etatchauffeur_id = 0;
-			$chauffeur->save();
-		}
+	public static function libres(){
+		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::LIBRE]);
 	}
 
-
-	public static function open(){
-		$datas = static::etat();
-		return static::getAll(["etatchauffeur_id =" => 0]);
+	public static function mission(){
+		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::MISSION]);
 	}
 
 

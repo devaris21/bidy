@@ -8,7 +8,7 @@
     <meta name="keywords" content="Application de gestion des metiers d'une briqueterie industrielle">
     <meta name="author" content="Aristide Manyessé">
 
-    <link rel="icon" href="<?= $this->stockage("images", "societe", $params->image) ?>" type="image/x-icon">
+    <link rel="icon" href="<?= $this->stockage("images", "societe", "logo.png") ?>" type="image/x-icon">
     <title><?= $title ?> </title>
 
     <link href="<?= $this->rootPath("composants/dist/css/bootstrap.min.css") ?>" rel="stylesheet">
@@ -17,6 +17,8 @@
 
     <!-- Text spinners style -->
     <link href="<?= $this->rootPath("composants/dist/css/plugins/textSpinners/spinners.css") ?>" rel="stylesheet">
+    
+    <link href="<?= $this->rootPath("composants/dist/css/plugins/chartist/chartist.min.css") ?>" rel="stylesheet">
     
     <link href="<?= $this->rootPath("composants/dist/css/animate.css") ?>" rel="stylesheet">
     <link href="<?= $this->rootPath("composants/dist/css/style.css") ?>" rel="stylesheet">

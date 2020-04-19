@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  Dim 19 avr. 2020 à 09:36
+-- Généré le :  Dim 19 avr. 2020 à 13:59
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.19
 
@@ -89,16 +89,6 @@ CREATE TABLE `categorieoperation` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `categorieoperation`
---
-
-INSERT INTO `categorieoperation` (`id`, `typeoperationcaisse_id`, `name`, `color`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 1, 'Réglement de commande', NULL, NULL, '2019-09-23 13:19:22', 1, 1),
-(2, 2, 'Approvisionnement de ressource', NULL, NULL, '2019-09-23 14:05:30', 1, 1),
-(3, 1, 'Apport du DG', '#c5fb88', '2019-09-23 13:18:55', '2020-04-12 23:24:04', 0, 1),
-(4, 2, 'Payement de salaire', '#ff00ff', '2020-04-12 23:29:15', '2020-04-12 23:29:15', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -203,13 +193,6 @@ CREATE TABLE `connexion` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `connexion`
---
-
-INSERT INTO `connexion` (`id`, `date_connexion`, `date_deconnexion`, `employe_id`, `prestataire_id`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, '2020-04-18 21:22:01', NULL, 1, NULL, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -257,14 +240,6 @@ CREATE TABLE `employe` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `employe`
---
-
-INSERT INTO `employe` (`id`, `name`, `adresse`, `email`, `contact`, `login`, `password`, `image`, `is_new`, `is_allowed`, `visibility`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'GPA ', 'Marcory Quartier anoumanbo', 'infos@artci.ci', '22775896', 'root', '5e9795e3f3ab55e7790a6283507c085db0d764fc', 'default.png', 0, 1, 1, NULL, '2019-10-17 17:51:13', 1, 1),
-(5, 'Aristide', 'Port-Bouet Rue de la baltique', 'glpiadmin@artci.lan', '59 57 33 07', 'ari', '5e9795e3f3ab55e7790a6283507c085db0d764fc', 'default.png', 0, 1, 1, '2019-10-17 17:49:16', '2020-03-29 12:43:37', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -279,18 +254,6 @@ CREATE TABLE `energie` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `energie`
---
-
-INSERT INTO `energie` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Diesel', NULL, NULL, 1, 1),
-(2, 'Essence / Super', NULL, '2019-10-18 12:19:54', 1, 1),
-(3, 'Gazoil', NULL, NULL, 1, 1),
-(4, 'Electricité', NULL, NULL, 1, 1),
-(5, 'Gaz', NULL, '2019-10-18 12:20:05', 1, 1),
-(6, 'GPL / GNV', NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -357,17 +320,6 @@ CREATE TABLE `etat` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `etat`
---
-
-INSERT INTO `etat` (`id`, `name`, `class`, `protected`, `valide`) VALUES
-(-2, 'Expiré', 'danger', 1, 1),
-(-1, 'annulé', 'danger', 1, 1),
-(0, 'en cours', 'info', 1, 1),
-(1, 'approuvé', 'success', 1, 1),
-(2, 'terminé', 'success', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -381,15 +333,6 @@ CREATE TABLE `etatchauffeur` (
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `etatchauffeur`
---
-
-INSERT INTO `etatchauffeur` (`id`, `name`, `class`, `protected`, `valide`) VALUES
-(-1, 'Indisponible', 'danger', 1, 1),
-(0, 'libre, dans le parc', 'success', 1, 1),
-(1, 'En mission', 'warning', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -405,15 +348,6 @@ CREATE TABLE `etatmanoeuvre` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `etatmanoeuvre`
---
-
-INSERT INTO `etatmanoeuvre` (`id`, `name`, `class`, `protected`, `valide`) VALUES
-(-1, 'Indisponible', 'danger', 1, 1),
-(0, 'libre, dans le parc', 'success', 1, 1),
-(1, 'En mission', 'warning', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -427,17 +361,6 @@ CREATE TABLE `etatvehicule` (
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `etatvehicule`
---
-
-INSERT INTO `etatvehicule` (`id`, `name`, `class`, `protected`, `valide`) VALUES
-(-1, 'Indisponible', 'danger', 1, 1),
-(0, 'RAS', 'success', 1, 1),
-(1, 'En entretien', 'warning', 1, 1),
-(2, 'En mission', 'primary', 1, 1),
-(3, 'Affecté temporairement', 'info', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -506,13 +429,6 @@ CREATE TABLE `groupemanoeuvre` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `groupemanoeuvre`
---
-
-INSERT INTO `groupemanoeuvre` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Groupe 1', NULL, '2020-04-17 23:20:39', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -527,14 +443,6 @@ CREATE TABLE `groupevehicule` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `groupevehicule`
---
-
-INSERT INTO `groupevehicule` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(2, 'Camion de livraison', NULL, '2020-04-18 21:42:14', 1, 1),
-(3, 'Véhicules de missions', '2019-09-23 13:18:55', '2019-09-23 13:18:55', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -556,18 +464,6 @@ CREATE TABLE `history` (
   `valide` int(11) NOT NULL DEFAULT '1',
   `record_key` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `history`
---
-
-INSERT INTO `history` (`id`, `sentense`, `type_save`, `record`, `employe_id`, `carplan_id`, `prestataire_id`, `created`, `modified`, `protected`, `valide`, `record_key`) VALUES
-(1, 'Nouvelle connexion', 'insert', 'connexion', 1, NULL, NULL, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1, 1),
-(2, 'Modification des informations du type de sinistre 5 : Tricycle ', 'update', 'typevehicule', 1, NULL, NULL, '2020-04-18 21:39:27', '2020-04-18 21:39:27', 0, 1, 5),
-(3, 'Modification des informations du groupe de vehicule 2 : Véhicule de livraison ', 'update', 'groupevehicule', 1, NULL, NULL, '2020-04-18 21:41:47', '2020-04-18 21:41:47', 0, 1, 2),
-(4, 'Modification des informations du groupe de vehicule 2 : Camion de livraison ', 'update', 'groupevehicule', 1, NULL, NULL, '2020-04-18 21:42:14', '2020-04-18 21:42:14', 0, 1, 2),
-(5, 'Modification des informations du type d\'entretien de vehicule 1 : Accrochage ', 'update', 'typeentretienvehicule', 1, NULL, NULL, '2020-04-18 21:43:19', '2020-04-18 21:43:19', 0, 1, 1),
-(6, 'Modification des informations du type d\'entretien de vehicule 2 : Crevaison ', 'update', 'typeentretienvehicule', 1, NULL, NULL, '2020-04-18 21:43:32', '2020-04-18 21:43:32', 0, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -622,16 +518,6 @@ CREATE TABLE `ligneconsommationjour` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `ligneconsommationjour`
---
-
-INSERT INTO `ligneconsommationjour` (`id`, `productionjour_id`, `ressource_id`, `consommation`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 1, 1, 0, '2020-04-18 21:22:02', '2020-04-18 21:22:02', 0, 1),
-(2, 1, 2, 0, '2020-04-18 21:22:02', '2020-04-18 21:22:02', 0, 1),
-(3, 1, 3, 0, '2020-04-18 21:22:02', '2020-04-18 21:22:02', 0, 1),
-(4, 1, 4, 0, '2020-04-18 21:22:02', '2020-04-18 21:22:02', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -720,16 +606,6 @@ CREATE TABLE `ligneproductionjour` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `ligneproductionjour`
---
-
-INSERT INTO `ligneproductionjour` (`id`, `productionjour_id`, `produit_id`, `production`, `perte`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 1, 1, 0, 0, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1),
-(2, 1, 2, 0, 0, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1),
-(3, 1, 3, 0, 0, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1),
-(4, 1, 4, 0, 0, '2020-04-18 21:22:02', '2020-04-18 21:22:02', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -829,126 +705,6 @@ CREATE TABLE `marque` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `marque`
---
-
-INSERT INTO `marque` (`id`, `name`, `logo`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'ABARTH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(2, 'ACURA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(3, 'ALFA ROMEO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(4, 'ALPINA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(5, 'AMC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(6, 'ASR', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(7, 'ASTON MARTIN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(8, 'AUDI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(9, 'BENTLEY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(10, 'BMW', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(11, 'BRILLIANCE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(12, 'BUGATTI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(13, 'BUICK', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(14, 'CADILLAC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(15, 'CHERY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(16, 'CHEVROLET', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(17, 'CHRYSLER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(18, 'CIZETA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(19, 'CORVETTE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(20, 'COVINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(21, 'DACIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(22, 'DAEWOO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(23, 'DAIHATSU', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(24, 'DATSUN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(25, 'DKW', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(26, 'DODGE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(27, 'EAGLE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(28, 'FARBIO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(29, 'FERRARI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(30, 'FIAT', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(31, 'FISKER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(32, 'FORD', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(33, 'GEELY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(34, 'GEO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(35, 'GMC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(36, 'GREAT WALL', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(37, 'HOLDEN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(38, 'HONDA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(39, 'HORCH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(40, 'HUMMER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(41, 'HYUNDAI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(42, 'INFINITI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(43, 'ISUZU', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(44, 'JAGUAR', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(45, 'JEEP', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(46, 'KIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(47, 'KOENIGSEGG', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(48, 'LADA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(49, 'LAMBORGHINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(50, 'LANCIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(51, 'LAND ROVER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(52, 'LEBLANC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(53, 'LEXUS', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(54, 'LINCOLN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(55, 'LOTUS', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(56, 'MAHINDRA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(57, 'MARUTI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(58, 'MASERATI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(59, 'MAYBACH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(60, 'MAZDA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(61, 'MERCEDES-BENZ', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(62, 'MG', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(63, 'MINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(64, 'MITSUBISHI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(65, 'MORGAN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(66, 'MOSKVICH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(67, 'NANJING', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(68, 'NAZA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(69, 'NISSAN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(70, 'NOBLE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(71, 'OLDSMOBILE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(72, 'OPEL', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(73, 'PAGANI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(74, 'PANOZ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(75, 'PEUGEOT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(76, 'PIAGGIO', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(77, 'PLYMOUTH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(78, 'PONTIAC', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(79, 'PORSCHE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(80, 'PERODUA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(81, 'PROTON', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(82, 'RAPP MOTERNWERKE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(83, 'RENAULT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(84, 'ROEWE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(85, 'ROLLS-ROYCE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(86, 'ROVER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(87, 'ROSSION', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(88, 'SAAB', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(89, 'SATURN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(90, 'SCION', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(91, 'SEAT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(92, 'SKODA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(93, 'SMART', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(94, 'SPYKER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(95, 'SSANGYONG', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(96, 'STEALTH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(97, 'SUZUKI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(98, 'TATA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(99, 'TESLA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(100, 'TOYOTA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(101, 'TONIQ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(102, 'TRABANT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(103, 'VAUXHALL', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(104, 'VECTOR', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(105, 'VENTURI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(106, 'VOLKSWAGEN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(107, 'VOLVO', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(108, 'WANDERER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(109, 'WARTBURG', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(110, 'WESTFIELD', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(111, 'ZASTAVA ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(112, 'DISCOVERY', NULL, '2019-10-18 12:21:02', '2019-10-28 14:12:44', 0, 1),
-(113, 'CHANGAN', NULL, '2019-10-18 12:22:32', '2019-10-28 14:12:44', 0, 1),
-(114, 'OUTLANDER', NULL, '2019-10-28 11:09:31', '2019-10-28 14:12:44', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -966,17 +722,6 @@ CREATE TABLE `modepayement` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `modepayement`
---
-
-INSERT INTO `modepayement` (`id`, `name`, `initial`, `etat_id`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Espèces', 'ES', 1, NULL, NULL, 1, 1),
-(2, 'Prelevement sur acompte', 'PR', 1, NULL, '2019-10-18 12:19:54', 1, 1),
-(3, 'Chèque', 'CH', 0, NULL, NULL, 1, 1),
-(4, 'Virement Banquaire', 'VB', 0, NULL, NULL, 1, 1),
-(5, 'Mobile money', 'MM', 0, NULL, '2019-10-18 12:20:05', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -991,13 +736,6 @@ CREATE TABLE `mycompte` (
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `mycompte`
---
-
-INSERT INTO `mycompte` (`id`, `identifiant`, `tentative`, `expired`, `protected`, `valide`) VALUES
-(1, '598SZE-0T', 0, '2020-11-28 00:00:00', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1066,13 +804,6 @@ CREATE TABLE `params` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `params`
---
-
-INSERT INTO `params` (`id`, `societe`, `email`, `contact`, `fax`, `devise`, `tva`, `adresse`, `postale`, `image`, `protected`, `valide`) VALUES
-(1, 'bidy', 'info@bidy.com', '47 58 93 21', '45 45 45 89', 'Fcfa', 18, 'Port-Bouet Rue de la baltique', '54 BP 64 ABIDJAN 45', '2568eb7f.png', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1115,13 +846,6 @@ CREATE TABLE `prestataire` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `prestataire`
---
-
-INSERT INTO `prestataire` (`id`, `name`, `typeprestataire_id`, `contact`, `fax`, `email`, `adresse`, `registre`, `login`, `password`, `is_new`, `image`, `is_allowed`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Universal Garage', 1, '47 58 93 21', '15 45 45 478', 'Universalinfod@artci.com', 'angré 8em tranche tranche star 10', NULL, '230ec0df', '41cd8c3af6317039f0e2fbb3a89ce6cd45669cb0', 1, '', 1, '2020-02-08 15:22:24', '2020-02-08 15:22:24', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1156,13 +880,6 @@ CREATE TABLE `productionjour` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `productionjour`
---
-
-INSERT INTO `productionjour` (`id`, `ladate`, `comment`, `groupemanoeuvre_id`, `employe_id`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, '2020-04-18', '', 0, 0, '2020-04-18 21:22:01', '2020-04-18 21:22:01', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1208,24 +925,12 @@ CREATE TABLE `ressource` (
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
-  `description` text COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `role`
---
-
-INSERT INTO `role` (`id`, `name`, `description`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Master', '', NULL, NULL, 1, 1),
-(2, 'Production', '', NULL, NULL, 1, 1),
-(4, 'Caisse', '', '2019-09-22 07:38:48', '2019-09-22 07:38:48', 1, 1),
-(5, 'Administration', '', '2019-10-18 12:20:33', '2019-10-18 12:20:33', 1, 1),
-(6, 'modifier-supprimer', '', NULL, NULL, 0, 1),
-(7, 'paye des manoeuvres', '', NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1258,15 +963,6 @@ CREATE TABLE `sexe` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `sexe`
---
-
-INSERT INTO `sexe` (`id`, `name`, `abreviation`, `icon`, `protected`, `valide`) VALUES
-(1, 'Homme', 'Mr', 'fa fa-mars', 1, 1),
-(2, 'Femme', 'Me', 'fa fa-venus', 1, 1),
-(3, 'Entreprise', 'Inc', 'fa fa-bank', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1291,14 +987,6 @@ CREATE TABLE `suggestion` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `suggestion`
---
-
-INSERT INTO `suggestion` (`id`, `ticket`, `typesuggestion_id`, `title`, `description`, `etat_id`, `date_approuve`, `gestionnaire_id`, `carplan_id`, `prestataire_id`, `utilisateur_id`, `created`, `modified`, `protected`, `valide`) VALUES
-(3, 'BKDSJ487', 2, 'ceci est un titre', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda repudiandae, tempora labore minima, ipsa debitis reprehenderit ipsam sequi aut. Reiciendis, ipsa nam ab dolorem vitae suscipit nisi deserunt corporis aperiam.\r\n', 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0, 1),
-(4, 'DS78FDYTY', 3, 'ceci est un titre 2', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda repudiandae, tempora labore minima, ipsa debitis reprehenderit ipsam sequi aut. Reiciendis, ipsa nam ab dolorem vitae suscipit nisi deserunt corporis aperiam.\r\n', 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1313,17 +1001,6 @@ CREATE TABLE `typeclient` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `typeclient`
---
-
-INSERT INTO `typeclient` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Voiture', NULL, NULL, 0, 1),
-(2, 'Moto', NULL, NULL, 0, 0),
-(3, 'Camion', '2019-09-22 07:38:31', '2019-09-22 07:38:31', 0, 0),
-(4, 'Mini-car', '2019-09-22 07:38:48', '2019-09-22 07:38:48', 0, 1),
-(5, 'pick-up', '2019-10-18 12:20:33', '2019-10-18 12:20:33', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1340,15 +1017,6 @@ CREATE TABLE `typeentretienvehicule` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `typeentretienvehicule`
---
-
-INSERT INTO `typeentretienvehicule` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Accrochage', NULL, '2020-04-18 21:43:19', 1, 1),
-(2, 'Crevaison', NULL, '2020-04-18 21:43:32', 1, 1),
-(4, 'Autre', NULL, NULL, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1363,14 +1031,6 @@ CREATE TABLE `typeoperationcaisse` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `typeoperationcaisse`
---
-
-INSERT INTO `typeoperationcaisse` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Entrée en caisse', NULL, '2019-09-23 13:19:22', 1, 1),
-(2, 'Sortie de Caisse', NULL, '2019-09-23 14:05:30', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1387,14 +1047,6 @@ CREATE TABLE `typeprestataire` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `typeprestataire`
---
-
-INSERT INTO `typeprestataire` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Mission programmée', NULL, NULL, 1, 1),
-(2, 'mission innopinée', NULL, NULL, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1409,14 +1061,6 @@ CREATE TABLE `typesuggestion` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `typesuggestion`
---
-
-INSERT INTO `typesuggestion` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'affectattion permanente', NULL, NULL, 0, 1),
-(2, 'Affectation temporaire', NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1433,14 +1077,6 @@ CREATE TABLE `typetransmission` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `typetransmission`
---
-
-INSERT INTO `typetransmission` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Manuelle', NULL, NULL, 0, 1),
-(2, 'Automatique', NULL, NULL, 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1455,17 +1091,6 @@ CREATE TABLE `typevehicule` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `typevehicule`
---
-
-INSERT INTO `typevehicule` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'Voiture', NULL, NULL, 0, 1),
-(2, 'Moto', NULL, NULL, 0, 0),
-(3, 'Camion', '2019-09-22 07:38:31', '2019-09-22 07:38:31', 0, 0),
-(4, 'Camion Benne', '2019-09-22 07:38:48', '2020-04-17 23:34:23', 0, 1),
-(5, 'Tricycle', '2019-10-18 12:20:33', '2020-04-18 21:39:27', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1520,15 +1145,6 @@ CREATE TABLE `zonelivraison` (
   `protected` int(11) NOT NULL DEFAULT '0',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Déchargement des données de la table `zonelivraison`
---
-
-INSERT INTO `zonelivraison` (`id`, `name`, `created`, `modified`, `protected`, `valide`) VALUES
-(4, 'District d\'Abidjan', '2020-04-12 23:48:56', '2020-04-12 23:48:56', 0, 1),
-(5, 'Périphérique d\'Abidjan', '2020-04-12 23:49:22', '2020-04-12 23:49:22', 0, 1),
-(6, 'Yaou / Bonoua', '2020-04-12 23:49:42', '2020-04-12 23:49:42', 0, 1);
 
 --
 -- Index pour les tables déchargées
@@ -1914,7 +1530,7 @@ ALTER TABLE `carplan`
 -- AUTO_INCREMENT pour la table `categorieoperation`
 --
 ALTER TABLE `categorieoperation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `chauffeur`
@@ -1944,7 +1560,7 @@ ALTER TABLE `commande`
 -- AUTO_INCREMENT pour la table `connexion`
 --
 ALTER TABLE `connexion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `demandeentretien`
@@ -1956,13 +1572,13 @@ ALTER TABLE `demandeentretien`
 -- AUTO_INCREMENT pour la table `employe`
 --
 ALTER TABLE `employe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `energie`
 --
 ALTER TABLE `energie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `entretienmachine`
@@ -1980,25 +1596,25 @@ ALTER TABLE `entretienvehicule`
 -- AUTO_INCREMENT pour la table `etat`
 --
 ALTER TABLE `etat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `etatchauffeur`
 --
 ALTER TABLE `etatchauffeur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `etatmanoeuvre`
 --
 ALTER TABLE `etatmanoeuvre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `etatvehicule`
 --
 ALTER TABLE `etatvehicule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `exigenceproduction`
@@ -2022,19 +1638,19 @@ ALTER TABLE `groupecommande`
 -- AUTO_INCREMENT pour la table `groupemanoeuvre`
 --
 ALTER TABLE `groupemanoeuvre`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `groupevehicule`
 --
 ALTER TABLE `groupevehicule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ligneapprovisionnement`
@@ -2052,7 +1668,7 @@ ALTER TABLE `lignecommande`
 -- AUTO_INCREMENT pour la table `ligneconsommationjour`
 --
 ALTER TABLE `ligneconsommationjour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ligneexigenceproduction`
@@ -2082,7 +1698,7 @@ ALTER TABLE `lignepayejour`
 -- AUTO_INCREMENT pour la table `ligneproductionjour`
 --
 ALTER TABLE `ligneproductionjour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `livraison`
@@ -2112,19 +1728,19 @@ ALTER TABLE `manoeuvredujour`
 -- AUTO_INCREMENT pour la table `marque`
 --
 ALTER TABLE `marque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `modepayement`
 --
 ALTER TABLE `modepayement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `mycompte`
 --
 ALTER TABLE `mycompte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `operation`
@@ -2142,7 +1758,7 @@ ALTER TABLE `panne`
 -- AUTO_INCREMENT pour la table `params`
 --
 ALTER TABLE `params`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `paye_produit`
@@ -2154,7 +1770,7 @@ ALTER TABLE `paye_produit`
 -- AUTO_INCREMENT pour la table `prestataire`
 --
 ALTER TABLE `prestataire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `prix_zonelivraison`
@@ -2166,7 +1782,7 @@ ALTER TABLE `prix_zonelivraison`
 -- AUTO_INCREMENT pour la table `productionjour`
 --
 ALTER TABLE `productionjour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
@@ -2184,7 +1800,7 @@ ALTER TABLE `ressource`
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `role_employe`
@@ -2196,55 +1812,55 @@ ALTER TABLE `role_employe`
 -- AUTO_INCREMENT pour la table `sexe`
 --
 ALTER TABLE `sexe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `suggestion`
 --
 ALTER TABLE `suggestion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typeclient`
 --
 ALTER TABLE `typeclient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typeentretienvehicule`
 --
 ALTER TABLE `typeentretienvehicule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typeoperationcaisse`
 --
 ALTER TABLE `typeoperationcaisse`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typeprestataire`
 --
 ALTER TABLE `typeprestataire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typesuggestion`
 --
 ALTER TABLE `typesuggestion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typetransmission`
 --
 ALTER TABLE `typetransmission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `typevehicule`
 --
 ALTER TABLE `typevehicule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `vehicule`
@@ -2256,7 +1872,7 @@ ALTER TABLE `vehicule`
 -- AUTO_INCREMENT pour la table `zonelivraison`
 --
 ALTER TABLE `zonelivraison`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

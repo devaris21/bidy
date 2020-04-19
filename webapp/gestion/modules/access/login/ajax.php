@@ -41,6 +41,9 @@ if ($action == "newUser") {
 					session("employe_connecte_id", $element->getId());
 					$data->setUrl("gestion", "master", "dashboard");
 				}
+			}else{
+				$data->status = false;
+				$data->message = "Vos mots de passe ne correspondent pas !";
 			}
 		}else{
 			$data->status = false;

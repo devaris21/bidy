@@ -29,8 +29,8 @@ if ($action == "historiques") {
 					<?php } ?>
 					<div class="row mp5">
 						<div class="col-auto text-right update-meta">
-							<p class="text-muted m-b-0 d-inline"><?= heurecourt($historique->created) ?></p>
 							<i class="fa fa-history bg-simple-c-blue update-icon"></i>
+							<p class="text-muted m-b-0 d-inline"><?= heurecourt($historique->created) ?></p>
 						</div>
 						<div class="col">
 							<h6 class="mp0"><?= $historique->auteur() ?></h6>

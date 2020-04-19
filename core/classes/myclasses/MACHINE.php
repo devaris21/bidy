@@ -60,29 +60,17 @@ class MACHINE extends TABLE
 
 ////////////////////////////////////////////////////////////////////////////
 
-	public static function parcauto(){
-		static::etat();
-		return static::findBy(["etatvehicule_id !="=> -2]);
-	}
 
-	public static function libres(){
-		static::etat();
-		return static::findBy(["etatvehicule_id ="=>0]);
+	public static function ras(){
+		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::RAS]);
 	}
 
 	public static function mission(){
-		return static::findBy(["etatvehicule_id ="=>2]);
+		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::MISSION]);
 	}
 
-	public static function open(){
-		static::etat();
-		$datas = static::findBy(["etatvehicule_id ="=>0]);
-		foreach ($datas as $key => $vehicule) {
-			if (!in_array($vehicule->groupevehicule_id, GROUPEVEHICULEOPEN::get())) {
-				unset($datas[$key]);
-			}
-		}
-		return $datas;
+	public static function entretien(){
+		return static::findBy(["etatvehicule_id !="=> - ETATVEHICULE::ENTRETIEN]);
 	}
 
 

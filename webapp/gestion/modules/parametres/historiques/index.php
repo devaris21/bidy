@@ -16,20 +16,10 @@
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-4">
-                <h2>This is main title</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">This is</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>Breadcrumb</strong>
-                    </li>
-                </ol>
+                <h2 class="text-uppercase">historiques des actions</h2>
             </div>
             <div class="col-sm-8">
-                <div class="title-action">
-                    <a href="" class="btn btn-primary">This is action area</a>
-                </div>
+                
             </div>
         </div>
 
@@ -52,7 +42,9 @@
                     </div>
 
                     <div class="col-md-9 affichage">
-                        <!-- remplit en ajax -->
+                        <h1 style="margin-top: 10%;" class="text-center text-muted">
+                            <span class="loading rhomb"></span> <br>
+                        Veuillez patienter</h1>
                     </div>
                 </div>
             </div>

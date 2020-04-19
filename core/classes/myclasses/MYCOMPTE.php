@@ -13,22 +13,20 @@ class MYCOMPTE extends TABLE
 	
 
 	public function enregistre(){
-
+		return $this->save();
 	}
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'une nouvelle pièce d'identité : $this->name dans les paramétrages";
+		return $this->sentense = "Nouvelle Installation, premier démarrage";
 	}
 
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des propriétés de la pièce d'identité : $this->name.";
 	}
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression définitive de la pièce d'identité : $this->name.";
 	}
 
 }

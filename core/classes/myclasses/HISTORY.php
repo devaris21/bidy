@@ -68,9 +68,7 @@ public static $tableName = __CLASS__;
 		$this->actualise();
 		if ($this->employe_id != null) {
 			return $this->employe->name();
-		}elseif ($this->utilisateur_id != null) {
-			return $this->utilisateur->name();
-
+			
 		}elseif ($this->carplan_id != null) {
 			return $this->carplan->name();
 

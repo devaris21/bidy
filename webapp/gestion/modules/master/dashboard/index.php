@@ -23,7 +23,7 @@
                                 <h5>Kilometrage moyen du parc</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(Home\VEHICULE::avgKM())  ?> Km</h2>
+                                <h2 class="no-margins"><?= start0(12)  ?> Km</h2>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                                 <h5>Commandes / livraisons</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins">**</h2>
+                                <h2 class="no-margins"><?= start0(count($groupes__)); ?> / <?= start0(count($livraisons__)); ?></h2>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                                 <h5>Véhicules / Machines</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins">**</h2>
+                                <h2 class="no-margins"><?= start0(count(Home\VEHICULE::getAll())); ?> / <?= start0(count(Home\MACHINE::getAll())); ?></h2>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                 <h5>Le personnel</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(Home\VEHICULE::avgAge())  ?> mois</h2>
+                                <h2 class="no-margins"><?= start0(count(array_merge(Home\CHAUFFEUR::getAll(), Home\MANOEUVRE::getAll())))  ?> personnes</h2>
                             </div>
                         </div>
                     </div>
@@ -84,27 +84,34 @@
                             </div>
                         </div>
                         <div class="col-md-6 border-right border-left">
-                            <div class="flot-chart dashboard-chart" style="margin-top: 0%">
-                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                            </div><br>
-                            <h6 class="text-uppercase text-center">Courbe de production des 5 derniers jours</h6>
+                            <div class="" style="margin-top: 0%">
+                                <div id="ct-chart4" style="height: 270px;"></div>
+                            </div>
+                            <h6 class="text-uppercase text-center">Courbe représentative du stock de produits en fonction des commandes actuelles</h6>
                             <hr class="">
-                            <div class="row text-center">
-                                <div class="col">
-                                    <div class=" m-l-md">
-                                        <span class="h5 font-bold m-t block"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></span>
-                                        <small class="text-muted m-b block">En caisse actuellement</small>
+                            <div class="row stat-list">
+                                <div class="col-4">
+                                    <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
+                                    <small>En caisse actuellement</small>
+                                    <div class="progress progress-mini">
+                                        <div class="progress-bar" style="width: 48%;"></div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <span class="h5 font-bold m-t block">213515</span>
-                                    <small class="text-muted m-b block">Coût annuel de la paperasse</small>
+                                <div class="col-4">
+                                    <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                    <small>Entrées du jour</small>
+                                    <div class="progress progress-mini">
+                                        <div class="progress-bar" style="width: 60%;"></div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <span class="h5 font-bold m-t block">**</span>
-                                    <small class="text-muted m-b block">En Versements attente</small>
+                                <div class="col-4">
+                                    <h3 class="no-margins text-red"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                    <small>Dépenses du jour</small>
+                                    <div class="progress progress-mini">
+                                        <div class="progress-bar" style="width: 60%;"></div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div>  
                         </div>
                         <div class="col-md-3 text-center">
                             <h3 class="text-uppercase">Stock des ressources</h3>
@@ -119,7 +126,7 @@
                                     </a>
                                 </li>
                             <?php } ?>
-                             <li class="list-group-item"></li>
+                            <li class="list-group-item"></li>
                         </ul> <hr>
                         <div class="row">
                             <div class="col-2">
@@ -170,53 +177,25 @@
         }
         
 
+ // Stocked horizontal bar
 
-        var data1 = [
-        [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
-        ];
-        var data2 = [
-        [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
-        ];
-        $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-            data1, data2
-            ],
-            {
-                series: {
-                    lines: {
-                        show: false,
-                        fill: true
-                    },
-                    splines: {
-                        show: true,
-                        tension: 0.4,
-                        lineWidth: 1,
-                        fill: 0.4
-                    },
-                    points: {
-                        radius: 0,
-                        show: true
-                    },
-                    shadowSize: 2
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: "#d5d5d5",
-                    borderWidth: 1,
-                    color: '#d5d5d5'
-                },
-                colors: ["#1ab394", "#1C84C6"],
-                xaxis:{
-                },
-                yaxis: {
-                    ticks: 4
-                },
-                tooltip: false
-            }
-            );
+ new Chartist.Bar('#ct-chart4', {
+    labels: [<?php foreach ($tableau as $key => $data){ ?> "<?= $data->name ?>", <?php } ?>],
+    series: [
+            [<?php foreach ($tableau as $key => $data){ ?> <?= $data->stock ?>, <?php } ?>],
+            [<?php foreach ($tableau as $key => $data){ ?> <?= $data->commande ?>, <?php } ?>]
+        ]
+    }, {
+    seriesBarDistance: 10,
+    reverseData: true,
+    horizontalBars: true,
+    axisY: {
+        offset: 80
+    }
+});
 
 
-    });
+});
 </script>
 
 </body>

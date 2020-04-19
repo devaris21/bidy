@@ -10,6 +10,6 @@ extract($_POST);
 
 
 if ($action == "filtrer") {
-	$data->setUrl("gestion", "master", "comptedujour", "$date");
+	$data->setUrl("gestion", "caisse", "comptedujour", "$date");
 	echo json_encode($data);
 }

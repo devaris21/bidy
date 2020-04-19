@@ -14,13 +14,13 @@
 
           <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
-        <div class="wrapper wrapper-content">
+          <div class="wrapper wrapper-content">
             <div class="animated fadeInRightBig">
                 <div class="ibox ">
                     <div class="ibox-title">
                         <h5 class="text-left">DEVARI.COM <small>http://www.devari.com/webservice/</small></h5>
                         <div class="ibox-tools">
-                         
+
                         </div>
                     </div>
                     <div class="ibox-content text-center css-animation-box">
@@ -52,34 +52,34 @@
                                 <br><br>
                                 <div>
                                     <span>Fin d'abonnement le</span>
-                                    <h2 class="text-uppercase" style="font-size: 32px"><?= datecourt(dateAjoute(+150)) ?></h2>
-                                    <h3 class="text-red"><?= dateDiffe(dateAjoute(), dateAjoute(+15)) ?> jours restants</h3>
+                                    <h2 class="text-uppercase" style="font-size: 32px"><?= datecourt($mycompte->expired) ?></h2>
+                                    <h3 class="text-red"><?= start0(dateDiffe(dateAjoute(), $mycompte->expired)) ?> jours restants</h3>
                                 </div><br><br>
                                 <h4 class="m-b-lg text-uppercase">
                                     Entrer les 5 blocs de caractères qui composent <br>le code de validation.
                                 </h4>
-                               <form id="formAbonnement" method="post">
-                                   <div class="row">
-                                    <div class="col-sm">
-                                        <input type="text" name="bloc1" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
+                                <form id="formAbonnement" method="post">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <input type="text" name="bloc1" maxlength="5" uppercase autofocus="on" class="text-center gras form-control input-sm" name="">
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" name="bloc2" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" name="bloc3" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" name="bloc4" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" name="bloc5" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
+                                        </div>
+                                    </div><br><hr>
+                                    <div>
+                                        <button class="btn btn-primary dim"><i class="fa fa-check"></i> Valider le code !</button>
                                     </div>
-                                     <div class="col-sm">
-                                        <input type="text" name="bloc2" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
-                                    </div>
-                                     <div class="col-sm">
-                                        <input type="text" name="bloc3" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
-                                    </div>
-                                     <div class="col-sm">
-                                        <input type="text" name="bloc4" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
-                                    </div>
-                                     <div class="col-sm">
-                                        <input type="text" name="bloc5" maxlength="5" uppercase class="text-center gras form-control input-sm" name="">
-                                    </div>
-                                </div><br><hr>
-                                <div>
-                                    <button class="btn btn-primary dim"><i class="fa fa-check"></i> Valider le code !</button>
-                                </div>
-                               </form>
+                                </form>
                             </div>
                         </div>
 

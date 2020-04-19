@@ -62,12 +62,14 @@ class PARAMS extends TABLE
 	public static function checkTimeout($section){
 		$data = new RESPONSE;
 		$session = 10 * 60;
+
+		$temps = time() - getSession("last_access");
 		//umpeu moins de 2x le temps;
-		if(is_null(getSession("last_access")) OR (time() - getSession("last_access") > $session * 2) ){
+		if(is_null(getSession("last_access")) OR ($temps > $session * 1.5) ){
 			$data->status = false;
 			$data->message = "temps depassée, page de connexion zz!";
-			$data->setUrl($section, "access", "login");
-		}else if ((time() - getSession("last_access") > $session) || !is_null(getSession("page_session"))) {
+			$data->setUrl($section, "access", "logout");
+		}else if (($temps > $session) || !is_null(getSession("page_session"))) {
 			$data->status = false;
 			$data->message = "temps depassée, verrouillage de la session !";
 			$data->setUrl($section, "access", "locked");

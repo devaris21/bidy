@@ -5,9 +5,12 @@ GROUPECOMMANDE::etat();
 
 $title = "BIDY | Tableau de bord";
 
-// $notifications = NOTIFICATION::findBy(["admin ="=>1, "etat_id ="=>0]);
-
-// $demvehicules = DEMANDEVEHICULE::findBy(["etat_id ="=>0, "etats="=>0]);
-// $entretiens = DEMANDEENTRETIEN::findBy(["etat_id ="=>0]);
+$tableau = [];
+foreach (PRODUIT::getAll() as $key => $prod) {
+	$data->name = $prod->name();
+	$data->stock = $prod->stock(dateAjoute());
+	$data->commande = $prod->livrable();
+	$tableau[] = $data;
+}
 
 ?>

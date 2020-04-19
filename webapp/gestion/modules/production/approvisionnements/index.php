@@ -15,7 +15,7 @@
           <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
           <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 <h2 class="text-uppercase text-green gras">Les approvisionnements en cours</h2>
                 <div class="container">
                     <div class="row">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
              <div class="row">
                 <div class="col-md-12">
                     <div class="widget style1 red-bg">
@@ -63,7 +63,7 @@
                  <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-primary dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
              </div>
          </div>
-         <div class="ibox-content" style="height: 400px;">
+         <div class="ibox-content" style="height: 300px;">
              <?php if (count($approvisionnements) > 0) { ?>
                 <table class="table table-hover table-approvisionnement">
                     <tbody>
@@ -114,7 +114,7 @@
               </tbody>
           </table>
       <?php }else{ ?>
-        <h1 style="margin-top: 8%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement en cours pour le moment!</h1>
+        <h1 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement en cours pour le moment!</h1>
     <?php } ?>
 
 </div>

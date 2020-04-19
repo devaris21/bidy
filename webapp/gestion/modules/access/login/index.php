@@ -18,7 +18,6 @@
 
                 <p>Pour tous autre chose, veuillez contacter votre administrateur système.</p>
 
-                <p style="margin-top: 35%;"><a href="<?= $this->url("amb", "start", "select") ?>"><i class="fa fa-arrow-left"></i> Retour à la plateforme</a></p>
 
             </div>
             <div class="col-md-6">

@@ -20,11 +20,11 @@
                 <div class="col-md-3">
                     <div class="ibox ">
                         <div class="ibox-title border">
-                            <span class="label label-success float-right">Annuel</span>
-                            <h5 class="d-inline">Chiffre d'affaire</h5>
+                            <span class="label label-success float-right">An</span>
+                            <h5 class="d-inline text-uppercase">Chif. affaire</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins">386,200</h1>
+                            <h1 class="no-margins"><?= money(Home\OPERATION::entree(date("Y")."-01-01" , dateAjoute())) ?></h1>
                             <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
                             <small>Progession</small>
                         </div>
@@ -33,11 +33,11 @@
                 <div class="col-md-3">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <span class="label label-info float-right">Annu2l</span>
                             <h5 class="text-uppercase text-green">Entrées</h5>
+                            <span class="label label-primary float-right">Mensuel</span>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins text-green"><?= money(Home\OPERATION::entree(date("Y")."-01-01" , dateAjoute())) ?></h1>
+                            <h1 class="no-margins text-green"><?= money(Home\OPERATION::entree(date("Y-m")."-01" , dateAjoute())) ?></h1>
                             <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
                             <small>Progession</small>
                         </div>
@@ -47,11 +47,11 @@
                 <div class="col-md-3">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <span class="label label-primary float-right">Annuel</span>
+                            <span class="label label-primary float-right">Mensuel</span>
                             <h5 class="text-uppercase text-red">Dépenses</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins text-red"><?= money(Home\OPERATION::sortie(date("Y")."-01-01" , dateAjoute())) ?></h1>
+                            <h1 class="no-margins text-red"><?= money(Home\OPERATION::sortie(date("Y-m")."-01" , dateAjoute())) ?></h1>
                             <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
                             <small>Progession</small>
                         </div>
@@ -60,11 +60,11 @@
                 <div class="col-md-3">
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <span class="label label-primary float-right">Annuel</span>
+                            <span class="label label-primary float-right">Mensuel</span>
                             <h5 class="text-uppercase">Résultats</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins"><?= money(Home\OPERATION::resultat(date("Y")."-01-01" , dateAjoute())) ?></h1>
+                            <h1 class="no-margins"><?= money(Home\OPERATION::resultat(date("Y-m")."-01" , dateAjoute())) ?></h1>
                             <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
                             <small>Progession</small>
                         </div>
@@ -81,7 +81,14 @@
                                         <canvas id="lineChart" height="110"></canvas>
                                     </div>
                                 </div><hr>
-                                <div class="row stat-list">
+                                <div class="row stat-list text-center">
+                                    <div class="col-4">
+                                        <h3 class="no-margins text-red"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                        <small>Paye de salaire</small>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar" style="width: 60%;"></div>
+                                        </div>
+                                    </div>
                                     <div class="col-4">
                                         <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
                                         <small>En caisse actuellement</small>
@@ -90,15 +97,8 @@
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                        <small>Entrées du jour</small>
-                                        <div class="progress progress-mini">
-                                            <div class="progress-bar" style="width: 60%;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <h3 class="no-margins text-red"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                        <small>Dépenses du jour</small>
+                                        <h3 class="no-margins text-blue"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?> *</h3>
+                                        <small>Versement en attente</small>
                                         <div class="progress progress-mini">
                                             <div class="progress-bar" style="width: 60%;"></div>
                                         </div>
@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="col-4">
                                         <small class="stats-label">Progession</small>
-                                        <h4><?= round(((($ferm - $ouv) / $ouv) * 100), 2) ?>%</h4>
+                                        <h4><?= ($ouv > 0) ? round(((($ferm - $ouv) / $ouv) * 100), 2):"0" ?>%</h4>
                                     </div>
                                     <div class="col-4">
                                         <small class="stats-label">Cloture <?= datecourt2($date1)  ?></small>
@@ -156,9 +156,9 @@
                             <h5 class="text-uppercase">Tableau des compte</h5>
                             <div class="ibox-tools">
                                 <div data-toggle="buttons" class="btn-group btn-group-toggle">
-                                    <label class="btn btn-sm btn-white active"><i class="fa fa-calendar"></i> Mois </label>
-                                    <label class="btn btn-sm btn-white"><i class="fa fa-calendar"></i> Trimestre </label>
-                                    <label class="btn btn-sm btn-white"><i class="fa fa-calendar"></i> Année </label>
+                                    <label jour="-30" class="btn btn-sm btn-white"><i class="fa fa-calendar"></i> Mois </label>
+                                    <label jour="-90" class="btn btn-sm btn-white"><i class="fa fa-calendar"></i> Trimestre </label>
+                                    <label jour="-360" class="btn btn-sm btn-white"><i class="fa fa-calendar"></i> Année </label>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                                     <th>Résultats</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="tableau">
                                                 <?php foreach ($operations as $key => $operation) {
                                                     $operation->actualise(); ?>
                                                     <tr>
@@ -239,7 +239,7 @@
                     data: [<?php foreach ($statistiques as $key => $data) { ?>"<?= $data->entree ?>", <?php } ?>]
                 },
                 {
-                    label: "Sortie",
+                    label: "Dépenses",
                     borderColor: "rgba(220,0,0,1)",
                     pointBackgroundColor: "rgba(220,0,0,1)",
                     pointBorderColor: "#fff",

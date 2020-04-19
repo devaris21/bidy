@@ -1,7 +1,7 @@
 <?php 
 namespace Native;
 use Native\SHAMMAN;
-use Home\ADMIN;
+use Home\ROLE;
 use Home\EMPLOYE;
 use Home\UTILISATEUR;
 use Home\PRODUCTIONJOUR;
@@ -86,7 +86,7 @@ class ROOTER extends PATH
                         foreach ($employe->fourni("role_employe") as $key => $value) {
                             $tableauDeRoles[] = $value->role_id;
                         };
-                        if (!in_array($this->module, ROLE::MODULEEXCEPT())) {
+                        if (!in_array($this->module, ROLE::MODULEEXCEPT)) {
                             $datas = ROLE::findBy(["name ="=>$this->module]);
                             if (count($datas) == 1) {
                                 $role = $datas[0];
@@ -94,6 +94,8 @@ class ROOTER extends PATH
                                     $employe->actualise();
                                     $productionjour = PRODUCTIONJOUR::today();
                                     $productionjour->actualise();
+
+                                    session("lastUrl", $this->url);
                                 }else{
                                     $this->new_root($this->section, "access", "erreur500");
                                     $this->render();

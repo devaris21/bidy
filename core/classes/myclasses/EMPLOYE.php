@@ -205,7 +205,7 @@ class EMPLOYE extends AUTH
 		$this->valide = 0;
 		$this->allowed = 0;
 		$this->set_password(substr(md5(uniqid()), 7, 12));
-		$this->historique("Suppression du compte compte de $this->name $this->lastname");
+		$this->historique("Suppression du compte compte de ".$this->name());
 		$data = $this->save();	
 		return $data;
 	}
@@ -237,17 +237,17 @@ class EMPLOYE extends AUTH
 
 
 	public function sentenseCreate(){
-		return $this->sentense = "Ajout d'un nouveau employe dans le parc auto : $this->name $this->lastname";
+		return $this->sentense = "Ajout d'un nouveau employe dans le parc auto : ".$this->name();
 	}
 
 
 	public function sentenseUpdate(){
-		return $this->sentense = "Modification des informations du employe $this->id $this->name $this->lastname.";
+		return $this->sentense = "Modification des informations du employe $this->id ".$this->name();
 	}
 
 
 	public function sentenseDelete(){
-		return $this->sentense = "Suppression définitive du employe $this->id $this->name $this->lastname.";
+		return $this->sentense = "Suppression définitive du employe $this->id ".$this->name();
 	}
 
 
