@@ -44,6 +44,10 @@
 
     <!-- iCheck -->
     <script src="<?= $this->rootPath("composants/dist/js/plugins/iCheck/icheck.min.js") ?>"></script>
+
+     <!-- idle-timer -->
+    <script src="<?= $this->rootPath("composants/dist/js/plugins/idle-timer/idle-timer.min.js") ?>"></script>
+
     <!-- Select2 -->
     <script src="<?= $this->rootPath("composants/dist/js/plugins/select2/dist/js/select2.js") ?>"></script>
     <script src="<?= $this->rootPath("composants/dist/js/plugins/alerty/alerty.min.js") ?>"></script>
@@ -52,6 +56,7 @@
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/shamman/loader.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/shamman/alerter.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/shamman/general.js") ?>"></script>
+    <script type="text/javascript" src="<?= $this->rootPath("composants/dist/shamman/watchDog.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->rootPath("composants/dist/shamman/traitement.js") ?>"></script>
     <script type="text/javascript" src="<?= $this->elements("templates/myscript.js") ?>"></script>
 

@@ -27,25 +27,18 @@
 
 
 <div class="imageViewer">
-    <img class="img-thumbnail" src="<?= $this->stockage("images", "vehicules", "9ebe215d.png") ?>" alt="placeholder+image">
-
-    <i class="fa fa-close fa-2x" onclick="closeImageViewer()"></i>
+    <img src="<?= $this->stockage("images", "societe", "logo.png") ?>" >
+    <br><br>
+    <h1 style="font-size: 50px">
+        <small>Veuillez patienter </small>
+    <span class="loading rhomb"></span>
+    </h1>
 </div>
-
-<script type="text/javascript">
-    openImage = function(src){
-        $(".imageViewer").css("display", "initial");
-        $(".imageViewer img").prop("src", src);
-    }
-
-    closeImageViewer = function(src){
-        $(".imageViewer").css("display", "none");
-    }
-</script>
 
 <style>
     .imageViewer{
         display: none;
+        opacity: 0.9;
         text-align: center;
         z-index: 9999;
         position: fixed;
@@ -53,27 +46,15 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(255, 255, 255);
         padding: 10%;
-        color: white
+        color: #ccc
     }
 
     .imageViewer img{
-        height: 90%;
+        width: 200px;
+        margin: auto;
     }
-
-    .imageViewer i{
-        padding: 20px;
-        border-radius: 100%;
-        color: white;
-        background-color: rgba(0, 0, 0, 0.2);
-        top: -12px;
-        right: -12px;  
-        position: absolute;
-        cursor: pointer;
-        font-weight: 100;
-    }
-
 </style>
 
 
