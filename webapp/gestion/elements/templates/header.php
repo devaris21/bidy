@@ -1,4 +1,4 @@
-      <div class="row border-bottom white-bg" style="margin-bottom: 6%;">
+      <div class="row border-bottom white-bg header" style="margin-bottom: 6%;">
         <nav class="navbar navbar-wrapper navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>

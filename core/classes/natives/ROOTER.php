@@ -77,6 +77,10 @@ class ROOTER extends PATH
                 $datea = PARAMS::DATE_DEFAULT;
                 $dateb = dateAjoute(1);
 
+                $productionjour = PRODUCTIONJOUR::today();
+                $productionjour->actualise();
+                session("lastUrl", $this->url);
+
                 
                 if ($this->section == "gestion") {
                     $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
@@ -92,32 +96,24 @@ class ROOTER extends PATH
                                 $role = $datas[0];
                                 if (in_array($role->getId(), $tableauDeRoles)) {
                                     $employe->actualise();
-                                    $productionjour = PRODUCTIONJOUR::today();
-                                    $productionjour->actualise();
-
-                                    session("lastUrl", $this->url);
+                                    
                                 }else{
-                                    $this->new_root($this->section, "access", "erreur500");
+                                    $this->new_root("devaris21", "access", "erreur500");
                                     $this->render();
                                     return false;
                                 }
                             }else{
-                                $this->new_root($this->section, "access", "erreur500");
+                                $this->new_root("devaris21", "access", "erreur500");
                                 $this->render();
                                 return false;
                             }
-                        }else{
-                            $this->new_root($this->section, "access", "erreur500");
-                            $this->render();
-                            return false;
                         }
                     }else{
-                        $this->new_root($this->section, "access", "login");
+                        $this->new_root("devaris21", "access", "login");
                         $this->render();
                         return false;
                     }
                 }
-
 
             }else{
                 $this->new_root($this->section, "access", "login");

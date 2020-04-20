@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm-5">
                 <div class="title-action">
-                    <button data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-primary dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
+                    <button data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
                 </div>
             </div>
         </div>

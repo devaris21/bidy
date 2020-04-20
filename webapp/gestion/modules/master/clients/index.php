@@ -17,7 +17,7 @@
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-md-7">
                 <h2>Liste des clients</h2>
-                <span>Classé par ordre alphabétique</span>
+                 <button data-toggle="modal" data-target="#modal-client" class="btn btn-primary dim"><i class="fa fa-plus"></i> Ajouter un client</button>
             </div>
             <div class="col-md-5">
                 <div class="row">
@@ -63,14 +63,17 @@
             <?php } ?>
         </div>
     <?php }else{ ?>
-        <h1 style="margin-top: 10%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Vous n'avez pas encore inscrit de client !</h1>
+        <div class="text-center">
+            <h1 style="margin-top: 10%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Vous n'avez pas encore inscrit de client !</h1>
+            <button data-toggle="modal" data-target="#modal-client" class="btn btn-primary dim"><i class="fa fa-plus"></i> Ajouter un client</button>
+        </div>
     <?php } ?>
 
 </div>
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
+ <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
 
 </div>
 </div>

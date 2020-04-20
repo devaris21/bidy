@@ -180,18 +180,21 @@ if ($action == "validerCommande") {
 						$data = $client->debiter($montant);
 					}else{
 						$payement = new OPERATION();
+						$payement->hydrater($_POST);
 						$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
-						$payement->modepayement_id = $modepayement_id;
 						$payement->montant = $montant + $tva;
 						$payement->client_id = $client_id;
 						$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
-						$data = $payement->enregistre();
+						$lot = $payement->enregistre();
 					}
 					
 					$commande->montant = $tva;
 					$commande->montant = $montant + $tva;
 					$commande->operation_id = $data->lastid;
 					$data = $commande->save();
+
+						$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+						$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 				}
 			}else{
 				$data->status = false;
@@ -266,7 +269,8 @@ if ($action == "livraisonCommande") {
 							$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
 							$chauffeur->save();
 						}
-					}					
+					}	
+					$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 				}else{
 					$data->status = false;
 					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
@@ -325,7 +329,7 @@ if ($action == "acompte") {
 			$datas = CLIENT::findBy(["id=" => $client_id]);
 			if (count($datas) > 0) {
 				$client = $datas[0];
-				$data = $client->crediter(intval($montant), $modepayement_id);
+				$data = $client->crediter(intval($montant), $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";

@@ -30,7 +30,7 @@ class RESPONSE
 
   public function setUrl($section, $module, $page="", $id=""){
     //cette est redefinie dans rooter
-    $this->url = "/$section/$module/$page|$id";
+    return $this->url = "/$section/$module/$page|$id";
   }
 
   public function setUrl0($url){

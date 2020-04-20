@@ -262,6 +262,19 @@ foreach (ROLE::getAll() as $key => $value) {
 }
 
 
+$item = new APPROVISIONNEMENT();
+$item->etat_id = ETAT::TERMINEE;
+$item->comment = "approvisionnemnt initial, système !";
+$item->setProtected(1);
+$item->enregistre();
+
+
+$item = new PRODUCTIONJOUR();
+$item->comment = "approvisionnemnt initial, système !";
+$item->setProtected(1);
+$item->save();
+
+
 
 $datas = ["standart"];
 foreach ($datas as $key => $value) {

@@ -27,7 +27,27 @@ class PRODUCTIONJOUR extends TABLE
 	public static function today(){
 		$datas = static::findBy(["ladate ="=>dateAjoute()]);
 		if (count($datas) > 0) {
-			return $datas[0];
+			$pro = $datas[0];
+
+			if (count($pro->fourni("ligneproductionjour")) == 0) {
+				foreach (PRODUIT::getAll() as $key => $produit) {
+					$ligne = new LIGNEPRODUCTIONJOUR();
+					$ligne->productionjour_id = $pro->getId();
+					$ligne->produit_id = $produit->getId();
+					$ligne->enregistre();
+				}
+			}
+
+			if (count($pro->fourni("ligneconsommationjour")) == 0) {
+				foreach (RESSOURCE::getAll() as $key => $ressource) {
+					$ligne = new LIGNECONSOMMATIONJOUR();
+					$ligne->productionjour_id = $pro->getId();
+					$ligne->ressource_id = $ressource->getId();
+					$ligne->enregistre();
+				}
+			}
+
+			return $pro;
 		}else{
 			$ti = new PRODUCTIONJOUR();
 			$data = $ti->enregistre();

@@ -11,7 +11,7 @@
 
 <?php //include($this->rootPath("webapp/gestion/elements/templates/chat.php")); ?> 
 
-<div class="footer">
+<div class="footer hidden-print">
 	<div class="float-right">
 		Copyright &copy; 2019-2020 | <strong>DEVARIS 21</strong>.
 	</div>

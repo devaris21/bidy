@@ -18,7 +18,6 @@ class MANOEUVRE extends PERSONNE
 	public $adresse;
 	public $contact;
 	public $image = "default.png";
-	public $etatmanoeuvre_id;
 
 
 

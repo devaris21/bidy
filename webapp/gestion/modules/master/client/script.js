@@ -112,6 +112,8 @@ $(function(){
 			formdata.append('action', "validerCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
+					window.open(data.url1, "_blank");
+					window.open(data.url2, "_blank");
 					window.location.reload();
 				}else{
 					Alerter.error('Erreur !', data.message);
@@ -145,6 +147,7 @@ $(function(){
 			formdata.append('action', "livraisonCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
+					window.open(data.url, "_blank");
 					window.location.reload();
 				}else{
 					Alerter.error('Erreur !', data.message);
@@ -173,6 +176,7 @@ $(function(){
 				Loader.start();
 				$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 					if (data.status) {
+						window.open(data.url, "_blank");
 						window.location.reload();
 					}else{
 						Alerter.error('Erreur !', data.message);

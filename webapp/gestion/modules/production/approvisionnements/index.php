@@ -15,8 +15,8 @@
           <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
           <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-8">
-                <h2 class="text-uppercase text-green gras">Les approvisionnements en cours</h2>
+            <div class="col-sm-9">
+                <h2 class="text-uppercase text-warning gras">Les approvisionnements en cours</h2>
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les approvisionnements passées</div>
@@ -35,15 +35,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
              <div class="row">
                 <div class="col-md-12">
-                    <div class="widget style1 red-bg">
+                    <div class="widget style1 bg-warning">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <i class="fa fa-bus fa-3x"></i>
                             </div>
-                            <div class="col-9 text-right">
+                            <div class="col-10 text-right">
                                 <span> Approvisionnement en cours </span>
                                 <h2 class="font-bold"><?= start0($total) ?></h2>
                             </div>
@@ -60,7 +60,7 @@
                 <h5>Tous les approvisionnements</h5>
 
                 <div class="ibox-tools">
-                 <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-primary dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
+                 <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
              </div>
          </div>
          <div class="ibox-content" style="height: 300px;">

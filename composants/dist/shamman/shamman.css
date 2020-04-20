@@ -1,3 +1,13 @@
+@media print{
+  body, .page-wrapper, .wrapper{
+    padding-top: 1%;
+    background-color: #fff !important;
+  }
+  .footer, .header{
+    display: none !important;
+  }
+}
+
 .tabs-container{
 	width: 100%;
 }

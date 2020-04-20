@@ -58,6 +58,9 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Toutes les livraisons</h5>
+                 <div class="ibox-tools">
+                    <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
+                </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
              <?php if (count($livraisons) > 0) { ?>
@@ -132,8 +135,8 @@
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-<?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?> 
 
+<?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
 
 <?php 
 foreach ($livraisons as $key => $livraison) {

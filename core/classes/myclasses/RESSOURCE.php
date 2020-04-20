@@ -17,6 +17,8 @@ class RESSOURCE extends TABLE
 	public $abbr;
 	public $image = "default.png";
 
+	public $stock = 0;
+
 
 	public function enregistre(){
 		$data = new RESPONSE;
@@ -24,6 +26,12 @@ class RESSOURCE extends TABLE
 			$data = $this->save();
 			if ($data->status) {
 				$this->uploading($this->files);
+
+				$ligne = new LIGNEAPPROVISIONNEMENT();
+				$ligne->approvisionnement_id = 0;
+				$ligne->ressource_id = $data->lastid;
+				$ligne->quantite = $ligne->quantite_recu = $this->stock;
+				$ligne->save();
 			}
 		}else{
 			$data->status = false;

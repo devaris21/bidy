@@ -94,8 +94,7 @@
                                                                 </td>
                                                                 <td class="project-title">
                                                                     <a href="project_detail.html"><?= $man->name() ?></a>
-                                                                    <br/>
-                                                                    <small class="text-<?= $man->etatmanoeuvre->class ?>"><?= $man->etatmanoeuvre->name() ?></small>
+                                                                    
                                                                 </td>
                                                                 <td class="project-title">
                                                                     <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>

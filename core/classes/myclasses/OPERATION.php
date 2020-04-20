@@ -19,6 +19,8 @@ class OPERATION extends TABLE
 	public $comment;
 	public $client_id = CLIENT::CLIENTSYSTEME;
 	public $manoeuvre_id;
+	public $structure;
+	public $numero;
 
 
 	public function enregistre(){
@@ -38,8 +40,12 @@ class OPERATION extends TABLE
 
 							$this->etat_id = ETAT::ENCOURS;
 						}
-						
-						$data = $this->save();
+						if (intval($this->montant) > 0) {
+							$data = $this->save();
+						}else{
+							$data->status = false;
+							$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
+						}
 					}else{
 						$data->status = false;
 						$data->message = "Vous ne pouvez pas effectuer cette opération, le solde du compte est insuffisant !";

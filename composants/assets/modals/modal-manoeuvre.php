@@ -3,48 +3,39 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Formulaire pour le personnel roulant</h4>
+                <h4 class="modal-title">Formulaire des manoeuvres</h4>
                 <small class="font-bold">Renseigner ces champs pour enregistrer les informations</small>
             </div>
             <form method="POST" class="formShamman" classname="manoeuvre">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
-                            <label>Nom <span1>*</span1></label>
+                            <label>Dans quel groupe <span1>*</span1></label>
+                            <div class="form-group">
+                                <?php Native\BINDING::html("select", "groupemanoeuvre"); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label>Noms du manoeuvre<span1>*</span1></label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="name" required>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6">
-                            <label>Prenom <span1>*</span1></label>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="lastname" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <label>Situation géographique <span1>*</span1></label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="adresse" required>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <label>Contact <span1>*</span1></label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="contact" required>
                             </div>
                         </div>
-                           <div class="col-md-4 col-sm-6">
-                            <label>Categorie du permis <span1>*</span1></label>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="typepermis" required placeholder="EX...ABCDE">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-4">
                             <label>Photo du manoeuvre</label>
                             <div class="">
@@ -54,6 +45,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div><hr>
                 <div class="container">
                     <input type="hidden" name="id">

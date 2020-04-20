@@ -208,18 +208,23 @@
                                                             </thead>
                                                             <tbody>
                                                                 <?php foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $prod) {
-                                                                    $datas = $prod->fourni("exigenceproduction"); ?> 
+                                                                    $exi = new Home\EXIGENCEPRODUCTION();
+                                                                    $datas = $prod->fourni("exigenceproduction");
+                                                                    if (count($datas) > 0) {
+                                                                        $exi = $datas[0];
+                                                                    }
+                                                                    ?> 
                                                                     <tr>
                                                                         <td class="gras"><img style="width: 30px; margin-right: 2%" src="<?= $this->stockage("images", "produits", $prod->image); ?>"> <?= $prod->name(); ?></td>
-                                                                        <td class="text-center border-left border-right" >Pour en produire <b><?= money($datas[0]->quantite); ?></b></td>
+                                                                        <td class="text-center border-left border-right" >Pour en produire <b><?= money($exi->quantite); ?></b></td>
 
                                                                         <?php foreach (Home\RESSOURCE::findBy([], [], ["name"=>"ASC"]) as $key => $ressource) { 
-                                                                            $lots = $datas[0]->fourni("ligneexigenceproduction", ["ressource_id ="=> $ressource->getId()]); 
+                                                                            $lots = $exi->fourni("ligneexigenceproduction", ["ressource_id ="=> $ressource->getId()]); 
                                                                             foreach ($lots as $key => $item) { 
                                                                                 $item->actualise(); ?>
                                                                                 <td class="text-center" ><?= money($item->quantite); ?> <?= $item->ressource->abbr ?></td>
                                                                             <?php } } ?>
-                                                                            <td data-toggle="modal" data-target="#modal-exigence<?= $datas[0]->getId() ?>" title="modifier les prix"><i class="fa fa-pencil text-blue cursor"></i></td>
+                                                                            <td data-toggle="modal" data-target="#modal-exigence<?= $exi->getId() ?>" title="modifier les prix"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                         </tr>
                                                                     <?php } ?>
                                                                 </tbody>
@@ -348,7 +353,7 @@
                                         <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                             <div class="row">
 
-                                             <div class="col-md-4 bloc">
+                                               <div class="col-md-4 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">
                                                         <h5 class="text-uppercase">Groupe de manoeuvre</h5>
@@ -698,7 +703,7 @@
                                                     </div>
                                                     <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                         <table class="table">
-                                                           <thead>
+                                                         <thead>
                                                             <tr>
                                                                 <th>#</th>
                                                                 <th>Libéllé</th>
@@ -745,7 +750,7 @@
                                                 </div>
                                                 <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                     <table class="table">
-                                                       <thead>
+                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Libéllé</th>
@@ -884,55 +889,55 @@
                                                         </td>
                                                         <td><i class="fa fa-phone"></i> <?= $item->contact ?> <br> 
                                                             <i class="fa fa-map-marker"></i> <?= $item->adresse ?></td>
-                                                        <td class="">
-                                                            <?php $datas = $item->fourni("role_employe");
-                                                            $lots = [];
-                                                            foreach ($datas as $key => $rem) {
-                                                                $rem->actualise();
-                                                                $lots[] = $rem->role->getId(); ?>
-                                                                <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
-                                                                <?php } ?><hr class="mp3">
+                                                            <td class="">
+                                                                <?php $datas = $item->fourni("role_employe");
+                                                                $lots = [];
+                                                                foreach ($datas as $key => $rem) {
+                                                                    $rem->actualise();
+                                                                    $lots[] = $rem->role->getId(); ?>
+                                                                    <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
+                                                                    <?php } ?><hr class="mp3">
 
-                                                                <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                                    if (!in_array($role->getId(), $lots)) { ?>
-                                                                       <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
-                                                                   <?php } } ?>                
-                                                               </td>
-                                                               <td class="text-right">          
-                                                                <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
+                                                                    <?php foreach (Home\ROLE::getAll() as $key => $role) {
+                                                                        if (!in_array($role->getId(), $lots)) { ?>
+                                                                         <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                                     <?php } } ?>                
+                                                                 </td>
+                                                                 <td class="text-right">          
+                                                                    <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
 
-                                                                <?php if ($item->is_allowed == 1) { ?>
-                                                                    <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
-                                                                <?php }else{ ?>
-                                                                    <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
-                                                                <?php } ?>
-                                                                <button class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
-                                                                <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
+                                                                    <?php if ($item->is_allowed == 1) { ?>
+                                                                        <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                    <?php }else{ ?>
+                                                                        <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
+                                                                    <?php } ?>
+                                                                    <button class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
+                                                                    <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+        <?php include($this->relativePath("modals.php")); ?>
+
+
     </div>
-
-
-
-
-    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-    <?php include($this->relativePath("modals.php")); ?>
-
-
-</div>
 </div>
 
 

@@ -30,6 +30,12 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
+							<label>Stock actuel </label>
+							<div class="form-group">
+								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
+							</div>
+						</div>
+						<div class="col-sm-6">
 							<label>Illustration du produit</label>
 							<div class="">
 								<img style="width: 80px;" src="" class="img-thumbnail logo">
@@ -75,14 +81,20 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<label>abbréviation </label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="abbr" placeholder="Ex... T" required>
 							</div>
 						</div>
-						<div class="col-sm-6">
-							<label>Illustration de la ressource</label>
+						<div class="col-sm-4">
+							<label>Stock actuel </label>
+							<div class="form-group">
+								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<label>Image ressource</label>
 							<div class="">
 								<img style="width: 80px;" src="" class="img-thumbnail logo">
 								<input class="hide" type="file" name="image">
@@ -177,11 +189,16 @@
 
 						<div class="row">
 							<?php $i =0; foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $prod) { 
-								$datas = $prod->fourni("prix_zonelivraison", ["zonelivraison_id ="=>$zone->getId()]); ?>
+								$pz = new Home\PRIX_ZONELIVRAISON();
+								$datas = $prod->fourni("prix_zonelivraison", ["zonelivraison_id ="=>$zone->getId()]);
+								if (count($datas) > 0) {
+									$pz = $datas[0];
+								}
+								?>
 								<div class="col-sm-4">
 									<label><?= $prod->name() ?> </label>
 									<div class="form-group">
-										<input data-id="<?= $datas[0]->getId(); ?>" type="number" number class="form-control" value="<?= $datas[0]->price; ?>">
+										<input data-id="<?= $pz->getId(); ?>" type="number" number class="form-control" value="<?= $pz->price; ?>">
 									</div>
 								</div>
 							<?php } ?>
@@ -390,20 +407,20 @@
 			</div>
 			<form method="POST" class="formShamman" classname="categorieoperation">
 				<div class="modal-body">
-				<div class="row">
+					<div class="row">
 						<div class="">
-						<label>Type d'opération <span1>*</span1></label>
-						<div class="form-group">
-							<?php Native\BINDING::html("select", "typeoperationcaisse") ?>
+							<label>Type d'opération <span1>*</span1></label>
+							<div class="form-group">
+								<?php Native\BINDING::html("select", "typeoperationcaisse") ?>
+							</div>
+						</div>
+						<div class="">
+							<label>Libéllé </label>
+							<div class="form-group">
+								<input type="text" class="form-control" name="name" required>
+							</div>
 						</div>
 					</div>
-					<div class="">
-						<label>Libéllé </label>
-						<div class="form-group">
-							<input type="text" class="form-control" name="name" required>
-						</div>
-					</div>
-				</div>
 					<div class="">
 						<label>Couleur spécifique </label>
 						<div class="form-group">

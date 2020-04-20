@@ -15,6 +15,8 @@ class PRODUIT extends TABLE
 	public $description = "";
 	public $image = "default.png";
 
+	public $stock = 0;
+
 
 	public function enregistre(){
 		$data = new RESPONSE;
@@ -34,6 +36,13 @@ class PRODUIT extends TABLE
 				$ligne->produit_id = $data->lastid;
 				$ligne->price = 0;
 				$ligne->enregistre();
+
+				$ligne = new LIGNEPRODUCTIONJOUR();
+				$ligne->productionjour_id = 0;
+				$ligne->produit_id = $data->lastid;
+				$ligne->production = $this->stock;
+				$ligne->save();
+
 			}
 		}else{
 			$data->status = false;

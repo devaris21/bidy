@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <h3 class="no-margins text-red"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                    <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
                                     <small>Dépenses du jour</small>
                                     <div class="progress progress-mini">
                                         <div class="progress-bar" style="width: 60%;"></div>

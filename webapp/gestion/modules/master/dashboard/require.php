@@ -7,6 +7,7 @@ $title = "BIDY | Tableau de bord";
 
 $tableau = [];
 foreach (PRODUIT::getAll() as $key => $prod) {
+	$data = new \stdclass();
 	$data->name = $prod->name();
 	$data->stock = $prod->stock(dateAjoute());
 	$data->commande = $prod->livrable();

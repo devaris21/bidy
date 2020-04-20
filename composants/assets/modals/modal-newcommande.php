@@ -63,6 +63,20 @@
                             <div class="input-group">
                                 <?php Native\BINDING::html("select", "modepayement"); ?>
                             </div>
+                        </div><br>
+                        <div class="modepayement_facultatif">
+                            <div>
+                                <label>Structure d'encaissement<span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-bank"></i></span><input type="text" name="structure" class="form-control">
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>N° numero dédié<span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span><input type="text" name="numero" class="form-control">
+                                </div>
+                            </div>
                         </div>
                         <input type="hidden" name="client_id" value="<?= $client->getId() ?>">
                     </form><br><br>

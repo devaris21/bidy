@@ -150,7 +150,7 @@
                                     <tr>
                                        <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
                                         $datas = $produit->fourni("ligneproductionjour", ["DATE(created) = " => $date]);  ?>
-                                        <td data-toogle="tooltip" title="production" class="text-center"><?= money(comptage($datas, "production", "somme")) ?></td>
+                                        <td data-toogle="tooltip" title="production" class="text-center gras"><?= money(comptage($datas, "production", "somme")) ?></td>
                                         <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= money(comptage($datas, "perte", "somme")) ?></td>
                                     <?php   }  ?>
                                 </tr>
@@ -237,7 +237,7 @@
                                 <td width="15"><i class="fa fa-clock-o"></i></td>
                                 <td><?= datelong($operation->created) ?></td>
                                 <td width="15"><i class="fa fa-file-text"></i></td>
-                                <td><?= $operation->categorieoperation->name() ?> <span>*</span></td>
+                                <td><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span></td>
                                 <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
                                     <td class="text-center text-green"><?= money($operation->montant) ?> <?= $params->devise ?></td>
                                     <td class="text-center"> - </td>
@@ -272,7 +272,7 @@
         <h4 class="text-uppercase">SOLDE DU COMPTE</h4>
         <div class="">
             <small>Solde en Ouverture</small>
-            <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute1($date, -1))) ?></h2>
+            <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute1($date, -1))) ?> <?= $params->devise ?></h2>
             <div class="progress progress-mini">
                 <div class="progress-bar" style="width: 100%;"></div>
             </div>
@@ -280,7 +280,7 @@
 
         <div class="">
             <small>Solde à la fermeture</small>
-            <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , $date)) ?></h2>
+            <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , $date)) ?> <?= $params->devise ?></h2>
             <div class="progress progress-mini">
                 <div class="progress-bar" style="width: 100%;"></div>
             </div>

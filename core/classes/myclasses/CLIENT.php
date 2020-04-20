@@ -15,6 +15,7 @@ class CLIENT extends TABLE
 
 	const CLIENTSYSTEME = 1;
 
+	public $typeclient_id;
 	public $name;
 	public $contact;
 	public $email;
@@ -42,20 +43,21 @@ class CLIENT extends TABLE
 
 
 
-	public function crediter(int $montant, int $modepayement_id){
+	public function crediter(int $montant, Array $post){
 		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
-			if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-				$payement = new OPERATION();
+			$payement = new OPERATION();
+				$payement->hydrater($post);
+			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
 				$payement->client_id = $this->getId();
-				$payement->modepayement_id = $modepayement_id;
-				$payement->montant = intval($montant);
-				$payement->comment = "Acréditation du compte du client : ".$this->name();
-				$data = $payement->enregistre();
-				if ($data->status) {
+				$payement->comment = "Acréditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$lot = $payement->enregistre();
+				if ($lot->status) {
 					$this->acompte += intval($montant);
 					$data = $this->save();
+					$data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
 				}
 			}else{
 				$data->status = false;
