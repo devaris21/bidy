@@ -11,7 +11,7 @@ class MODEPAYEMENT extends TABLE
 
 	public $name;
 	public $initial;
-	public $etat_id = 0;
+	public $etat_id = ETAT::ENCOURS;
 
 	const ESPECE = 1;
 	const PRELEVEMENT_ACOMPTE = 2;

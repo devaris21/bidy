@@ -18,3 +18,14 @@
 	padding-right: 10px;
 	padding-left: 10px;
 }
+
+
+.ct-series-b line:nth-of-type(n+1) {
+	stroke: #20c997;
+	background-color: #20c997 !important;
+}
+
+.ct-series-a line:nth-of-type(n+1) {
+	stroke: #bbb;
+	background-color: #bbb !important;
+}

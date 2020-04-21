@@ -24,7 +24,7 @@ class DEMANDEENTRETIEN extends TABLE
 	public $image;
 	public $date_approuve;
 
-	public $etat_id = 0;
+	public $etat_id = ETAT::ENCOURS;
 	public $employe_id;
 
 
@@ -83,15 +83,15 @@ class DEMANDEENTRETIEN extends TABLE
 
 
 	public static function encours(){
-		return static::findBy(["etat_id ="=>0]);
+		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
 	}
 
 	public static function valideesCeMois(){
-		return static::findBy(["etat_id ="=>1, "date_approuve >="=>date("Y-m")."-01"]);
+		return static::findBy(["etat_id ="=>ETAT::VALIDEE, "date_approuve >="=>date("Y-m")."-01"]);
 	}
 
 	public static function annuleesCeMois(){
-		return static::findBy(["etat_id ="=>-1, "date_approuve >="=>date("Y-m")."-01"]);
+		return static::findBy(["etat_id ="=>ETAT::ANNULEE, "date_approuve >="=>date("Y-m")."-01"]);
 	}
 
 
@@ -125,7 +125,7 @@ class DEMANDEENTRETIEN extends TABLE
 
 
 	public function annuler(){
-		$this->etat_id = -1;
+		$this->etat_id = ETAT::ANNULEE;
 		$this->historique("Annulation de la demande d'entretien de véhicule N° $this->id par le demandeur");
 		return $this->save();
 	}
@@ -134,7 +134,7 @@ class DEMANDEENTRETIEN extends TABLE
 	public function approuver(){
 		$data = new RESPONSE;
 		$rooter = new ROOTER;
-		$this->etat_id = 1;
+		$this->etat_id = ETAT::VALIDEE;
 		$this->date_approuve = date("Y-m-d H:i:s");
 		$this->historique("Approbation de la demande d'entretien de véhicule N° $this->id");
 		$data = $this->save();
@@ -159,7 +159,7 @@ class DEMANDEENTRETIEN extends TABLE
 	public function refuser(){
 		$data = new RESPONSE;
 		$rooter = new ROOTER;
-		$this->etat_id = -1;
+		$this->etat_id = ETAT::ANNULEE;
 		$this->date_approuve = date("Y-m-d H:i:s");
 		$this->historique("Refus de la demande d'entretien de véhicule N° $this->id");
 		$data = $this->save();

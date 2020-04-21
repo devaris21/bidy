@@ -63,6 +63,7 @@ $(function(){
 
 
     $("#formValiderLivraison").submit(function(event) {
+        Loader.start();
         var url = "../../webapp/gestion/modules/production/livraisons/ajax.php";
         var formdata = new FormData($(this)[0]);
         var tableau = new Array();

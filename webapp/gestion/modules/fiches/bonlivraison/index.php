@@ -75,7 +75,7 @@
                                             <img style="width: 100%; height: 60px" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">
                                         </td>
                                         <td class="desc">
-                                            <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
+                                            <h3 class="mp0 text-uppercase gras"><br><?= $ligne->produit->name() ?></h3>
                                             <span><?= $ligne->produit->description ?></span>
                                         </td>
                                         <td class="text-center"><br><h2 class="gras"><?= money($ligne->quantite) ?></h2></td>

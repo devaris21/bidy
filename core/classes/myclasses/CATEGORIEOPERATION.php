@@ -20,7 +20,7 @@ class CATEGORIEOPERATION extends TABLE
 	
 	public $typeoperationcaisse_id;
 	public $name;
-	public $color;
+	public $color = "#ffffff";
 
 
 
@@ -43,6 +43,15 @@ class CATEGORIEOPERATION extends TABLE
 
 
 
+	public static function entree(){
+		return static::findBy(["typeoperationcaisse_id ="=> TYPEOPERATIONCAISSE::ENTREE]);
+	}
+
+
+
+	public static function depense(){
+		return static::findBy(["typeoperationcaisse_id ="=> TYPEOPERATIONCAISSE::SORTIE]);
+	}
 
 
 	public function sentenseCreate(){}

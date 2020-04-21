@@ -27,8 +27,7 @@
                                     <button class="btn btn-white dim newressource" data-id="<?= $ressource->getId() ?>" data-toggle="tooltip" title="<?= $ressource->unite ?>"><?= $ressource->name(); ?></button>
                                 <?php }  ?>
                             </div>
-                        </div><br>
-                        <button id="actualise" class="btn btn-default dim pull-right btn-sm" onclick="calcul()"><i class="fa fa-refresh"></i> Actualiser</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +60,7 @@
                         </form><br>
                         <h2 class="font-bold total text-right total">0 Fcfa</h2>
                         <hr/>
-                        <button onclick="validerApprovisionnement()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
+                        <button onclick="validerApprovisionnement()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider l'approvisionnement</button>
                     </div>
                 </div>
 

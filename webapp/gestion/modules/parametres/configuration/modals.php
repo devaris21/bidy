@@ -408,13 +408,13 @@
 			<form method="POST" class="formShamman" classname="categorieoperation">
 				<div class="modal-body">
 					<div class="row">
-						<div class="">
+						<div class="col-sm-5">
 							<label>Type d'opération <span1>*</span1></label>
 							<div class="form-group">
 								<?php Native\BINDING::html("select", "typeoperationcaisse") ?>
 							</div>
 						</div>
-						<div class="">
+						<div class="col-sm-7">
 							<label>Libéllé </label>
 							<div class="form-group">
 								<input type="text" class="form-control" name="name" required>

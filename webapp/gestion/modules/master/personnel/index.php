@@ -106,10 +106,10 @@
                                                                         <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
                                                                     <?php } ?>                                                                 
                                                                 </td>
-                                                                <td class="project-actions">
+                                                              <!--   <td class="project-actions">
                                                                     <button onclick="available(<?= $man->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-lock"></i></button>
                                                                     <button onclick="modification('manoeuvre', <?= $man->getId() ?>)"  data-toggle="modal" data-target="#modal-manoeuvre" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i></button>
-                                                                </td>
+                                                                </td> -->
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
@@ -144,7 +144,7 @@
                                                 $solde = 140455; ?>
                                                 <tr>
                                                     <td class="project-people">
-                                                        <img class="rounded-circle" src="<?= $this->stockage("images", "manoeuvres", $man->image) ?>">
+                                                        <img class="rounded-circle" src="<?= $this->stockage("images", "chauffeurs", $man->image) ?>">
                                                     </td>
                                                     <td colspan="2" class="project-title">                                                    
                                                         <span class="pull-right"><button onclick="available(<?= $man->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-lock"></i></button>

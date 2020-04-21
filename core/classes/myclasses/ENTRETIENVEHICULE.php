@@ -26,7 +26,7 @@ class ENTRETIENVEHICULE extends TABLE
 	public $started;
 	public $finished;
 	public $employe_id;
-	public $etat_id = 0;
+	public $etat_id = ETAT::ENCOURS;
 	public $date_approuve; 
 	public $image; 
 	public $comment; 
@@ -92,7 +92,7 @@ class ENTRETIENVEHICULE extends TABLE
 	}
 
 	public static function annuleesCeMois(){
-		return static::findBy(["etat_id ="=>-1, "date_approuve >="=>date("Y-m")."-01"]);
+		return static::findBy(["etat_id ="=>ETAT::ANNULEE, "date_approuve >="=>date("Y-m")."-01"]);
 	}
 
 	public static function coutAnnuel(){
@@ -126,7 +126,7 @@ class ENTRETIENVEHICULE extends TABLE
 
 
 	public function annuler(){
-		$this->etat_id = -1;
+		$this->etat_id = ETAT::ANNULEE;
 		$this->historique("Annulation de l'entretien de véhicule N° $this->reference N°".$commande->reference);
 		return $this->save();
 	}
@@ -135,7 +135,7 @@ class ENTRETIENVEHICULE extends TABLE
 	public function refuser(){
 		$data = new RESPONSE;
 		$rooter = new ROOTER;
-		$this->etat_id = -1;
+		$this->etat_id = ETAT::ANNULEE;
 		$this->date_approuve = date("Y-m-d H:i:s");
 		$this->historique("Echec de l'entretien de véhicule N° $this->id");
 		$data = $this->save();
@@ -158,7 +158,7 @@ class ENTRETIENVEHICULE extends TABLE
 
 
 	public static function encours(){
-		return static::findBy(["etat_id ="=>0]);
+		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
 	}
 
 

@@ -9,6 +9,9 @@ class SEXE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const HOMME = 1;
+	const FEMME = 2;
+
 	public $name;
 	public $abreviation;
 	public $icon = "fa fa-venus-mars";

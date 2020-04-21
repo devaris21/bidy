@@ -18,11 +18,11 @@ class LIGNEEXIGENCEPRODUCTION extends TABLE
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRODUCTIONJOUR::findBy(["id ="=>$this->productionjour_id]);
+		$datas = EXIGENCEPRODUCTION::findBy(["id ="=>$this->exigenceproduction_id]);
 		if (count($datas) == 1) {
-			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+			$datas = RESSOURCE::findBy(["id ="=>$this->ressource_id]);
 			if (count($datas) == 1) {
-				if ($this->production >= 0 && $this->perte >= 0) {
+				if ($this->quantite >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;

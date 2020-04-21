@@ -52,9 +52,17 @@ if ($action == "validerLivraison") {
 				$lot = explode("-", $value);
 				$id = $lot[0];
 				$qte = end($lot);
+
+				$produit = new PRODUIT();
+				$datas = PRODUIT::findBy(["id ="=>$id]);
+				if (count($datas) == 1) {
+					$produit = $datas[0];
+				}
 				foreach ($livraison->lignelivraisons as $key => $lgn) {
 					if (($lgn->produit_id == $id) && ($lgn->quantite >= $qte)) {
-						unset($tests[$key]);
+						if ($produit->stock(dateAjoute(1)) >= $lgn->quantite) {
+							unset($tests[$key]);
+						}
 					}
 				}
 			}

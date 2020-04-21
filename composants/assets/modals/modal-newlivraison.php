@@ -78,13 +78,13 @@
                         <div>
                             <label>Véhicule de la livraison <span style="color: red">*</span> </label>                                
                             <div class="input-group">
-                                <?php Native\BINDING::html("select", "vehicule"); ?>
+                                <?php Native\BINDING::html("select-tableau", Home\VEHICULE::ras(), null, "vehicule_id"); ?>
                             </div>
                         </div><br>
                         <div>
                             <label>Chauffeur de la livraison <span style="color: red">*</span> </label>                                
                             <div class="input-group">
-                                <?php Native\BINDING::html("select", "chauffeur"); ?>
+                                <?php Native\BINDING::html("select-tableau", Home\CHAUFFEUR::libres(), null, "chauffeur_id"); ?>
                             </div>
                         </div>
                         <input type="hidden" name="client_id" value="<?= $groupecommande->client_id ?>">

@@ -32,7 +32,7 @@ class VEHICULE extends TABLE
 	public $date_visitetechnique;
 	public $date_vidange;
 	public $date_assurance;
-	public $etatvehicule_id = 0;
+	public $etatvehicule_id = ETATVEHICULE::RAS;
 	public $location = 0;
 	public $possession = 0;
 

@@ -27,6 +27,18 @@ class RESSOURCE extends TABLE
 			if ($data->status) {
 				$this->uploading($this->files);
 
+				foreach (PRODUIT::getAll() as $key => $produit) {
+					$lots = $produit->fourni("exigenceproduction");
+					if (count($lots) == 1 ) {
+						$exi = $lots[0];
+						$ligne = new LIGNEEXIGENCEPRODUCTION();
+						$ligne->exigenceproduction_id = $exi->getId();
+						$ligne->ressource_id = $data->lastid;
+						$ligne->quantite = 0;
+						$ligne->enregistre();
+					}
+				}
+
 				$ligne = new LIGNEAPPROVISIONNEMENT();
 				$ligne->approvisionnement_id = 0;
 				$ligne->ressource_id = $data->lastid;

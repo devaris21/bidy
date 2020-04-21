@@ -15,7 +15,7 @@ class CLIENT extends TABLE
 
 	const CLIENTSYSTEME = 1;
 
-	public $typeclient_id;
+	public $typeclient_id = TYPECLIENT::ENTREPRISE;
 	public $name;
 	public $contact;
 	public $email;

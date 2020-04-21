@@ -1,5 +1,6 @@
 <?php 
-//use Home\PRODUIT;
+// use Home\PRODUIT;
+// use Home\RESSOURCE;
 //Innitialisation des parametres de date au format français
 setlocale(LC_ALL, 'fr_FR', 'fr', 'fra');
 date_default_timezone_set("UTC");
@@ -12,49 +13,57 @@ if (count(Home\MYCOMPTE::getAll()) == 0) {
 }
 
 // $item = new PRODUIT();
+// $item->files = [];
 // $item->name = "HOURDIS";
 // $item->class = "Hourdis";
-// $item->save();
+// $item->enregistre();
 
 // $item = new PRODUIT();
+// $item->files = [];
 // $item->name = "AC 15";
 // $item->class = "Agglos creux 15";
-// $item->save();
+// $item->enregistre();
 
 // $item = new PRODUIT();
+// $item->files = [];
 // $item->name = "AP 15";
 // $item->class = "Agglos pleins 15";
-// $item->save();
+// $item->enregistre();
 
 // $item = new PRODUIT();
+// $item->files = [];
 // $item->name = "BTC";
 // $item->class = "Briques en terre compressée";
-// $item->save();
+// $item->enregistre();
 
 
 // $item = new RESSOURCE();
+// $item->files = [];
 // $item->name = "CIMENT";
 // $item->class = "Sac";
 // $item->abbr = "Sacs";
-// $item->save();
+// $item->enregistre();
 
 // $item = new RESSOURCE();
+// $item->files = [];
 // $item->name = "SABLE";
 // $item->class = "Chargement";
 // $item->abbr = "Chgs";
-// $item->save();
+// $item->enregistre();
 
 // $item = new RESSOURCE();
+// $item->files = [];
 // $item->name = "GRAVIER";
 // $item->class = "Tonne";
 // $item->abbr = "T";
-// $item->save();
+// $item->enregistre();
 
 // $item = new RESSOURCE();
+// $item->files = [];
 // $item->name = "EAU";
 // $item->class = "Litre";
 // $item->abbr = "L";
-// $item->save();
+// $item->enregistre();
 
 
 $rooter = new ROOTER;

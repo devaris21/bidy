@@ -30,7 +30,7 @@ $(function(){
         $.post(url, {action:"newressource", id:id}, (data)=>{
             $("tbody.approvisionnement").append(data);
             $("button[data-id ="+id+"]").hide(200);
-            $("#actualise").show(200);
+            calcul()
         },"html");
     });
 
@@ -40,7 +40,7 @@ $(function(){
         $.post(url, {action:"supprimeRessource", id:id}, (data)=>{
             $("tbody.approvisionnement tr#ligne"+id).hide(400).remove();
             $("button[data-id ="+id+"]").show(200);
-            $("#actualise").show(200);
+            calcul()
         },"html");
     }
 
@@ -60,14 +60,19 @@ $(function(){
         formdata.append('action', "calcul");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
             $("#modal-approvisionnement tbody.approvisionnement").html(data);
+
+            formdata.append('action', "total");
+            $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+                $(".total").html(data.total);
+            }, 'json')
         }, 'html')
-        formdata.append('action', "total");
-        $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            $(".total").html(data.total);
-        }, 'json')
-        $("#actualise").hide(200);
         return formdata;
     }
+
+
+    $("body").on("change", "tbody.approvisionnement input.prix", function() {
+        calcul()
+    })
 
 
     validerApprovisionnement = function(){
@@ -82,6 +87,7 @@ $(function(){
             formdata.append('action', "validerApprovisionnement");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                 if (data.status) {
+                    window.open(data.url, "_blank");
                     window.location.reload();
                 }else{
                     Alerter.error('Erreur !', data.message);

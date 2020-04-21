@@ -27,8 +27,20 @@ class PRODUIT extends TABLE
 				foreach (ZONELIVRAISON::getAll() as $key => $zonelivraison) {
 					$ligne = new PRIX_ZONELIVRAISON();
 					$ligne->produit_id = $data->lastid;
-					$ligne->zonelivraison_id = $onelivraison->getId();
+					$ligne->zonelivraison_id = $zonelivraison->getId();
 					$ligne->price = 0;
+					$ligne->enregistre();
+				}
+
+				$ligne = new EXIGENCEPRODUCTION();
+				$ligne->produit_id = $data->lastid;
+				$ligne->quantite = 0;
+				$lot = $ligne->enregistre();
+				foreach (RESSOURCE::getAll() as $key => $ressource) {
+					$ligne = new LIGNEEXIGENCEPRODUCTION();
+					$ligne->exigenceproduction_id = $lot->lastid;
+					$ligne->ressource_id = $ressource->getId();
+					$ligne->quantite = 0;
 					$ligne->enregistre();
 				}
 

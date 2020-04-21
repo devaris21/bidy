@@ -26,6 +26,7 @@ $(function(){
 			$("body #modal-groupecommande").remove();
 			$("body").append(data);
 			$("body #modal-groupecommande").modal("show");
+			$("select.select2").select2();
 			Loader.stop();	
 		},"html");
 	}
@@ -49,9 +50,14 @@ $(function(){
 		$.post(url, {action:"newproduit", id:id, zone:zone}, (data)=>{
 			$("tbody.commande").append(data);
 			$("button[data-id ="+id+"]").hide(200);
-			$("#actualise").show(200);
+			calcul()
 		},"html");
 	});
+
+
+	$("body").on("change", "tbody.commande input", function() {
+		calcul()
+	})
 
 
 	supprimeProduit = function(id){
@@ -59,7 +65,7 @@ $(function(){
 		$.post(url, {action:"supprimeProduit", id:id}, (data)=>{
 			$("tbody.commande tr#ligne"+id).hide(400).remove();
 			$("button[data-id ="+id+"]").show(200);
-			$("#actualise").show(200);
+			calcul()
 		},"html");
 	}
 
@@ -83,13 +89,15 @@ $(function(){
 		formdata.append('action', "calcul");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 			$("#modal-newcommande tbody.commande").html(data);
+
+			formdata.append('action', "total");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				$(".tva").html(data.tva);
+				$(".montant").html(data.montant);
+				$(".total").html(data.total);
+			}, 'json')
 		}, 'html')
-		formdata.append('action', "total");
-		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-			$(".tva").html(data.tva);
-			$(".montant").html(data.montant);
-			$(".total").html(data.total);
-		}, 'json')
+		
 		$("#actualise").hide(200);
 		return formdata;
 	}
@@ -112,8 +120,8 @@ $(function(){
 			formdata.append('action', "validerCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
-					window.open(data.url1, "_blank");
 					window.open(data.url2, "_blank");
+					window.open(data.url1, "_blank");
 					window.location.reload();
 				}else{
 					Alerter.error('Erreur !', data.message);
@@ -124,9 +132,9 @@ $(function(){
 
 
 	validerLivraison = function(){
-		val = $('.date').data("datepicker").viewDate;
-		console.log(val);
-		return false;
+		// val = $('.date').data("datepicker").viewDate;
+		// console.log(val);
+		// return false;
 		var formdata = new FormData($("#formLivraison")[0]);
 		var tableau = new Array();
 		$("#modal-newlivraison .commande tr").each(function(index, el) {

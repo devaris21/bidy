@@ -27,7 +27,7 @@
                 </form> 
             </div>
             <div class="col-sm-6">
-               
+
             </div>
         </div>
 
@@ -47,12 +47,12 @@
 
                         <div class="row">
                             <div class="col-sm-9" style="border-right: 2px solid black">
-                             <div class="row">
+                               <div class="row">
                                 <div class="col-sm-6">
                                     <h4 class="text-uppercase text-center">Commandes</h4>
                                     <?php if (count($commandes) > 0) { ?>
                                         <div>
-                                           <?php foreach ($commandes as $key => $commande) { 
+                                         <?php foreach ($commandes as $key => $commande) { 
                                             $commande->actualise();
                                             $datas = $commande->fourni("lignecommande"); ?>
                                             <div class="text-left">
@@ -118,18 +118,18 @@
                                                     <tr>
                                                         <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
                                                             if ($ligne->quantite > 0) { ?>
-                                                               <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
-                                                               <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
-                                                           <?php   } 
-                                                       } ?>
-                                                   </tr>
-                                               </tbody>
-                                           </table>
-                                           <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
-                                           <hr>
-                                       <?php } ?>
-                                   </div>
-                               <?php }else{ ?>
+                                                             <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
+                                                             <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
+                                                         <?php   } 
+                                                     } ?>
+                                                 </tr>
+                                             </tbody>
+                                         </table>
+                                         <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
+                                         <hr>
+                                     <?php } ?>
+                                 </div>
+                             <?php }else{ ?>
                                 <p class="text-center text-muted italic">Aucune livraison ce jour </p>
                             <?php } ?>
                         </div>
@@ -148,7 +148,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                       <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
+                                     <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
                                         $datas = $produit->fourni("ligneproductionjour", ["DATE(created) = " => $date]);  ?>
                                         <td data-toogle="tooltip" title="production" class="text-center gras"><?= money(comptage($datas, "production", "somme")) ?></td>
                                         <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= money(comptage($datas, "perte", "somme")) ?></td>
@@ -159,8 +159,8 @@
                     </div>
 
                     <div class="col-md-6">
-                     <h4 class="text-uppercase text-center">consommation des ressources</h4>
-                     <table class="table table-bordered mp0">
+                       <h4 class="text-uppercase text-center">consommation des ressources</h4>
+                       <table class="table table-bordered mp0">
                         <thead>
                             <tr>
                                 <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {  ?>
@@ -170,7 +170,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                               <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
+                             <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) {
                                 $datas = $ressource->fourni("ligneconsommationjour", ["DATE(created) = " => $date]);  ?>
                                 <td data-toogle="tooltip" title="production" class="text-center"><?= money(comptage($datas, "consommation", "somme")) ?> <?= $ressource->abbr  ?></td>
                             <?php   }  ?>
@@ -224,7 +224,7 @@
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr class="text-center text-uppercase">
-                            <th colspan="4" style="visibility: hidden;"></th>
+                            <th colspan="3" style="visibility: hidden;"></th>
                             <th>Entrée</th>
                             <th>Sortie</th>
                             <th>Résultats</th>
@@ -234,25 +234,41 @@
                         <?php foreach ($operations as $key => $operation) {
                             $operation->actualise(); ?>
                             <tr>
-                                <td width="15"><i class="fa fa-clock-o"></i></td>
-                                <td><?= datelong($operation->created) ?></td>
-                                <td width="15"><i class="fa fa-file-text"></i></td>
-                                <td><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span></td>
+                                <td width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                <td>
+                                    <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= heurecourt($operation->created) ?></span></h6>
+                                    <i><?= $operation->comment ?></i>
+                                </td>
+                                <td width="110" class="text-center" style="padding: 0">
+                                    <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
+                                        <button onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                                    <?php } ?>
+                                    <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
+                                </td>
                                 <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
-                                    <td class="text-center text-green"><?= money($operation->montant) ?> <?= $params->devise ?></td>
+                                    <td class="text-center text-green gras" style="padding-top: 12px;">
+                                        <?= money($operation->montant) ?> <?= $params->devise ?>
+                                    </td>
                                     <td class="text-center"> - </td>
                                 <?php }elseif ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE) { ?>
                                     <td class="text-center"> - </td>
-                                    <td class="text-center text-red"><?= money($operation->montant) ?> <?= $params->devise ?></td>
+                                    <td class="text-center text-red gras" style="padding-top: 12px;">
+                                        <?= money($operation->montant) ?> <?= $params->devise ?>
+                                    </td>
                                 <?php } ?>
-                                <td class="text-center gras"><?= money($operation->montant) ?> <?= $params->devise ?></td>
+                                <td class="text-center gras" style="padding-top: 12px;"><?= money($operation->montant) ?> <?= $params->devise ?></td>
                             </tr>
                         <?php } ?>
                         <tr>
-                            <td colspan="4"><h4 class="text-uppercase mp0 text-right">Solde du compte au <?= datecourt($date) ?></h4></td>
+                            <td colspan="3"><h4 class="text-uppercase mp0 text-right">Solde du jour</h4></td>
                             <td><h4 class="text-center"><?= money(Home\OPERATION::entree($date, $date)) ?> <?= $params->devise ?></h4></td>
                             <td><h4 class="text-center"><?= money(Home\OPERATION::sortie($date, $date)) ?> <?= $params->devise ?></h4></td>
                             <td><h4 class="text-center"><?= money(Home\OPERATION::resultat($date, $date)) ?> <?= $params->devise ?></h4></td>
+                        </tr>
+                        <tr style="height: 15px;"></tr>
+                        <tr>
+                            <td colspan="3"><h4 class="text-uppercase mp0 text-right">Solde du compte au <?= datecourt(dateAjoute()) ?></h4></td>
+                            <td colspan="3"><h2 class="text-center"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h2></td>
                         </tr>
                     </tbody>
                 </table>
@@ -261,14 +277,25 @@
 
     </div>
     <div class="col-sm-3 text-right">
-        <h4 class="text-uppercase">Groupe de travail</h4>
+         <h4 class="text-uppercase">Employés connectés</h4>
         <h6><?= $productionjour->groupemanoeuvre->name();  ?></h6>
         <ul>
-            <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) { ?>
-                <li><?= $man->name(); ?></li>
+            <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) { 
+                $man->actualise(); ?>
+                <li><?= $man->manoeuvre->name(); ?></li>
             <?php } ?>
         </ul><br>
-<hr>
+        <hr>
+
+        <h4 class="text-uppercase">Groupe de manoeuvres</h4>
+        <h6><?= $productionjour->groupemanoeuvre->name();  ?></h6>
+        <ul>
+            <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) { 
+                $man->actualise(); ?>
+                <li><?= $man->manoeuvre->name(); ?></li>
+            <?php } ?>
+        </ul><br>
+        <hr>
         <h4 class="text-uppercase">SOLDE DU COMPTE</h4>
         <div class="">
             <small>Solde en Ouverture</small>

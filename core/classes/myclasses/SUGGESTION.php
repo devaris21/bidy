@@ -18,7 +18,7 @@ class SUGGESTION extends TABLE
 	public $utilisateur_id = null;
 	public $carplan_id = null;
 	public $prestataire_id = null;
-	public $etat_id = 0;
+	public $etat_id = ETAT::ENCOURS;
 	public $date_approuve;
 
 
@@ -76,7 +76,7 @@ class SUGGESTION extends TABLE
 	public function approuver(){
 		$data = new RESPONSE;
 		$rooter = new ROOTER;
-		$this->etat_id = 1;
+		$this->etat_id = ETAT::VALIDEE;
 		$this->date_approuve = date("Y-m-d H:i:s");
 		$this->historique("Approbation de la demande d'entretien de véhicule N° $this->id");
 		$data = $this->save();

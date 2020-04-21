@@ -78,37 +78,35 @@
                                 <?php } ?>
                                 <li class="list-group-item"></li>
                             </ul><hr>
-                            <div style="background-color: #dedede; padding: 2%;">
-                                <label>Vous....</label>
-                                <h3><?= $employe->name()  ?></h3>
-                            </div>
+                            
+                            <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>" ><button class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Rapport de la journée</button></a>                            
                         </div>
                         <div class="col-md-6 border-right border-left">
                             <div class="" style="margin-top: 0%">
-                                <div id="ct-chart4" style="height: 270px;"></div>
+                                <div id="ct-chart" style="height: 270px;"></div>
                             </div>
                             <h6 class="text-uppercase text-center">Courbe représentative du stock de produits en fonction des commandes actuelles</h6>
                             <hr class="">
                             <div class="row stat-list">
                                 <div class="col-4">
-                                    <h2 class="no-margins"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
+                                    <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
                                     <small>En caisse actuellement</small>
                                     <div class="progress progress-mini">
-                                        <div class="progress-bar" style="width: 48%;"></div>
+                                        <div class="progress-bar bg-black" style="width: 100%;"></div>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
                                     <small>Entrées du jour</small>
                                     <div class="progress progress-mini">
-                                        <div class="progress-bar" style="width: 60%;"></div>
+                                        <div class="progress-bar bg-primary" style="width: 100%;"></div>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
                                     <small>Dépenses du jour</small>
                                     <div class="progress progress-mini">
-                                        <div class="progress-bar" style="width: 60%;"></div>
+                                        <div class="progress-bar bg-danger" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>  
@@ -116,43 +114,66 @@
                         <div class="col-md-3 text-center">
                             <h3 class="text-uppercase">Stock des ressources</h3>
                             <ul class="list-group  text-left clear-list m-t">
-                              <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
-                                <li class="list-group-item">
-                                    <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
-                                        <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
-                                        <span class="float-right">
-                                            <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
-                                        </span>
-                                    </a>
-                                </li>
-                            <?php } ?>
-                            <li class="list-group-item"></li>
-                        </ul> <hr>
-                        <div class="row">
-                            <div class="col-2">
-                                <img style="width: 40px" src="<?= $this->stockage("images", "societe", $params->image) ?>">
-                            </div>
-                            <div class="col-10 text-left">
-                                <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
-                                <h5 class="mp0"><?= $params->postale ?></h5>
-                                <h5 class="mp0">Tél: <?= $params->contact ?></h5>
-                                <h5 class="mp0">Email: <?= $params->email ?></h5>
-                            </div>
+                                <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
+                                    <li class="list-group-item">
+                                        <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
+                                            <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
+                                            <span class="float-right">
+                                                <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <li class="list-group-item"></li>
+                            </ul> <br>
+                            <hr class="mp0">
+                            <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
+
+                            
+                            <!-- <h4 class="text-uppercase text-red"><i class="fa fa-car"></i> Véhicules en livraison</h4>
+                            <div>
+                                <?php 
+                                $vehicules = Home\VEHICULE::mission();
+                                if (count($vehicules) > 0) { ?>
+                                    <table class="table text-left">
+                                        <tbody>
+                                            <?php foreach ($vehicules as $key => $vehicule) {
+                                                $vehicule->actualise();
+                                                ?>
+                                                <tr>    
+                                                    <td>
+                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $vehicule->image) ?>">
+                                                    </td>
+                                                    <td class="">
+                                                        <h5 class="text-uppercase gras"><?= $vehicule->marque->name() ?> <?= $vehicule->modele ?></h5>
+                                                        <h6 class=""><?= $vehicule->immatriculation ?></h6>
+                                                    </td>                                      
+                                                    <td class="project-status">
+                                                        <span class="pull-right label label-<?= $vehicule->etatvehicule->class ?>"></span>
+                                                    </td>   
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>    
+                                <?php }else{ ?>
+                                    <p class="text-center text-muted">Aucun pour le moment!</p>
+                                <?php } ?>                         
+                            </div> -->
+
                         </div>
-                    </div>
-                </div>                    
+                    </div>                    
+                </div>
+
+
+
             </div>
-
-
-
         </div>
+        <br>
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+
     </div>
-    <br>
-
-    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-
-</div>
 </div>
 
 
@@ -179,13 +200,13 @@
 
  // Stocked horizontal bar
 
- new Chartist.Bar('#ct-chart4', {
+ new Chartist.Bar('#ct-chart', {
     labels: [<?php foreach ($tableau as $key => $data){ ?> "<?= $data->name ?>", <?php } ?>],
     series: [
-            [<?php foreach ($tableau as $key => $data){ ?> <?= $data->stock ?>, <?php } ?>],
-            [<?php foreach ($tableau as $key => $data){ ?> <?= $data->commande ?>, <?php } ?>]
-        ]
-    }, {
+    [<?php foreach ($tableau as $key => $data){ ?> <?= $data->stock ?>, <?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?> <?= $data->commande ?>, <?php } ?>]
+    ]
+}, {
     seriesBarDistance: 10,
     reverseData: true,
     horizontalBars: true,
@@ -197,6 +218,7 @@
 
 });
 </script>
+
 
 </body>
 

@@ -102,40 +102,48 @@ $item->contact = "...";
 $item->setProtected(1);
 $item->save();
 
+$item = new CLIENT();
+$item->name = "Devaris 21";
+$item->email = "info@devaris21.com";
+$item->adresse = "...";
+$item->contact = "...";
+$item->setProtected(1);
+$item->save();
+
 
 
 $item = new MODEPAYEMENT();
 $item->name = "Espèces";
 $item->initial = "ES";
-$item->etat_id = 1;
+$item->etat_id = ETAT::VALIDEE;
 $item->setProtected(1);
 $item->save();
 
 $item = new MODEPAYEMENT();
 $item->name = "Prelevement sur acompte";
 $item->initial = "PA";
-$item->etat_id = 1;
+$item->etat_id = ETAT::VALIDEE;
 $item->setProtected(1);
 $item->save();
 
 $item = new MODEPAYEMENT();
 $item->name = "Chèque";
 $item->initial = "CH";
-$item->etat_id = 0;
+$item->etat_id = ETAT::ENCOURS;
 $item->setProtected(1);
 $item->save();
 
 $item = new MODEPAYEMENT();
 $item->name = "Virement banquaire";
 $item->initial = "VB";
-$item->etat_id = 0;
+$item->etat_id = ETAT::ENCOURS;
 $item->setProtected(1);
 $item->save();
 
 $item = new MODEPAYEMENT();
 $item->name = "Mobile money";
 $item->initial = "MM";
-$item->etat_id = 0;
+$item->etat_id = ETAT::ENCOURS;
 $item->setProtected(1);
 $item->save();
 
@@ -199,7 +207,7 @@ $item->class = "success";
 $item->setProtected(1);
 $item->save();
 
-$item = new ETATVEHICULE();
+$item = new ETATCHAUFFEUR();
 $item->name = "En mission";
 $item->class = "danger";
 $item->setProtected(1);

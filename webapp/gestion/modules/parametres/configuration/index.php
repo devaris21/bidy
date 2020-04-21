@@ -329,8 +329,13 @@
                                                                         <tr>
                                                                             <td class="gras"><?= $zone->name(); ?></td>
                                                                             <?php $i =0; foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $prod) { 
-                                                                                $datas = $prod->fourni("prix_zonelivraison", ["zonelivraison_id ="=>$zone->getId()]); ?>
-                                                                                <td class="text-center" ><?= money($datas[0]->price); ?> <?= $params->devise ?></td>
+                                                                                $pz = new Home\PRIX_ZONELIVRAISON();
+                                                                                $datas = $prod->fourni("prix_zonelivraison", ["zonelivraison_id ="=>$zone->getId()]);
+                                                                                if (count($datas) > 0) {
+                                                                                    $pz = $datas[0];
+                                                                                }
+                                                                                ?>
+                                                                                <td class="text-center" ><?= money($pz->price); ?> <?= $params->devise ?></td>
                                                                             <?php } ?>
                                                                             <td data-toggle="modal" data-target="#modal-prix<?= $zone->getId() ?>" title="modifier les prix"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                         </tr>
@@ -353,7 +358,7 @@
                                         <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                             <div class="row">
 
-                                               <div class="col-md-4 bloc">
+                                             <div class="col-md-4 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">
                                                         <h5 class="text-uppercase">Groupe de manoeuvre</h5>
@@ -703,7 +708,7 @@
                                                     </div>
                                                     <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                         <table class="table">
-                                                         <thead>
+                                                           <thead>
                                                             <tr>
                                                                 <th>#</th>
                                                                 <th>Libéllé</th>
@@ -750,7 +755,7 @@
                                                 </div>
                                                 <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                     <table class="table">
-                                                     <thead>
+                                                       <thead>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Libéllé</th>
@@ -900,10 +905,10 @@
 
                                                                     <?php foreach (Home\ROLE::getAll() as $key => $role) {
                                                                         if (!in_array($role->getId(), $lots)) { ?>
-                                                                         <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
-                                                                     <?php } } ?>                
-                                                                 </td>
-                                                                 <td class="text-right">          
+                                                                           <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                                       <?php } } ?>                
+                                                                   </td>
+                                                                   <td class="text-right">          
                                                                     <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
 
                                                                     <?php if ($item->is_allowed == 1) { ?>

@@ -21,17 +21,11 @@ class PAYE_PRODUIT extends TABLE
 		$data = new RESPONSE;
 		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 		if (count($datas) == 1) {
-			$datas = ZONELIVRAISON::findBy(["id ="=>$this->zonelivraison_id]);
-			if (count($datas) == 1) {
-				if ($this->price >= 0) {
-					$data = $this->save();
-				}else{
-					$data->status = false;
-					$data->message = "Le prix renseigné est incorrect !";
-				}
+			if ($this->price >= 0) {
+				$data = $this->save();
 			}else{
 				$data->status = false;
-				$data->message = "Une erreur s'est produite lors du prix !";
+				$data->message = "Le prix renseigné est incorrect !";
 			}
 		}else{
 			$data->status = false;

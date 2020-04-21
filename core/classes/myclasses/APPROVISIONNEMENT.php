@@ -42,7 +42,7 @@ class APPROVISIONNEMENT extends TABLE
 
 
 	public static function encours(){
-		return static::findBy(["etat_id ="=>0]);
+		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
 	}
 	
 

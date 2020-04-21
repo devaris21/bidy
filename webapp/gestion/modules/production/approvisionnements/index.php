@@ -63,7 +63,7 @@
                  <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
              </div>
          </div>
-         <div class="ibox-content" style="height: 300px;">
+         <div class="ibox-content" style="min-height: 300px;">
              <?php if (count($approvisionnements) > 0) { ?>
                 <table class="table table-hover table-approvisionnement">
                     <tbody>
@@ -84,7 +84,6 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="no">
-                                                <th></th>
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { 
                                                     $ligne->actualise(); ?>
                                                     <th class="text-center text-uppercase"><?= $ligne->ressource->name() ?></th>
@@ -93,7 +92,6 @@
                                         </thead>
                                         <tbody>
                                             <tr class="no">
-                                                <td><h4 class="mp0">à livrer : </h4></td>
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { ?>
                                                    <td class="text-center"><?= $ligne->quantite ?></td>
                                                <?php   } ?>
@@ -101,7 +99,7 @@
                                        </tbody>
                                    </table>
                                </td>
-                               <td><span>Montant</span> <h2 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h2></td>
+                               <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3></td>
                                <td class="border-left">
                                 <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $appro->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-red"></i> Bon de livraison</a><br>
                                 <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>

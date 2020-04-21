@@ -168,7 +168,7 @@ if ($action == "validerCommande") {
 
 							$lignecommande = new LIGNECOMMANDE;
 							$lignecommande->commande_id = $commande->getId();
-							$lignecommande->produit_id = $data[0];
+							$lignecommande->produit_id = $id;
 							$lignecommande->quantite = $qte;
 							$lignecommande->price =  $prix * $qte;
 							$lignecommande->save();	
@@ -177,7 +177,7 @@ if ($action == "validerCommande") {
 
 					$tva = ($montant * $params->tva) / 100;
 					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
-						$data = $client->debiter($montant);
+						$lot = $client->debiter($montant);
 					}else{
 						$payement = new OPERATION();
 						$payement->hydrater($_POST);
@@ -193,8 +193,8 @@ if ($action == "validerCommande") {
 					$commande->operation_id = $data->lastid;
 					$data = $commande->save();
 
-						$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
-						$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+					$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+					$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 				}
 			}else{
 				$data->status = false;
@@ -219,7 +219,6 @@ if ($action == "livraisonCommande") {
 		$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
 		if (count($datas) > 0) {
 			$groupecommande = $datas[0];
-			$groupecommande->fourni("lignegroupecommande");
 
 			$produits = explode(",", $tableau);
 			if (count($produits) > 0) {
@@ -269,8 +268,9 @@ if ($action == "livraisonCommande") {
 							$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
 							$chauffeur->save();
 						}
+
+						$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 					}	
-					$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 				}else{
 					$data->status = false;
 					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";

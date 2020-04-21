@@ -9,10 +9,10 @@ class ETAT extends TABLE
 		public static $tableName = __CLASS__;
 		public static $namespace = __NAMESPACE__;
 
-		const ANNULEE = -1;
-		const ENCOURS = 0;
-		const VALIDEE = 1;
-		const TERMINEE = 2;
+		const ANNULEE = 1;
+		const ENCOURS = 2;
+		const VALIDEE = 3;
+		const TERMINEE = 4;
 
 		public $name;
 		public $class;

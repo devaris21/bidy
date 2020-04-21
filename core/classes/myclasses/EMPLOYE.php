@@ -41,13 +41,6 @@ class EMPLOYE extends AUTH
 						$tr->role_id = ROLE::MASTER;
 						$item->protected = 1;
 						$tr->enregistre();
-
-					//@TODO refaire email welcome employe
-						ob_start();
-						include(__DIR__."/../../sections/home/elements/mails/welcome_employe.php");
-						$contenu = ob_get_contents();
-						ob_end_clean();
-					//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
 					}else{
 						$data->status = false;
 						$data->message = "Ce login ne peut plus etre utilisé !";
@@ -68,18 +61,26 @@ class EMPLOYE extends AUTH
 	}
 
 
-	public static function getEmailGestionnaires(){
-		$emails = [];
-		$datas = static::findBy(["is_admin < "=>2]);
-		foreach ($datas as $key => $value) {
-			$emails[] = $value->email;
+	public function uploading(Array $files){
+		//les proprites d'images;
+		$tab = ["image"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "employes", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
 		}
-		return $emails;
-	}
-
-
-	public function fullname(){
-		return $this->name.' '.$this->lastname;
 	}
 
 

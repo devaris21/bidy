@@ -7,9 +7,9 @@ class ETATCHAUFFEUR extends TABLE
 {
 
 
-	const INDISPONIBLE = -1;
-	const LIBRE = 0;
-	const MISSION = 1;
+	const RAS = 1;
+	const MISSION = 2;
+	const INDISPONIBLE = 3;
 
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;

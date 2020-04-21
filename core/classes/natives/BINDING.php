@@ -46,38 +46,38 @@ class BINDING
 		if (in_array("select", $types)) { 
 			if (!in_array("tableau", $types)  && $name == ""){ $name = $object."_id"; } ?>
 			<select class="select2 " <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
-<!-- 			<select data-placeholder="Choisissez ..." class="chosen-select" <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
-	-->				<?php 
-	$column = $name;
-	if (!isset($element) || is_null($element) || !is_object($element)) {
-					//on declare un onjet au hasard
-		$element = new stdClass;
-		$element->$column = null;
-	}
+			<!-- 			<select data-placeholder="Choisissez ..." class="chosen-select" <?= (in_array("multiple", $types))?"multiple=multiple":"" ?> name="<?= $name ?>" style="width: 100%;">
+				-->				<?php 
+				$column = $name;
+				if (!isset($element) || is_null($element) || !is_object($element)) {
+								//on declare un onjet au hasard
+					$element = new stdClass;
+					$element->$column = null;
+				}
 
-	if (!in_array("tableau", $types)){
-		$object = TABLE::fullyClassName($object);
-		$datas = $object::getAll();
-	}else{
-		$datas = $object;
-	}
-	foreach ($datas as $key => $item) { 
-		if(isset($item->abbreviation)){$item->name .= " :: ".$item->abbreviation; }
-		if(isset($item->sigle)){$item->name .= " :: ".$item->sigle; }
-		?>
-		<?= (in_array("startnull", $types))?"<option></option>":""  ?>
-		<option value="<?= $item->getId() ?>" <?= ($item->getId() == $element->$column)?"selected":"" ?>><?= $item->name() ?></option>
-	<?php } ?>
-</select>
+				if (!in_array("tableau", $types)){
+					$object = TABLE::fullyClassName($object);
+					$datas = $object::getAll();
+				}else{
+					$datas = $object;
+				}
+				foreach ($datas as $key => $item) { 
+					if(isset($item->abbreviation)){$item->name .= " :: ".$item->abbreviation; }
+					if(isset($item->sigle)){$item->name .= " :: ".$item->sigle; }
+					?>
+					<?= (in_array("startnull", $types))?"<option></option>":""  ?>
+					<option value="<?= $item->getId() ?>" <?= ($item->getId() == $element->$column)?"selected":"" ?>><?= $item->name() ?></option>
+				<?php } ?>
+			</select>
 
-<?php  }else if($type == "checkbox" || $type == "radio"){
-	$class = TABLE::fullyClassName($object);
-	$datas = $class::getAll();
-	foreach ($datas as $key => $item) { ?>
-		<label class="cursor"><input type="<?= $type ?>" value="<?= $item->getId() ?>" <?= (is_array($element) && in_array($item->getId(), $element))?"checked=checked":""  ?> name="<?= $object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
-	<?php } 
-}
-}
+		<?php  }else if($type == "checkbox" || $type == "radio"){
+			$class = TABLE::fullyClassName($object);
+			$datas = $class::getAll();
+			foreach ($datas as $key => $item) { ?>
+				<label class="cursor"><input type="<?= $type ?>" value="<?= $item->getId() ?>" <?= (is_array($element) && in_array($item->getId(), $element))?"checked=checked":""  ?> name="<?= $object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
+			<?php } 
+		}
+	}
 
 
 }

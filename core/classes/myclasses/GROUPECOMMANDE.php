@@ -10,7 +10,7 @@ class GROUPECOMMANDE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $client_id;
-	public $etat_id = 0;
+	public $etat_id = ETAT::ENCOURS;
 	
 
 	public function enregistre(){
@@ -19,7 +19,7 @@ class GROUPECOMMANDE extends TABLE
 
 
 	public static function etat(){
-		foreach (static::findBy(["etat_id ="=>0]) as $key => $groupe) {
+		foreach (static::findBy(["etat_id ="=>ETAT::ENCOURS]) as $key => $groupe) {
 			$test = false;
 			foreach (PRODUIT::getAll() as $key => $produit) {
 				if ($groupe->reste($produit->getId()) > 0) {
@@ -35,7 +35,7 @@ class GROUPECOMMANDE extends TABLE
 	} 
 
 	public static function encours(){
-		return static::findBy(["etat_id ="=>0]);
+		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
 	}
 
 

@@ -21,6 +21,7 @@ class OPERATION extends TABLE
 	public $manoeuvre_id;
 	public $structure;
 	public $numero;
+	public $date_approbation;
 
 
 	public function enregistre(){
@@ -33,7 +34,7 @@ class OPERATION extends TABLE
 				$cat = $datas[0];
 				if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
 
-					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1(+1)) < $this->montant)) {
+					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1(+1)) >= $this->montant)) {
 
 						$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 						if ($cat->typeoperationcaisse_id != TYPEOPERATIONCAISSE::SORTIE && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {
@@ -63,6 +64,16 @@ class OPERATION extends TABLE
 			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 		}
 		return $data;
+	}
+
+
+
+	public function valider(){
+		$data = new RESPONSE;
+		$this->etat_id = ETAT::VALIDEE;
+		$this->date_approbation = date("Y-m-d H:i:s");
+		$this->historique("Approbation de l'opération de caisse N° $this->reference");
+		return $this->save();
 	}
 
 
@@ -108,6 +119,12 @@ class OPERATION extends TABLE
 			}
 		}
 		return comptage($datas, "montant", "somme");
+	}
+
+
+
+	public static function enAttente(){
+		return static::findBy(["etat_id ="=> ETAT::ENCOURS]);
 	}
 
 

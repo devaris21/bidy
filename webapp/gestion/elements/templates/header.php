@@ -16,7 +16,7 @@
 
                 <li class="border-right">
                     <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
-                        <i class="fa fa-file-text-o"></i> Rapport du jour
+                        <i class="fa fa-file-text-o"></i> Production du jour
                     </a>
                 </li>
                 <li class="" style="height: 30px">

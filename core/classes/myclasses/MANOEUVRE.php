@@ -62,8 +62,8 @@ class MANOEUVRE extends PERSONNE
 
 	public function solde(){
 		$total = 0;
-		$datas = $this->fourni("lignepayejour");
-		$total += comptage($datas, 'montant', "somme");
+		$datas = $this->fourni("manoeuvredujour");
+		$total += comptage($datas, 'price', "somme");
 
 		$datas = $this->fourni("operation", ["categorieoperation_id ="=> CATEGORIEOPERATION::PAYE]);
 		$total -= comptage($datas, 'montant', "somme");
@@ -97,6 +97,16 @@ class MANOEUVRE extends PERSONNE
 			$data->message = "Vous etes déjà à jour pour la paye de ce manoeuvre !";
 		}
 		return $data;
+	}
+
+
+
+	public static function reste_paye(){
+		$total = 0;
+		foreach (static::getAll() as $key => $man) {
+			$total += $man->solde();
+		}
+		return $total;
 	}
 
 

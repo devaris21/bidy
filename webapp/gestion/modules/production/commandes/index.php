@@ -91,6 +91,7 @@
                                </table>
                            </td>
                            <td>
+                            <br>
                             <button onclick="fichecommande(<?= $commande->getId()  ?>)" class="btn btn-block btn-primary btn-sm dim"><i class="fa fa-plus"></i> de détails </button>
                         </td>
                     </tr>

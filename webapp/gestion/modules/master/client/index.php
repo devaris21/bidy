@@ -29,12 +29,12 @@
                             <div class="tab-content" style="min-height: 300px;">
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
-                                        <button type="button" <?= (count($client->groupecommandes) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
+                                        <button type="button" <?= (count($groupes) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
                                     </div>
                                     <div class="">
-                                        <?php if (count($client->groupecommandes) > 0) { ?>
+                                        <?php if (count($groupes) > 0) { ?>
 
-                                            <?php foreach ($client->groupecommandes as $key => $commande) {
+                                            <?php foreach ($groupes as $key => $commande) {
                                                 $commande->actualise(); 
                                                 ?>
                                                 <h4 class="text-uppercase gras">Commande du <?= datecourt($commande->created)  ?></h4>
@@ -59,7 +59,7 @@
                                                                 <td class="text-center" style="font-size: 20px;"><?= start0($reste) ?></td>
                                                             <?php   } 
                                                         } ?>
-                                                        <td style="width: 60px; padding: 0"><button onclick="fichecommande(<?= $commande->getId()  ?>)" style="margin-top: 5%; margin-left: 5%;" class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> de détails </button></td>
+                                                        <td style="width: 60px; padding: 0"><button onclick="fichecommande(<?= $commande->getId()  ?>)" style="font-size: 11px; margin-top: 5%; margin-left: 5%;" class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> de détails </button></td>
                                                     </tr>
                                                 </tbody>
                                             </table><hr>
@@ -91,12 +91,16 @@
                                                                         $ligne->actualise();  ?>
                                                                         <th class="text-center text-uppercase"><?= $ligne->produit->name() ?></th>
                                                                     <?php } ?>
+                                                                    <th class="text-center mp0" style="background-color: transparent; border: none">
+                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $commande->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                    </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
                                                                     <?php 
-                                                                    foreach ($transaction->items as $key => $ligne) { ?>
+                                                                    foreach ($transaction->items as $key => $ligne) {
+                                                                    $ligne->actualise() ?>
                                                                         <td><h5 class="text-<?= ($transaction->type == "livraison")? "orange":"green" ?> text-center"> <?= $ligne->quantite  ?> </h5></td>
                                                                     <?php  } ?>
 
@@ -105,8 +109,8 @@
                                                                             <small>Montant de la commande</small>
                                                                             <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $transaction->operation->modepayement->name();  ?>">(<?= $transaction->operation->modepayement->initial;  ?>)</small></h4>
                                                                         </td>
-                                                                        <td data-toggle="tooltip" title="imprimer le facture">
-                                                                            <a href=""><i class="fa fa-file-text"></i></a>
+                                                                        <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
+                                                                            <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                         </td>
                                                                     <?php }  ?>
                                                                 </tr>
@@ -136,118 +140,118 @@
                                                     <p>
                                                         <span class="">Bon de caisse N°<strong><?= $transaction->reference ?></strong></span>
                                                         <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
-                                                            <span class="gras" style="font-size: 18px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
+                                                            <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
                                                             <small>Par <?= $transaction->modepayement->name() ?></small><br>
                                                             <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
                                                         </span>
-                                                        </p>
-                                                        <p class="m-b-xs"><?= $transaction->comment ?> </p>
-                                                        <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
-                                                    </div>
+                                                    </p>
+                                                    <p class="m-b-xs"><?= $transaction->comment ?> </p>
+                                                    <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
                                                 </div>
                                             </div>
-                                        <?php } ?>                 
-                                    </div>
-
+                                        </div>
+                                    <?php } ?>                 
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-sm-4">
-                    <div class="ibox selected">
-
-                        <div class="ibox-content">
-                            <div class="tab-content">
-                                <div id="contact-1" class="tab-pane active">
-                                    <h2><?= $client->name() ?> <i onclick="modification('client', <?= $client->getId() ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i></h2>
-                                    <h4><?= $client->typeclient->name() ?></h4>
-                                    <address>
-                                        <i class="fa fa-phone"></i>&nbsp; <?= $client->contact ?><br>
-                                        <i class="fa fa-map-marker"></i>&nbsp; <?= $client->adresse ?><br>
-                                        <i class="fa fa-envelope"></i>&nbsp; <?= $client->email ?>
-                                    </address><hr>
-
-                                    <div class="m-b-lg">
-                                        <span>Acompte actuel du client</span>
-                                        <h2 class="font-bold"><?= money($client->acompte) ?> <?= $params->devise  ?></h2><br>
-                                        <button type="button" data-toggle="modal" data-target="#modal-acompte" class="btn btn-primary dim btn-block"><i
-                                            class="fa fa-envelope"></i> Créditer l'accompte
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div class="col-sm-4">
+                <div class="ibox selected">
 
+                    <div class="ibox-content">
+                        <div class="tab-content">
+                            <div id="contact-1" class="tab-pane active">
+                                <h2><?= $client->name() ?> <i onclick="modification('client', <?= $client->getId() ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i></h2>
+                                <h4><?= $client->typeclient->name() ?></h4>
+                                <address>
+                                    <i class="fa fa-phone"></i>&nbsp; <?= $client->contact ?><br>
+                                    <i class="fa fa-map-marker"></i>&nbsp; <?= $client->adresse ?><br>
+                                    <i class="fa fa-envelope"></i>&nbsp; <?= $client->email ?>
+                                </address><hr>
 
-        <div class="modal inmodal fade" id="modal-listecommande">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Choisir la commande</h4>
-                    <span>Double-cliquez pour selectionner la commande voulue !</span>
-                </div>
-                <form method="POST">
-                    <div class="modal-body">
-                        <table class="table table-bordered table-commande">
-                            <tbody>
-                                <?php foreach ($client->groupecommandes as $key => $commande) {
-                                    $commande->actualise(); 
-                                    ?>
-                                    <tr class=" border-bottom cursor" ondblclick="chosir(<?= $commande->getId() ?>)">     
-                                        <td class="border-right" style="width: 82%;">
-                                            <h4 class="text-uppercase">Commande du <?= datecourt($commande->created)  ?></h4>
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                                            $reste = $commande->reste($produit->getId());
-                                                            if ($reste > 0) { ?>
-                                                                <th class="text-center"><?= $produit->name() ?></th>
-                                                            <?php }
-                                                        } ?>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td><h3>Reste : </h3></td>
-                                                        <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                                            $reste = $commande->reste($produit->getId());
-                                                            if ($reste > 0) { ?>
-                                                                <td class="text-center" style="font-size: 20px;"><?= start0($reste) ?></td>
-                                                            <?php   } 
-                                                        } ?>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                <?php  } ?>
-                            </tbody>
-                        </table>
+                                <div class="m-b-lg">
+                                    <span>Acompte actuel du client</span>
+                                    <h2 class="font-bold"><?= money($client->acompte) ?> <?= $params->devise  ?></h2><br>
+                                    <button type="button" data-toggle="modal" data-target="#modal-acompte" class="btn btn-primary dim btn-block"><i
+                                        class="fa fa-envelope"></i> Créditer l'accompte
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
 
 
-    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+    <div class="modal inmodal fade" id="modal-listecommande">
+        <div class="modal-dialog">
+            <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Choisir la commande</h4>
+                <span>Double-cliquez pour selectionner la commande voulue !</span>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <table class="table table-bordered table-commande">
+                        <tbody>
+                            <?php foreach ($client->groupecommandes as $key => $commande) {
+                                $commande->actualise(); 
+                                ?>
+                                <tr class=" border-bottom cursor" ondblclick="chosir(<?= $commande->getId() ?>)">     
+                                    <td class="border-right" style="width: 82%;">
+                                        <h4 class="text-uppercase">Commande du <?= datecourt($commande->created)  ?></h4>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
+                                                        $reste = $commande->reste($produit->getId());
+                                                        if ($reste > 0) { ?>
+                                                            <th class="text-center"><?= $produit->name() ?></th>
+                                                        <?php }
+                                                    } ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><h3>Reste : </h3></td>
+                                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
+                                                        $reste = $commande->reste($produit->getId());
+                                                        if ($reste > 0) { ?>
+                                                            <td class="text-center" style="font-size: 20px;"><?= start0($reste) ?></td>
+                                                        <?php   } 
+                                                    } ?>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            <?php  } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-    <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
-    <?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
-    <?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
+
+
+<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+<?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
 
 </div>
 </div>

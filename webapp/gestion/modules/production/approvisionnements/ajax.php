@@ -39,7 +39,7 @@ if ($action == "newressource") {
 				<td class="gras"><br><br><?= $ressource->abbr ?></td>
 				<td width="120">
 					<label>Prix d'achat</label>
-					<input type="text" number name="prix" class="form-control text-center gras" value="1" style="padding: 3px">
+					<input type="text" number name="prix" class="form-control text-center gras prix" value="1" style="padding: 3px">
 				</td>
 				<td class="gras"><br><br><?= $params->devise  ?></td>
 			</tr>
@@ -73,9 +73,9 @@ if ($action == "calcul") {
 		$lot = explode("-", $value);
 		$id = $lot[0];
 		$qte = 0;
-			if (isset($lot[1])) {
-				$qte = $lot[1];
-			};
+		if (isset($lot[1])) {
+			$qte = $lot[1];
+		};
 		$prix = end($lot);
 		$datas = RESSOURCE::findBy(["id ="=> $id]);
 		if (count($datas) == 1) {
@@ -97,7 +97,7 @@ if ($action == "calcul") {
 				<td class="gras"><br><br><?= $ressource->abbr  ?></td>
 				<td width="120">
 					<label>Prix d'achat</label>
-					<input type="text" number name="prix" class="form-control text-center gras" value="<?= $prix ?>" style="padding: 3px">
+					<input type="text" number name="prix" class="form-control text-center gras prix" value="<?= $prix ?>" style="padding: 3px">
 				</td>
 				<td class="gras"><br><br><?= $params->devise  ?></td>
 			</tr>
@@ -138,10 +138,18 @@ if ($action == "validerApprovisionnement") {
 		}
 		if (count($tests) == 0 && intval(getSession("total")) > 0) {
 
-			if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+			$payement = new OPERATION();
+			$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+			$payement->modepayement_id = $modepayement_id;
+			$payement->montant = getSession("total");
+			$payement->client_id = CLIENT::CLIENTSYSTEME;
+			$data = $payement->enregistre();
+			if ($data->status) {
+
 				$approvisionnement = new APPROVISIONNEMENT();
 				$approvisionnement->hydrater($_POST);
 				$approvisionnement->montant = getSession("total");
+				$approvisionnement->operation_id = $data->lastid;
 				$data = $approvisionnement->enregistre();
 				if ($data->status) {
 					foreach ($ressources as $key => $value) {
@@ -161,20 +169,10 @@ if ($action == "validerApprovisionnement") {
 						}
 					}
 
-					$payement = new OPERATION();
-					$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-					$payement->modepayement_id = $modepayement_id;
-					$payement->montant = getSession("total");
-					$payement->client_id = CLIENT::CLIENTSYSTEME;
 					$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
-					$data = $payement->enregistre();
-
-					$approvisionnement->operation_id = $data->lastid;
-					$data = $approvisionnement->save();
+					$data = $payement->save();
+					$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
 				}
-			}else{
-				$data->status = false;
-				$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour régler cette facture !";
 			}
 		}else{
 			$data->status = false;

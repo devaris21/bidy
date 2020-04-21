@@ -9,6 +9,8 @@ if ($this->getId() != null) {
 		$client = $datas[0];
 		$client->actualise();
 
+		$groupes = $client->fourni("groupecommande");
+
 		$client->fourni("groupecommande", ["etat_id ="=>ETAT::ENCOURS]);
 
 		$datas1 = $datas2 = [];
@@ -29,6 +31,8 @@ if ($this->getId() != null) {
 
 
 		$fluxcaisse = $client->fourni("operation");
+		usort($fluxcaisse, "comparerDateCreated2");
+
 		$title = "BIDY | ".$client->name();
 
 		

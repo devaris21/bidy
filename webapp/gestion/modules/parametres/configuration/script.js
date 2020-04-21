@@ -8,10 +8,10 @@ $(function(){
 
 	$(".formPrix").submit(function(event) {
 		Loader.start();
-		var url = "../../webapp/gestion/modules/configuration/index/ajax.php";
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		var formdata = new FormData($(this)[0]);
 		var tableau = new Array();
-		$(this).find("input[data-id]").each(function(index, el) {
+		$(this).find("input[data-id]").each(function(configuration, el) {
 			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			var item = id+"-"+val;
@@ -33,10 +33,10 @@ $(function(){
 
 	$(".formExigence").submit(function(event) {
 		Loader.start();
-		var url = "../../webapp/gestion/modules/configuration/index/ajax.php";
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		var formdata = new FormData($(this)[0]);
 		var tableau = new Array();
-		$(this).find("input[data-id]").each(function(index, el) {
+		$(this).find("input[data-id]").each(function(configuration, el) {
 			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			var item = id+"-"+val;
@@ -57,7 +57,7 @@ $(function(){
 
 
 	$("button.autoriser").click(function(event) {
-		var url = "../../webapp/gestion/modules/configuration/index/ajax.php";
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		button = $(this);
 		employe_id = $(this).attr("employe");
 		role_id = $(this).attr("role");
@@ -81,7 +81,7 @@ $(function(){
 
 
 		$("button.refuser").click(function(event) {
-		var url = "../../webapp/gestion/modules/configuration/index/ajax.php";
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		button = $(this);
 		employe_id = $(this).attr("employe");
 		role_id = $(this).attr("role");

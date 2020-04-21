@@ -18,14 +18,14 @@ class CHAUFFEUR extends PERSONNE
 	public $lastname;
 	public $nationalite;
 	public $adresse;
-	public $sexe_id;
+	public $sexe_id = SEXE::HOMME;
 	public $typepermis;	
 	public $numero_permis;
 	public $date_fin_permis;
 	public $email;
 	public $contact;
 	public $image = "default.png";
-	public $etatchauffeur_id;
+	public $etatchauffeur_id = ETATCHAUFFEUR::RAS;
 
 
 
@@ -70,7 +70,7 @@ class CHAUFFEUR extends PERSONNE
 
 
 	public static function libres(){
-		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::LIBRE]);
+		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS]);
 	}
 
 	public static function mission(){
