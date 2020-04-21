@@ -61,6 +61,9 @@ if ($action == "autoriser") {
 		$rem = new ROLE_EMPLOYE();
 		$rem->hydrater($_POST);
 		$data = $rem->enregistre();
+	}else{
+		$data->status = false;
+		$data->message = "L'employé dispose déjà de ce droit !";
 	}
 	echo json_encode($data);
 }
@@ -69,6 +72,7 @@ if ($action == "autoriser") {
 if ($action == "refuser") {
 	$datas = ROLE_EMPLOYE::findBy(["employe_id ="=> $employe_id, "role_id ="=> $role_id]);
 	if (count($datas) == 1) {
+		$rem = $datas[0];
 		if (!$rem->isProtected()) {
 			$rem = $datas[0];
 			$data = $rem->delete();
@@ -76,6 +80,9 @@ if ($action == "refuser") {
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas supprimer cet accès, il est protégé !";
 		}
+	}else{
+		$data->status = false;
+		$data->message = "L'accès est déjà refusé à cet employé !";
 	}
 	echo json_encode($data);
 }

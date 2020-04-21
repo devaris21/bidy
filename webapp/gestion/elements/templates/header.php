@@ -13,12 +13,14 @@
                     <span class="m-r-sm text-muted welcome-message text-uppercase" id="date_actu"></span> 
                     <span class="m-r-sm text-muted welcome-message gras" id="heure_actu"></span> 
                 </li>
-
-                <li class="border-right">
-                    <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
-                        <i class="fa fa-file-text-o"></i> Production du jour
-                    </a>
-                </li>
+                <?php if ($employe->isAutoriser("production")) { ?>
+                    <li class="border-right">
+                        <a  data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) ">
+                            <i class="fa fa-file-text-o"></i> Production du jour
+                        </a>
+                    </li>
+                <?php } ?>
+                
                 <li class="" style="height: 30px">
                     <a href="#" id="btn-deconnexion" style="display: inline-block; margin-top: -37%">
                         <i class="fa fa-sign-out fa-2x text-red" ></i>

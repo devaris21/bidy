@@ -18,26 +18,21 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label>Prenom <span1>*</span1></label>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="lastname" required>
-                            </div>
-                        </div> 
-                        <div class="col-md-4 col-sm-6">
                             <label>Adresse<span1>*</span1></label>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="matricule" required>
+                                <input type="text" class="form-control" name="adresse" required>
                             </div>
-                        </div>                       
-                    </div>
-
-                    <div class="row">
+                        </div>     
                         <div class="col-md-4 col-sm-6">
                             <label>Adresse email <span1>*</span1></label>
                             <div class="form-group">
-                                <input type="email" class="form-control" name="email" required>
+                                <input type="email" class="form-control" name="email">
                             </div>
-                        </div>
+                        </div>                  
+                    </div>
+
+                    <div class="row">
+                     
                         <div class="col-md-4 col-sm-6">
                             <label>Contact <span1>*</span1></label>
                             <div class="form-group">

@@ -87,29 +87,33 @@
                             </div>
                             <h6 class="text-uppercase text-center">Courbe représentative du stock de produits en fonction des commandes actuelles</h6>
                             <hr class="">
-                            <div class="row stat-list">
-                                <div class="col-4">
-                                    <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
-                                    <small>En caisse actuellement</small>
-                                    <div class="progress progress-mini">
-                                        <div class="progress-bar bg-black" style="width: 100%;"></div>
+
+                            <?php if ($employe->isAutoriser("caisse")) { ?>
+                                <div class="row stat-list">
+                                    <div class="col-4">
+                                        <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
+                                        <small>En caisse actuellement</small>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar bg-black" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                        <small>Entrées du jour</small>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar bg-primary" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                        <small>Dépenses du jour</small>
+                                        <div class="progress progress-mini">
+                                            <div class="progress-bar bg-danger" style="width: 100%;"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                    <small>Entrées du jour</small>
-                                    <div class="progress progress-mini">
-                                        <div class="progress-bar bg-primary" style="width: 100%;"></div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                    <small>Dépenses du jour</small>
-                                    <div class="progress progress-mini">
-                                        <div class="progress-bar bg-danger" style="width: 100%;"></div>
-                                    </div>
-                                </div>
-                            </div>  
+                            <?php } ?>
+
                         </div>
                         <div class="col-md-3 text-center">
                             <h3 class="text-uppercase">Stock des ressources</h3>
@@ -127,7 +131,10 @@
                                 <li class="list-group-item"></li>
                             </ul> <br>
                             <hr class="mp0">
-                            <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
+                            <?php if ($employe->isAutoriser("production")) { ?>
+                                <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
+                            <?php } ?>
+                            
 
                             
                             <!-- <h4 class="text-uppercase text-red"><i class="fa fa-car"></i> Véhicules en livraison</h4>

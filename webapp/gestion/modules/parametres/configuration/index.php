@@ -358,7 +358,7 @@
                                         <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                             <div class="row">
 
-                                             <div class="col-md-4 bloc">
+                                               <div class="col-md-4 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">
                                                         <h5 class="text-uppercase">Groupe de manoeuvre</h5>
@@ -708,7 +708,7 @@
                                                     </div>
                                                     <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                         <table class="table">
-                                                           <thead>
+                                                         <thead>
                                                             <tr>
                                                                 <th>#</th>
                                                                 <th>Libéllé</th>
@@ -755,7 +755,7 @@
                                                 </div>
                                                 <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                     <table class="table">
-                                                       <thead>
+                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Libéllé</th>
@@ -885,64 +885,70 @@
                                                             <?php if ($item->is_allowed == 1) { ?>
                                                                 <span class="label label-success">Actif</span>
                                                             <?php }else{ ?>
-                                                                <span class="label label-red">Bloqué</span>
+                                                                <span class="label label-danger">Bloqué</span>
                                                             <?php } ?>
                                                         </td>
-                                                        <td class="">
+                                                        <td >
                                                             <span class="gras text-uppercase"><?= $item->name() ?></span><br>
-                                                            <span><i class="fa fa-envelope"></i> <?= $item->email ?></span>
+                                                            <span> <?= $item->email ?></span><br>
+                                                            <span> <?= $item->adresse ?></span><br>
+                                                            <span> <?= $item->contact ?></span>
                                                         </td>
-                                                        <td><i class="fa fa-phone"></i> <?= $item->contact ?> <br> 
-                                                            <i class="fa fa-map-marker"></i> <?= $item->adresse ?></td>
-                                                            <td class="">
-                                                                <?php $datas = $item->fourni("role_employe");
-                                                                $lots = [];
-                                                                foreach ($datas as $key => $rem) {
-                                                                    $rem->actualise();
-                                                                    $lots[] = $rem->role->getId(); ?>
-                                                                    <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
-                                                                    <?php } ?><hr class="mp3">
+                                                        <td>
+                                                            <?php if ($item->is_new == 1) { ?>
+                                                             <span class="">Login: <?= $item->login ?></span><br>
+                                                             <span class="">Pass: <?= $item->pass ?></span>
+                                                             <?php } ?>
+                                                        </td>
+                                                        <td class="" width="400px">
+                                                            <?php $datas = $item->fourni("role_employe");
+                                                            $lots = [];
+                                                            foreach ($datas as $key => $rem) {
+                                                                $rem->actualise();
+                                                                $lots[] = $rem->role->getId(); ?>
+                                                                <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
+                                                                <?php } ?><hr class="mp3">
 
-                                                                    <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                                        if (!in_array($role->getId(), $lots)) { ?>
-                                                                           <button employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
-                                                                       <?php } } ?>                
-                                                                   </td>
-                                                                   <td class="text-right">          
-                                                                    <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Reinitialiser mot de passe</button><br>
+                                                                <?php foreach (Home\ROLE::getAll() as $key => $role) {
+                                                                    if (!in_array($role->getId(), $lots)) { ?>
+                                                                     <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->getId() ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                                 <?php } } ?>                
+                                                             </td>
+                                                             <td class="text-right">          
+                                                                <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
 
-                                                                    <?php if ($item->is_allowed == 1) { ?>
-                                                                        <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
-                                                                    <?php }else{ ?>
-                                                                        <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
-                                                                    <?php } ?>
-                                                                    <button class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
-                                                                    <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
-                                                                </td>
-                                                            </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                <?php if ($item->is_allowed == 1) { ?>
+                                                                    <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                                <?php }else{ ?>
+                                                                    <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
+                                                                <?php } ?>
+                                                                <button data-toggle="modal" data-target="#modal-employe" class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
+                                                                <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
-        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-        <?php include($this->relativePath("modals.php")); ?>
-
-
     </div>
+
+
+
+
+    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+    <?php include($this->relativePath("modals.php")); ?>
+
+
+</div>
 </div>
 
 

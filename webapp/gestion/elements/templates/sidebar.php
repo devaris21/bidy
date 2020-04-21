@@ -42,23 +42,25 @@
                 <li class="dropdown-divider"></li>
 
 
-                <li class="groupe">
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Stocks & production</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li class="" id="production"><a href="<?= $this->url("gestion", "production", "production", 7) ?>">Stock de production</a></li>
-                        <li class="" id="ressources"><a href="<?= $this->url("gestion", "production", "ressources", 7) ?>">Stock de ressources</a></li>
-                    </ul>
-                </li>
-                <li class="" id="commandes">
-                    <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes</span> <?php if (count($groupes__) > 0) { ?> <span class="label label-warning float-right"><?= count($groupes__) ?></span> <?php } ?></a>
-                </li>
-                <li class="" id="livraisons">
-                    <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
-                </li>
-                <li class="" id="approvisionnements">
-                    <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
-                </li>
-                <li class="dropdown-divider"></li>
+                <?php if ($employe->isAutoriser("production")) { ?>
+                    <li class="groupe">
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Stocks & production</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li class="" id="production"><a href="<?= $this->url("gestion", "production", "production", 7) ?>">Stock de production</a></li>
+                            <li class="" id="ressources"><a href="<?= $this->url("gestion", "production", "ressources", 7) ?>">Stock de ressources</a></li>
+                        </ul>
+                    </li>
+                    <li class="" id="commandes">
+                        <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes</span> <?php if (count($groupes__) > 0) { ?> <span class="label label-warning float-right"><?= count($groupes__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="" id="livraisons">
+                        <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="" id="approvisionnements">
+                        <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                <?php } ?>
 
 
                 <li class="" id="personnel">
@@ -73,9 +75,9 @@
                 <li class="dropdown-divider"></li>
 
 
-
-                <li class="" id="comptedujour">
-                    <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Compte du Jour</span></a>
+                <?php if ($employe->isAutoriser("caisse")) { ?>
+                   <li class="" id="comptedujour">
+                    <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
                 <li class="" id="caisse">
                     <a href="<?= $this->url("gestion", "caisse", "caisse") ?>"><i class="fa fa-money"></i> <span class="nav-label">Compte de caisse</span></a>
@@ -91,7 +93,10 @@
                 </li>
                 <li class="dropdown-divider"></li>
 
+            <?php } ?>
 
+            
+            <?php if ($employe->isAutoriser("parametres")) { ?>
                 <li class="" id="configuration">
                     <a href="<?= $this->url("gestion", "parametres", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
                 </li>
@@ -101,11 +106,11 @@
                 <li class="" id="abonnement">
                     <a href="<?= $this->url("gestion", "parametres", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
                 </li>
-
-                <li></li>
-            </ul>
+            <?php } ?>
 
         </ul>
 
-    </div>
+    </ul>
+
+</div>
 </nav>

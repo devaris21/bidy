@@ -16,19 +16,22 @@ class EMPLOYE extends AUTH
 	public $name;
 	public $is_allowed = 1;
 	public $started;
+	public $email;
 	public $is_new = 1;
 	public $image = "default.png";
 	public $is_connecte = false;
+
+	public $pass = false;
 	
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		$this->login = substr(uniqid(), 6);
-		$pass = substr(uniqid(), 5);
+		$this->pass = $pass = substr(uniqid(), 5);
 		$this->password = hasher($pass);
 		if ($this->login != "" && $this->password != "") {
-			if ($this->emailIsValide()) {
+			if ($this->email == "" || $this->emailIsValide()) {
 				$datas = static::findBy(["email ="=>$this->email]);
 				if (count($datas) == 0) {
 					$datas = static::findBy(["login ="=>$this->login]);
@@ -39,7 +42,7 @@ class EMPLOYE extends AUTH
 						$tr = new ROLE_EMPLOYE();
 						$tr->employe_id = $data->lastid;
 						$tr->role_id = ROLE::MASTER;
-						$item->protected = 1;
+						$tr->setProtected(1);
 						$tr->enregistre();
 					}else{
 						$data->status = false;
@@ -51,7 +54,7 @@ class EMPLOYE extends AUTH
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez renseigner un email valide svp !";
+				$data->message = "Veuillez renseigner un email valide ou un email qui n'est pas déjà utilisé sur la plateforme svp !";
 			}
 		}else{
 			$data->status = false;
@@ -115,44 +118,17 @@ class EMPLOYE extends AUTH
 
 
 
-	public static function getAllConnected(){
-		$datas = self::findBy(["allowed = "=> 1]);
-		foreach ($datas as $key => $employe) {
-			if (!$employe->is_connected()) {
-				unset($datas[$key]);
-			}
-		}
-		return $datas;
-	}
-
-	public function is_admin(){
-		if ($this->typeadministrateur_id >= 3) {
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-
-	
-	
-
-
-
-	public function is_connected(){
-		$datas = CONNEXION::findBy(["employe_id = "=> $this->getId()], [], ["id"=>"DESC"], 1);
+	public function isAutoriser(String $role){
+		$datas = ROLE::findBy(["name ="=>$role]);
 		if (count($datas) == 1) {
-			$connexion = $datas[0];
-			if ($connexion->date_deconnexion == null) {
+			$role = $datas[0];
+			$datas = ROLE_EMPLOYE::findBy(["role_id ="=>$role->getId(), "employe_id ="=>$this->getId()]);
+			if (count($datas) == 1) {
 				return true;
-			}else{
-				return false;
 			}
 		}
+		return false;
 	}
-
-
-
 
 
 

@@ -28,11 +28,10 @@ foreach ($datas as $key => $item) {
 	}
 }
 
-function comparer($a, $b) {
-	return strcmp($a->pct, $b->pct);
-}
-usort($datas1, "comparer");
-usort($datas2, "comparer");
+
+
+usort($datas1, "comparerPct");
+usort($datas2, "comparerPct");
 
 
 

@@ -84,10 +84,10 @@
 
 
                             <h4>Tableau des compte</h4>
-                            <table class="table table-bordered table-hover table-striped">
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="text-center text-uppercase gras" style="font-size: 11px">
-                                        <th></th>
+                                        <th style="visibility: hidden;"></th>
                                         <th>Entrée</th>
                                         <th>Sortie</th>
                                         <th>Résultats</th>
@@ -95,14 +95,14 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Solde du compte au <?= datecourt($date1) ?></td>
+                                        <td style="border-right: 2px dashed grey">Solde du compte au <?= datecourt($date1) ?></td>
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
                                         <td class="text-center"><h4 class="text-center"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , $date1)) ?> <?= $params->devise ?></td>
                                         </tr>
                                         <?php foreach ($datas as $key => $item) { ?>
                                             <tr>
-                                                <td class="gras"><?= $item->name() ?></td>
+                                                <td class="gras" style="border-right: 2px dashed grey"><?= $item->name() ?></td>
                                                 <?php if ($item->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
                                                     <td class="text-center gras text-green"><?= money($item->montant) ?> <?= $params->devise ?></td>
                                                     <td class="text-center"> - </td>
@@ -110,7 +110,7 @@
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center gras text-red"><?= money($item->montant) ?> <?= $params->devise ?></td>
                                                 <?php } ?>                                            
-                                                <td class="text-center"><?= money($item->montant) ?> <?= $params->devise ?></td>
+                                                <td class="text-center gras" style="background-color: #fafafa"><?= money($item->montant) ?> <?= $params->devise ?></td>
                                             </tr>
                                         <?php } ?>
                                         <tr style="height: 12px;"></tr>
@@ -161,7 +161,7 @@
                                    
                                      <ul style="font-style: italic;">
                                         <?php if (count($datas2) > 0) { ?>
-                                           <li> <b>"<?= $datas2[0]->name() ?>"</b> réprésente à lui seul <b><?= $datas2[0]->pct ?>%</b> de vos entrée en caisse</li>
+                                           <li> <b>"<?= $datas2[0]->name() ?>"</b> réprésente à lui seul <b><?= $datas2[0]->pct ?>%</b> de vos dépenses</li>
                                         <?php }  ?>
 
                                         <?php if (count($datas2) > 2) { ?>
@@ -300,14 +300,15 @@
 
 
         var doughnutOptions = {
-            responsive: false
+            responsive: false,
+            legend: false
         };
 
         var doughnutData = {
             labels: [<?php foreach ($datas1 as $key => $item){ ?> "<?= $item->name() ?>", <?php } ?>],
             datasets: [{
                 data: [<?php foreach ($datas1 as $key => $item){ ?> <?= $item->montant ?>, <?php } ?>],
-                backgroundColor: ["#a3e1d4","#dedede","#b5b8cf"]
+                backgroundColor: ["#a3e1d4","#17a2b8","#b5b8cf", "#28a745", "#6610f2", "#007bff"]
             }]
         } ;
         var ctx4 = document.getElementById("chart").getContext("2d");
@@ -318,7 +319,7 @@
               labels: [<?php foreach ($datas2 as $key => $item){ ?> "<?= $item->name() ?>", <?php } ?>],
             datasets: [{
                 data: [<?php foreach ($datas2 as $key => $item){ ?> <?= $item->montant ?>, <?php } ?>],
-                backgroundColor: ["#a3e1d4","#dedede","#b5b8cf"]
+                backgroundColor: ["#dc3545","#ffc107","#fd7e14", "#dd899s","#ffa107","#fd1274"]
             }]
         } ;
         var ctx5 = document.getElementById("chart2").getContext("2d");
