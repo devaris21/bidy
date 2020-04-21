@@ -25,11 +25,14 @@ class PRODUIT extends TABLE
 			if ($data->status) {
 				$this->uploading($this->files);
 				foreach (ZONELIVRAISON::getAll() as $key => $zonelivraison) {
-					$ligne = new PRIX_ZONELIVRAISON();
-					$ligne->produit_id = $data->lastid;
-					$ligne->zonelivraison_id = $zonelivraison->getId();
-					$ligne->price = 0;
-					$ligne->enregistre();
+					$datas = PRIX_ZONELIVRAISON::findBy(["zonelivraison_id ="=>$zonelivraison->getId(), "produit_id ="=>$data->lastid]);
+					if (count($datas) == 0) {
+						$ligne = new PRIX_ZONELIVRAISON();
+						$ligne->produit_id = $data->lastid;
+						$ligne->zonelivraison_id = $zonelivraison->getId();
+						$ligne->price = 0;
+						$ligne->enregistre();
+					}
 				}
 
 				$ligne = new EXIGENCEPRODUCTION();
@@ -37,11 +40,14 @@ class PRODUIT extends TABLE
 				$ligne->quantite = 0;
 				$lot = $ligne->enregistre();
 				foreach (RESSOURCE::getAll() as $key => $ressource) {
-					$ligne = new LIGNEEXIGENCEPRODUCTION();
-					$ligne->exigenceproduction_id = $lot->lastid;
-					$ligne->ressource_id = $ressource->getId();
-					$ligne->quantite = 0;
-					$ligne->enregistre();
+					$datas = LIGNEEXIGENCEPRODUCTION::findBy(["exigenceproduction_id ="=>$lot->lastid, "ressource_id ="=>$ressource->getId()]);
+					if (count($datas) == 0) {
+						$ligne = new LIGNEEXIGENCEPRODUCTION();
+						$ligne->exigenceproduction_id = $lot->lastid;
+						$ligne->ressource_id = $ressource->getId();
+						$ligne->quantite = 0;
+						$ligne->enregistre();
+					}					
 				}
 
 				$ligne = new PAYE_PRODUIT();
@@ -50,7 +56,7 @@ class PRODUIT extends TABLE
 				$ligne->enregistre();
 
 				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = 0;
+				$ligne->productionjour_id = 1;
 				$ligne->produit_id = $data->lastid;
 				$ligne->production = $this->stock;
 				$ligne->save();

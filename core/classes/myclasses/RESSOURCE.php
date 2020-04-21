@@ -31,16 +31,19 @@ class RESSOURCE extends TABLE
 					$lots = $produit->fourni("exigenceproduction");
 					if (count($lots) == 1 ) {
 						$exi = $lots[0];
-						$ligne = new LIGNEEXIGENCEPRODUCTION();
-						$ligne->exigenceproduction_id = $exi->getId();
-						$ligne->ressource_id = $data->lastid;
-						$ligne->quantite = 0;
-						$ligne->enregistre();
+						$datas = LIGNEEXIGENCEPRODUCTION::findBy(["exigenceproduction_id ="=>$exi->getId(), "ressource_id ="=>$data->lastid]);
+						if (count($datas) == 0) {
+							$ligne = new LIGNEEXIGENCEPRODUCTION();
+							$ligne->exigenceproduction_id = $exi->getId();
+							$ligne->ressource_id = $data->lastid;
+							$ligne->quantite = 0;
+							$ligne->enregistre();
+						}
 					}
 				}
 
 				$ligne = new LIGNEAPPROVISIONNEMENT();
-				$ligne->approvisionnement_id = 0;
+				$ligne->approvisionnement_id = 1;
 				$ligne->ressource_id = $data->lastid;
 				$ligne->quantite = $ligne->quantite_recu = $this->stock;
 				$ligne->save();
@@ -92,7 +95,7 @@ class RESSOURCE extends TABLE
 		$datas = $this->fourni("ligneapprovisionnement");
 		foreach ($datas as $key => $ligne) {
 			$ligne->actualise();
-			if ($ligne->approvisionnement->created <= $date && $ligne->approvisionnement->etat_id == ETAT::VALIDEE) {
+			if (date("Y-m-d", strtotime($ligne->approvisionnement->created)) <= $date && $ligne->approvisionnement->etat_id == ETAT::TERMINEE) {
 				$total += intval($ligne->quantite);
 			}			
 		}

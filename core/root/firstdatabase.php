@@ -272,15 +272,79 @@ foreach (ROLE::getAll() as $key => $value) {
 
 $item = new APPROVISIONNEMENT();
 $item->etat_id = ETAT::TERMINEE;
+$item->prestataire_id = PRESTATAIRE::PRESTATAIRESYSTEME;
 $item->comment = "approvisionnemnt initial, système !";
 $item->setProtected(1);
 $item->enregistre();
 
 
 $item = new PRODUCTIONJOUR();
-$item->comment = "approvisionnemnt initial, système !";
+$item->comment = "production initial, système !";
 $item->setProtected(1);
 $item->save();
+
+
+$item = new PRODUIT();
+$item->files = [];
+$item->stock = 100;
+$item->name = "HOURDIS";
+$item->class = "Hourdis";
+$item->enregistre();
+
+$item = new PRODUIT();
+$item->files = [];
+$item->stock = 100;
+$item->name = "AC 15";
+$item->class = "Agglos creux 15";
+$item->enregistre();
+
+$item = new PRODUIT();
+$item->files = [];
+$item->stock = 100;
+$item->name = "AP 15";
+$item->class = "Agglos pleins 15";
+$item->enregistre();
+
+$item = new PRODUIT();
+$item->files = [];
+$item->stock = 100;
+$item->name = "BTC";
+$item->class = "Briques en terre compressée";
+$item->enregistre();
+
+
+$item = new RESSOURCE();
+$item->files = [];
+$item->stock = 100;
+$item->name = "CIMENT";
+$item->class = "Sac";
+$item->abbr = "Sacs";
+$item->enregistre();
+
+$item = new RESSOURCE();
+$item->files = [];
+$item->stock = 100;
+$item->name = "SABLE";
+$item->class = "Chargement";
+$item->abbr = "Chgs";
+$item->enregistre();
+
+$item = new RESSOURCE();
+$item->files = [];
+$item->stock = 100;
+$item->name = "GRAVIER";
+$item->class = "Tonne";
+$item->abbr = "T";
+$item->enregistre();
+
+$item = new RESSOURCE();
+$item->files = [];
+$item->stock = 100;
+$item->name = "EAU";
+$item->class = "Litre";
+$item->abbr = "L";
+$item->enregistre();
+
 
 
 

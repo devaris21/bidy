@@ -11,6 +11,8 @@ class PRESTATAIRE extends AUTH
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const PRESTATAIRESYSTEME = 1;
+
 	public $name;
 	public $typeprestataire_id = 1;
 	public $login;

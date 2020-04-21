@@ -11,7 +11,7 @@ class APPROVISIONNEMENT extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $reference;
-	public $montant;
+	public $montant = 0;
 	public $datelivraison;
 	public $operation_id = 1;
 	public $prestataire_id = 1;
@@ -25,7 +25,7 @@ class APPROVISIONNEMENT extends TABLE
 		$data = new RESPONSE;
 		$datas = PRESTATAIRE::findBy(["id ="=>$this->prestataire_id]);
 		if (count($datas) == 1) {
-			if ($this->montant > 0 ) {
+			if ($this->montant >= 0 ) {
 				$this->reference = "APP/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 				$this->employe_id = getSession("employe_connecte_id");
 				$data = $this->save();
