@@ -48,16 +48,46 @@ class CLIENT extends TABLE
 		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
 			$payement = new OPERATION();
-				$payement->hydrater($post);
+			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 				$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
 				$payement->client_id = $this->getId();
 				$payement->comment = "Acréditation du compte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
-				$lot = $payement->enregistre();
-				if ($lot->status) {
+				$data = $payement->enregistre();
+				if ($data->status) {
+					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
-					$data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+					$data->setUrl("gestion", "fiches", "boncaisse", $id);
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Vous ne pouvez pas choisir ce mode de payement !";
+			}			
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+	public function rembourser(int $montant, Array $post){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			$payement = new OPERATION();
+			$payement->hydrater($post);
+			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+				$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT;
+				$payement->client_id = $this->getId();
+				$payement->comment = "Rembourser à partir du acompte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
+				$data = $payement->enregistre();
+				if ($data->status) {
+					$id = $data->lastid;
+					$this->acompte -= intval($montant);
+					$data = $this->save();
+					$data->setUrl("gestion", "fiches", "boncaisse", $id);
 				}
 			}else{
 				$data->status = false;

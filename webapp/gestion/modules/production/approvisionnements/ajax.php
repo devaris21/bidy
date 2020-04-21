@@ -139,8 +139,8 @@ if ($action == "validerApprovisionnement") {
 		if (count($tests) == 0 && intval(getSession("total")) > 0) {
 
 			$payement = new OPERATION();
+			$payement->hydrater($_POST);
 			$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-			$payement->modepayement_id = $modepayement_id;
 			$payement->montant = getSession("total");
 			$payement->client_id = CLIENT::CLIENTSYSTEME;
 			$data = $payement->enregistre();

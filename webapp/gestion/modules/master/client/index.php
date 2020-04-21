@@ -195,7 +195,11 @@
                     <span>Acompte actuel du client</span>
                     <h2 class="font-bold"><?= money($client->acompte) ?> <?= $params->devise  ?></h2><br>
                     <button type="button" data-toggle="modal" data-target="#modal-acompte" class="btn btn-primary dim btn-block"><i
-                        class="fa fa-envelope"></i> Créditer l'accompte
+                        class="fa fa-plus"></i> Créditer l'accompte
+                    </button><br>
+
+                    <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
+                        class="fa fa-minus"></i> Rembourser le client
                     </button>
                 </div>
             <?php } ?>
@@ -270,6 +274,7 @@
 
 <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-rembourser.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
 
 </div>
