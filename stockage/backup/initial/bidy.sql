@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  Dim 19 avr. 2020 à 13:59
+-- Généré le :  mar. 21 avr. 2020 à 23:13
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.19
 
@@ -234,6 +234,7 @@ CREATE TABLE `employe` (
   `is_new` int(11) NOT NULL DEFAULT '0',
   `is_allowed` int(11) NOT NULL DEFAULT '1',
   `visibility` int(11) NOT NULL DEFAULT '0',
+  `pass` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -575,23 +576,6 @@ CREATE TABLE `lignelivraison` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `lignepayejour`
---
-
-CREATE TABLE `lignepayejour` (
-  `id` int(11) NOT NULL,
-  `productionjour_id` int(11) NOT NULL,
-  `manoeuvre_id` int(11) NOT NULL,
-  `montant` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `ligneproductionjour`
 --
 
@@ -664,7 +648,6 @@ CREATE TABLE `manoeuvre` (
   `groupemanoeuvre_id` int(2) NOT NULL,
   `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
-  `etatmanoeuvre_id` int(11) NOT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -751,9 +734,12 @@ CREATE TABLE `operation` (
   `client_id` int(11) NOT NULL,
   `manoeuvre_id` int(11) DEFAULT NULL,
   `modepayement_id` int(11) NOT NULL,
+  `structure` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `numero` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `comment` text COLLATE utf8_bin,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
+  `date_approbation` datetime DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -1325,12 +1311,6 @@ ALTER TABLE `lignelivraison`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `lignepayejour`
---
-ALTER TABLE `lignepayejour`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `ligneproductionjour`
 --
 ALTER TABLE `ligneproductionjour`
@@ -1686,12 +1666,6 @@ ALTER TABLE `lignegroupecommande`
 -- AUTO_INCREMENT pour la table `lignelivraison`
 --
 ALTER TABLE `lignelivraison`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `lignepayejour`
---
-ALTER TABLE `lignepayejour`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
