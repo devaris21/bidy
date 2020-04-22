@@ -107,6 +107,7 @@ $item->name = "Devaris 21";
 $item->email = "info@devaris21.com";
 $item->adresse = "...";
 $item->contact = "...";
+$item->visibility = 0;
 $item->setProtected(1);
 $item->save();
 
@@ -177,25 +178,31 @@ $item->save();
 
 $item = new ETATVEHICULE();
 $item->name = "RAS";
-$item->class = "success";
-$item->setProtected(1);
-$item->save();
-
-$item = new ETATVEHICULE();
-$item->name = "En mission";
-$item->class = "danger";
-$item->setProtected(1);
-$item->save();
-
-$item = new ETATVEHICULE();
-$item->name = "En panne";
 $item->class = "primary";
 $item->setProtected(1);
 $item->save();
 
 $item = new ETATVEHICULE();
-$item->name = "En entretien";
+$item->name = "En mission";
 $item->class = "warning";
+$item->setProtected(1);
+$item->save();
+
+$item = new ETATVEHICULE();
+$item->name = "En panne";
+$item->class = "success";
+$item->setProtected(1);
+$item->save();
+
+$item = new ETATVEHICULE();
+$item->name = "En entretien";
+$item->class = "success";
+$item->setProtected(1);
+$item->save();
+
+$item = new ETATVEHICULE();
+$item->name = "Indisponible";
+$item->class = "danger";
 $item->setProtected(1);
 $item->save();
 
@@ -203,13 +210,13 @@ $item->save();
 
 $item = new ETATCHAUFFEUR();
 $item->name = "RAS";
-$item->class = "success";
+$item->class = "primary";
 $item->setProtected(1);
 $item->save();
 
 $item = new ETATCHAUFFEUR();
 $item->name = "En mission";
-$item->class = "danger";
+$item->class = "warning";
 $item->setProtected(1);
 $item->save();
 
@@ -274,6 +281,7 @@ $item = new APPROVISIONNEMENT();
 $item->etat_id = ETAT::TERMINEE;
 $item->prestataire_id = PRESTATAIRE::PRESTATAIRESYSTEME;
 $item->comment = "approvisionnemnt initial, système !";
+$item->visibility = 0;
 $item->setProtected(1);
 $item->enregistre();
 

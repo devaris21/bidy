@@ -13,6 +13,7 @@ class ETATVEHICULE extends TABLE
 	const MISSION = 2;
 	const PANNE = 3;
 	const ENTRETIEN = 4;
+	const INDISPONIBLE = 4;
 
 
 	public $name;

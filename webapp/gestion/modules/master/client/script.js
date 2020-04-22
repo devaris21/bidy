@@ -120,9 +120,9 @@ $(function(){
 			formdata.append('action', "validerCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
-					window.open(data.url2, "_blank");
-					window.open(data.url1, "_blank");
+					window.open(data.url, "_blank");
 					window.location.reload();
+					window.open(data.url1, "_blank");
 				}else{
 					Alerter.error('Erreur !', data.message);
 				}

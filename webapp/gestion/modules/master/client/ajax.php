@@ -130,71 +130,76 @@ if ($action == "validerCommande") {
 		if (count($produits) > 0) {
 			if (($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $client->acompte >= getSession("total")) || $modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 
-				if (getSession("commande-encours") != null) {
-					$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
-					if (count($datas) > 0) {
-						$groupecommande = $datas[0];
-						$groupecommande->etat_id = ETAT::ENCOURS;
+				if (getSession("total") > 0) {
+					if (getSession("commande-encours") != null) {
+						$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
+						if (count($datas) > 0) {
+							$groupecommande = $datas[0];
+							$groupecommande->etat_id = ETAT::ENCOURS;
+						}else{
+							$groupecommande = new GROUPECOMMANDE();
+							$groupecommande->hydrater($_POST);
+							$groupecommande->enregistre();
+						}
 					}else{
 						$groupecommande = new GROUPECOMMANDE();
 						$groupecommande->hydrater($_POST);
 						$groupecommande->enregistre();
 					}
-				}else{
-					$groupecommande = new GROUPECOMMANDE();
-					$groupecommande->hydrater($_POST);
-					$groupecommande->enregistre();
-				}
 
-				$commande = new COMMANDE();
-				$commande->hydrater($_POST);
-				$commande->groupecommande_id = $groupecommande->getId();
-				$data = $commande->enregistre();
-				if ($data->status) {
-					foreach ($produits as $key => $value) {
-						$lot = explode("-", $value);
-						$id = $lot[0];
-						$qte = end($lot);
-						$datas = PRODUIT::findBy(["id ="=> $id]);
-						if (count($datas) == 1) {
-							$produit = $datas[0];
-							$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
-							if (count($produit->prix_zonelivraisons) > 0) {
-								$prix = $produit->prix_zonelivraisons[0]->price;
-							}else{
-								$prix = 1000;
+					$commande = new COMMANDE();
+					$commande->hydrater($_POST);
+					$commande->groupecommande_id = $groupecommande->getId();
+					$data = $commande->enregistre();
+					if ($data->status) {
+						foreach ($produits as $key => $value) {
+							$lot = explode("-", $value);
+							$id = $lot[0];
+							$qte = end($lot);
+							$datas = PRODUIT::findBy(["id ="=> $id]);
+							if (count($datas) == 1) {
+								$produit = $datas[0];
+								$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
+								if (count($produit->prix_zonelivraisons) > 0) {
+									$prix = $produit->prix_zonelivraisons[0]->price;
+								}else{
+									$prix = 1000;
+								}
+								$montant += $prix * $qte;
+
+								$lignecommande = new LIGNECOMMANDE;
+								$lignecommande->commande_id = $commande->getId();
+								$lignecommande->produit_id = $id;
+								$lignecommande->quantite = $qte;
+								$lignecommande->price =  $prix * $qte;
+								$lignecommande->save();	
 							}
-							$montant += $prix * $qte;
-
-							$lignecommande = new LIGNECOMMANDE;
-							$lignecommande->commande_id = $commande->getId();
-							$lignecommande->produit_id = $id;
-							$lignecommande->quantite = $qte;
-							$lignecommande->price =  $prix * $qte;
-							$lignecommande->save();	
 						}
-					}
 
-					$tva = ($montant * $params->tva) / 100;
-					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
-						$lot = $client->debiter($montant);
-					}else{
-						$payement = new OPERATION();
-						$payement->hydrater($_POST);
-						$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
-						$payement->montant = $montant + $tva;
-						$payement->client_id = $client_id;
-						$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
-						$lot = $payement->enregistre();
-					}
-					
-					$commande->montant = $tva;
-					$commande->montant = $montant + $tva;
-					$commande->operation_id = $data->lastid;
-					$data = $commande->save();
+						$tva = ($montant * $params->tva) / 100;
+						if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+							$lot = $client->debiter($montant);
+						}else{
+							$payement = new OPERATION();
+							$payement->hydrater($_POST);
+							$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
+							$payement->montant = $montant + $tva;
+							$payement->client_id = $client_id;
+							$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
+							$lot = $payement->enregistre();
+						}
 
-					$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
-					$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+						$commande->montant = $tva;
+						$commande->montant = $montant + $tva;
+						$commande->operation_id = $data->lastid;
+						$data = $commande->save();
+
+						$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+						$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Veuillez verifier le montant de la commande !";
 				}
 			}else{
 				$data->status = false;

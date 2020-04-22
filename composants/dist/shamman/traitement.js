@@ -15,7 +15,11 @@
                         Loader.stop();
                         $(".modal").modal('hide');
                     }else{
-                        window.location.reload();
+                        if(name == "client") {
+                            window.location.href = data.url;
+                        }else{
+                            window.location.reload();                            
+                        }
                     }
                 }else{
                     Alerter.error('Erreur !', data.message);

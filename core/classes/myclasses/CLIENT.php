@@ -29,6 +29,7 @@ class CLIENT extends TABLE
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			$data = $this->save();
+			$data->setUrl("gestion", "master", "client", $data->lastid);
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner le nom du niveau d'administration !";
@@ -38,7 +39,7 @@ class CLIENT extends TABLE
 
 
 	public static function getSemaine(){
-		return static::findBy(["DATE(created) >= " => dateAjoute(-7)]);
+		return static::findBy(["DATE(created) >= " => dateAjoute(-7), "visibility ="=>1]);
 	}
 
 
