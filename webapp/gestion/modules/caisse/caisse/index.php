@@ -90,8 +90,10 @@
                                         <div class="progress-bar" style="width: 100%; background-color: #dedede"></div>
                                     </div><br>
 
-                                    <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente(), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
-                                    <small>Versement en attente</small>
+                                    <div class="cursor" data-toggle="modal" data-target="#modal-attente">
+                                        <h3 class="no-margins text-blue"><?= money(comptage(Home\OPERATION::enAttente(), "montant", "somme")) ?> <?= $params->devise ?> *</h3>
+                                        <small>Versement en attente</small>
+                                    </div>
                                 </div>
                                 <div class="col-4">
                                     <br>
@@ -153,10 +155,13 @@
                     $i++;
                 } ?>
 
-                <div class="ibox-content">
+                <div class="ibox-content" style="padding-bottom: 0;">
                     <button data-toggle="modal" data-target="#modal-entree" class="btn btn-sm btn-primary dim" style="font-size: 10px"><i class="fa fa-check"></i> Nouvelle entrée</button>
-                    <button data-toggle="modal" data-target="#modal-depense" class="btn btn-sm btn-danger dim pull-right" style="font-size: 10px"><i class="fa fa-check"></i> Nouvelle dépense</button>
+                    <button data-toggle="modal" data-target="#modal-depense" class="btn btn-sm btn-danger dim pull-right" style="font-size: 10px"><i class="fa fa-check"></i> Nouvelle dépense</button><hr class="mp3">
+
+                    <button data-toggle="modal" data-target="#modal-attente" class="btn btn-sm btn-success dim btn-block" ><i class="fa fa-eye"></i> Voir les versemments en attente</button>
                 </div>
+
             </div>
         </div>
 
@@ -191,8 +196,13 @@
                                         </tr>
                                     </thead>
                                     <tbody class="tableau">
-                                        <?php foreach ($operations as $key => $operation) {
-                                            $operation->actualise(); ?>
+                                        <tr>
+                                            <td colspan="3">Repport du solde </td>
+                                            <td class="text-center">-</td>
+                                            <td class="text-center">-</td>
+                                            <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-7))) ?> <?= $params->devise ?></td>
+                                        </tr>
+                                        <?php foreach ($operations as $key => $operation) {  ?>
                                             <tr>
                                                 <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                 <td>
@@ -216,14 +226,16 @@
                                                     <?= money($operation->montant) ?> <?= $params->devise ?>
                                                 </td>
                                             <?php } ?>
-                                            <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($operation->montant) ?> <?= $params->devise ?></td>
+                                            <?php $last += ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)? $operation->montant : -$operation->montant ; ?>
+                                            <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
                                         </tr>
                                     <?php } ?>
+                                    <tr style="height: 15px;"></tr>
                                     <tr>
-                                        <td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Solde du compte au <?= datecourt(dateAjoute()) ?></h4></td>
-                                        <td><h4 class="text-center"><?= money(Home\OPERATION::entree(Home\PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h4></td>
-                                        <td><h4 class="text-center"><?= money(Home\OPERATION::sortie(Home\PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h4></td>
-                                        <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h3></td>
+                                        <td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
+                                        <td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
+                                        <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
+                                        <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -250,6 +262,48 @@
 
 </div>
 </div>
+
+
+<div class="modal inmodal fade" id="modal-attente">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Liste des versements en attentes</h4>
+                <div class="offset-md-4 col-md-4">
+                 <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
+             </div>
+         </div>
+         <div class="modal-body">
+            <table class="table table-bordered table-hover table-operation">
+                <tbody class="tableau-attente">
+                    <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {
+                        $operation->actualise(); ?>
+                        <tr>
+                            <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                            <td>
+                                <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span></h6>
+                                <i><?= $operation->comment ?></i>
+                            </td>
+                            <td class="text-center gras" style="padding-top: 12px;">
+                                <?= money($operation->montant) ?> <?= $params->devise ?>
+                            </td>
+                            <td width="110" class="text-center" >
+                                <small><?= $operation->structure ?></small><br>
+                                <small><?= $operation->numero ?></small>
+                            </td>
+                            <td class="text-center">
+                                <button onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div><hr><br>
+    </div>
+</div>
+</div>
+
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>

@@ -19,6 +19,7 @@ class ENTRETIENVEHICULE extends TABLE
 
 	public $reference;
 	public $typeentretienvehicule_id;
+	public $demandeentretien_id = null;
 	public $name;
 	public $vehicule_id;
 	public $prestataire_id;
@@ -42,9 +43,8 @@ class ENTRETIENVEHICULE extends TABLE
 			$datas = VEHICULE::findBy(["id ="=>$this->vehicule_id]);
 			if (count($datas) == 1) {
 				$this->reference = strtoupper(substr(uniqid(), 5, 6));
-					// TODO verifier les dates
-					// TODO champ pour rejouter au commentaire quand ca vient des demandes d'entretien
-				$this->employe_id = getSession("demploye_connecte_id");
+				$this->demandeentretien_id = getSession("demandeentretien_id");
+				$this->employe_id = getSession("employe_connecte_id");
 				$data = $this->save();
 				if ($data->status) {
 					$this->uploading($this->files);
@@ -101,58 +101,36 @@ class ENTRETIENVEHICULE extends TABLE
 
 
 
+
 	public function approuver(){
 		$data = new RESPONSE;
-		$rooter = new ROOTER;
-		$this->etat_id = 2;
-		$this->date_approuve = date("Y-m-d H:i:s");
-		$this->historique("Approbation de la demande d'entretien de véhicule N° $this->id");
-		$data = $this->save();
-		if ($data->status) {
+		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->actualise();
-			$message = "L'entretien pour le véhicule ".$this->vehicule->marque->name." ".$this->vehicule->modele." immatriculé ".$this->vehicule->immatriculation." a été effectué avec succes! Veuillez contacter le responsable/gestion du parc automobile pour plus de précision!";
-			$image = $rooter->stockage("images", "vehicules", $this->vehicule->image);
-			$objet = "Demande d'entretien de véhicule approuvé";
-
-			ob_start();
-			include(__DIR__."/../../sections/home/elements/mails/demandeentretien1.php");
-			$contenu = ob_get_contents();
-			ob_end_clean();
-			//EMAIL::send([$this->email()], $objet, $contenu);
-			session("demandeentretien", $this);
+			$this->etat_id = ETAT::VALIDEE;
+			$this->date_approuve = date("Y-m-d H:i:s");
+			$this->historique("Succès de l'entretien du vehicule N° ".$this->vehicule->name);
+			$data = $this->save();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
 		}
 		return $data;
-	}
-
-
-	public function annuler(){
-		$this->etat_id = ETAT::ANNULEE;
-		$this->historique("Annulation de l'entretien de véhicule N° $this->reference N°".$commande->reference);
-		return $this->save();
 	}
 	
 
-	public function refuser(){
-		$data = new RESPONSE;
-		$rooter = new ROOTER;
-		$this->etat_id = ETAT::ANNULEE;
-		$this->date_approuve = date("Y-m-d H:i:s");
-		$this->historique("Echec de l'entretien de véhicule N° $this->id");
-		$data = $this->save();
-		if ($data->status) {
-			$this->actualise();
-			$message = "L'entretien pour le véhicule ".$this->vehicule->marque->name." ".$this->vehicule->modele." immatriculé ".$this->vehicule->immatriculation." n'a pas abouti !<br> Veuillez contacter le responsable/gestion du parc automobile pour plus de précision";
-			$image = $rooter->stockage("images", "vehicules", $this->vehicule->image);
-			$objet = "Entretien de véhicule échoué!";
 
-			ob_start();
-			include(__DIR__."/../../sections/home/elements/mails/demandeentretien1.php");
-			$contenu = ob_get_contents();
-			ob_end_clean();
-			//EMAIL::send([$this->email()], $objet, $contenu);
+	public function annuler(){
+		if ($this->etat_id == ETAT::ENCOURS) {
+			$this->actualise();
+			$this->etat_id = ETAT::ANNULEE;
+			$this->historique("Annulation de l'entretien du vehicule N° $this->reference");
+			$data = $this->save();
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
 		}
-		return $data;
 	}
+
 
 
 

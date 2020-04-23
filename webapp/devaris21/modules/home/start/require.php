@@ -1,4 +1,4 @@
 <?php 
 
-$title = "AMB | Plateforme de gestion";
+$title = "BIDY | Plateforme de gestion";
 ?>

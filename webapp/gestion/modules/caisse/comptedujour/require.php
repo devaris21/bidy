@@ -10,7 +10,18 @@ if ($this->getId() != "") {
 $commandes = COMMANDE::findBy(["DATE(created) = " => $date]);
 $livraisons = LIVRAISON::findBy(["DATE(created) = " => $date]);
 $approvisionnements = APPROVISIONNEMENT::findBy(["DATE(created) = " => $date]);
+
 $operations = OPERATION::findBy(["DATE(created) = " => $date]);
+$entrees = $depenses = [];
+foreach ($operations as $key => $value) {
+	$value->actualise();
+	if ($value->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) {
+		$entrees[] = $value;
+	}else{
+		$depenses[] = $value;
+	}
+}
+
 
 $datas = PRODUCTIONJOUR::findBy(["ladate = " => $date]);
 if (count($datas) == 1) {

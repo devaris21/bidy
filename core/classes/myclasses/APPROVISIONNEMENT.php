@@ -75,7 +75,7 @@ class APPROVISIONNEMENT extends TABLE
 	public function terminer(){
 		$data = new RESPONSE;
 		if ($this->etat_id == ETAT::ENCOURS) {
-			$this->etat_id = ETAT::TERMINEE;
+			$this->etat_id = ETAT::VALIDEE;
 			$this->employe_id_reception = getSession("employe_connecte_id");
 			$this->datelivraison = date("Y-m-d H:i:s");
 			$this->historique("L'approvisionnement en reference $this->reference vient d'être terminé !");

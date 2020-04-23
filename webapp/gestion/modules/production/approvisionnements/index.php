@@ -93,7 +93,7 @@
                                         <tbody>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { ?>
-                                                   <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::TERMINEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
+                                                   <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::VALIDEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
                                                <?php   } ?>
                                            </tr>
                                        </tbody>

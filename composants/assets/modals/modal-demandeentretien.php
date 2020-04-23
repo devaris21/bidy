@@ -1,5 +1,4 @@
 
-
 <div class="modal inmodal fade" id="modal-demandeentretien">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -30,7 +29,7 @@
                         <div class="col-sm-6 col-md-4">
                             <label>Chauffeur concerné<span1>*</span1></label>
                             <div class="form-group">
-                                <?php Native\BINDING::html("select", "chauffeur"); ?>
+                                <?php Native\BINDING::html("select-startnull", "chauffeur"); ?>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-4">
@@ -43,7 +42,6 @@
                 </div><hr class="">
                 <div class="container">
                     <input type="hidden" name="id">
-                    <input type="hidden" name="vehicule_id" value="<?= $vehicule->getId() ?>">
                     <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                     <button class="btn btn-sm btn-primary dim pull-right"><i class="fa fa-check"></i> Faire la demande</button>
                 </div>

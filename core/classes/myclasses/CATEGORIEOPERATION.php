@@ -12,10 +12,10 @@ class CATEGORIEOPERATION extends TABLE
 
 	const PAYEMENT = 1;
 
-	const APPROVISIONNEMENT = 2;
-	const PAYE = 3;
-	const ENTRETIENVEHICULE = 4;
-	const REMBOURSEMENT = 5;
+	const APPROVISIONNEMENT = 3;
+	const PAYE = 4;
+	const ENTRETIENVEHICULE = 5;
+	const REMBOURSEMENT = 6;
 
 	
 	public $typeoperationcaisse_id;

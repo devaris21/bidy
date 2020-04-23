@@ -26,18 +26,35 @@ $(function(){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+terminerSansEntretenirVehicule = function(id){
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	alerty.confirm("Terminer sans entretien pour ce véhicule ?", {
+		title: "Validation",
+		cancelLabel : "Non",
+		okLabel : "OUI, terminer",
+	}, function(){
+		Loader.start();
+		$.post(url, {action:"terminerSansEntretenirVehicule", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
 
 
 $("form.formEntretien").submit(function(event) {
 	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
 	var formdata = new FormData($(this)[0]);
-	alerty.confirm("Voulez-vous vraiment valider cette demande d'entretien pour ce véhicule ?", {
+	alerty.confirm("Voulez-vous vraiment confirmer un entretien pour ce véhicule ?", {
 		title: "Validation de la demande",
 		cancelLabel : "Non",
 		okLabel : "OUI, approuver",
 	}, function(){
 		Loader.start()
-		formdata.append('action', "demandeEntretien");
+		formdata.append('action', "validerDemandeEntretien");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 			if (data.status) {
 				window.location.reload();
@@ -50,6 +67,8 @@ $("form.formEntretien").submit(function(event) {
 });
 
 
+
+
 annulerDemandeEntretien = function(id){
 	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
 	alerty.confirm("Voulez-vous vraiment refuser cette demande d'entretien pour ce véhicule ?", {
@@ -57,6 +76,7 @@ annulerDemandeEntretien = function(id){
 		cancelLabel : "Non",
 		okLabel : "OUI, refuser",
 	}, function(){
+		Loader.start();
 		$.post(url, {action:"annulerDemandeEntretien", id:id}, (data)=>{
 			if (data.status) {
 				window.location.reload()
@@ -68,7 +88,7 @@ annulerDemandeEntretien = function(id){
 }
 
 
-$("form.formValiderEntretienVehicule").submit(function(event) {
+$("form#formValiderEntretienVehicule").submit(function(event) {
 	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
 	var formdata = new FormData($(this)[0]);
 	alerty.confirm("Cet entretien est-il vraiment terminé ?", {
@@ -97,6 +117,7 @@ annulerEntretienVehicule = function(id){
 		cancelLabel : "Non",
 		okLabel : "OUI, refuser",
 	}, function(){
+		Loader.start();
 		$.post(url, {action:"annulerEntretienVehicule", id:id}, (data)=>{
 			if (data.status) {
 				window.location.reload()
@@ -113,17 +134,35 @@ annulerEntretienVehicule = function(id){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+terminerSansEntretenirMachine = function(id){
+	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
+	alerty.confirm("Terminer sans entretien pour cette machine ?", {
+		title: "Validation",
+		cancelLabel : "Non",
+		okLabel : "OUI, terminer",
+	}, function(){
+		Loader.start();
+		$.post(url, {action:"terminerSansEntretenirMachine", id:id}, (data)=>{
+			if (data.status) {
+				window.location.reload()
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		},"json");
+	})
+}
 
-$("form.formPanne").submit(function(event) {
+
+$("form.formEntretienMachine").submit(function(event) {
 	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
 	var formdata = new FormData($(this)[0]);
-	alerty.confirm("Voulez-vous vraiment valider cette demande d'entretien pour ce véhicule ?", {
-		title: "Validation de la demande",
+	alerty.confirm("Voulez-vous vraiment confirmer un entretien pour cette machine ?", {
+		title: "Entretein de la panne",
 		cancelLabel : "Non",
 		okLabel : "OUI, approuver",
 	}, function(){
 		Loader.start()
-		formdata.append('action', "panne");
+		formdata.append('action', "formEntretienMachine");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 			if (data.status) {
 				window.location.reload();
@@ -143,6 +182,7 @@ annulerPanne = function(id){
 		cancelLabel : "Non",
 		okLabel : "OUI, refuser",
 	}, function(){
+		Loader.start();
 		$.post(url, {action:"annulerPanne", id:id}, (data)=>{
 			if (data.status) {
 				window.location.reload()
@@ -154,7 +194,10 @@ annulerPanne = function(id){
 }
 
 
-$("form.formValiderEntretienMachine").submit(function(event) {
+
+
+
+$("form#formValiderEntretienMachine").submit(function(event) {
 	var url = "../../webapp/gestion/modules/master/pannes/ajax.php";
 	var formdata = new FormData($(this)[0]);
 	alerty.confirm("Cet entretien est-il vraiment terminé ?", {
@@ -183,6 +226,7 @@ annulerEntretienMachine = function(id){
 		cancelLabel : "Non",
 		okLabel : "OUI, refuser",
 	}, function(){
+		Loader.start();
 		$.post(url, {action:"annulerEntretienMachine", id:id}, (data)=>{
 			if (data.status) {
 				window.location.reload()

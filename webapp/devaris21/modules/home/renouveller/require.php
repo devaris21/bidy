@@ -4,10 +4,10 @@ namespace Home;
 $params = PARAMS::findLastId();
 $mycompte = MYCOMPTE::findLastId();
 
-if ($mycompte->expired >= dateAjoute()) {
+if ($mycompte->expired < dateAjoute()) {
 	$title = "Renouvellement de l'abonnement";
 }else{
-	header("Location: gestion/access/login");
+	header("Location: ../../gestion/access/login");
 }
 
 

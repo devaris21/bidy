@@ -84,10 +84,10 @@
                             <div class="ibox-title">
                                 <h5 class="text-uppercase"><i class="fa fa-car"></i> Tous les véhicules </h5>
                                 <div class="ibox-tools">
-                                 <!--  <button data-toggle="modal" data-target="#modal-vehicule" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau véhicule</button> -->
-                             </div>
-                         </div>
-                         <div class="ibox-content table-responsive" style="min-height: 300px;">
+                                   <!--  <button data-toggle="modal" data-target="#modal-vehicule" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau véhicule</button> -->
+                               </div>
+                           </div>
+                           <div class="ibox-content table-responsive" style="min-height: 300px;">
                               <?php if (count($vehicules) > 0) { ?>
                                 <table class="table table-striped tableCarplan">
                                     <tbody>
@@ -106,23 +106,11 @@
                                                     <h5 class="mp0"><?= $vehicule->typevehicule->name() ?></h5>
                                                     <h5 class="mp0"><?= $vehicule->groupevehicule->name() ?></h5>
                                                 </td>                                      
-                                                <td class="project-status">
-                                                    <span class="pull-right label label-<?= $vehicule->etatvehicule->class ?>"><?= $vehicule->etatvehicule->name ?></span><br>
-                                                    <div class="btn-group btn-tools">
-                                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="mp5 cursor dropdown-toggle"><i class="fa fa-gears"></i> options</span>
-                                                        <div class="dropdown-menu">
-                                                            <div class="dropdown-divider"></div>
-                                                            <?php if ($vehicule->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
-                                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-demandeentretien"  href="#"><i class="fa fa-user"></i> Déclarer un sinistre</a>
-                                                                <div class="dropdown-divider"></div>
-                                                            <?php }else{ ?>
-                                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-demandeentretien" href="#"><i class="fa fa-user"></i> Déclarer une panne/sinistre</a>
-                                                                <div class="dropdown-divider"></div>
-                                                            <?php } ?>
-                                                            <a class="dropdown-item" onclick="modification('vehicule', <?= $vehicule->getId() ?>)" data-toggle="modal" data-target="#modal-vehicule" href="#"><i class="fa fa-pencil"></i> Modifier les infos du véhicule</a>
-                                                            <a class="dropdown-item"  onclick="suppressionWithPassword('vehicule', <?= $vehicule->getId() ?>)" data-toggle="tooltip" title="Supprimer la vehicule" href="#"><i class="fa fa-close text-red"></i> Supprimer cette vehicule</a>
-                                                        </div>
-                                                    </div>
+                                                <td class="project-status text-right">
+                                                    <span class=" label label-<?= $vehicule->etatvehicule->class ?>"><?= $vehicule->etatvehicule->name ?></span><br>
+                                                    <?php if ($vehicule->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
+                                                        <button onclick="session('vehicule_id', <?= $vehicule->getId() ?>)" data-toggle="modal" data-target="#modal-demandeentretien" class="btn btn-xs btn-warning"><i class="fa fa-car"></i> Déclarer un sinistre</button>
+                                                    <?php } ?>
                                                 </td>      
 
                                             </tr>
@@ -146,65 +134,46 @@
                             </div>
                         </div>
                         <div class="ibox-content table-responsive" style="min-height: 300px;">
-                             <?php if (count($machines) > 0) { ?>
-                                <table class="table table-striped tableCarplan">
-                                    <tbody>
-                                        <?php foreach ($machines as $key => $machine) {
-                                            $machine->actualise();
-                                            ?>
-                                            <tr class="mp0 <?= ($machine->etatvehicule_id == 0)?'encours':'' ?> border-bottom" >    
-                                                <td>
-                                                    <img alt="image" style="width: 40px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $machine->image) ?>">
-                                                </td>
-                                                <td class="">
-                                                    <h5 class="text-uppercase gras"><?= $machine->name() ?></h5>
-                                                    <h6 class=""><?= $machine->marque ?> <?= $machine->modele ?></h6>
-                                                </td>                                     
-                                                <td class="project-status">
-                                                    <span class="pull-right label label-<?= $machine->etatvehicule->class ?>"><?= $machine->etatvehicule->name ?></span><br>
-                                                    <div class="btn-group pull-right">
-                                                        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="mp5 cursor dropdown-toggle"><i class="fa fa-gears"></i> option</span>
-                                                        <div class="dropdown-menu">
-                                                            <div class="dropdown-divider"></div>
-                                                            <?php if ($machine->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
-                                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-panne" href="#"><i class="fa fa-user"></i> Déclarer une panne</a>
-                                                                <div class="dropdown-divider"></div>
-                                                            <?php } ?>
-                                                            <a class="dropdown-item" onclick="modification('machine', <?= $machine->getId() ?>)" data-toggle="modal" data-target="#modal-machine" href="#"><i class="fa fa-pencil"></i> Modifier les infos du véhicule</a>
-                                                            <a class="dropdown-item"  onclick="suppressionWithPassword('machine', <?= $machine->getId() ?>)" data-toggle="tooltip" title="Supprimer la machine" href="#"><i class="fa fa-close text-red"></i> Supprimer cette machine</a>
-                                                        </div>
-                                                    </div>
-                                                </td>      
+                           <?php if (count($machines) > 0) { ?>
+                            <table class="table table-striped tableCarplan">
+                                <tbody>
+                                    <?php foreach ($machines as $key => $machine) {
+                                        $machine->actualise();
+                                        ?>
+                                        <tr class="mp0 <?= ($machine->etatvehicule_id == 0)?'encours':'' ?> border-bottom" >    
+                                            <td>
+                                                <img alt="image" style="width: 40px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $machine->image) ?>">
+                                            </td>
+                                            <td class="">
+                                                <h5 class="text-uppercase gras"><?= $machine->name() ?></h5>
+                                                <h6 class=""><?= $machine->marque ?> <?= $machine->modele ?></h6>
+                                            </td>                                     
+                                            <td class="project-status text-right">
+                                                <span class=" label label-<?= $machine->etatvehicule->class ?>"><?= $machine->etatvehicule->name ?></span><br>
+                                                <?php if ($machine->etatvehicule_id == Home\ETATVEHICULE::RAS) { ?>
+                                                    <button class="btn btn-xs btn-warning" onclick="session('machine_id', <?= $machine->getId() ?>)" data-toggle="modal" data-target="#modal-panne"><i class="fa fa-plus"></i> panne</button>
+                                                <?php } ?>
+                                            </td>      
 
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table> 
-                            <?php }else{ ?>
-                                <h2 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-2x"></i> <br> Aucune machine enregistré pour le moment!</h2>
-                            <?php } ?>                            
-                        </div>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table> 
+                        <?php }else{ ?>
+                            <h2 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-2x"></i> <br> Aucune machine enregistré pour le moment!</h2>
+                        <?php } ?>                            
                     </div>
                 </div>
             </div>
         </div>
-
-        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-
-        <?php 
-        foreach ($vehicules as $key => $vehicule) {
-            include($this->rootPath("composants/assets/modals/modal-demandeentretien.php"));
-        }
-        ?> 
-
-        <?php 
-        foreach ($machines as $key => $machine) {
-            include($this->rootPath("composants/assets/modals/modal-panne.php")); 
-        }
-        ?> 
-
     </div>
+
+    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+    <?php include($this->rootPath("composants/assets/modals/modal-demandeentretien.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-panne.php")); ?> 
+
+</div>
 </div>
 
 

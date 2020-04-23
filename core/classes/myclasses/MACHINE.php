@@ -14,17 +14,16 @@ class MACHINE extends TABLE
 	public $marque;
 	public $image = "default.jpg";
 	public $modele;
-	public $etatvehicule_id;
+	public $etatvehicule_id =  ETATVEHICULE::RAS;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		if ($this->name != "" && $this->marque != "") {
 			$data = $this->save();
-			$data = $this->save();
-					if ($data->status) {
-						$this->uploading($this->files);
-					}
+			if ($data->status) {
+				$this->uploading($this->files);
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez renseigner tous les champs !";
@@ -33,7 +32,7 @@ class MACHINE extends TABLE
 	}
 
 
-		public function uploading(Array $files){
+	public function uploading(Array $files){
 		//les proprites d'images;
 		$tab = ["image"];
 		if (is_array($files) && count($files) > 0) {

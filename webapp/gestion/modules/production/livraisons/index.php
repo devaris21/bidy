@@ -105,12 +105,12 @@
                                         </thead>
                                         <tbody>
                                             <tr class="no">
-                                                <td><h4 class="mp0"><?= ($livraison->etat_id == Home\ETAT::TERMINEE)?'livrés':'à livrer' ?> : </h4></td>
+                                                <td><h4 class="mp0"><?= ($livraison->etat_id == Home\ETAT::VALIDEE)?'livrés':'à livrer' ?> : </h4></td>
                                                 <?php foreach ($livraison->lignelivraisons as $key => $ligne) { ?>
-                                                    <td class="text-center <?= ($livraison->etat_id == Home\ETAT::TERMINEE)?'text-warning':'' ?>"><?= $ligne->quantite_livree ?></td>
+                                                    <td class="text-center <?= ($livraison->etat_id == Home\ETAT::VALIDEE)?'text-warning':'' ?>"><?= $ligne->quantite_livree ?></td>
                                                 <?php   } ?>
                                             </tr>
-                                            <?php if ($livraison->etat_id == Home\ETAT::TERMINEE) { ?>
+                                            <?php if ($livraison->etat_id == Home\ETAT::VALIDEE) { ?>
                                                 <tr class="no">
                                                     <td><h4 class="mp0">Restait :</h4></td>
                                                     <?php foreach ($livraison->lignelivraisons as $key => $ligne) { ?>

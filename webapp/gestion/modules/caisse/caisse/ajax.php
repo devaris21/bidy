@@ -12,9 +12,23 @@ extract($_POST);
 if ($action == "filtrer") {
 	$rooter = new ROOTER();
 	$params = PARAMS::findLastId();
+	?>
+	<tr>
+		<td colspan="3">Repport du solde </td>
+		<td class="text-center">-</td>
+		<td class="text-center">-</td>
+		<td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = OPERATION::resultat(PARAMS::DATE_DEFAULT , dateAjoute($jour-1))) ?> <?= $params->devise ?></td>
+	</tr>
+	<?php
+	$entrees = $depenses = [];
 	$operations = OPERATION::findBy(["DATE(created) >= "=> dateAjoute(intval($jour))]);
 	foreach ($operations as $key => $operation) {
-		$operation->actualise(); ?>
+		$operation->actualise(); 
+		if ($operation->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE) {
+			$entrees[] = $operation;
+		}else{
+			$depenses[] = $operation;
+		} ?>
 		<tr>
 			<td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
 			<td>
@@ -38,14 +52,16 @@ if ($action == "filtrer") {
 					<?= money($operation->montant) ?> <?= $params->devise ?>
 				</td>
 			<?php } ?>
-			<td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($operation->montant) ?> <?= $params->devise ?></td>
+			<?php $last += ($operation->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE)? $operation->montant : -$operation->montant ; ?>
+			<td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
 		</tr>
 	<?php } ?>
+	<tr style="height: 15px"></tr>
 	<tr>
-		<td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Solde du compte au <?= datecourt(dateAjoute()) ?></h4></td>
-		<td><h4 class="text-center"><?= money(OPERATION::entree(PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h4></td>
-		<td><h4 class="text-center"><?= money(OPERATION::sortie(PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h4></td>
-		<td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money(OPERATION::resultat(PARAMS::DATE_DEFAULT , dateAjoute(1))) ?> <?= $params->devise ?></h3></td>
+		<td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
+		<td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
+		<td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
+		<td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
 	</tr>
 	<?php 
 }

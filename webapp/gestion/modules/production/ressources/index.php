@@ -71,7 +71,7 @@
                                                 foreach ($production->ligneconsommationjours as $key => $ligne) {
                                                     if ($ressource->getId() == $ligne->ressource_id) { 
                                                      $requette = "SELECT ligneapprovisionnement.ressource_id, SUM(quantite_recu) as quantite FROM ressource, approvisionnement, ligneapprovisionnement WHERE ressource.id = ligneapprovisionnement.ressource_id AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id  AND ressource.id = ? AND DATE(approvisionnement.datelivraison) = ? AND approvisionnement.etat_id = ? GROUP BY ligneapprovisionnement.ressource_id ";
-                                                     $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::TERMINEE]);
+                                                     $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::VALIDEE]);
                                                      if (count($datas) > 0) {
                                                         $item = $datas[0];
                                                     }else{

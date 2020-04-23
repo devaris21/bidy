@@ -12,8 +12,10 @@ foreach ($demandes as $key => $value) {
 	$value->actualise();
 	$value->type = "vehicule";
 }
-$datas = array_merge($pannes, $demandes);
-usort($datas, "comparerDateCreated");
+$lespannes = array_merge($pannes, $demandes);
+usort($lespannes, "comparerDateCreated");
+
+
 
 
 $pannes = ENTRETIENMACHINE::getAll();
@@ -27,8 +29,8 @@ foreach ($demandes as $key => $value) {
 	$value->actualise();
 	$value->type = "vehicule";
 }
-$datas1 = array_merge($pannes, $demandes);
-usort($datas1, "comparerDateCreated");
+$lesentretiens = array_merge($pannes, $demandes);
+usort($lesentretiens, "comparerDateCreated");
 
-$title = "AMB | Pannes  de véhicules/Machine";
+$title = "BIDY | Pannes  de véhicules/Machine";
 ?>

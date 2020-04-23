@@ -266,6 +266,13 @@ $item->setProtected(1);
 $item->save();
 
 $item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
+$item->name = "Autre entrée en caisse";
+$item->setProtected(1);
+$item->save();
+
+
+$item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
 $item->name = "Réglement de facture d'approvisionnemnt";
 $item->setProtected(1);
@@ -286,6 +293,12 @@ $item->save();
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
 $item->name = "Remboursement du client";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Autre dépense";
 $item->setProtected(1);
 $item->save();
 
@@ -310,7 +323,7 @@ foreach (ROLE::getAll() as $key => $value) {
 
 
 $item = new APPROVISIONNEMENT();
-$item->etat_id = ETAT::TERMINEE;
+$item->etat_id = ETAT::VALIDEE;
 $item->operation_id = 0;
 $item->fournisseur_id = FOURNISSEUR::FOURNISSEURSYSTEME;
 $item->comment = "approvisionnemnt initial, système !";

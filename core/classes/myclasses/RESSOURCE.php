@@ -101,7 +101,7 @@ class RESSOURCE extends TABLE
 		$datas = $this->fourni("ligneapprovisionnement");
 		foreach ($datas as $key => $ligne) {
 			$ligne->actualise();
-			if (date("Y-m-d", strtotime($ligne->approvisionnement->created)) <= $date && $ligne->approvisionnement->etat_id == ETAT::TERMINEE) {
+			if (date("Y-m-d", strtotime($ligne->approvisionnement->created)) <= $date && $ligne->approvisionnement->etat_id == ETAT::VALIDEE) {
 				$total += intval($ligne->quantite_recu);
 			}			
 		}

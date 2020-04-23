@@ -1,12 +1,12 @@
-<div class="modal inmodal fade" id="modal-entretienvehicule">
+<div class="modal inmodal fade" id="modal-entretienmachine">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">Formulaire d'entretien de vehicule</h4>
+            <h4 class="modal-title">Formulaire d'entretien de machine</h4>
             <small class="font-bold">Renseigner ces champs pour enregistrer les informations</small>
         </div>
-        <form method="POST" class="formEntretien">
+        <form method="POST" class="formEntretienMachine">
             <p class="container text-center">Toutes les autres informations concernant l'entretien sont déjà et automatiquement prise en compte avec cette validation de la déclaration de panne !</p>
             <div class="modal-body">
                 <div class="row">
@@ -54,7 +54,7 @@
                             <button type="button" class="btn btn-sm bg-orange pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
                         </div>
                     </div>
-                </div>
+                </div> <br>
                 <div class="row">
                     <div class="col-sm-4">
                         <label>Mode de payement <span1>*</span1></label>
