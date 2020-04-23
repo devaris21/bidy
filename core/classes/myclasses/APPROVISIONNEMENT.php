@@ -12,18 +12,18 @@ class APPROVISIONNEMENT extends TABLE
 
 	public $reference;
 	public $montant = 0;
-	public $datelivraison;
 	public $operation_id = 1;
-	public $prestataire_id = 1;
+	public $fournisseur_id = 1;
 	public $employe_id;
 	public $etat_id;
 	public $employe_id_reception;
 	public $comment;
+	public $datelivraison;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = PRESTATAIRE::findBy(["id ="=>$this->prestataire_id]);
+		$datas = FOURNISSEUR::findBy(["id ="=>$this->fournisseur_id]);
 		if (count($datas) == 1) {
 			if ($this->montant >= 0 ) {
 				$this->reference = "APP/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
@@ -42,7 +42,7 @@ class APPROVISIONNEMENT extends TABLE
 
 
 	public static function encours(){
-		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
+		return static::findBy(["etat_id ="=>ETAT::ENCOURS, "visibility = "=>1]);
 	}
 	
 
@@ -77,6 +77,7 @@ class APPROVISIONNEMENT extends TABLE
 		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->etat_id = ETAT::TERMINEE;
 			$this->employe_id_reception = getSession("employe_connecte_id");
+			$this->datelivraison = date("Y-m-d H:i:s");
 			$this->historique("L'approvisionnement en reference $this->reference vient d'être terminé !");
 			$data = $this->save();
 		}else{

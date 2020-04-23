@@ -43,6 +43,7 @@ if ($action == "validerLivraison") {
 	$datas = LIVRAISON::findBy(["id ="=>$id]);
 	if (count($datas) > 0) {
 		$livraison = $datas[0];
+		$livraison->actualise();
 		$livraison->fourni("lignelivraison");
 
 		$produits = explode(",", $tableau);
@@ -60,30 +61,33 @@ if ($action == "validerLivraison") {
 				}
 				foreach ($livraison->lignelivraisons as $key => $lgn) {
 					if (($lgn->produit_id == $id) && ($lgn->quantite >= $qte)) {
-						if ($produit->stock(dateAjoute(1)) >= $lgn->quantite) {
-							unset($tests[$key]);
-						}
+						unset($tests[$key]);
 					}
 				}
 			}
 			if (count($tests) == 0) {
-				$livraison->hydrater($_POST);
-				$data = $livraison->terminer();
-				if ($data->status) {
-					foreach ($produits as $key => $value) {
-						$lot = explode("-", $value);
-						$id = $lot[0];
-						$qte = end($lot);
-						foreach ($livraison->lignelivraisons as $key => $lgn) {
-							if ($lgn->produit_id == $id) {
-								$lgn->quantite_livree = $qte;
-								$lgn->reste = $livraison->groupecommande->reste($id) - $qte;
-								$lgn->save();
-								break;
+				foreach ($produits as $key => $value) {
+					$lot = explode("-", $value);
+					$id = $lot[0];
+					$qte = end($lot);
+					foreach ($livraison->lignelivraisons as $key => $lgn) {
+						if ($lgn->produit_id == $id) {
+							$lgn->quantite_livree = $qte;
+							$lgn->save();
+							$lgn->reste = $livraison->groupecommande->reste($id);
+							$lgn->save();
+
+							if ($lgn->reste > 0) {
+								$livraison->groupecommande->etat_id = ETAT::ENCOURS;
+								$livraison->groupecommande->save();
 							}
+							break;
 						}
 					}
 				}
+				$livraison->hydrater($_POST);
+				$data = $livraison->terminer();
+				
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";

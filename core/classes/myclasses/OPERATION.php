@@ -34,7 +34,7 @@ class OPERATION extends TABLE
 				$cat = $datas[0];
 				if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && $this->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE)) {
 
-					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1(+1)) >= $this->montant)) {
+					if ( $cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE || ($cat->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE && static::resultat(PARAMS::DATE_DEFAULT, dateAjoute1()) >= $this->montant) ) {
 
 						$this->reference = "BCA/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 						if ($cat->typeoperationcaisse_id != TYPEOPERATIONCAISSE::SORTIE && !in_array($this->modepayement_id, [MODEPAYEMENT::ESPECE, MODEPAYEMENT::PRELEVEMENT_ACOMPTE]) ) {

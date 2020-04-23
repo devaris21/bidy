@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-             <div class="row">
+               <div class="row">
                 <div class="col-md-12">
                     <div class="widget style1 bg-orange">
                         <div class="row">
@@ -58,12 +58,11 @@
         <div class="ibox">
             <div class="ibox-title">
                 <h5>Toutes les livraisons</h5>
-                 <div class="ibox-tools">
+                <div class="ibox-tools">
                     <button style="margin-top: -5%;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle livraison </button>
                 </div>
             </div>
             <div class="ibox-content" style="min-height: 300px">
-             <?php if (count($livraisons) > 0) { ?>
                 <table class="table table-hover table-livraison">
                     <tbody>
                         <?php foreach ($livraisons as $key => $livraison) {
@@ -106,47 +105,55 @@
                                         </thead>
                                         <tbody>
                                             <tr class="no">
-                                                <td><h4 class="mp0">à livrer : </h4></td>
+                                                <td><h4 class="mp0"><?= ($livraison->etat_id == Home\ETAT::TERMINEE)?'livrés':'à livrer' ?> : </h4></td>
                                                 <?php foreach ($livraison->lignelivraisons as $key => $ligne) { ?>
-                                                   <td class="text-center"><?= $ligne->quantite ?></td>
-                                               <?php   } ?>
-                                           </tr>
-                                       </tbody>
-                                   </table>
-                               </td>
-                               <td>
-                                <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de livraison</a><br>
-                                <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
-                                    <button onclick="terminer(<?= $livraison->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
-                                    <button onclick="annuler(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <?php  } ?>
-                </tbody>
-            </table>
-        <?php }else{ ?>
-            <h1 style="margin-top: 30% auto;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune livraison en cours pour le moment !</h1>
-        <?php } ?>
+                                                    <td class="text-center <?= ($livraison->etat_id == Home\ETAT::TERMINEE)?'text-warning':'' ?>"><?= $ligne->quantite_livree ?></td>
+                                                <?php   } ?>
+                                            </tr>
+                                            <?php if ($livraison->etat_id == Home\ETAT::TERMINEE) { ?>
+                                                <tr class="no">
+                                                    <td><h4 class="mp0">Restait :</h4></td>
+                                                    <?php foreach ($livraison->lignelivraisons as $key => $ligne) { ?>
+                                                        <td class="text-center"><?= $ligne->reste ?></td>
+                                                    <?php   } ?>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de livraison</a><br>
+                                    <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
+                                        <button onclick="terminer(<?= $livraison->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
+                                        <button onclick="annuler(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        <?php  } ?>
+                    </tbody>
+                </table>
+                <?php if (count($livraisons__) == 0) { ?>
+                    <h1 style="margin-top: 30% auto;" class="text-center text-muted aucun"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucune livraison en cours pour le moment !</h1>
+                <?php } ?>
 
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
 
-<?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+    <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
 
-<?php 
-foreach ($livraisons as $key => $livraison) {
-    if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
-        $livraison->actualise();
-        $livraison->fourni("lignelivraison");
-        include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
+    <?php 
+    foreach ($livraisons as $key => $livraison) {
+        if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
+            $livraison->actualise();
+            $livraison->fourni("lignelivraison");
+            include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
+        } 
     } 
-} 
-?>
+    ?>
 
 </div>
 </div>

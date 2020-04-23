@@ -121,58 +121,63 @@ if ($action == "total") {
 
 
 if ($action == "validerApprovisionnement") {
-	$ressources = explode(",", $tableau);
-	if (count($ressources) > 0) {
-		$tests = $ressources;
-		foreach ($tests as $key => $value) {
-			$lot = explode("-", $value);
-			$id = $lot[0];
-			$qte = 0;
-			if (isset($lot[1])) {
-				$qte = $lot[1];
-			};
-			$prix = end($lot);
-			if (intval($qte) > 0 && intval($prix)) {
-				unset($tests[$key]);
-			}
-		}
-		if (count($tests) == 0 && intval(getSession("total")) > 0) {
-
-			$payement = new OPERATION();
-			$payement->hydrater($_POST);
-			$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-			$payement->montant = getSession("total");
-			$payement->client_id = CLIENT::CLIENTSYSTEME;
-			$data = $payement->enregistre();
-			if ($data->status) {
-
-				$approvisionnement = new APPROVISIONNEMENT();
-				$approvisionnement->hydrater($_POST);
-				$approvisionnement->montant = getSession("total");
-				$approvisionnement->operation_id = $data->lastid;
-				$data = $approvisionnement->enregistre();
-				if ($data->status) {
-					foreach ($ressources as $key => $value) {
-						$lot = explode("-", $value);
-						$id = $lot[0];
-						$qte = $lot[1];
-						$prix = end($lot);
-						$datas = RESSOURCE::findBy(["id ="=> $id]);
-						if (count($datas) == 1) {
-							$ressource = $datas[0];
-							$lignecommande = new LIGNEAPPROVISIONNEMENT;
-							$lignecommande->approvisionnement_id = $approvisionnement->getId();
-							$lignecommande->ressource_id = $id;
-							$lignecommande->quantite = $qte;
-							$lignecommande->price =  $prix;
-							$lignecommande->enregistre();	
-						}
-					}
-
-					$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
-					$data = $payement->save();
-					$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
+	if (isset($fournisseur_id) && $fournisseur_id != "") {
+		$ressources = explode(",", $tableau);
+		if (count($ressources) > 0) {
+			$tests = $ressources;
+			foreach ($tests as $key => $value) {
+				$lot = explode("-", $value);
+				$id = $lot[0];
+				$qte = 0;
+				if (isset($lot[1])) {
+					$qte = $lot[1];
+				};
+				$prix = end($lot);
+				if (intval($qte) > 0 && intval($prix)) {
+					unset($tests[$key]);
 				}
+			}
+			if (count($tests) == 0 && intval(getSession("total")) > 0) {
+
+				$payement = new OPERATION();
+				$payement->hydrater($_POST);
+				$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+				$payement->montant = getSession("total");
+				$payement->client_id = CLIENT::CLIENTSYSTEME;
+				$data = $payement->enregistre();
+				if ($data->status) {
+
+					$approvisionnement = new APPROVISIONNEMENT();
+					$approvisionnement->hydrater($_POST);
+					$approvisionnement->montant = getSession("total");
+					$approvisionnement->operation_id = $data->lastid;
+					$data = $approvisionnement->enregistre();
+					if ($data->status) {
+						foreach ($ressources as $key => $value) {
+							$lot = explode("-", $value);
+							$id = $lot[0];
+							$qte = $lot[1];
+							$prix = end($lot);
+							$datas = RESSOURCE::findBy(["id ="=> $id]);
+							if (count($datas) == 1) {
+								$ressource = $datas[0];
+								$lignecommande = new LIGNEAPPROVISIONNEMENT;
+								$lignecommande->approvisionnement_id = $approvisionnement->getId();
+								$lignecommande->ressource_id = $id;
+								$lignecommande->quantite = $qte;
+								$lignecommande->price =  $prix;
+								$lignecommande->enregistre();	
+							}
+						}
+
+						$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
+						$data = $payement->save();
+						$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
+					}
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Veuillez selectionner des ressources et leur quantité pour passer la commande !";
 			}
 		}else{
 			$data->status = false;
@@ -180,8 +185,9 @@ if ($action == "validerApprovisionnement") {
 		}
 	}else{
 		$data->status = false;
-		$data->message = "Veuillez selectionner des ressources et leur quantité pour passer la commande !";
+		$data->message = "Veuillez selectionner un fournisseur pour passer la commande !";
 	}
+	
 	echo json_encode($data);
 }
 

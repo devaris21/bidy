@@ -2,6 +2,7 @@
 namespace Home;
 
 unset_session("produits");
+unset_session("commande-encours");
 
 if ($this->getId() != null) {
 	$datas = CLIENT::findBy(["id ="=> $this->getId()]);
@@ -9,9 +10,9 @@ if ($this->getId() != null) {
 		$client = $datas[0];
 		$client->actualise();
 
-		$groupes = $client->fourni("groupecommande");
+		$groupes = $client->fourni("groupecommande",["etat_id ="=>ETAT::ENCOURS]);
 
-		$client->fourni("groupecommande", ["etat_id ="=>ETAT::ENCOURS]);
+		$client->fourni("groupecommande");
 
 		$datas1 = $datas2 = [];
 		foreach ($client->groupecommandes as $key => $groupecommande) {
@@ -27,7 +28,7 @@ if ($this->getId() != null) {
 			$ligne->type = "livraison";
 		}
 		$flux = array_merge($datas1, $datas2);
-		usort($flux, "comparerDateCreated");
+		usort($flux, "comparerDateCreated2");
 
 
 		$fluxcaisse = $client->fourni("operation");
@@ -35,6 +36,7 @@ if ($this->getId() != null) {
 
 		$title = "BIDY | ".$client->name();
 
+		session("client_id", $client->getId());
 		
 	}else{
 		header("Location: ../master/clients");

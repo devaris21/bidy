@@ -70,18 +70,18 @@
                                             foreach ($ressources as $key => $ressource) {
                                                 foreach ($production->ligneconsommationjours as $key => $ligne) {
                                                     if ($ressource->getId() == $ligne->ressource_id) { 
-                                                     $requette = "SELECT ligneapprovisionnement.ressource_id, SUM(quantite) as quantite FROM ressource, approvisionnement, ligneapprovisionnement WHERE ressource.id = ligneapprovisionnement.ressource_id AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id  AND ressource.id = ? AND DATE(approvisionnement.created) = ? AND approvisionnement.etat_id = ? GROUP BY ligneapprovisionnement.ressource_id ";
-                                                     $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::VALIDEE]);
+                                                     $requette = "SELECT ligneapprovisionnement.ressource_id, SUM(quantite_recu) as quantite FROM ressource, approvisionnement, ligneapprovisionnement WHERE ressource.id = ligneapprovisionnement.ressource_id AND ligneapprovisionnement.approvisionnement_id = approvisionnement.id  AND ressource.id = ? AND DATE(approvisionnement.datelivraison) = ? AND approvisionnement.etat_id = ? GROUP BY ligneapprovisionnement.ressource_id ";
+                                                     $datas = Home\RESSOURCE::execute($requette, [$ressource->getId(), $production->ladate, Home\ETAT::TERMINEE]);
                                                      if (count($datas) > 0) {
                                                         $item = $datas[0];
                                                     }else{
                                                         $item = new \stdclass();
-                                                        $item->appro = 0;
+                                                        $item->quantite = 0;
                                                     }
                                                     ?>
                                                     <td>
                                                         <h3 class="d-inline text-red gras"><?= start0($ligne->consommation) ?></h3> &nbsp; | &nbsp;
-                                                        <h4 class="d-inline text-green"><?= start0($item->appro) ?></h4>
+                                                        <h4 class="d-inline text-green"><?= start0($item->quantite) ?></h4>
                                                     </td>
                                                 <?php }
                                             }

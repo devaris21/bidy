@@ -10,6 +10,8 @@ class VEHICULE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const AUTo = 1;
+
 	public $typevehicule_id;
 	public $groupevehicule_id;
 	public $prestataire_id = 1;
@@ -112,7 +114,7 @@ class VEHICULE extends TABLE
 	}
 
 	public static function entretien(){
-		return static::findBy(["etatvehicule_id !="=> ETATVEHICULE::ENTRETIEN]);
+		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::ENTRETIEN, "etatvehicule_id ="=> ETATVEHICULE::PANNE], [], [], 0, "OR");
 	}
 
 

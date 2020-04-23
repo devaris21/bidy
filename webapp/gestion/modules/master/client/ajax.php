@@ -136,6 +136,7 @@ if ($action == "validerCommande") {
 						if (count($datas) > 0) {
 							$groupecommande = $datas[0];
 							$groupecommande->etat_id = ETAT::ENCOURS;
+							$groupecommande->save();
 						}else{
 							$groupecommande = new GROUPECOMMANDE();
 							$groupecommande->hydrater($_POST);
@@ -260,20 +261,25 @@ if ($action == "livraisonCommande") {
 							}
 							
 						}
-						$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
-						if (count($datas) > 0) {
-							$vehicule = $datas[0];
-							$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
-							$vehicule->save();
-						}
 
-						$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
-						if (count($datas) > 0) {
-							$chauffeur = $datas[0];
-							$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
-							$chauffeur->save();
+						if ($vehicule_id != VEHICULE::AUTO) {
+							$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
+							if (count($datas) > 0) {
+								$vehicule = $datas[0];
+								$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
+								$vehicule->save();
+							}
 						}
-
+						
+						if ($chauffeur_id != CHAUFFEUR::AUTO) {
+							$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
+							if (count($datas) > 0) {
+								$chauffeur = $datas[0];
+								$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
+								$chauffeur->save();
+							}
+						}
+						
 						$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 					}	
 				}else{
@@ -307,6 +313,14 @@ if ($action == "fichecommande") {
 		$groupecommande->actualise();
 		include("../../../../../composants/assets/modals/modal-groupecommande.php");
 	}
+}
+
+
+if ($action == "modalcommande") {
+	$rooter = new ROOTER;
+	$params = PARAMS::findLastId();
+	session("commande-encours", $id);
+	include("../../../../../composants/assets/modals/modal-newcommande.php");
 }
 
 

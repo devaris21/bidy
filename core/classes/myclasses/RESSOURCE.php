@@ -47,6 +47,12 @@ class RESSOURCE extends TABLE
 				$ligne->ressource_id = $data->lastid;
 				$ligne->quantite = $ligne->quantite_recu = $this->stock;
 				$ligne->save();
+
+				$ligne = new LIGNECONSOMMATIONJOUR();
+				$ligne->productionjour_id = 1;
+				$ligne->ressource_id = $data->lastid;
+				$ligne->consommation = 0;
+				$ligne->save();
 			}
 		}else{
 			$data->status = false;
@@ -96,7 +102,7 @@ class RESSOURCE extends TABLE
 		foreach ($datas as $key => $ligne) {
 			$ligne->actualise();
 			if (date("Y-m-d", strtotime($ligne->approvisionnement->created)) <= $date && $ligne->approvisionnement->etat_id == ETAT::TERMINEE) {
-				$total += intval($ligne->quantite);
+				$total += intval($ligne->quantite_recu);
 			}			
 		}
 

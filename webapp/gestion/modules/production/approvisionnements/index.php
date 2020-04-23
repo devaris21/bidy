@@ -77,7 +77,7 @@
                                 </td>
                                 <td class=" border-right" style="width: 30%;">
                                     <h4 class="text-uppercase">Appro. N°<?= $appro->reference ?></h4>
-                                    <h6 class="text-uppercase text-muted">Fournisseur :  <?= $appro->prestataire->name() ?></h6>
+                                    <h6 class="text-uppercase text-muted">Fournisseur :  <?= $appro->fournisseur->name() ?></h6>
                                     <span>Enregistré le <?= depuis($appro->created) ?></span>
                                 </td>
                                 <td class="border-right" style="width: 30%">
@@ -93,15 +93,16 @@
                                         <tbody>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { ?>
-                                                   <td class="text-center"><?= $ligne->quantite ?></td>
+                                                   <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::TERMINEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
                                                <?php   } ?>
                                            </tr>
                                        </tbody>
                                    </table>
                                </td>
-                               <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3></td>
+                               <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3>
+                                <span><?= $appro->operation->structure ?> - <?= $appro->operation->numero ?></span>
+                               </td>
                                <td class="border-left">
-                                <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $appro->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-red"></i> Bon de livraison</a><br>
                                 <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>
                                   <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
                                   <button onclick="annuler(<?= $appro->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>

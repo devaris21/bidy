@@ -18,7 +18,7 @@
     	});
 
         $("div.modepayement_facultatif").hide();
-        $("select[name=modepayement_id]").change(function(event) {
+        $("body").on("change", "select[name=modepayement_id]", function(event) {
             if($(this).val() > 2){
                 $("div.modepayement_facultatif").show()
             }else{

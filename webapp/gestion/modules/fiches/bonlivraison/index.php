@@ -78,9 +78,9 @@
                                             <h3 class="mp0 text-uppercase gras"><br><?= $ligne->produit->name() ?></h3>
                                             <span><?= $ligne->produit->description ?></span>
                                         </td>
-                                        <td class="text-center"><br><h2 class="gras"><?= money($ligne->quantite) ?></h2></td>
+                                        <td class="text-center"><br><h2 class="gras"><?= start0(money($ligne->quantite)) ?></h2></td>
                                         <td class="text-center"><br><h2><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? $ligne->quantite_livree : "" ?></h2></td>
-                                        <td class="text-center text-red"><br><h3><h3><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? ($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
+                                        <td class="text-center text-red"><br><h3><h3><?= ($livraison->etat_id == Home\ETAT::TERMINEE) ? start0($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
                                         <td class="text-center gras text-muted"><br><h3><?= ($livraison->etat_id == Home\ETAT::TERMINEE)? $ligne->reste : "" ?></h3></td>
                                     </tr>
                                 <?php } ?>                            

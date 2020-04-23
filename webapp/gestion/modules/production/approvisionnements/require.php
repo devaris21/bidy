@@ -5,7 +5,7 @@ unset_session("ressources");
 
 $title = "BIDY | Toutes les livraisons en cours";
 
-$approvisionnements = APPROVISIONNEMENT::getAll();
+$approvisionnements = APPROVISIONNEMENT::findBy(["visibility ="=> 1]);
 $total = 0;
 foreach ($approvisionnements as $key => $liv) {
 	if ($liv->etat_id == ETAT::ENCOURS) {

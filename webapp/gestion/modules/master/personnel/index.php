@@ -151,7 +151,7 @@
                                                             <button onclick="modification('manoeuvre', <?= $man->getId() ?>)"  data-toggle="modal" data-target="#modal-manoeuvre" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i></button></span>
                                                             <a href="project_detail.html"><?= $man->name() ?></a>
                                                             <br/>
-                                                            <small class="text-<?= $man->etatchauffeur->class ?>"><?= $man->etatchauffeur->name() ?></small><br>
+                                                            <small class="label label-<?= $man->etatchauffeur->class ?>"><?= $man->etatchauffeur->name() ?></small><br>
                                                             <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>
                                                             <small><i class="fa fa-phone"></i> <?= $man->contact ?> - Permis<b> <?= $man->typepermis ?></b> </small>
                                                             <hr class="mp5">

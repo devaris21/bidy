@@ -115,7 +115,7 @@ class PRODUIT extends TABLE
 		}
 		$datas = $this->fourni("lignelivraison", ["DATE(created) <= "=>$date]);
 		foreach ($datas as $key => $ligne) {
-			$total -= $ligne->quantite_livree;
+			$total -= $ligne->quantite;
 		}
 		return $total;
 	}

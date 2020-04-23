@@ -90,15 +90,19 @@ class LIVRAISON extends TABLE
 		$data = new RESPONSE;
 		if ($this->etat_id == ETAT::ENCOURS) {
 			$this->etat_id = ETAT::TERMINEE;
+			$this->datelivraison = date("Y-m-d H:i:s");
 			$this->historique("La livraison en reference $this->reference vient d'être terminé !");
 			$data = $this->save();
 			if ($data->status) {
 				$this->actualise();
-				$this->chauffeur->etat_id = ETATCHAUFFEUR::RAS;
+				$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
 				$this->chauffeur->save();
 				
-				$this->vehicule->etat_id = ETATVEHICULE::RAS;
+				$this->vehicule->etatvehicule_id = ETATVEHICULE::RAS;
 				$this->vehicule->save();
+
+				$this->groupecommande->etat_id = ETAT::ENCOURS;
+				$this->groupecommande->save();
 			}
 		}else{
 			$data->status = false;

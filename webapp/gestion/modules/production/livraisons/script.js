@@ -9,9 +9,11 @@ $(function(){
             setTimeout(function(){
                 Loader.stop()
                 $("tr.fini").fadeIn(400)
+                $(".aucun").hide()
             }, 500);
         }else{
             $("tr.fini").fadeOut(400)
+            $(".aucun").show()
         }
     });
 

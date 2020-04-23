@@ -44,6 +44,29 @@ foreach ($datas as $key => $value) {
 }
 
 
+$item = new VEHICULE();
+$item->immatriculation = "...";
+$item->modele = "SON PROPRE VEHICULE";
+$item->marque_id = 0;
+$item->typevehicule_id = 1;
+$item->groupevehicule_id = 1;
+$item->prestataire_id = 1;
+$item->visibility = 0;
+$item->setProtected(1);
+$item->save();
+
+
+$item = new CHAUFFEUR();
+$item->name = "SON PROPRE CHAUFFEUR";
+$item->lastname = ".";
+$item->adresse = "...";
+$item->contact = "...";
+$item->typepermis = "...";
+$item->visibility = 0;
+$item->setProtected(1);
+$item->save();
+
+
 $datas = ["Entreprise", "Particulier"];
 foreach ($datas as $key => $value) {
 	$item = new TYPECLIENT();
@@ -93,7 +116,7 @@ $item->enregistre();
 
 
 $item = new PRESTATAIRE();
-$item->name = "Devaris 21";
+$item->name = "Devaris PRESTATAIRE";
 $item->email = "info@devaris21.com";
 $item->login = "...";
 $item->password = "...";
@@ -101,6 +124,16 @@ $item->adresse = "...";
 $item->contact = "...";
 $item->setProtected(1);
 $item->save();
+
+$item = new FOURNISSEUR();
+$item->name = "Devaris FOURNISSEUR";
+$item->email = "info@devaris21.com";
+$item->adresse = "...";
+$item->contact = "...";
+$item->fax = "...";
+$item->setProtected(1);
+$item->save();
+
 
 $item = new CLIENT();
 $item->name = "Devaris 21";
@@ -207,7 +240,6 @@ $item->setProtected(1);
 $item->save();
 
 
-
 $item = new ETATCHAUFFEUR();
 $item->name = "RAS";
 $item->class = "primary";
@@ -279,7 +311,8 @@ foreach (ROLE::getAll() as $key => $value) {
 
 $item = new APPROVISIONNEMENT();
 $item->etat_id = ETAT::TERMINEE;
-$item->prestataire_id = PRESTATAIRE::PRESTATAIRESYSTEME;
+$item->operation_id = 0;
+$item->fournisseur_id = FOURNISSEUR::FOURNISSEURSYSTEME;
 $item->comment = "approvisionnemnt initial, système !";
 $item->visibility = 0;
 $item->setProtected(1);
@@ -287,6 +320,7 @@ $item->enregistre();
 
 
 $item = new PRODUCTIONJOUR();
+$item->ladate = dateAjoute(-1);
 $item->comment = "production initial, système !";
 $item->setProtected(1);
 $item->save();

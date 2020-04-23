@@ -38,12 +38,25 @@ $(function(){
 			$("body #modal-newlivraison").remove();
 			$("body").append(data);
 			$("body #modal-newlivraison").modal("show");
+			$("select.select2").select2();
+			Loader.stop();	
+		},"html");
+	}
+
+	fairenewcommande = function(id){	
+		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		$.post(url, {action:"modalcommande", id:id}, (data)=>{
+			$("body #modal-newcommande").remove();
+			$("body").append(data);
+			$("body #modal-newcommande").modal("show");
+			$("select.select2").select2();
+			$("div.modepayement_facultatif").hide();
 			Loader.stop();	
 		},"html");
 	}
 
 	//nouvelle commande
-	$(".newproduit").click(function(event) {
+	$("body").on("click", ".newproduit", function(event) {
 		var url = "../../webapp/gestion/modules/master/client/ajax.php";
 		var id = $(this).attr("data-id");
 		var zone = $("select[name=zonelivraison_id]").val();
