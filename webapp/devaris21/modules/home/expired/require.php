@@ -3,6 +3,6 @@ namespace Home;
 
 $params = PARAMS::findLastId();
 
-$title = "Désolé, la page demandée est introuvable !";
+$title = "Désolé, l'application a expiré !";
 
 ?>

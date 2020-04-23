@@ -19,6 +19,7 @@
 					Nous sommes désolé de ne pas pouvoir donner suite à votre requette car votre abonnement à ce logiciel a expiré. Donc vous n'y avez plus accès. Quelques conseils :
 				</h4><br>
 				<ul>
+					<li><a href="<?= $this->url("devaris21", "home", "renouveller") ?>">Renouveller l'abonnement</a></li>
 					<li>Contactez votre administrateur pour vous reabonner !</li>
 				</ul>
 			</div>

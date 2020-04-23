@@ -72,55 +72,61 @@ class ROOTER extends PATH
             $data = PARAMS::checkTimeout($this->section);
             if ($data->status == true) {
                 $params = PARAMS::findLastId();
+                $mycompte = MYCOMPTE::findLastId();
 
-                //pour les etats recaps
-                $datea = dateAjoute(-30);
-                $dateb = dateAjoute(1);
 
-                $productionjour = PRODUCTIONJOUR::today();
-                $productionjour->actualise();
-                session("lastUrl", $this->url);
+                if ($mycompte->expired >= dateAjoute()) {
+                       //pour les etats recaps
+                    $datea = dateAjoute(-30);
+                    $dateb = dateAjoute(1);
 
-                
-                if ($this->section == "gestion") {
-                    $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
-                    if (count($datas) >0) {
-                        $employe = $datas[0];
-                        if ($employe->is_allowed()) {
-                            $tableauDeRoles = [];
-                            foreach ($employe->fourni("role_employe") as $key => $value) {
-                                $tableauDeRoles[] = $value->role_id;
-                            };
-                            if (!in_array($this->module, ROLE::MODULEEXCEPT)) {
-                                $datas = ROLE::findBy(["name ="=>$this->module]);
-                                if (count($datas) == 1) {
-                                    $role = $datas[0];
-                                    if (in_array($role->getId(), $tableauDeRoles)) {
-                                        $employe->actualise();
+                    $productionjour = PRODUCTIONJOUR::today();
+                    $productionjour->actualise();
+                    session("lastUrl", $this->url);
 
+                    if ($this->section == "gestion") {
+                        $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+                        if (count($datas) >0) {
+                            $employe = $datas[0];
+                            if ($employe->is_allowed()) {
+                                $tableauDeRoles = [];
+                                foreach ($employe->fourni("role_employe") as $key => $value) {
+                                    $tableauDeRoles[] = $value->role_id;
+                                };
+                                if (!in_array($this->module, ROLE::MODULEEXCEPT)) {
+                                    $datas = ROLE::findBy(["name ="=>$this->module]);
+                                    if (count($datas) == 1) {
+                                        $role = $datas[0];
+                                        if (in_array($role->getId(), $tableauDeRoles)) {
+                                            $employe->actualise();
+
+                                        }else{
+                                            $this->new_root("devaris21", "home", "erreur500");
+                                            $this->render();
+                                            return false;
+                                        }
                                     }else{
                                         $this->new_root("devaris21", "home", "erreur500");
                                         $this->render();
                                         return false;
                                     }
-                                }else{
-                                    $this->new_root("devaris21", "home", "erreur500");
-                                    $this->render();
-                                    return false;
                                 }
+                            }else{
+                                $this->new_root("devaris21", "home", "erreur500");
+                                $this->render();
+                                return false;
                             }
                         }else{
-                            $this->new_root("devaris21", "home", "erreur500");
+                            $this->new_root($this->section, "access", "login");
                             $this->render();
                             return false;
                         }
-                    }else{
-                        $this->new_root($this->section, "access", "login");
-                        $this->render();
-                        return false;
                     }
+                }else{
+                    $this->new_root("devaris21", "home", "expired");
+                    $this->render();
+                    return false; 
                 }
-
             }else{
                 $this->new_root($this->section, "access", "login");
                 $this->render();
