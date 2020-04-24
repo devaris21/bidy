@@ -56,6 +56,31 @@ $(function(){
 
 
 
+	$("form.formPayeProduit").submit(function(event) {
+		Loader.start();
+		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
+		var formdata = new FormData($(this)[0]);
+		var tableau = new Array();
+		$(this).find("input[data-id]").each(function(configuration, el) {
+			var id = $(this).attr('data-id');
+			var val = $(this).val();
+			var item = id+"-"+val;
+			tableau.push(item);
+		});
+		formdata.append('tableau', tableau);
+		formdata.append('action', "formPayeProduit");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			if (data.status) {
+				window.location.reload();
+			}else{
+				Alerter.error('Erreur !', data.message);
+			}
+		}, 'json')
+		return false;
+	});
+
+
+
 	$("button.autoriser").click(function(event) {
 		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		button = $(this);

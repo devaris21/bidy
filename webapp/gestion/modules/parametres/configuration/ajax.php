@@ -54,6 +54,23 @@ if ($action == "exigence") {
 }
 
 
+if ($action == "formPayeProduit") {
+	$items = explode(",", $tableau);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price = intval($val);
+			$data = $pz->save();
+		}
+	}	
+	echo json_encode($data);
+}
+
+
 
 if ($action == "autoriser") {
 	$datas = ROLE_EMPLOYE::findBy(["employe_id ="=> $employe_id, "role_id ="=> $role_id]);

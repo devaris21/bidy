@@ -57,4 +57,33 @@ $(function(){
 		})
 	}
 
+
+
+
+	modifierOperation = function(id){
+		var url = "../../composants/dist/shamman/traitement.php";
+		alerty.confirm("Vous êtes sur le point de modifier cette opération de caisse, voulez-vous continuer ?", {
+			title: "Modification de l'opération",
+			cancelLabel : "Non",
+			okLabel : "OUI, modifier",
+		}, function(){
+			alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
+				title: 'Récupération du mot de passe !',
+				inputType : "password",
+				cancelLabel : "Annuler",
+				okLabel : "Valider"
+			}, function(password){
+				Loader.start();
+				$.post(url, {action:"verifierPassword", password:password}, (data)=>{
+					if (data.status) {
+						modification('operation', id);
+						$("#modal-operation").modal("show");
+					}else{
+						Alerter.error('Erreur !', data.message);
+					}
+				},"json");
+			})
+		})
+	}
+
 })

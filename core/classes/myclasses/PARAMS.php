@@ -22,6 +22,9 @@ class PARAMS extends TABLE
 	public $fax;
 	public $postale;
 	public $devise;
+
+	public $autoriserVersementAttente = "on";
+	public $bloquerOrfonds = "off";
 	public $image;
 
 	public $tva;

@@ -65,8 +65,8 @@
 
             <div class="wrapper wrapper-content" id="autos">
 
-               <div class="row">
-                   <div class="col-md-8">
+             <div class="row">
+                 <div class="col-md-8">
                     <div class="ibox" >
                         <div class="ibox-title">
                             <h4 class="text-uppercase"><i class="fa fa-user"></i> Liste des manoeuvres</h4>
@@ -101,9 +101,11 @@
                                                                     <small><i class="fa fa-phone"></i> <?= $man->contact ?></small>
                                                                 </td>
                                                                 <td>
-                                                                    <h3 class="mp0"><?= money($solde) ?> <?= $params->devise ?></h3>
-                                                                    <?php if ($solde > 0) { ?>
-                                                                        <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
+                                                                    <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                                        <h3 class="mp0"><?= money($solde) ?> <?= $params->devise ?></h3>
+                                                                        <?php if ($solde > 0) { ?>
+                                                                            <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
+                                                                        <?php } ?>                                                                 
                                                                     <?php } ?>                                                                 
                                                                 </td>
                                                               <!--   <td class="project-actions">
@@ -140,8 +142,7 @@
                                     <table class="table tableUser">
                                         <tbody>
                                             <?php foreach ($chauffeurs as $key => $man) { 
-                                                $man->actualise();
-                                                $solde = 140455; ?>
+                                                $man->actualise(); ?>
                                                 <tr>
                                                     <td class="project-people">
                                                         <img class="rounded-circle" src="<?= $this->stockage("images", "chauffeurs", $man->image) ?>">
@@ -155,9 +156,11 @@
                                                             <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>
                                                             <small><i class="fa fa-phone"></i> <?= $man->contact ?> - Permis<b> <?= $man->typepermis ?></b> </small>
                                                             <hr class="mp5">
-                                                            <h3 class="mp0 d-inline"><?= money($solde) ?> <?= $params->devise ?></h3>
-                                                            <?php if ($solde > 0) { ?>
-                                                                <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
+                                                            <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                                <h3 class="mp0 d-inline"><?= money($man->salaire) ?> <?= $params->devise ?></h3>
+                                                                <?php if ($man->salaire > 0) { ?>
+                                                                    <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
+                                                                <?php } ?>  
                                                             <?php } ?>  
                                                         </td>
                                                     </tr>

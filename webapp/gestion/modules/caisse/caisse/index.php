@@ -204,52 +204,62 @@
                                         </tr>
                                         <?php foreach ($operations as $key => $operation) {  ?>
                                             <tr>
-                                                <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                                <td class="text-center" style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a> 
+                                                </td>
                                                 <td>
-                                                    <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span></h6>
-                                                    <i><?= $operation->comment ?></i>
-                                                </td>
-                                                <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
-                                                   <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
-                                                       <button onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
-                                                   <?php } ?>
-                                                   <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
-                                               </td>
-                                               <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
-                                                <td class="text-center text-green gras" style="padding-top: 12px;">
-                                                    <?= money($operation->montant) ?> <?= $params->devise ?>
-                                                </td>
-                                                <td class="text-center"> - </td>
-                                            <?php }elseif ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE) { ?>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center text-red gras" style="padding-top: 12px;">
-                                                    <?= money($operation->montant) ?> <?= $params->devise ?>
-                                                </td>
-                                            <?php } ?>
-                                            <?php $last += ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)? $operation->montant : -$operation->montant ; ?>
-                                            <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
-                                        </tr>
-                                    <?php } ?>
-                                    <tr style="height: 15px;"></tr>
-                                    <tr>
-                                        <td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
-                                        <td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
-                                        <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
-                                        <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
+                                                    <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?>  
+
+                                                    <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                                        |
+                                                        &nbsp;&nbsp;<i onclick="modifierOperation(<?= $operation->getId() ?>)" class="cursor fa fa-pencil text-dark"></i> 
+                                                        &nbsp;&nbsp;<i class="cursor fa fa-close text-red" onclick="suppressionWithPassword('operation', <?= $operation->getId() ?>)"></i>
+                                                    <?php } ?>
+
+                                                    <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span>
+                                                </h6>
+                                                <i><?= $operation->comment ?></i>
+                                            </td>
+                                            <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
+                                               <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
+                                                   <button style="padding: 2px 6px;" onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                                               <?php } ?>
+                                               <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
+                                           </td>
+                                           <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
+                                            <td class="text-center text-green gras" style="padding-top: 12px;">
+                                                <?= money($operation->montant) ?> <?= $params->devise ?>
+                                            </td>
+                                            <td class="text-center"> - </td>
+                                        <?php }elseif ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE) { ?>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center text-red gras" style="padding-top: 12px;">
+                                                <?= money($operation->montant) ?> <?= $params->devise ?>
+                                            </td>
+                                        <?php } ?>
+                                        <?php $last += ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)? $operation->montant : -$operation->montant ; ?>
+                                        <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                <?php } ?>
+                                <tr style="height: 15px;"></tr>
+                                <tr>
+                                    <td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
+                                    <td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
+                                    <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
+                                    <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                </div>
 
-                    <div class="col-md-2">
+                <div class="col-md-2">
 
-                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+</div>
 
 
 </div>
@@ -259,6 +269,7 @@
 
 <?php include($this->rootPath("composants/assets/modals/modal-entree.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-depense.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-operation.php")); ?>  
 
 </div>
 </div>

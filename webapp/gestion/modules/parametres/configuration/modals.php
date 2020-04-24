@@ -114,37 +114,40 @@
 	</div>
 </div>
 
-<?php $i =0; foreach (Home\PAYE_PRODUIT::getAll() as $key => $item) {
-	$item->actualise(); ?>
-	<div class="modal inmodal fade" id="modal-paye_produit<?= $item->getId() ?>">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title">Prix de paye du produit</h4>
-				</div>
-				<form method="POST" class="formShamman" classname="paye_produit">
-					<div class="modal-body">
-						<h3 class="text-uppercase text-center">Pour <b><?= $item->produit->name() ?></b></h3><br>
 
-						<div class="">
-							<label><b>1<</b> <?= $item->produit->name() ?> est payé à</label>
+
+
+<div class="modal inmodal fade" id="modal-paye_produit">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Prix de paye du produit</h4>
+			</div>
+			<form method="POST" class="formPayeProduit">
+				<div class="modal-body">
+					<div class="row">
+						<?php $i =0; foreach (Home\PAYE_PRODUIT::getAll() as $key => $item) {
+						$item->actualise(); ?>
+						<div class="col-sm-6">
+							<label><b>1</b> <?= $item->produit->name() ?> est payé à</label>
 							<div class="form-group">
-								<input type="number" number class="form-control" name="price">
+								<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
 							</div>
 						</div>					
-					</div><hr>
-					<div class="container">
-						<input type="hidden" name="id">
-						<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
-						<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
+					<?php } ?>
 					</div>
-					<br>
-				</form>
-			</div>
+				</div><hr>
+				<div class="container">
+					<input type="hidden" name="id">
+					<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
+					<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
+				</div>
+				<br>
+			</form>
 		</div>
 	</div>
-<?php } ?>
+</div>
 
 
 <div class="modal inmodal fade" id="modal-zonelivraison">

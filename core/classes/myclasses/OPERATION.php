@@ -22,6 +22,7 @@ class OPERATION extends TABLE
 	public $structure;
 	public $numero;
 	public $date_approbation;
+	public $isModified = 0;
 
 
 	public function enregistre(){

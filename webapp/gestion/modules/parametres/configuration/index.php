@@ -239,8 +239,8 @@
                                                         <div class="ibox-title">
                                                             <h5 class="text-uppercase">Paye par production</h5>
                                                             <div class="ibox-tools">
-                                                                <a class="btn_modal" data-toggle="modal" data-target="#modal-zonelivraison">
-                                                                    <i class="fa fa-plus"></i> Ajouter
+                                                                <a data-toggle="modal" data-target="#modal-paye_produit">
+                                                                    <i class="fa fa-plus"></i> Modifier les prix
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -249,8 +249,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Produit</th>
-                                                                        <th>Prix</th>
-                                                                        <th></th>
+                                                                        <th>Prix de paye</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -259,7 +258,6 @@
                                                                         <tr>
                                                                             <td class="gras"><img style="width: 30px; margin-right: 2%" src="<?= $this->stockage("images", "produits", $item->produit->image); ?>"> <?= $item->produit->name(); ?></td>
                                                                             <td><?= money($item->price) ?> <?= $params->devise ?></td>
-                                                                            <td data-toggle="modal" data-target="#modal-paye_produit<?= $item->getId() ?>" title="modifier le prix de paye" onclick="modification('paye_produit', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                         </tr>
                                                                     <?php } ?>
                                                                 </tbody>
@@ -358,7 +356,7 @@
                                         <div role="tabpanel" id="tabpersonnel" class="tab-pane">
                                             <div class="row">
 
-                                               <div class="col-md-4 bloc">
+                                             <div class="col-md-4 bloc">
                                                 <div class="ibox border">
                                                     <div class="ibox-title">
                                                         <h5 class="text-uppercase">Groupe de manoeuvre</h5>
@@ -455,6 +453,7 @@
                                                                     <th></th>
                                                                     <th>Libéllé</th>
                                                                     <th>Coordonnées</th>
+                                                                    <th colspan="2">Salaire Mensuel</th>
                                                                     <th></th>
                                                                     <th></th>
                                                                 </tr>
@@ -474,6 +473,10 @@
                                                                             <i class="fa fa-map-marker"></i> <?= $item->adresse  ?><br>
                                                                             <i class="fa fa-phone"></i> <?= $item->contact  ?>
                                                                         </td>
+
+                                                                        <td><h3 class="gras"><?= money($item->salaire) ?> <?= $params->devise ?></h3></td>
+                                                                        <td class="border-right" data-toggle="modal" data-target="#modal-salaire" title="modifier le salaire" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-refresh text-blue cursor"></i></td>
+
                                                                         <td data-toggle="modal" data-target="#modal-chauffeur" title="modifier ce chauffeur" onclick="modification('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-pencil text-blue cursor"></i></td>
                                                                         <td title="supprimer ce chauffeur" onclick="suppression('chauffeur', <?= $item->getId() ?>)"><i class="fa fa-close cursor text-danger"></i></td>
                                                                     </tr>
@@ -708,7 +711,7 @@
                                                     </div>
                                                     <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                         <table class="table">
-                                                         <thead>
+                                                           <thead>
                                                             <tr>
                                                                 <th>#</th>
                                                                 <th>Libéllé</th>
@@ -755,7 +758,7 @@
                                                 </div>
                                                 <div class="ibox-content table-responsive" style="min-height: 400px;">
                                                     <table class="table">
-                                                     <thead>
+                                                       <thead>
                                                         <tr>
                                                             <th>#</th>
                                                             <th>Libéllé</th>
@@ -841,6 +844,38 @@
 
                                     <div class="col-md-4">
                                         <form method="POST" class="formShamman" classname="params" reload="false">
+                                         <!--    <div class="row">
+                                                <div class="col-xs-7 gras">Autoriser système de versement en attente</div>
+                                                <div class="offset-1"></div>
+                                                <div class="col-xs-4">
+                                                    <div class="switch">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="autoriserVersementAttente" <?= ($params->autoriserVersementAttente == "on")?"checked":""  ?> class="onoffswitch-checkbox" id="example2">
+                                                            <label class="onoffswitch-label" for="example2">
+                                                                <span class="onoffswitch-inner"></span>
+                                                                <span class="onoffswitch-switch"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-7 gras">Bloquer les dépenses or fonds directs</div>
+                                                <div class="offset-1"></div>
+                                                <div class="col-xs-4">
+                                                    <div class="switch">
+                                                        <div class="onoffswitch">
+                                                            <input type="checkbox" name="bloquerOrfonds" <?= ($params->bloquerOrfonds == "on")?"checked":""  ?> class="onoffswitch-checkbox" id="example1">
+                                                            <label class="onoffswitch-label" for="example1">
+                                                                <span class="onoffswitch-inner"></span>
+                                                                <span class="onoffswitch-switch"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><br> -->
+                                           
                                             <div class="row">
                                                 <div class="col-6">
                                                     <label>% de tva appliquable </label>
@@ -851,7 +886,8 @@
                                                     <br>
                                                     <button class="btn btn-primary dim "><i class="fa fa-check"></i> Mettre à jour</button>
                                                 </div>
-                                            </div><hr>
+                                            </div>
+                                             <hr>
                                         </form>
                                     </div>
                                 </div>
@@ -896,56 +932,56 @@
                                                         </td>
                                                         <td>
                                                             <?php if ($item->is_new == 1) { ?>
-                                                             <span class="">Login: <?= $item->login ?></span><br>
-                                                             <span class="">Pass: <?= $item->pass ?></span>
-                                                             <?php } ?>
+                                                               <span class="">Login: <?= $item->login ?></span><br>
+                                                               <span class="">Pass: <?= $item->pass ?></span>
+                                                           <?php } ?>
+                                                       </td>
+                                                       <td class="" width="400px">
+                                                        <?php $datas = $item->fourni("role_employe");
+                                                        $lots = [];
+                                                        foreach ($datas as $key => $rem) {
+                                                            $rem->actualise();
+                                                            $lots[] = $rem->role->getId(); ?>
+                                                            <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
+                                                            <?php } ?><hr class="mp3">
+
+                                                            <?php foreach (Home\ROLE::getAll() as $key => $role) {
+                                                                if (!in_array($role->getId(), $lots)) { ?>
+                                                                   <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->getId() ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
+                                                               <?php } } ?>                
+                                                           </td>
+                                                           <td class="text-right">          
+                                                            <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
+
+                                                            <?php if ($item->is_allowed == 1) { ?>
+                                                                <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
+                                                            <?php }else{ ?>
+                                                                <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
+                                                            <?php } ?>
+                                                            <button data-toggle="modal" data-target="#modal-employe" class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
+                                                            <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
                                                         </td>
-                                                        <td class="" width="400px">
-                                                            <?php $datas = $item->fourni("role_employe");
-                                                            $lots = [];
-                                                            foreach ($datas as $key => $rem) {
-                                                                $rem->actualise();
-                                                                $lots[] = $rem->role->getId(); ?>
-                                                                <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $rem->role_id ?>" class="btn btn-primary btn-xs refuser"><?= $rem->role->name() ?></button>
-                                                                <?php } ?><hr class="mp3">
-
-                                                                <?php foreach (Home\ROLE::getAll() as $key => $role) {
-                                                                    if (!in_array($role->getId(), $lots)) { ?>
-                                                                     <button style="margin-top: 1%" employe="<?= $rem->employe_id ?>" role="<?= $role->getId() ?>" class="btn btn-white btn-xs autoriser"><?= $role->name() ?></button>
-                                                                 <?php } } ?>                
-                                                             </td>
-                                                             <td class="text-right">          
-                                                                <button onclick="resetPassword('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-refresh text-blue"></i> Init. mot de passe</button><br>
-
-                                                                <?php if ($item->is_allowed == 1) { ?>
-                                                                    <button onclick="lock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-lock text-orange"></i> Bloquer</button>
-                                                                <?php }else{ ?>
-                                                                    <button onclick="unlock('employe', <?= $item->getId() ?>)" class="btn btn-white btn-xs"><i class="fa fa-unlock text-green"></i> Débloquer</button>
-                                                                <?php } ?>
-                                                                <button data-toggle="modal" data-target="#modal-employe" class="btn btn-white btn-xs" onclick="modification('employe', <?= $item->getId() ?>)"><i class="fa fa-pencil"></i></button>
-                                                                <button class="btn btn-white btn-xs" onclick="suppressionWithPassword('employe', <?= $item->getId() ?>)"><i class="fa fa-close text-red"></i></button>
-                                                            </td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
 
-    <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-    <?php include($this->relativePath("modals.php")); ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+<?php include($this->relativePath("modals.php")); ?>
 
 
 </div>

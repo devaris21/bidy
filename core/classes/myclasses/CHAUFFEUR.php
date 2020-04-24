@@ -26,6 +26,7 @@ class CHAUFFEUR extends PERSONNE
 	public $date_fin_permis;
 	public $email;
 	public $contact;
+	public $salaire = 0;
 	public $image = "default.png";
 	public $etatchauffeur_id = ETATCHAUFFEUR::RAS;
 
@@ -34,13 +35,18 @@ class CHAUFFEUR extends PERSONNE
 	public function enregistre(){
 		$data = new RESPONSE;
 		if ($this->name ) {
-			$data = $this->save();
-			if ($data->status) {
-				$this->uploading($this->files);
+			if ($this->salaire >= 0 ) {
+				$data = $this->save();
+				if ($data->status) {
+					$this->uploading($this->files);
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le salaire du chauffeur est incorrect !";
 			}
 		}else{
 			$data->status = false;
-			$data->message = "Veuillez le login et le mot de passe du nouvel employé !";
+			$data->message = "Veuillez le login et le mot de passe du nouvel chauffeur !";
 		}
 		return $data;
 	}
