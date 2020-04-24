@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-sm-9" style="border-right: 2px solid black">
 
-                             <?php if ($employe->isAutoriser("production")) { ?>
+                               <?php if ($employe->isAutoriser("production")) { ?>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <h3 class="text-uppercase text-center">Commandes</h3>
@@ -120,18 +120,18 @@
                                                             <tr>
                                                                 <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
                                                                     if ($ligne->quantite > 0) { ?>
-                                                                       <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
-                                                                       <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
-                                                                   <?php   } 
-                                                               } ?>
-                                                           </tr>
-                                                       </tbody>
-                                                   </table>
-                                                   <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
-                                                   <hr>
-                                               <?php } ?>
-                                           </div>
-                                       <?php }else{ ?>
+                                                                     <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
+                                                                     <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
+                                                                 <?php   } 
+                                                             } ?>
+                                                         </tr>
+                                                     </tbody>
+                                                 </table>
+                                                 <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
+                                                 <hr>
+                                             <?php } ?>
+                                         </div>
+                                     <?php }else{ ?>
                                         <p class="text-center text-muted italic">Aucune livraison ce jour </p>
                                     <?php } ?>
                                 </div>
@@ -248,20 +248,20 @@
                                                     <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-1))) ?> <?= $params->devise ?></td>
                                                 </tr>
                                                 <?php foreach ($operations as $key => $operation) { ?>
-                                                    <tr>
+                                                    <tr style="font-size: 11px;">
                                                         <td style="background-color: rgba(<?= hex2rgb($operation->categorieoperation->color) ?>, 0.6);" width="15"><a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $operation->getId())  ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                         <td>
                                                             <h6 style="margin-bottom: 3px" class="mp0 text-uppercase gras <?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>"><?= $operation->categorieoperation->name() ?> <span><?= ($operation->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <span class="pull-right"><i class="fa fa-clock-o"></i> <?= heurecourt($operation->created) ?></span></h6>
-                                                            <i><?= $operation->comment ?></i>
+                                                            <i style="font-size: 11px;"><?= $operation->comment ?></i>
                                                         </td>
                                                         <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
-                                                            <td class="text-center text-green gras" style="padding-top: 12px;">
+                                                            <td class="text-center text-green gras" style="padding-top: 12px; font-size: 11px;">
                                                                 <?= money($operation->montant) ?> <?= $params->devise ?>
                                                             </td>
                                                             <td class="text-center"> - </td>
                                                         <?php }elseif ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE) { ?>
                                                             <td class="text-center"> - </td>
-                                                            <td class="text-center text-red gras" style="padding-top: 12px;">
+                                                            <td class="text-center text-red gras" style="padding-top: 12px; font-size: 11px;">
                                                                 <?= money($operation->montant) ?> <?= $params->devise ?>
                                                             </td>
                                                         <?php } ?>
@@ -269,11 +269,11 @@
                                                         <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
                                                     </tr>
                                                 <?php } ?>
-                                                <tr>
+                                                <tr >
                                                     <td colspan="2"><h4 class="text-uppercase mp0 text-right">Total des comptes du jour</h4></td>
-                                                    <td><h4 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
-                                                    <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
-                                                    <td><h3 class="text-center"><?= money($last) ?> <?= $params->devise ?></h3></td>
+                                                    <td><h4 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h4></td>
+                                                    <td><h4 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h4></td>
+                                                    <td><h4 class="text-center"><?= money($last) ?> <?= $params->devise ?></h4></td>
                                                 </tr>
                                                 <tr style="height: 15px;"></tr>
                                                 <tr>
@@ -290,17 +290,16 @@
                         </div>
                         <div class="col-sm-3 text-right">
                             <h4 class="text-uppercase">Employés connectés</h4>
-                            <h6><?= $productionjour->groupemanoeuvre->name();  ?></h6>
                             <ul>
-                                <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) { 
-                                    $man->actualise(); ?>
-                                    <li><?= $man->manoeuvre->name(); ?></li>
+                                <?php foreach ($employes as $key => $emp) { 
+                                    $emp->actualise();  ?>
+                                    <li><?= $emp->name(); ?></li>
                                 <?php } ?>
                             </ul><br>
                             <hr>
 
                             <h4 class="text-uppercase">Groupe de manoeuvres</h4>
-                            <h6><?= $productionjour->groupemanoeuvre->name();  ?></h6>
+                            <h6><?= $productionjour->groupemanoeuvre->name(); ?></h6>
                             <ul>
                                 <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) { 
                                     $man->actualise(); ?>
@@ -338,8 +337,99 @@
                             <?php } ?>
                             <br>
 
+                            <h4 class="text-uppercase">Pannes véhicules/machines</h4>
+                            <div>
+                                <?php 
+                                $datas = array_merge($demandes, $pannes);
+                                if (count($datas) > 0) { ?>
+                                    <table class="table text-left">
+                                        <tbody>
+                                            <?php foreach ($demandes as $key => $dem) {
+                                                $dem->actualise();
+                                                ?>
+                                                <tr>    
+                                                    <td>
+                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $dem->vehicule->image) ?>">
+                                                    </td>
+                                                    <td class="">
+                                                        <h5 class="text-uppercase gras"><?= $dem->vehicule->marque->name() ?> <?= $dem->vehicule->modele ?></h5>
+                                                        <h6 class=""><?= $dem->vehicule->immatriculation ?></h6>
+                                                    </td>  
+                                                </tr>
+                                            <?php } ?>
+
+                                            <?php foreach ($pannes as $key => $dem) {
+                                                $dem->actualise();
+                                                ?>
+                                                <tr>    
+                                                    <td>
+                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $dem->machine->image) ?>">
+                                                    </td>
+                                                    <td class="">
+                                                        <h5 class="text-uppercase gras"><?= $dem->machine->name() ?></h5>
+                                                        <h6><?= $dem->machine->marque ?> <?= $dem->machine->modele ?></h6>
+                                                    </td> 
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>    
+                                <?php }else{ ?>
+                                    <p class="text-center text-muted">Aucune panne ce jour !</p>
+                                <?php } ?>                         
+                            </div><br>
+
+
+                            <h4 class="text-uppercase">les Entretiens </h4>
+                            <div>
+                                <?php 
+                                $datas = array_merge($entretiensv, $entretiensm);
+                                if (count($datas) > 0) { ?>
+                                    <table class="table text-left">
+                                        <tbody>
+                                            <?php foreach ($entretiensv as $key => $dem) {
+                                                $dem->actualise();
+                                                ?>
+                                                <tr>    
+                                                    <td>
+                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $dem->vehicule->image) ?>">
+                                                    </td>
+                                                    <td class="">
+                                                        <h5 class="text-uppercase gras"><?= $dem->vehicule->marque->name() ?> <?= $dem->vehicule->modele ?></h5>
+                                                        <h6 class=""><?= $dem->vehicule->immatriculation ?></h6>
+                                                        <hr class="mp0">
+                                                        <small class="">Pres: <b><?= $dem->prestataire->name() ?></b></small><br>
+                                                        <small class="">Montant: <b><?= money($dem->price) ?> <?= $params->devise ?></b></small>
+                                                    </td>  
+                                                </tr>
+                                            <?php } ?>
+
+                                            <?php foreach ($entretiensm as $key => $dem) {
+                                                $dem->actualise();
+                                                ?>
+                                                <tr>    
+                                                    <td>
+                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "machines", $dem->machine->image) ?>">
+                                                    </td>
+                                                    <td class="">
+                                                        <h5 class="text-uppercase gras"><?= $dem->machine->name() ?></h5>
+                                                        <h6><?= $dem->machine->marque ?> <?= $dem->machine->modele ?></h6>
+                                                        <hr class="mp0">
+                                                        <small class="">Pres: <b><?= $dem->prestataire->name() ?></b></small><br>
+                                                        <small class="">Montant: <b><?= money($dem->price) ?> <?= $params->devise ?></b></small>
+                                                    </td> 
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>    
+                                <?php }else{ ?>
+                                    <p class="text-center text-muted">Aucune panne ce jour !</p>
+                                <?php } ?>                         
+                            </div><br>
+
+
+
                             <h4 class="text-uppercase">COMMENTAIRE</h4>
-                            <p><?= $productionjour->comment ?></p>
+                            <p class="text-justify"><?= $productionjour->comment ?></p>
                         </div>
                     </div>
                 </div>

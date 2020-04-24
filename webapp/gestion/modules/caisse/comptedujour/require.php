@@ -28,27 +28,24 @@ if (count($datas) == 1) {
 	$productionjour = $datas[0];
 	$productionjour->actualise();
 }
-// $clients = CLIENT::getAll();
-// foreach ($clients as $key => $client) {
-// 	$lot1 = $lot2 = [];
-// 	$vers = $client->versements($date1, $date2);
-// 	$datas = $client->fourni("groupecommande");
-// 	foreach ($datas as $key => $groupe) {
-// 		$lot1 = $groupe->fourni("commande", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
-// 		$lot2 = $groupe->fourni("livraison", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
-// 	}
-// 	if (!($vers > 0 || count($lot1) > 0 || count($lot2) > 0)) {
-// 		unset($clients[$key]);
-// 	}else{
-// 		$client->actualise();
-// 		$client->versement = $vers;
-// 		$client->commandes = count($lot1);
-// 		$client->livraisons = count($lot2);
-// 	}
-// }
-
-// $stats = CLIENT::stats($date1, $date2);
 
 
-$title = "BIDY | Etat récapitulatif des clients ";
+$employes = [];
+$connexions = CONNEXION::listeConnecterDuJour($date);
+foreach ($connexions as $key => $value) {
+	$datas = EMPLOYE::findBy(["id ="=>$value->employe_id]);
+	if (count($datas) == 1) {
+		$employes[] = $datas[0];
+	}
+}
+
+
+$demandes = DEMANDEENTRETIEN::jour($date);
+$pannes = PANNE::jour($date);
+
+$entretiensv = ENTRETIENVEHICULE::jour($date);
+$entretiensm = ENTRETIENMACHINE::jour($date);
+
+
+$title = "BIDY | Rapport général de la journée ";
 ?>

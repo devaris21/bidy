@@ -20,12 +20,16 @@ foreach ($produits as $key => $produit) {
 	foreach (RESSOURCE::getAll() as $key => $ressource) {
 		$name = trim($ressource->name());
 		$produit->$name = $produit->exigence(($produit->production + $produit->perte), $ressource->getId());
+		$a = "perte-$name";
+		$produit->$a = $produit->exigence($produit->perte, $ressource->getId());
 	}
 }
 
+$pertelivraison = round(((LIVRAISON::perte($date1, $date2) / comptage($produits, "perte", "somme")) * 100),2);
+
 
 $ressources = RESSOURCE::getAll();
-
+usort($produits, "comparerPerte");
 
 $title = "BIDY | Etat récapitulatif des produits ";
 ?>

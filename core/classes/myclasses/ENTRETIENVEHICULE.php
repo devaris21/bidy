@@ -101,6 +101,10 @@ class ENTRETIENVEHICULE extends TABLE
 
 
 
+	public static function jour($date){
+		return static::findBy(["etat_id !="=>ETAT::ANNULEE, "DATE(created) ="=>$date]);
+	}
+
 
 	public function approuver(){
 		$data = new RESPONSE;

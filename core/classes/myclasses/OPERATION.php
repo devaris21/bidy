@@ -122,6 +122,7 @@ class OPERATION extends TABLE
 
 
 
+
 	public static function enAttente(){
 		return static::findBy(["etat_id ="=> ETAT::ENCOURS]);
 	}

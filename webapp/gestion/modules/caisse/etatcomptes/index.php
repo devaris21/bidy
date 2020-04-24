@@ -15,7 +15,7 @@
           <?php include($this->rootPath("webapp/gestion/elements/templates/header.php")); ?>  
 
           <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-lg-16">
+            <div class="col-lg-6">
                 <h2>Etat récapitulatif de la caisse</h2>
                 <form id="formFiltrer" class="row" method="POST">
                     <div class="col-4">
@@ -52,32 +52,20 @@
                             <div class="row" style="margin-top: -2%;">
                                 <div class="col-md">
                                     <div class="widget style2 navy-bg">
-                                        <span> Livraisons </span>
-                                        <h2 class="font-bold">26'C</h2>
+                                        <h3> Entrées </h3>
+                                        <h3 class="font-bold"><?= money(Home\OPERATION::entree($date1, $date2)) ?> <?= $params->devise ?></h3>
                                     </div>
                                 </div>
-                                <div class="col-md border-right">
-                                    <div class="widget style2 bg-green">
-                                        <span> Autres entrées </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="widget style2 bg-red">
-                                        <span>Approvisionnement </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                                <div class="col-md border-right">
+                                <div class="col-md ">
                                     <div class="widget style2 red-bg">
-                                        <span>Autres dépenses </span>
-                                        <h2 class="font-bold">26'C</h2>
+                                        <h3>Dépenses </h3>
+                                        <h3 class="font-bold"><?= money(Home\OPERATION::sortie($date1, $date2)) ?> <?= $params->devise ?></h3>
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="widget style2 bg-blue">
-                                        <span> Résultats </span>
-                                        <h2 class="font-bold">26'C</h2>
+                                        <h3> Résultats </h3>
+                                        <h3 class="font-bold"><?= money(Home\OPERATION::resultat($date1, $date2)) ?> <?= $params->devise ?></h3>
                                     </div>
                                 </div>
                             </div><hr>
@@ -98,9 +86,10 @@
                                         <td style="border-right: 2px dashed grey">Solde du compte au <?= datecourt($date1) ?></td>
                                         <td class="text-center">-</td>
                                         <td class="text-center">-</td>
-                                        <td class="text-center"><h4 class="text-center"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , $date1)) ?> <?= $params->devise ?></td>
+                                        <td class="text-center"><h4 class="text-center"><?= $last = $repport = money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , $date1)) ?> <?= $params->devise ?></td>
                                         </tr>
-                                        <?php foreach ($datas as $key => $item) { ?>
+                                        <?php foreach ($datas as $key => $item) {
+                                        $item->actualise(); ?>
                                             <tr>
                                                 <td class="gras" style="border-right: 2px dashed grey"><?= $item->name() ?></td>
                                                 <?php if ($item->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
@@ -110,7 +99,8 @@
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center gras text-red"><?= money($item->montant) ?> <?= $params->devise ?></td>
                                                 <?php } ?>                                            
-                                                <td class="text-center gras" style="background-color: #fafafa"><?= money($item->montant) ?> <?= $params->devise ?></td>
+                                                  <?php $last += ($item->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)? $item->montant : -$item->montant ; ?>
+                                            <td class="text-center gras" style="padding-top: 12px; background-color: #fafafa"><?= money($last) ?> <?= $params->devise ?></td>
                                             </tr>
                                         <?php } ?>
                                         <tr style="height: 12px;"></tr>

@@ -12,6 +12,7 @@ if ($this->getId() != "") {
 
 $entree = OPERATION::entree($date1 , $date2);
 $sortie = OPERATION::sortie($date1 , $date2);
+
 $resultat = OPERATION::resultat($date1 , $date2);
 
 $datas = CATEGORIEOPERATION::getAll();

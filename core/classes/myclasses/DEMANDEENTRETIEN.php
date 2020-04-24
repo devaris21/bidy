@@ -84,8 +84,8 @@ class DEMANDEENTRETIEN extends TABLE
 		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
 	}
 
-	public static function valideesCeMois(){
-		return static::findBy(["etat_id ="=>ETAT::VALIDEE, "date_approuve >="=>date("Y-m")."-01"]);
+	public static function jour($date){
+		return static::findBy(["etat_id !="=>ETAT::ANNULEE, "DATE(created) ="=>$date]);
 	}
 
 	public static function annuleesCeMois(){

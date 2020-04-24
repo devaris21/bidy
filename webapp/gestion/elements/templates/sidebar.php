@@ -88,7 +88,7 @@
                         <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
                         <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
                         <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
-                        <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li>
+                       <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
                     </ul>
                 </li>
                 <li class="dropdown-divider"></li>

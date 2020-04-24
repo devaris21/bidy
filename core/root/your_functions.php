@@ -68,11 +68,11 @@ function comptage(Array $tableau, $propriete, $type="somme"){
 	$total = 0;
 	if ($type == "somme") {
 		foreach ($tableau as $key => $obj) {
-			$total += intval($obj->$propriete);
+			$total += $obj->$propriete;
 		}
 	}else if($type == "avg"){
 		foreach ($tableau as $key => $obj) {
-			$total += intval($obj->$propriete);
+			$total += $obj->$propriete;
 		}
 		$total = round($total / count($tableau), 2);
 	}
@@ -189,29 +189,29 @@ function compactPlus(String $ligne, int $nb, String $delimiter){
 
 
 function hex2rgb($hex) {
-   $hex = str_replace("#", "", $hex);
+	$hex = str_replace("#", "", $hex);
 
-   if(strlen($hex) == 3) {
-      $r = hexdec(substr($hex,0,1).substr($hex,0,1));
-      $g = hexdec(substr($hex,1,1).substr($hex,1,1));
-      $b = hexdec(substr($hex,2,1).substr($hex,2,1));
-   } else {
-      $r = hexdec(substr($hex,0,2));
-      $g = hexdec(substr($hex,2,2));
-      $b = hexdec(substr($hex,4,2));
-   }
-   $rgb = array($r, $g, $b);
-   $rgb = join(",", $rgb);
+	if(strlen($hex) == 3) {
+		$r = hexdec(substr($hex,0,1).substr($hex,0,1));
+		$g = hexdec(substr($hex,1,1).substr($hex,1,1));
+		$b = hexdec(substr($hex,2,1).substr($hex,2,1));
+	} else {
+		$r = hexdec(substr($hex,0,2));
+		$g = hexdec(substr($hex,2,2));
+		$b = hexdec(substr($hex,4,2));
+	}
+	$rgb = array($r, $g, $b);
+	$rgb = join(",", $rgb);
    //return implode(",", $rgb); // returns the rgb values separated by commas
    return $rgb; // returns an array with the rgb values
 }
 
 
 function rgb2hex($rgb) {
-   $hex = "#";
-   $hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
-   $hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
-   $hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
+	$hex = "#";
+	$hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
+	$hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
+	$hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
 
    return $hex; // returns the hex value including the number sign (#)
 }
@@ -232,6 +232,26 @@ function comparerDateCreated($a, $b) {
 }
 function comparerDateCreated2($a, $b) {
 	return -strcmp($a->created, $b->created);
+}
+
+
+function comparer1($a, $b) {
+	if ($a->versement == $b->versement) {
+		if ($a->commandes ==  $b->commandes) {
+			return -strcmp($a->livraisons, $b->livraisons);
+		}else{
+			return -strcmp($a->commandes, $b->commandes);
+		}
+	}else{
+		return -strcmp($a->versement, $b->versement);
+	}
+}
+
+function comparer2($a, $b) {
+	return -strcmp($a->commandes+$a->livraisons, $b->commandes+$b->livraisons);
+}
+function comparerPerte($a, $b) {
+	return strcmp($a->perte, $b->perte);
 }
 
 //filtrer un tableau d'objets
@@ -523,7 +543,6 @@ function money($a = 0)
 }
 
 
-
 #
 function start0($a)
 {
@@ -531,5 +550,45 @@ function start0($a)
 		return "0".intval($a);
 	}else{
 		return $a;
+	}
+}
+
+
+function ppcm($a, $b){
+	$res = $a * $b;
+	while ($a > 1) {
+		$r = $a % $b;
+		if ($r == 0) {
+			$result = $res / $b;
+			break;
+		}
+		$a = $b;
+		$b = $r;
+	}
+	return $result;
+}
+
+
+function pgcd($a, $b){
+	if (($a <= 0) || ($b <= 0)) {
+		return ;
+	}
+	while ($b > 0) {
+		$r = $a % $b;
+		$a = $b;
+		$b = $r;
+	}
+	return $a;
+}
+
+function frequence($a, $nbJours){
+	if ($nbJours > $a) {
+		if (pgcd($a, $nbJours) > 1) {
+			return pgcd($a, $nbJours);
+		}else{
+			return ceil(1 / ($a/$nbJours));
+		}
+	}else{
+		return ceil(1 / ($a/$nbJours));
 	}
 }

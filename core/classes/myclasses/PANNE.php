@@ -119,6 +119,10 @@ class PANNE extends TABLE
 	}
 	
 
+	public static function jour($date){
+		return static::findBy(["etat_id !="=>ETAT::ANNULEE, "DATE(created) ="=>$date]);
+	}
+
 
 	public function sentenseCreate(){
 		return $this->sentence = "Enregistrement d'une nouvelle panne de machine pour ".$this->machine->name()." mis en cause ".$this->manoeuvre->name();

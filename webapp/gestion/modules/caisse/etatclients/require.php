@@ -10,7 +10,8 @@ if ($this->getId() != "") {
 	$date2 = dateAjoute(1);
 }
 
-$clients = CLIENT::getAll();
+$versements = OPERATION::versements($date1, $date2);
+$clients = CLIENT::findBy(["visibility ="=>1]);
 foreach ($clients as $key => $client) {
 	$lot1 = $lot2 = [];
 	$vers = $client->versements($date1, $date2);
@@ -26,11 +27,17 @@ foreach ($clients as $key => $client) {
 		$client->versement = $vers;
 		$client->commandes = count($lot1);
 		$client->livraisons = count($lot2);
+		$client->pct = round((($client->versement / $versements)*100), 2 );
 	}
 }
+
+
+usort($clients, "comparer1");
 
 $stats = CLIENT::stats($date1, $date2);
 
 
 $title = "BIDY | Etat récapitulatif des clients ";
+
+
 ?>

@@ -49,6 +49,10 @@ class CONNEXION extends TABLE
 
 
 
+	public static function listeConnecterDuJour(String $date){
+		return CONNEXION::execute("SELECT DISTINCT employe_id FROM connexion WHERE DATE(created) = ? ", [$date]);
+	}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

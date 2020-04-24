@@ -47,35 +47,7 @@
                                     <h2 class="title text-uppercase gras">Etat récapitulatif de la production<br>et des ressources</h2>
                                     <h3>Du <?= datecourt($date1) ?> au <?= datecourt($date2) ?></h3>
                                 </div>
-                            </div><br><br>
-
-                            <div class="row" style="margin-top: -2%;">
-                                <div class="col-md">
-                                    <div class="widget style2 navy-bg">
-                                        <span> Autres entrées </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="widget style2 navy-bg">
-                                        <span> Livraisons </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="widget style2 navy-bg">
-                                        <span>Approvisionnement </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <div class="widget style2 navy-bg">
-                                        <span> Résultats </span>
-                                        <h2 class="font-bold">26'C</h2>
-                                    </div>
-                                </div>
-                            </div><br>
-
+                            </div><hr><br>
 
                             <h4>Tableau du stock sur la période</h4>
                             <table class="table table-bordered table-hover table-striped">
@@ -93,11 +65,11 @@
                                     <?php foreach ($produits as $key => $produit) { ?>
                                         <tr>
                                             <td><span class="gras text-uppercase"><?= $produit->name() ?></span> <br> <small><?= $produit->description ?></small></td>
-                                            <td class="text-center"><h3 class="gras text-muted"><?= money($produit->stock(dateAjoute1($date1, -1))) ?></h3></td>
-                                            <td class="text-center"><h4 class="text-green"><?= money($produit->production) ?></h4></td>
-                                            <td class="text-center"><h4 class="text-red"><?= money($produit->perte) ?></h4></td>
-                                            <td class="text-center" ><?= round( ($produit->perte($date1, $date2) / ($produit->production + $produit->perte) * 100 ), 2) ?> %</td>
-                                            <td class="text-center"><h4><?= money($produit->livraison) ?></h4></td>
+                                            <td class="text-center"><br><h3 class="gras text-muted"><?= money($produit->stock(dateAjoute1($date1, -1))) ?></h3></td>
+                                            <td class="text-center"><br><h3 class="text-green gras"><?= money($produit->production) ?></h3></td>
+                                            <td class="text-center"><br><h4 class="text-red"><?= money($produit->perte) ?></h4></td>
+                                            <td class="text-center" ><?= round( ($produit->perte / ($produit->production + $produit->perte) * 100 ), 2) ?> %<br><small>de la production</small></td>
+                                            <td class="text-center"><br><h4><?= money($produit->livraison) ?></h4></td>
                                             <td class="text-center" ><h2 class="gras"><?= money($produit->stock(dateAjoute1($date2, 1))) ?></h2></td>
                                         </tr>
                                     <?php } ?>
@@ -110,147 +82,190 @@
                                     <h4>Rapport de production, de livraison et de perte</h4>
                                     <div>
                                         <canvas id="radarChart" height="230"></canvas>
-                                    </div><br>
-                                    <h4>Observations</h4>
-                                    <ul style="font-style: italic;">
-                                        <li>25% des pertes ont eu lieu lors du rangement</li>
-                                        <li>25% des pertes ont eu lieu lors du chargement/dechargement</li>
-                                    </ul>
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <h4 class="text-right">Rapport de Consommation des ressources</h4>
                                     <div>
                                         <canvas id="radarChart2" height="230"></canvas>
-                                    </div><br>
-                                    <h4>Observations</h4>
-                                    <ul style="font-style: italic;">
-                                        <li>25% des pertes ont eu lieu lors du rangement</li>
-                                        <li>25% des pertes ont eu lieu lors du chargement/dechargement</li>
-                                    </ul>
+                                    </div>
                                 </div>
                             </div><br>
 
 
+                            <div>
+                                <h4>Observations</h4>
+                                <ul style="font-style: italic;">
+                                    <li>Vous avez perdu beaucoup plus de <b><?= $produits[0]->name() ?></b></li>
+                                    <li>Vous avez perdu en moyenne <b><?= ceil(comptage($produits, "perte", "somme") / dateDiffe($date1, $date2)) ?> produit</b> par <b>jour</b></li><br>
 
-                            <h4>Tableau du stock sur la période</h4>
-                            <table class="table table-bordered table-hover table-striped">
+                                    <li> <?php if ($pertelivraison == 0) { ?>
+                                        Toutes les pertes ont eu lieu lors du rangement
+                                    <?php }elseif ($pertelivraison == 100) { ?>
+                                        Toutes les pertes ont eu lieu lors de la livraison
+                                    <?php }else{ ?>
+                                        <b><?= $pertelivraison  ?>%</b> des pertes ont eu lieu lors da la livraison contre <b><?= 100 - $pertelivraison ?>%</b> lors du rangement
+                                    <?php } ?>
+                                </li>
+                            </ul>
+                        </div><hr><br>
+
+
+                        <h4>Tableau comparatif de la consommation de ressource sur la période</h4>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="text-center" >
+                                    <th colspan="2">Production</th>
+                                    <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
+                                        <th>
+                                            <span style="font-size: 11px;" class="text-uppercase"><?= $ressource->name()  ?></span>
+                                            <br><small><?= $ressource->unite ?></small>
+                                        </th>
+                                    <?php }  ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($produits as $key => $produit) { ?>
+                                    <tr>
+                                        <td><span class="gras text-uppercase"><?= $produit->name() ?></span> <br> <small><?= $produit->description ?></small></td>
+                                        <td class="text-center"><h3 class="gras"><?= money($produit->production+$produit->perte) ?></h3></td>
+                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
+                                            $name = trim($ressource->name()); ?>
+                                            <td class="text-center"><?= round($produit->$name, 2); ?> <?= $ressource->abbr  ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                <?php }  ?>
+
+                                <tr style="height: 12px;"></tr>
+                                <tr>
+                                    <td colspan="2"><h5 class="gras text-uppercase mp0">Consommation totale dûe</h5>
+                                        <small>(Ce qu'ils auraient normalement dû consommé)</small></td>
+                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
+                                            $name = trim($ressource->name()); ?>
+                                            <td class="text-center text-green gras"><?= round(comptage($produits, $name, "somme"), 2); ?> <?= $ressource->abbr  ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><h5 class="gras text-uppercase mp0">Consommation totale effective</h5>
+                                            <small>(Consommation qu'ils ont effectivement déclaré)</small>
+                                        </td>
+                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
+                                            <td class="text-center gras"><?= money($ressource->consommee($date1, $date2)); ?> <?= $ressource->abbr  ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                    <tr style="height: 12px;"></tr>
+                                    <tr>
+                                        <td colspan="2"><h5 class="gras text-uppercase">Comparatif de la Consommation</h5></td>
+                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
+                                            $name = trim($ressource->name()); 
+                                            $a = comptage($produits, $name, "somme") - $ressource->consommee($date1, $date2); ?>
+                                            <td class="text-center text-<?= ($a > 0)?"green":"red" ?>"> Conso de <b><?= round(abs($a), 2) ?> <?= $ressource->abbr  ?></b> <br>en <?= ($a > 0)?"moins":"plus" ?></td>
+                                        <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <small><i>* Selon la ressource, vous devez considerer une certaine marge de consommation sur la periode. (Ex: -/+ 5 sacs de ciments pour 30 jours)</i></small><br>
+                            <small><i>* Si cette marge est franchie (positivement ou négativement), alors il y a un problème de production.<br> Soit ils n'utilisent pas les quantités néccéssaires pour une bonne qualité de la production, soit ils font du gaspillage de ressource.</i></small>
+                            <hr>
+                            <br><br>
+
+                            <h4>Estimation des perte en ressource sur la période</h4>
+                            <table class="table table-bordered table-hover">
                                 <thead>
-                                    <tr class="text-center text-uppercase" style="font-size: 11px;">
-                                        <th colspan="2">Production</th>
+                                    <tr class="text-center" >
+                                        <th colspan="2"></th>
                                         <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
-                                            <th><?= $ressource->name() ?></th>
+                                            <th>
+                                                <span style="font-size: 11px;" class="text-uppercase"><?= $ressource->name()  ?></span>
+                                                <br><small><?= $ressource->unite ?></small>
+                                            </th>
                                         <?php }  ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($produits as $key => $produit) { ?>
-                                        <tr>
-                                            <td><span class="gras text-uppercase"><?= $produit->name() ?></span> <br> <small><?= $produit->description ?></small></td>
-                                            <td class="text-center"><h3 class="gras"><?= money($produit->production+$produit->perte) ?></h3></td>
+                                    <tr>
+                                        <td colspan="2"><h5 class="gras text-uppercase mp0">Estimation en ressource</h5>
+                                            <small>(Appréciez par vous-même)</small></td>
                                             <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
                                                 $name = trim($ressource->name()); ?>
-                                                <td class="text-center"><?= money($produit->$name); ?> <?= $ressource->abbr  ?></td>
+                                                <td class="text-center text-red gras"><?= round(comptage($produits, "perte-$name", "somme"), 2); ?> <?= $ressource->abbr  ?></td>
                                             <?php } ?>
                                         </tr>
-                                    <?php }  ?>
+                                    </tbody>
+                                </table><hr>
 
-                                    <tr style="height: 12px;"></tr>
-                                    <tr>
-                                        <td colspan="2"><h4 class="gras text-uppercase">Consommation totale dûe</h4></td>
-                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
-                                            $name = trim($ressource->name()); ?>
-                                            <td class="text-center text-green gras"><?= comptage($produits, $name, "somme"); ?> <?= $ressource->abbr  ?></td>
-                                        <?php } ?>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><h4 class="gras text-uppercase">Consommation totale effective</h4></td>
-                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
-                                            <td class="text-center text-red gras"><?= money($ressource->consommee($date1, $date2)); ?> <?= $ressource->abbr  ?></td>
-                                        <?php } ?>
-                                    </tr>
-                                    <tr style="height: 12px;"></tr>
-                                    <tr>
-                                        <td colspan="2"><h5 class="gras text-uppercase">Marge de Consommation</h5></td>
-                                        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
-                                            $name = trim($ressource->name()); 
-                                            $a = comptage($produits, $name, "somme") - $ressource->consommee($date1, $date2); ?>
-                                            <td class="text-center text-<?= ($a > 0)?"green":"red" ?>"> Conso de <?= $a ?> <?= $ressource->abbr  ?> en <?= ($a > 0)?"moins":"plus" ?></td>
-                                        <?php } ?>
-                                    </tr>
-                                </tbody>
-                            </table><hr>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
+
             </div>
 
 
+            <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+
         </div>
-
-
-        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-
     </div>
-</div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
-<script type="text/javascript">
-    $(function(){
+    <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+    <script type="text/javascript">
+        $(function(){
 
-       var radarOptions = {
-        responsive: true
-    };
+         var radarOptions = {
+            responsive: true
+        };
 
-    var radarData = {
-        labels: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->name() ?>", <?php } ?>],
-        datasets: [
-        {
-            label: "Production",
-            backgroundColor: "rgba(26,179,148,0.2)",
-            borderColor: "rgba(26,179,148,1)",
-            data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->production ?>", <?php } ?>]
-        },
-        {
-            label: "Livraison",
-            backgroundColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(220,220,220,1)",
-            data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->livraison ?>", <?php } ?>]
-        },
-        {
-            label: "Perte",
-            backgroundColor: "rgba(220,10,10,0.2)",
-            borderColor: "rgba(220,10,10,1)",
-            data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->perte ?>", <?php } ?>]
-        }
-        ]
-    };
-
-    var ctx5 = document.getElementById("radarChart").getContext("2d");
-    new Chart(ctx5, {type: 'radar', data: radarData, options:radarOptions});
-
-
-
-    var radarData2 = {
-        labels: [<?php foreach ($ressources as $key => $ressource){ ?> "<?= $ressource->name() ?>", <?php } ?>],
-        datasets: [
-        <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource){ 
-            $name = trim($ressource->name());
-            $a = mt_rand(0, 255); ?>
+        var radarData = {
+            labels: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->name() ?>", <?php } ?>],
+            datasets: [
             {
-                label: "<?= $ressource->name()  ?>",
-                backgroundColor: "rgba(<?= $a ?>,<?= $a ?>,105,0.2)",
-                borderColor: "rgba(<?= $a ?>,<?= $a ?>,105,1)",
-                data: [<?php foreach ($produits as $key => $produit){ ?> <?= $produit->$name ?>, <?php } ?>]
+                label: "Production",
+                backgroundColor: "rgba(26,179,148,0.2)",
+                borderColor: "rgba(26,179,148,1)",
+                data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->production ?>", <?php } ?>]
             },
-        <?php } ?>
-        ]
-    };
-    var ctx6 = document.getElementById("radarChart2").getContext("2d");
-    new Chart(ctx6, {type: 'radar', data: radarData2, options:radarOptions});
-})
+            {
+                label: "Livraison",
+                backgroundColor: "rgba(220,220,220,0.2)",
+                borderColor: "rgba(220,220,220,1)",
+                data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->livraison ?>", <?php } ?>]
+            },
+            {
+                label: "Perte",
+                backgroundColor: "rgba(220,10,10,0.2)",
+                borderColor: "rgba(220,10,10,1)",
+                data: [<?php foreach ($produits as $key => $data){ ?> "<?= $data->perte ?>", <?php } ?>]
+            }
+            ]
+        };
+
+        var ctx5 = document.getElementById("radarChart").getContext("2d");
+        new Chart(ctx5, {type: 'radar', data: radarData, options:radarOptions});
+
+
+
+        var radarData2 = {
+            labels: [<?php foreach ($ressources as $key => $ressource){ ?> "<?= $ressource->name() ?>", <?php } ?>],
+            datasets: [
+            <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource){ 
+                $name = trim($ressource->name());
+                $a = mt_rand(0, 255); ?>
+                {
+                    label: "<?= $ressource->name()  ?>",
+                    backgroundColor: "rgba(<?= $a ?>,<?= $a ?>,105,0.2)",
+                    borderColor: "rgba(<?= $a ?>,<?= $a ?>,105,1)",
+                    data: [<?php foreach ($produits as $key => $produit){ ?> <?= $produit->$name ?>, <?php } ?>]
+                },
+            <?php } ?>
+            ]
+        };
+        var ctx6 = document.getElementById("radarChart2").getContext("2d");
+        new Chart(ctx6, {type: 'radar', data: radarData2, options:radarOptions});
+    })
 </script>
 
 </body>

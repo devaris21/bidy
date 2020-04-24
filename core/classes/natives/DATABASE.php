@@ -30,20 +30,6 @@ class DATABASE
 
 
 
-	// public $bdd = false;
-
-	// public function myconnexion() {
-	// 	try{
-	// 		$this->bdd = new PDO("$this->driver:host=$this->host; port=$this->port; charset=$this->charset; dbname=$this->dbname", $this->login, $this->password, [PDO::ATTR_PERSISTENT => true]);
-	// 		$this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	// 	}catch(EXCEPTION $e){
-	// 		echo $e->getMaessage();
-	// 	}
-	// 	return false;
-	// }
-
-
-
 
 
 	public function getAllDatabases(){
