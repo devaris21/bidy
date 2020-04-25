@@ -115,7 +115,10 @@ class PRODUIT extends TABLE
 		}
 		$datas = $this->fourni("lignelivraison", ["DATE(created) <= "=>$date]);
 		foreach ($datas as $key => $ligne) {
-			$total -= $ligne->quantite;
+			$ligne->actualise();
+			if ($ligne->livraison->etat_id != ETAT::ANNULEE) {
+				$total -= $ligne->quantite;
+			}
 		}
 		return $total;
 	}
@@ -135,7 +138,10 @@ class PRODUIT extends TABLE
 
 		$datas = $this->fourni("lignelivraison", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
 		foreach ($datas as $key => $ligne) {
-			$total += $ligne->quantite - $ligne->quantite_livree;
+			$ligne->actualise();
+			if ($ligne->livraison->etat_id != ETAT::ANNULEE) {
+				$total += $ligne->quantite - $ligne->quantite_livree;
+			}
 		}
 
 		return $total;
@@ -144,6 +150,12 @@ class PRODUIT extends TABLE
 
 	public function livree(string $date1 = "2020-04-01", string $date2){
 		$datas = $this->fourni("lignelivraison", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
+		foreach ($datas as $key => $ligne) {
+			$ligne->actualise();
+			if ($ligne->livraison->etat_id != ETAT::ANNULEE) {
+				unset($datas[$key]);
+			}
+		}
 		return comptage($datas, "quantite_livree", "somme");
 	}
 

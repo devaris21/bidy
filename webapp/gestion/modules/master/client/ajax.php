@@ -333,7 +333,7 @@ if ($action == "newlivraison") {
 		session('commande-encours', $id);
 		$groupecommande = $datas[0];
 		$groupecommande->actualise();
-		$groupecommande->fourni("commande");
+		$groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
 		include("../../../../../composants/assets/modals/modal-newlivraison.php");
 	}
 }

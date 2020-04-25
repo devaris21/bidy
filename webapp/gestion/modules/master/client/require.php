@@ -16,8 +16,8 @@ if ($this->getId() != null) {
 
 		$datas1 = $datas2 = [];
 		foreach ($client->groupecommandes as $key => $groupecommande) {
-			$datas1 = array_merge($datas1, $groupecommande->fourni("commande"));
-			$datas2 = array_merge($datas2, $groupecommande->fourni("livraison"));
+			$datas1 = array_merge($datas1, $groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]));
+			$datas2 = array_merge($datas2, $groupecommande->fourni("livraison", ["etat_id !="=>ETAT::ANNULEE]));
 		}
 		foreach ($datas1 as $key => $ligne) {
 			$ligne->fourni("lignecommande");

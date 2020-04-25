@@ -7,9 +7,9 @@ if ($this->getId() != "") {
 	$date = dateAjoute();
 }
 
-$commandes = COMMANDE::findBy(["DATE(created) = " => $date]);
-$livraisons = LIVRAISON::findBy(["DATE(created) = " => $date]);
-$approvisionnements = APPROVISIONNEMENT::findBy(["DATE(created) = " => $date]);
+$commandes = COMMANDE::findBy(["DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
+$livraisons = LIVRAISON::findBy(["DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
+$approvisionnements = APPROVISIONNEMENT::findBy(["DATE(created) = " => $date, "etat_id !="=>ETAT::ANNULEE]);
 
 $operations = OPERATION::findBy(["DATE(created) = " => $date]);
 $entrees = $depenses = [];

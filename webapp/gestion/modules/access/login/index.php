@@ -33,9 +33,10 @@
                         </div><br>
                         <button type="submit" class="btn btn-primary block full-width m-b dim"><i class="fa fa-check"></i> Se connecter</button>
 
-                        <br><p class="text-center"><a href="<?= $this->url("gestion", "access", "reset") ?>">
+                        <!-- <br><p class="text-center"><a href="<?= $this->url("gestion", "access", "reset") ?>">
                             J'ai oublié mon mot de passe !
-                        </a></p>
+                        </a></p> --><br>
+                        <p>Si vous avez oublié votre mot de passe, veuillez contactez votre administrateur pour qu'il le reinitialise !</p>
                     </form>
                 </div>
             </div>
