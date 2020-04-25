@@ -105,6 +105,10 @@ class ENTRETIENMACHINE extends TABLE
 			$this->date_approuve = date("Y-m-d H:i:s");
 			$this->historique("Succès de l'entretien de la machine N° ".$this->machine->name);
 			$data = $this->save();
+
+			$this->actualise();
+			$this->machine->etatmachine_id = ETATVEHICULE::RAS;
+			$this->vehicule->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
@@ -120,6 +124,10 @@ class ENTRETIENMACHINE extends TABLE
 			$this->etat_id = ETAT::ANNULEE;
 			$this->historique("Annulation de l'entretien de machine N° $this->reference");
 			$data = $this->save();
+
+			$this->actualise();
+			$this->machine->etatvehicule_id = ETATVEHICULE::RAS;
+			$this->machine->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";

@@ -114,6 +114,7 @@
 
 
 <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+<?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>

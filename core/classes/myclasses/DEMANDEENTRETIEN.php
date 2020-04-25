@@ -102,6 +102,10 @@ class DEMANDEENTRETIEN extends TABLE
 			$this->etat_id = ETAT::ANNULEE;
 			$this->historique("Annulation de la demande d'entretien de véhicule N° ".$this->vehicule->name());
 			$data = $this->save();
+
+			$this->actualise();
+			$this->vehicule->etatvehicule_id = ETATVEHICULE::RAS;
+			$this->vehicule->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
@@ -118,6 +122,10 @@ class DEMANDEENTRETIEN extends TABLE
 			$this->date_approuve = date("Y-m-d H:i:s");
 			$this->historique("Approbation de la demande d'entretien de véhicule N° ".$this->vehicule->name());
 			$data = $this->save();
+
+			$this->actualise();
+			$this->vehicule->etatvehicule_id = ETATVEHICULE::RAS;
+			$this->vehicule->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";

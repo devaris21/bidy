@@ -93,7 +93,7 @@
                                                                     <img class="rounded-circle" src="<?= $this->stockage("images", "manoeuvres", $man->image) ?>">
                                                                 </td>
                                                                 <td class="project-title">
-                                                                    <a href="project_detail.html"><?= $man->name() ?></a>
+                                                                    <a href="#"><?= $man->name() ?></a>
                                                                     
                                                                 </td>
                                                                 <td class="project-title">
@@ -148,54 +148,52 @@
                                                         <img class="rounded-circle" src="<?= $this->stockage("images", "chauffeurs", $man->image) ?>">
                                                     </td>
                                                     <td colspan="2" class="project-title">                                                    
-                                                        <span class="pull-right"><button onclick="available(<?= $man->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-lock"></i></button>
-                                                            <button onclick="modification('manoeuvre', <?= $man->getId() ?>)"  data-toggle="modal" data-target="#modal-manoeuvre" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i></button></span>
-                                                            <a href="project_detail.html"><?= $man->name() ?></a>
-                                                            <br/>
-                                                            <small class="label label-<?= $man->etatchauffeur->class ?>"><?= $man->etatchauffeur->name() ?></small><br>
-                                                            <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>
-                                                            <small><i class="fa fa-phone"></i> <?= $man->contact ?> - Permis<b> <?= $man->typepermis ?></b> </small>
-                                                            <hr class="mp5">
-                                                            <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                <h3 class="mp0 d-inline"><?= money($man->salaire) ?> <?= $params->devise ?></h3>
-                                                                <?php if ($man->salaire > 0) { ?>
-                                                                    <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
-                                                                <?php } ?>  
+                                                        <small class="label label-<?= $man->etatchauffeur->class ?> pull-right"><?= $man->etatchauffeur->name() ?></small>
+                                                        <a href="#"><?= $man->name() ?></a>
+                                                        <br>
+                                                        <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>
+                                                        <small><i class="fa fa-phone"></i> <?= $man->contact ?> - Permis<b> <?= $man->typepermis ?></b> </small>
+                                                        <hr class="mp5">
+                                                        <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                            <h3 class="mp0 d-inline"><?= money($man->salaire) ?> <?= $params->devise ?></h3>
+                                                            <?php if ($man->salaire > 0) { ?>
+                                                                <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>
                                                             <?php } ?>  
-                                                        </td>
-                                                    </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                <?php }else{ ?>
-                                    <h2 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-2x"></i> <br> Aucun chauffeur enregistré pour le moment!</h2>
-                                <?php } ?>
-                            </div>
+                                                        <?php } ?>  
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php }else{ ?>
+                                <h2 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-2x"></i> <br> Aucun chauffeur enregistré pour le moment!</h2>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
-            <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-
-            <?php 
-            foreach (Home\MANOEUVRE::getAll() as $key => $man) {
-                $solde = $man->solde();
-                if ($solde > 0) { 
-                    include($this->rootPath("composants/assets/modals/modal-paye-manoeuvre.php"));
-                } 
-            } 
-            ?>
 
         </div>
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+
+        <?php 
+        foreach (Home\MANOEUVRE::getAll() as $key => $man) {
+            $solde = $man->solde();
+            if ($solde > 0) { 
+                include($this->rootPath("composants/assets/modals/modal-paye-manoeuvre.php"));
+            } 
+        } 
+        ?>
+
     </div>
+</div>
 
 
-    <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 
 
 </body>

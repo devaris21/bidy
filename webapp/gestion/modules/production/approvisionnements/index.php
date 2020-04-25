@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-             <div class="row">
+               <div class="row">
                 <div class="col-md-12">
                     <div class="widget style1 bg-warning">
                         <div class="row">
@@ -60,11 +60,11 @@
                 <h5>Tous les approvisionnements</h5>
 
                 <div class="ibox-tools">
-                 <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
-             </div>
-         </div>
-         <div class="ibox-content" style="min-height: 300px;">
-             <?php if (count($approvisionnements) > 0) { ?>
+                   <button style="margin-top: -5%" data-toggle='modal' data-target="#modal-approvisionnement" class="btn btn-warning dim"><i class="fa fa-plus"></i> Nouvel Approvisionnement</button>
+               </div>
+           </div>
+           <div class="ibox-content" style="min-height: 300px;">
+               <?php if (count($approvisionnements) > 0) { ?>
                 <table class="table table-hover table-approvisionnement">
                     <tbody>
                         <?php foreach ($approvisionnements as $key => $appro) {
@@ -93,30 +93,32 @@
                                         <tbody>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { ?>
-                                                   <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::VALIDEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
-                                               <?php   } ?>
-                                           </tr>
-                                       </tbody>
-                                   </table>
-                               </td>
-                               <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3>
+                                                 <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::VALIDEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
+                                             <?php   } ?>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </td>
+                             <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3>
                                 <span><?= $appro->operation->structure ?> - <?= $appro->operation->numero ?></span>
-                               </td>
-                               <td class="border-left">
+                            </td>
+                            <td class="border-left">
                                 <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>
-                                  <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
-                                  <button onclick="annuler(<?= $appro->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
-                              <?php } ?>
-                          </td>
-                      </tr>
-                  <?php  } ?>
-              </tbody>
-          </table>
-      <?php }else{ ?>
-        <h1 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement en cours pour le moment!</h1>
-    <?php } ?>
+                                    <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
+                                    <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                        <button onclick="annuler(<?= $appro->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                    <?php } ?>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php  } ?>
+                </tbody>
+            </table>
+        <?php }else{ ?>
+            <h1 style="margin-top: 6%;" class="text-center text-muted"><i class="fa fa-folder-open-o fa-3x"></i> <br> Aucun approvisionnement en cours pour le moment!</h1>
+        <?php } ?>
 
-</div>
+    </div>
 </div>
 </div>
 

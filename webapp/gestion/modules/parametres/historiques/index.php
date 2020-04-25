@@ -31,11 +31,11 @@
                             <div class="card-body">
                                 <div>
                                     <label>Début de la période</label>
-                                    <input type="date" name="date1" class="form-control" value="2019-09-01">
+                                    <input type="date" name="date1" class="form-control" value="<?= dateAjoute(-2) ?>">
                                 </div><br>
                                 <div>
-                                    <label>Début de la période</label>
-                                    <input type="date" name="date2" class="form-control" value="<?= date("Y-m-d") ?>">
+                                    <label>Fin de la période</label>
+                                    <input type="date" name="date2" class="form-control" value="<?= dateAjoute() ?>">
                                 </div>
                             </div> 
                         </div>

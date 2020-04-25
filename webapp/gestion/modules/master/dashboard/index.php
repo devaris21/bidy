@@ -20,10 +20,10 @@
                     <div class="col-lg-3">
                         <div class="ibox ">
                             <div class="ibox-title">
-                                <h5>Kilometrage moyen du parc</h5>
+                                <h5></h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(12)  ?> Km</h2>
+                                <h2 class="no-margins"></h2>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,8 @@
                                 <li class="list-group-item"></li>
                             </ul><hr>
                             
-                            <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>" ><button class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Rapport de la journée</button></a>                            
+                            <button style="margin-top: -5%; font-size: 11px;" type="button" data-toggle=modal data-target='#modal-clients' class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande /livraison </button>
+
                         </div>
                         <div class="col-md-6 border-right border-left">
                             <div class="" style="margin-top: 0%">
@@ -131,6 +132,9 @@
                                 <li class="list-group-item"></li>
                             </ul> <br>
                             <hr class="mp0">
+
+                            <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>" ><button class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Rapport de la journée</button></a>       
+
                             <?php if ($employe->isAutoriser("production")) { ?>
                                 <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
                             <?php } ?>
@@ -179,6 +183,8 @@
 
         <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
 
+        <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
 
     </div>
 </div>

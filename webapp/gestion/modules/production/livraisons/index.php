@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-               <div class="row">
+             <div class="row">
                 <div class="col-md-12">
                     <div class="widget style1 bg-orange">
                         <div class="row">
@@ -125,7 +125,9 @@
                                     <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de livraison</a><br>
                                     <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
                                         <button onclick="terminer(<?= $livraison->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
-                                        <button onclick="annuler(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                            <button onclick="annuler(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                        <?php } ?>
                                     <?php } ?>
                                 </td>
                             </tr>

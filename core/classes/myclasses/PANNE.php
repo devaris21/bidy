@@ -96,6 +96,10 @@ class PANNE extends TABLE
 			$this->etat_id = ETAT::ANNULEE;
 			$this->historique("Annulation de la declaration de panne");
 			$data = $this->save();
+
+			$this->actualise();
+			$this->machine->etatvehicule_id = ETATVEHICULE::RAS;
+			$this->machine->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
@@ -111,6 +115,10 @@ class PANNE extends TABLE
 			$this->date_approuve = date("Y-m-d H:i:s");
 			$this->historique("Approbation pour la panne de la machine N° ".$this->machine->name);
 			$data = $this->save();
+
+			$this->actualise();
+			$this->machine->etatvehicule_id = ETATVEHICULE::RAS;
+			$this->machine->save();
 		}else{
 			$data->status = false;
 			$data->message = "Vous ne pouvez pas effectuer cette action sur cet element !";
