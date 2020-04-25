@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  mar. 21 avr. 2020 à 23:13
+-- Généré le :  sam. 25 avr. 2020 à 11:58
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.19
 
@@ -32,13 +32,14 @@ CREATE TABLE `approvisionnement` (
   `id` int(11) NOT NULL,
   `reference` varchar(20) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
-  `prestataire_id` int(11) NOT NULL,
+  `fournisseur_id` int(11) NOT NULL,
   `operation_id` int(11) DEFAULT NULL,
   `datelivraison` datetime DEFAULT NULL,
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin,
   `employe_id_reception` int(11) DEFAULT NULL,
+  `visibility` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -109,6 +110,7 @@ CREATE TABLE `chauffeur` (
   `date_fin_permis` date DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `salaire` int(11) NOT NULL,
   `etatchauffeur_id` int(11) NOT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -131,23 +133,10 @@ CREATE TABLE `client` (
   `adresse` varchar(150) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `contact` varchar(200) COLLATE utf8_bin DEFAULT NULL,
+  `visibility` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `code`
---
-
-CREATE TABLE `code` (
-  `id` int(11) NOT NULL,
-  `code` varchar(25) COLLATE utf8_bin NOT NULL,
-  `jour` int(11) NOT NULL,
-  `matricule` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -267,6 +256,7 @@ CREATE TABLE `entretienmachine` (
   `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `machine_id` int(11) NOT NULL,
+  `panne_id` int(11) DEFAULT NULL,
   `started` datetime DEFAULT NULL,
   `finished` datetime DEFAULT NULL,
   `prestataire_id` int(11) DEFAULT NULL,
@@ -292,6 +282,7 @@ CREATE TABLE `entretienvehicule` (
   `reference` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `name` varchar(200) COLLATE utf8_bin NOT NULL,
   `typeentretienvehicule_id` int(11) NOT NULL,
+  `demandeentretien_id` int(11) DEFAULT NULL,
   `vehicule_id` int(11) NOT NULL,
   `started` datetime DEFAULT NULL,
   `finished` datetime DEFAULT NULL,
@@ -540,23 +531,6 @@ CREATE TABLE `ligneexigenceproduction` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `lignegroupecommande`
---
-
-CREATE TABLE `lignegroupecommande` (
-  `id` int(11) NOT NULL,
-  `groupecommande_id` int(11) NOT NULL,
-  `produit_id` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT '0',
-  `valide` int(11) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `lignelivraison`
 --
 
@@ -740,6 +714,7 @@ CREATE TABLE `operation` (
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `date_approbation` datetime DEFAULT NULL,
+  `isModified` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT '0',
@@ -786,9 +761,29 @@ CREATE TABLE `params` (
   `adresse` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `postale` varchar(200) COLLATE utf8_bin DEFAULT NULL,
   `image` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `autoriserVersementAttente` varchar(11) COLLATE utf8_bin NOT NULL,
+  `bloquerOrfonds` varchar(11) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT '1',
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `paye_chauffeur`
+--
+
+CREATE TABLE `paye_chauffeur` (
+  `id` int(11) NOT NULL,
+  `chauffeur_id` int(11) NOT NULL,
+  `mois` int(11) NOT NULL,
+  `annee` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT '0',
+  `valide` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -857,7 +852,7 @@ CREATE TABLE `prix_zonelivraison` (
 
 CREATE TABLE `productionjour` (
   `id` int(11) NOT NULL,
-  `ladate` date NOT NULL,
+  `ladate` date DEFAULT NULL,
   `comment` text COLLATE utf8_bin NOT NULL,
   `groupemanoeuvre_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
@@ -1167,12 +1162,6 @@ ALTER TABLE `client`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `code`
---
-ALTER TABLE `code`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `commande`
 --
 ALTER TABLE `commande`
@@ -1299,12 +1288,6 @@ ALTER TABLE `ligneexigenceproduction`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `lignegroupecommande`
---
-ALTER TABLE `lignegroupecommande`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `lignelivraison`
 --
 ALTER TABLE `lignelivraison`
@@ -1374,6 +1357,12 @@ ALTER TABLE `panne`
 -- Index pour la table `params`
 --
 ALTER TABLE `params`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `paye_chauffeur`
+--
+ALTER TABLE `paye_chauffeur`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1525,12 +1514,6 @@ ALTER TABLE `client`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `code`
---
-ALTER TABLE `code`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
@@ -1657,12 +1640,6 @@ ALTER TABLE `ligneexigenceproduction`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `lignegroupecommande`
---
-ALTER TABLE `lignegroupecommande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `lignelivraison`
 --
 ALTER TABLE `lignelivraison`
@@ -1732,6 +1709,12 @@ ALTER TABLE `panne`
 -- AUTO_INCREMENT pour la table `params`
 --
 ALTER TABLE `params`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `paye_chauffeur`
+--
+ALTER TABLE `paye_chauffeur`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
