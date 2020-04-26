@@ -459,7 +459,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <?php $i =0; foreach (Home\CHAUFFEUR::findBy([], [], ["name"=>"ASC"]) as $key => $item) {
+                                                                <?php $i =0; foreach (Home\CHAUFFEUR::findBy(["visibility ="=>1], [], ["name"=>"ASC"]) as $key => $item) {
                                                                     $i++; ?>
                                                                     <tr>
                                                                         <td>
@@ -720,7 +720,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php foreach (Home\VEHICULE::getAll() as $key => $vehicule) {
+                                                            <?php foreach (Home\VEHICULE::findBy(["visibility ="=>1]) as $key => $vehicule) {
                                                                 $vehicule->actualise();
                                                                 ?>
                                                                 <tr>    

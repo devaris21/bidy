@@ -159,7 +159,7 @@
                                         <?php  foreach (Home\RESSOURCE::getAll() as $key => $ressource) { 
                                             $name = trim($ressource->name()); 
                                             $a = comptage($produits, $name, "somme") - $ressource->consommee($date1, $date2); ?>
-                                            <td class="text-center text-<?= ($a > 0)?"green":"red" ?>"> Conso de <b><?= round(abs($a), 2) ?> <?= $ressource->abbr  ?></b> <br>en <?= ($a > 0)?"moins":"plus" ?></td>
+                                            <td class="text-center text-<?= ($a >= 0)?"green":"red" ?>"> Conso de <b><?= round(abs($a), 2) ?> <?= $ressource->abbr  ?></b> <br>en <?= ($a >= 0)?"moins":"plus" ?></td>
                                         <?php } ?>
                                     </tr>
                                 </tbody>

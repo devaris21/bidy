@@ -20,12 +20,16 @@ $datas1 = $datas2 = [];
 foreach ($datas as $key => $item) {
 	$item->actualise();
 	$item->montant = comptage($item->fourni("operation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]), "montant", "somme");
-	if ($item->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE  && $item->montant > 0) {
-		$item->pct = round((($item->montant / $entree ) * 100), 2);
-		$datas1[] = $item;
-	}elseif ($item->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE  && $item->montant > 0){
-		$item->pct = round((($item->montant / $sortie ) * 100), 2);
-		$datas2[] = $item;
+	if ($item->montant > 0) {
+		if ($item->typeoperationcaisse_id == TYPEOPERATIONCAISSE::ENTREE  && $item->montant > 0) {
+			$item->pct = round((($item->montant / $entree ) * 100), 2);
+			$datas1[] = $item;
+		}elseif ($item->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE  && $item->montant > 0){
+			$item->pct = round((($item->montant / $sortie ) * 100), 2);
+			$datas2[] = $item;
+		}
+	}else{
+		unset($datas[$key]);
 	}
 }
 

@@ -112,23 +112,34 @@
                                 </div>  <br>
 
                                 <h4>Observations</h4>
-                                <ul style="font-style: italic;">
-                                    <li><b>"<?= $clients[0]->name()  ?>"</b> s'est démarqué avec un total de <b><?= money($clients[0]->versement) ?> <?= $params->devise  ?></b> en versement <br>correspondant  à <b><?= $clients[1]->pct ?>%</b> de vos entrées en caisse sur cette période</li>
+                                <?php if (count($clients) > 0) { ?>
+                                    <ul style="font-style: italic;">
+                                        <li><b>"<?= $clients[0]->name()  ?>"</b> s'est démarqué avec un total de <b><?= money($clients[0]->versement) ?> <?= $params->devise  ?></b> en versement <br>correspondant  à <b><?= $clients[1]->pct ?>%</b> de vos entrées en caisse sur cette période</li>
 
-                                    <?php usort($clients, "comparerPct"); ?>
-                                    <?php if (count($clients) > 2) { ?>
-                                        <li> <b>"<?= $clients[0]->name() ?>"</b> et <b>"<?= $clients[1]->name() ?>"</b> font à eu deux <b><?= $clients[0]->pct + $clients[1]->pct ?>%</b> de vos entrées en caisse sur cette période</li>
-                                        <?php }  ?><br>
+                                        <?php usort($clients, "comparerPct"); ?>
+                                        <?php if (count($clients) > 2) { ?>
+                                            <li> <b>"<?= $clients[0]->name() ?>"</b> et <b>"<?= $clients[1]->name() ?>"</b> font à eu deux <b><?= $clients[0]->pct + $clients[1]->pct ?>%</b> de vos entrées en caisse sur cette période</li>
+                                            <?php }  ?><br>
 
-                                        <?php usort($clients, "comparer2"); ?>
-                                        <li><b>"<?= $clients[0]->name()  ?>"</b> était le client le plus actif avec <u><?= $clients[0]->commandes  ?> commandes</u> et <u><?= $clients[0]->livraisons  ?> livraisons</u></li>
-                                    </ul>
+                                            <?php usort($clients, "comparer2"); ?>
+                                            <li><b>"<?= $clients[0]->name()  ?>"</b> était le client le plus actif avec <u><?= $clients[0]->commandes  ?> commandes</u> et <u><?= $clients[0]->livraisons  ?> livraisons</u></li>
+                                        </ul>
+                                    <?php } ?>
 
                                     <h4>fréquences</h4>
                                     <ul style="font-style: italic;">
-                                        <li>Vous avez eu approximativement 1 commande tous les <?= ceil(dateDiffe($date1, $date2) / comptage($clients, "commandes", "somme"))  ?> jours</li>
+                                        <?php 
+                                        $count = comptage($clients, "commandes", "somme");
+                                        if ($count > 0) { ?>
+                                            <li>Vous avez eu approximativement 1 commande tous les <?= ceil(dateDiffe($date1, $date2) / $count)  ?> jours</li>
+                                        <?php } ?>
 
-                                        <li>Vous avez eu approximativement 1 livraison tous les <?= ceil(dateDiffe($date1, $date2) /comptage($clients, "livraisons", "somme"))  ?> jours</li>
+                                        <?php 
+                                        $count = comptage($clients, "livraisons", "somme");
+                                        if ($count > 0) { ?>
+                                            <li>Vous avez eu approximativement 1 livraison tous les <?= ceil(dateDiffe($date1, $date2) / $count)  ?> jours</li>
+                                        <?php } ?>
+
                                     </ul> 
                                 </div>
 

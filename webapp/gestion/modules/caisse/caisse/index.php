@@ -83,10 +83,10 @@
                                 </div><hr>
                                 <div class="row stat-list text-center">
                                     <div class="col-4">
-                                     <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?> <?= $params->devise ?> </h3>
-                                     <small>Entrées du jour</small>
+                                       <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?> <?= $params->devise ?> </h3>
+                                       <small>Entrées du jour</small>
 
-                                     <div class="progress progress-mini" style="margin-top: 5%;">
+                                       <div class="progress progress-mini" style="margin-top: 5%;">
                                         <div class="progress-bar" style="width: 100%; background-color: #dedede"></div>
                                     </div><br>
 
@@ -111,8 +111,10 @@
                                         <div class="progress-bar" style="width: 100%; background-color: #dedede"></div>
                                     </div><br>
 
-                                    <h3 class="no-margins text-orange"><?= money(Home\MANOEUVRE::reste_paye()) ?> <?= $params->devise ?></h3>
-                                    <small>Paye de salaire</small>
+                                    <?php if ($employe->isAutoriser("paye des manoeuvre")) { ?>
+                                        <h3 class="no-margins text-orange"><?= money(Home\MANOEUVRE::reste_paye()) ?> <?= $params->devise ?></h3>
+                                        <small>Paye de salaire</small>
+                                    <?php } ?>
                                 </div>
                             </div>                                
                         </div>
@@ -132,10 +134,10 @@
 
                         $taux = 0;
                         if ($ouv > 0) {
-                           $taux = (($ferm - $ouv) / $ouv);
-                       }
-                       ?>
-                       <div class="ibox-content text-center">
+                         $taux = (($ferm - $ouv) / $ouv);
+                     }
+                     ?>
+                     <div class="ibox-content text-center">
                         <div class="row">
                             <div class="col-4">
                                 <small class="stats-label">Ouverture <?= datecourt2($date2)  ?></small>
@@ -220,12 +222,12 @@
                                                 <i><?= $operation->comment ?></i>
                                             </td>
                                             <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
-                                               <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
-                                                   <button style="padding: 2px 6px;" onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
-                                               <?php } ?>
-                                               <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
-                                           </td>
-                                           <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
+                                             <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
+                                                 <button style="padding: 2px 6px;" onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
+                                             <?php } ?>
+                                             <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
+                                         </td>
+                                         <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
                                             <td class="text-center text-green gras" style="padding-top: 12px;">
                                                 <?= money($operation->montant) ?> <?= $params->devise ?>
                                             </td>
@@ -282,10 +284,10 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Liste des versements en attentes</h4>
                 <div class="offset-md-4 col-md-4">
-                 <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
-             </div>
-         </div>
-         <div class="modal-body">
+                   <input type="text" id="search" class="form-control text-center" placeholder="Rechercher un versements"> 
+               </div>
+           </div>
+           <div class="modal-body">
             <table class="table table-bordered table-hover table-operation">
                 <tbody class="tableau-attente">
                     <?php foreach (Home\OPERATION::enAttente() as $key => $operation) {

@@ -11,6 +11,8 @@ class FOURNISSEUR extends AUTH
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
+	const FOURNISSEURSYSTEME = 1;
+
 	public $name;
 	public $adresse;
 	public $contact;

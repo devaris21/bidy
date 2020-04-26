@@ -25,7 +25,13 @@ foreach ($produits as $key => $produit) {
 	}
 }
 
-$pertelivraison = round(((LIVRAISON::perte($date1, $date2) / comptage($produits, "perte", "somme")) * 100),2);
+$perte = comptage($produits, "perte", "somme");
+if ($perte > 0) {
+	$pertelivraison = round(((LIVRAISON::perte($date1, $date2) / $perte) * 100),2);
+}else{
+	$pertelivraison = 0;
+}
+
 
 
 $ressources = RESSOURCE::getAll();

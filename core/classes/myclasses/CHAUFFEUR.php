@@ -28,6 +28,7 @@ class CHAUFFEUR extends PERSONNE
 	public $contact;
 	public $salaire = 0;
 	public $image = "default.png";
+	
 	public $etatchauffeur_id = ETATCHAUFFEUR::RAS;
 
 

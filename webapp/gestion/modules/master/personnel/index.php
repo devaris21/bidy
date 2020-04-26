@@ -101,7 +101,7 @@
                                                                     <small><i class="fa fa-phone"></i> <?= $man->contact ?></small>
                                                                 </td>
                                                                 <td>
-                                                                    <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                                    <?php if ($employe->isAutoriser("paye des manoeuvre")) { ?>
                                                                         <h3 class="mp0"><?= money($solde) ?> <?= $params->devise ?></h3>
                                                                         <?php if ($solde > 0) { ?>
                                                                             <button style="margin: 0%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary dim btn-xs"><i class="fa fa-money"></i> Faire la paye</button>
@@ -154,7 +154,7 @@
                                                         <small><i class="fa fa-map-marker"></i> <?= $man->adresse ?></small><br>
                                                         <small><i class="fa fa-phone"></i> <?= $man->contact ?> - Permis<b> <?= $man->typepermis ?></b> </small>
                                                         <hr class="mp5">
-                                                        <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                        <?php if ($employe->isAutoriser("paye des manoeuvre")) { ?>
                                                             <h3 class="mp0 d-inline"><?= money($man->salaire) ?> <?= $params->devise ?></h3>
                                                             <?php if ($man->salaire > 0) { ?>
                                                                 <button style="margin: -3%" data-toggle="modal" data-target="#modal-paye-manoeuvre<?= $man->getId() ?>" class="btn btn-primary btn-xs pull-right dim"><i class="fa fa-money"></i> Faire la paye</button>

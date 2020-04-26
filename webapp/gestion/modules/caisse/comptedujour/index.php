@@ -192,7 +192,7 @@
                                             $datas = $approvisionnement->fourni("ligneapprovisionnement"); ?>
                                             <div class="col-md-4 col-sm-6">
                                                 <div class="text-left">
-                                                    <h6 class="mp0"><span>Prestataire :</span> <span class="text-uppercase"><?= $approvisionnement->prestataire->name() ?></span></h6>                            
+                                                    <h6 class="mp0"><span>Fournisseur :</span> <span class="text-uppercase"><?= $approvisionnement->fournisseur->name() ?></span></h6>                            
                                                     <h6 class="mp0"><span>Etat :</span> <span class="text-uppercase"><?= $approvisionnement->etat->name() ?></span></h6>
                                                 </div>
                                                 <table class="table table-bordered mp0">

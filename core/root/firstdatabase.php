@@ -110,7 +110,7 @@ $item->enregistre();
 $item = new MYCOMPTE();
 $item->identifiant = strtoupper(substr(uniqid(), 5, 7));
 $item->tentative = 0;
-$item->expired = dateAjoute(1);
+$item->expired = dateAjoute(7);
 $item->setProtected(1);
 $item->enregistre();
 
@@ -317,7 +317,7 @@ foreach (ROLE::getAll() as $key => $value) {
 	$tr = new ROLE_EMPLOYE();
 	$tr->employe_id = $data->lastid;
 	$tr->role_id = $value->getId();
-	$item->setProtected(1);
+	$tr->setProtected(1);
 	$tr->enregistre();
 }
 
@@ -325,15 +325,17 @@ foreach (ROLE::getAll() as $key => $value) {
 $item = new APPROVISIONNEMENT();
 $item->etat_id = ETAT::VALIDEE;
 $item->operation_id = 0;
+$item->employe_id = 0;
+$item->reference = "INITIAL";
 $item->fournisseur_id = FOURNISSEUR::FOURNISSEURSYSTEME;
 $item->comment = "approvisionnemnt initial, système !";
 $item->visibility = 0;
 $item->setProtected(1);
-$item->enregistre();
+$item->save();
 
 
 $item = new PRODUCTIONJOUR();
-$item->ladate = dateAjoute(-1);
+$item->ladate = PARAMS::DATE_DEFAULT;
 $item->comment = "production initial, système !";
 $item->setProtected(1);
 $item->save();

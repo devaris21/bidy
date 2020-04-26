@@ -59,6 +59,7 @@ class PRODUIT extends TABLE
 				$ligne->productionjour_id = 1;
 				$ligne->produit_id = $data->lastid;
 				$ligne->production = $this->stock;
+				$ligne->setCreated(PARAMS::DATE_DEFAULT);
 				$ligne->save();
 
 			}
@@ -174,9 +175,11 @@ class PRODUIT extends TABLE
 		$total = 0;
 		$datas = $this->fourni("exigenceproduction");
 		foreach ($datas as $key => $exigence) {
-			$lot =  $exigence->fourni("ligneexigenceproduction", ["ressource_id ="=>$ressource_id]);
-			foreach ($lot as $cle => $item) {
-				$total += ($quantite * $item->quantite) / $exigence->quantite;
+			if ($exigence->quantite > 0) {
+				$lot =  $exigence->fourni("ligneexigenceproduction", ["ressource_id ="=>$ressource_id]);
+				foreach ($lot as $cle => $item) {
+					$total += ($quantite * $item->quantite) / $exigence->quantite;
+				}
 			}
 		}
 		return $total;

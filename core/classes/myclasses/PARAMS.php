@@ -13,7 +13,7 @@ class PARAMS extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	const DATE_DEFAULT = "2020-04-20";
+	const DATE_DEFAULT = "2020-04-25";
 
 
 	public $societe;

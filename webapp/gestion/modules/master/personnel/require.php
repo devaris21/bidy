@@ -6,7 +6,7 @@ foreach ($groupes as $key => $value) {
 	$value->fourni("manoeuvre");
 }
 
-$chauffeurs = CHAUFFEUR::getAll();
+$chauffeurs = CHAUFFEUR::findBy(["visibility ="=>1]);
 
 $title = "BIDY | Le personnel";
 ?>

@@ -16,9 +16,9 @@ abstract class TABLE
     public $id = null;
     public $created = null;
     public $modified = null;
+    public $visibility = 1;
     protected $protected = 0;
     protected $valide = 1;
-    protected $visibility = 1;
     public static $lastId;
 
 
@@ -98,13 +98,19 @@ abstract class TABLE
         return $this->created;
     }
 
-    public function set_created(){
-        $this->created = date("Y-m-d H:i:s");
+    public function setCreated($date = null){
+        $this->created = $date;
+        if ($date == null) {
+           $this->created = date("Y-m-d H:i:s");
+        }
         return $this;
     }
     
-    public function set_modified(){
-        $this->modified = date("Y-m-d H:i:s");
+    public function setModified($date = null){
+        $this->modified = $date;
+        if ($date == null) {
+         $this->modified = date("Y-m-d H:i:s");
+        }
         return $this;
     }
 
@@ -187,13 +193,21 @@ abstract class TABLE
             $data->mode ="update";
             //c'est une mise a jour (update)
             $id = $this->getId();
-            $this->set_modified() ;
+            if ($this->modified == null) {
+                $this->setModified();
+            }
             $requette = "UPDATE $table SET $setter WHERE id=$id";
         }else{
             $data->mode ="insert";
             //c'est un ajout (insert)
-            $this->set_created();
-            $this->set_modified();
+            if ($this->created == null) {
+              $this->setCreated();
+            }
+            if ($this->modified == null) {
+                $this->setModified();
+            }
+            
+           
             $requette = "INSERT INTO $table SET $setter";
         }
         //liste des proprietes de la classe

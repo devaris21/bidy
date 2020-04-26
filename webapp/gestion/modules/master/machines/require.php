@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$vehicules = VEHICULE::getAll();
+$vehicules = VEHICULE::findBy(["visibility ="=>1]);
 
 $machines = MACHINE::getAll();
 
