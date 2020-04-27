@@ -10,7 +10,7 @@ class VEHICULE extends TABLE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	const AUTo = 1;
+	const AUTO = 1;
 
 	public $typevehicule_id;
 	public $groupevehicule_id;

@@ -39,12 +39,12 @@
                     </div>
                     <div class="ibox-content"  style="background-color: #fafafa">
                         <form id="formCommande">
-                            <div>
+                            <!-- <div>
                                 <label>Date de la livraison <span style="color: red">*</span> </label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="datelivraison" class="form-control">
                                 </div>
-                            </div><br>
+                            </div><br> -->
                             <div>
                                 <label>zone de livraison <span style="color: red">*</span> </label>
                                 <div class="input-group">

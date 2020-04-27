@@ -48,7 +48,7 @@
                                 <label>Etat de l'approvisionnement <span style="color: red">*</span> </label>                                
                                 <select class="select2 form-control" name="etat_id" style="width: 100%;">
                                     <option value="<?= Home\ETAT::ENCOURS ?>">Pas encore livré</option>
-                                    <option value="<?= Home\ETAT::TERMINEE ?>">Déjà livré</option>
+                                    <option value="<?= Home\ETAT::VALIDEE ?>">Déjà livré</option>
                                 </select>
                             </div><hr>
                             <div>

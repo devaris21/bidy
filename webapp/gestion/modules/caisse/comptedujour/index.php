@@ -234,7 +234,7 @@
                                         <table class="table table-bordered table-hover ">
                                             <thead>
                                                 <tr class="text-center text-uppercase">
-                                                    <th colspan="2" style="visibility: hidden;"></th>
+                                                    <th colspan="2" style="visibility: hidden; width: 62%"></th>
                                                     <th>Entrée</th>
                                                     <th>Sortie</th>
                                                     <th>Résultats</th>
@@ -422,7 +422,7 @@
                                         </tbody>
                                     </table>    
                                 <?php }else{ ?>
-                                    <p class="text-center text-muted">Aucune panne ce jour !</p>
+                                    <p class="text-center text-muted">Aucun entretien ce jour !</p>
                                 <?php } ?>                         
                             </div><br>
 

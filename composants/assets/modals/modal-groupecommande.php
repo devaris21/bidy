@@ -37,12 +37,12 @@
                         </thead>
                         <tbody>
                             <?php 
-                            $datas1 = $groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
+                            $datas1 = $groupecommande->fourni("commande", ["etat_id !="=>Home\ETAT::ANNULEE]);
                             foreach ($datas1 as $key => $ligne) {
                                 $ligne->fourni("lignecommande");
                                 $ligne->type = "commande";
                             }
-                            $datas2 = $groupecommande->fourni("livraison", ["etat_id !="=>ETAT::ANNULEE]);
+                            $datas2 = $groupecommande->fourni("livraison", ["etat_id !="=>Home\ETAT::ANNULEE]);
                             foreach ($datas2 as $key => $ligne) {
                                 $ligne->fourni("lignelivraison");
                                 $ligne->type= "livraison";

@@ -13,7 +13,7 @@ class CHAUFFEUR extends PERSONNE
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	const AUTo = 1;
+	const AUTO = 1;
 
 	public $matricule;
 	public $name;

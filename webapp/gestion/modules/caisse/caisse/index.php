@@ -191,7 +191,7 @@
                                 <table class="table table-bordered table-hover table-operation">
                                     <thead>
                                         <tr class="text-center text-uppercase">
-                                            <th colspan="3" style="visibility: hidden;"></th>
+                                            <th colspan="3" style="visibility: hidden; width: 65%"></th>
                                             <th>Entrée</th>
                                             <th>Sortie</th>
                                             <th>Résultats</th>

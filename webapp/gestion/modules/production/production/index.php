@@ -53,7 +53,7 @@
                                     <tr>
                                         <td>Stock de la veille</td>
                                         <?php foreach ($produits as $key => $produit) { ?>
-                                            <td><span class="text-muted gras" style="font-size: 15px"><?= $produit->stock(-($this->getId() +1)) ?></span> &nbsp;</td>
+                                            <td><span class="text-muted gras" style="font-size: 15px"><?= $produit->stock(dateAjoute1($productionjours[0]->ladate, -1)) ?></span> &nbsp;</td>
                                         <?php } ?>
                                     </tr>
 

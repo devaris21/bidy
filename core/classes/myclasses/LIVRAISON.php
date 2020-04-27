@@ -115,7 +115,7 @@ class LIVRAISON extends TABLE
 
 	public static function perte(string $date1, string $date2){
 		$total = 0;
-		$datas = LIVRAISON::findBy(["etat_id ="=>ETAT::TERMINEE, "DATE(datelivraison) >= " => $date1, "DATE(datelivraison) <= " => $date2]);
+		$datas = LIVRAISON::findBy(["etat_id ="=>ETAT::VALIDEE, "DATE(datelivraison) >= " => $date1, "DATE(datelivraison) <= " => $date2]);
 		foreach ($datas as $key => $livraison) {
 			$lots = $livraison->fourni("lignelivraison");
 			foreach ($lots as $key => $ligne) {
