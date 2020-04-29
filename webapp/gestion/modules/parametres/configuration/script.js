@@ -61,13 +61,23 @@ $(function(){
 		var url = "../../webapp/gestion/modules/parametres/configuration/ajax.php";
 		var formdata = new FormData($(this)[0]);
 		var tableau = new Array();
-		$(this).find("input[data-id]").each(function(configuration, el) {
+		$(this).find("input[data-id][name=price]").each(function(configuration, el) {
 			var id = $(this).attr('data-id');
 			var val = $(this).val();
 			var item = id+"-"+val;
 			tableau.push(item);
 		});
+
+		var tableau1= new Array();
+		$(this).find("input[data-id][name=price_rangement]").each(function(configuration, el) {
+			var id = $(this).attr('data-id');
+			var val = $(this).val();
+			var item = id+"-"+val;
+			tableau1.push(item);
+		});
+
 		formdata.append('tableau', tableau);
+		formdata.append('tableau1', tableau1);
 		formdata.append('action', "formPayeProduit");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 			if (data.status) {

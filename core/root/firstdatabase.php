@@ -191,7 +191,7 @@ $item->save();
 
 $item = new ETAT();
 $item->name = "En cours";
-$item->class = "info";
+$item->class = "warning";
 $item->setProtected(1);
 $item->save();
 
@@ -202,10 +202,11 @@ $item->setProtected(1);
 $item->save();
 
 $item = new ETAT();
-$item->name = "Terminé";
-$item->class = "success";
+$item->name = "Partiellement";
+$item->class = "info";
 $item->setProtected(1);
 $item->save();
+
 
 
 

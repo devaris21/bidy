@@ -45,6 +45,11 @@ abstract class TABLE
     }
 
 
+    public static function encours(){
+        return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
+    }
+
+    
     public function getProperties(){
         return get_object_vars($this);
     }

@@ -118,7 +118,7 @@
 
 
 <div class="modal inmodal fade" id="modal-paye_produit">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -128,14 +128,23 @@
 				<div class="modal-body">
 					<div class="row">
 						<?php $i =0; foreach (Home\PAYE_PRODUIT::getAll() as $key => $item) {
-						$item->actualise(); ?>
-						<div class="col-sm-6">
-							<label><b>1</b> <?= $item->produit->name() ?> est payé à</label>
-							<div class="form-group">
-								<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
-							</div>
-						</div>					
-					<?php } ?>
+							$item->actualise(); ?>
+							<div class="col-sm-6 col-md-4 border-right border-bottom" style="margin-bottom: 2%;">
+								<p class="text-center text-uppercase gras">1 <?= $item->produit->name() ?> est payé à</p>
+								<div class="row">
+									<div class="col-6">
+										<label>Production</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
+
+									</div>
+									<div class="col-6">
+										<label>Rangement</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price ?>">
+
+									</div>
+								</div><br>
+							</div>					
+						<?php } ?>
 					</div>
 				</div><hr>
 				<div class="container">

@@ -249,7 +249,8 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Produit</th>
-                                                                        <th>Prix de paye</th>
+                                                                        <th>Production</th>
+                                                                        <th>Rangement</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -258,6 +259,7 @@
                                                                         <tr>
                                                                             <td class="gras"><img style="width: 30px; margin-right: 2%" src="<?= $this->stockage("images", "produits", $item->produit->image); ?>"> <?= $item->produit->name(); ?></td>
                                                                             <td><?= money($item->price) ?> <?= $params->devise ?></td>
+                                                                            <td><?= money($item->price_rangement) ?> <?= $params->devise ?></td>
                                                                         </tr>
                                                                     <?php } ?>
                                                                 </tbody>

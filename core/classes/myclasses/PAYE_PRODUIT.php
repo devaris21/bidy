@@ -15,13 +15,14 @@ class PAYE_PRODUIT extends TABLE
 
 	public $produit_id;
 	public $price = 0;
+	public $price_rangement = 0;
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 		if (count($datas) == 1) {
-			if ($this->price >= 0) {
+			if ($this->price >= 0 && $this->price_rangement >= 0) {
 				$data = $this->save();
 			}else{
 				$data->status = false;

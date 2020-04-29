@@ -148,7 +148,7 @@ class CLIENT extends TABLE
 					if ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
 						$this->acompte -= intval($montant);
 						$this->dette -= intval($montant);
-						$data->status = true;
+						$data = $this->save();
 					}else{
 						$this->dette -= intval($montant);
 						$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;

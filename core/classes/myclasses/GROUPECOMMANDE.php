@@ -34,10 +34,6 @@ class GROUPECOMMANDE extends TABLE
 		}
 	} 
 
-	public static function encours(){
-		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
-	}
-
 
 	public function reste(int $produit_id){
 		$total = 0;

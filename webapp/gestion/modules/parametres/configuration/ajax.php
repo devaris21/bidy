@@ -67,6 +67,19 @@ if ($action == "formPayeProduit") {
 			$data = $pz->save();
 		}
 	}	
+
+	$items = explode(",", $tableau1);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price_rangement = intval($val);
+			$data = $pz->save();
+		}
+	}
 	echo json_encode($data);
 }
 

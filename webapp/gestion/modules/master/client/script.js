@@ -209,7 +209,7 @@ $(function(){
 	});
 
 
-		$("#formDette").submit(function(event) {
+	$("#formDette").submit(function(event) {
 		var url = "../../webapp/gestion/modules/master/client/ajax.php";
 		alerty.confirm("Voulez-vous vraiment faire le réglement de ce montant ?", {
 			title: "Reglement de dette",
@@ -228,7 +228,9 @@ $(function(){
 				Loader.start();
 				$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 					if (data.status) {
-						window.open(data.url, "_blank");
+						if (data.url != null) {
+							window.open(data.url, "_blank");
+						}
 						window.location.reload();
 					}else{
 						Alerter.error('Erreur !', data.message);

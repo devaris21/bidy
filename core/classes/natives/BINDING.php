@@ -76,7 +76,7 @@ class BINDING
 			$class = TABLE::fullyClassName($object);
 			$datas = $class::getAll();
 			foreach ($datas as $key => $item) { ?>
-				<label class="cursor"><input type="<?= $type ?>" value="<?= $item->getId() ?>" <?= (is_array($element) && in_array($item->getId(), $element))?"checked=checked":""  ?> name="<?= $object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
+				<label class="cursor"><input type="<?= $type ?>" value="<?= $item->getId() ?>" <?= (is_array($element) && in_array($item->getId(), $element))?"checked=checked":""  ?> name="<?= ($name != "")?$name:$object."_id" ?>"> <?= $item->name ?></label> &nbsp;&nbsp;&nbsp;&nbsp;
 			<?php } 
 		}
 	}
