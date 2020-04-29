@@ -128,84 +128,105 @@ if ($action == "validerCommande") {
 		$client = $datas[0];
 		$produits = explode(",", $tableau);
 		if (count($produits) > 0) {
-			if (($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $client->acompte >= getSession("total")) || $modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 
 				if (getSession("total") > 0) {
-					if (getSession("commande-encours") != null) {
-						$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
-						if (count($datas) > 0) {
-							$groupecommande = $datas[0];
-							$groupecommande->etat_id = ETAT::ENCOURS;
-							$groupecommande->save();
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
+						if ((getSession("total") - intval($avance)) <= $params->seuilCredit ) {
+							if (getSession("commande-encours") != null) {
+								$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
+								if (count($datas) > 0) {
+									$groupecommande = $datas[0];
+									$groupecommande->etat_id = ETAT::ENCOURS;
+									$groupecommande->save();
+								}else{
+									$groupecommande = new GROUPECOMMANDE();
+									$groupecommande->hydrater($_POST);
+									$groupecommande->enregistre();
+								}
+							}else{
+								$groupecommande = new GROUPECOMMANDE();
+								$groupecommande->hydrater($_POST);
+								$groupecommande->enregistre();
+							}
+
+							$commande = new COMMANDE();
+							$commande->hydrater($_POST);
+							$commande->groupecommande_id = $groupecommande->getId();
+							$data = $commande->enregistre();
+							if ($data->status) {
+								foreach ($produits as $key => $value) {
+									$lot = explode("-", $value);
+									$id = $lot[0];
+									$qte = end($lot);
+									$datas = PRODUIT::findBy(["id ="=> $id]);
+									if (count($datas) == 1) {
+										$produit = $datas[0];
+										$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
+										if (count($produit->prix_zonelivraisons) > 0) {
+											$prix = $produit->prix_zonelivraisons[0]->price;
+										}else{
+											$prix = 1000;
+										}
+										$montant += $prix * $qte;
+
+										$lignecommande = new LIGNECOMMANDE;
+										$lignecommande->commande_id = $commande->getId();
+										$lignecommande->produit_id = $id;
+										$lignecommande->quantite = $qte;
+										$lignecommande->price =  $prix * $qte;
+										$lignecommande->save();	
+									}
+								}
+
+								$tva = ($montant * $params->tva) / 100;
+								$total = $montant + $tva;
+
+								if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+									if ($client->acompte >= $total) {
+										$commande->avance = $total;
+									}else{
+										$commande->avance = $client->acompte;
+									}
+									$lot = $client->debiter($total);
+
+								}else{
+
+									if ($total > intval($avance)) {
+										$client->dette($total - intval($avance));
+									}
+
+									$payement = new OPERATION();
+									$payement->hydrater($_POST);
+									$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
+									$payement->montant = $commande->avance;
+									$payement->client_id = $client_id;
+									$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
+									$lot = $payement->enregistre();
+
+									$commande->operation_id = $lot->lastid;
+								}
+
+								$commande->tva = $tva;
+								$commande->montant = $total;
+								$commande->reste = $commande->montant - $commande->avance;
+								$data = $commande->save();
+
+								$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+								$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+							}
+
 						}else{
-							$groupecommande = new GROUPECOMMANDE();
-							$groupecommande->hydrater($_POST);
-							$groupecommande->enregistre();
+							$data->status = false;
+							$data->message = "Le crédit restant pour la commande ne doit pas excéder ".money($params->seuilCredit)." ".$params->devise;
 						}
 					}else{
-						$groupecommande = new GROUPECOMMANDE();
-						$groupecommande->hydrater($_POST);
-						$groupecommande->enregistre();
-					}
-
-					$commande = new COMMANDE();
-					$commande->hydrater($_POST);
-					$commande->groupecommande_id = $groupecommande->getId();
-					$data = $commande->enregistre();
-					if ($data->status) {
-						foreach ($produits as $key => $value) {
-							$lot = explode("-", $value);
-							$id = $lot[0];
-							$qte = end($lot);
-							$datas = PRODUIT::findBy(["id ="=> $id]);
-							if (count($datas) == 1) {
-								$produit = $datas[0];
-								$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
-								if (count($produit->prix_zonelivraisons) > 0) {
-									$prix = $produit->prix_zonelivraisons[0]->price;
-								}else{
-									$prix = 1000;
-								}
-								$montant += $prix * $qte;
-
-								$lignecommande = new LIGNECOMMANDE;
-								$lignecommande->commande_id = $commande->getId();
-								$lignecommande->produit_id = $id;
-								$lignecommande->quantite = $qte;
-								$lignecommande->price =  $prix * $qte;
-								$lignecommande->save();	
-							}
-						}
-
-						$tva = ($montant * $params->tva) / 100;
-						if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
-							$lot = $client->debiter($montant);
-						}else{
-							$payement = new OPERATION();
-							$payement->hydrater($_POST);
-							$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
-							$payement->montant = $montant + $tva;
-							$payement->client_id = $client_id;
-							$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
-							$lot = $payement->enregistre();
-						}
-
-						$commande->montant = $tva;
-						$commande->montant = $montant + $tva;
-						$commande->operation_id = $data->lastid;
-						$data = $commande->save();
-
-						$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
-						$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
+						$data->status = false;
+						$data->message = "Le montant de l'avance de la commande est incorrect, verifiez-le!";
 					}
 				}else{
 					$data->status = false;
 					$data->message = "Veuillez verifier le montant de la commande !";
 				}
-			}else{
-				$data->status = false;
-				$data->message = "Le montant sur l'acompte du client est insuffisant pour régler cette facture !";
-			}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
@@ -349,6 +370,33 @@ if ($action == "acompte") {
 			if (count($datas) > 0) {
 				$client = $datas[0];
 				$data = $client->crediter(intval($montant), $_POST);
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Votre mot de passe ne correspond pas !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas effectué cette opération !";
+	}
+	echo json_encode($data);
+}
+
+
+
+if ($action == "dette") {
+	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+	if (count($datas) > 0) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
+			$datas = CLIENT::findBy(["id=" => $client_id]);
+			if (count($datas) > 0) {
+				$client = $datas[0];
+				$data = $client->reglerDette(intval($montant), $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";

@@ -21,7 +21,7 @@
                         <div class="ibox-content">
                             <p></p>
                             <div class="">                                
-                             <ul class="nav nav-tabs">
+                               <ul class="nav nav-tabs">
                                 <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Les commandes en cours</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-2"><i class="fa fa-file-text-o"></i> Flux des commandes</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-3"><i class="fa fa-money"></i> Transactions de caisse</a></li>
@@ -30,7 +30,7 @@
 
 
 
-                             <?php if ($employe->isAutoriser("production")) { ?>
+                               <?php if ($employe->isAutoriser("production")) { ?>
 
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
@@ -48,8 +48,8 @@
                                                         <tr>
                                                             <th></th>
                                                             <?php foreach (Home\PRODUIT::getAll() as $key => $produit){ 
-                                                               $reste = $commande->reste($produit->getId());
-                                                               if ($reste > 0) { ?>
+                                                             $reste = $commande->reste($produit->getId());
+                                                             if ($reste > 0) { ?>
                                                                 <th class="text-center"><?= $produit->name() ?></th>
                                                             <?php }
                                                         } ?>
@@ -98,8 +98,8 @@
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
-                                                                         <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
-                                                                     <?php }else{ ?>
+                                                                           <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                       <?php }else{ ?>
                                                                         <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                     <?php } ?>
                                                                 </th>
@@ -113,7 +113,7 @@
                                                                     <td><h5 class="text-<?= ($transaction->type == "livraison")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "livraison")? $ligne->quantite_livree: $ligne->quantite) ?> </h5></td>
                                                                 <?php  } ?>
 
-                                                                <?php if ($transaction->type == "commande") { ?>
+                                                                <?php if ($transaction->type == "commande" && $transaction->operation_id != null) { ?>
                                                                     <td>
                                                                         <small>Montant de la commande</small>
                                                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $transaction->operation->modepayement->name();  ?>">(<?= $transaction->operation->modepayement->initial;  ?>)</small></h4>
@@ -138,7 +138,7 @@
 
 
                         <?php if ($employe->isAutoriser("caisse")) { ?>
-                         <div id="tab-3" class="tab-pane"><br>
+                           <div id="tab-3" class="tab-pane"><br>
                             <?php foreach ($fluxcaisse as $key => $transaction) {
                                 $transaction->actualise(); ?>
                                 <div class="timeline-item">
@@ -195,22 +195,31 @@
                 </address><hr>
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
-                 <div class="m-b-lg">
-                    <span>Acompte actuel du client</span>
-                    <h2 class="font-bold"><?= money($client->acompte) ?> <?= $params->devise  ?></h2><br>
-                    <button type="button" data-toggle="modal" data-target="#modal-acompte" class="btn btn-primary dim btn-block"><i
-                        class="fa fa-plus"></i> Créditer l'accompte
-                    </button><br>
+                    <div class="m-b-lg">
+                        <span>Acompte actuel du client</span><br>
+                        <h2 class="font-bold d-inline"><?= money($client->acompte) ?> <?= $params->devise  ?></h2> 
+                        <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
 
-                    <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
-                        class="fa fa-minus"></i> Rembourser le client
-                    </button>
-                </div>
-            <?php } ?>
+                        <?php if ($client->acompte > 0) { ?>
+                           <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
+                            class="fa fa-minus"></i> Rembourser le client
+                        </button>
+                    <?php } ?>
 
-        </div>
+                    <hr>
 
-    </div>
+                    <span>Dette actuelle du client</span><br>
+                    <h2 class="font-bold d-inline text-red"><?= money($client->dette) ?> <?= $params->devise  ?></h2> 
+                    <?php if ($client->dette > 0) { ?>
+                      <button data-toggle="modal" data-target="#modal-dette" class="cursor bg-danger simple_tag pull-right"><i class="fa fa-money"></i> Régler la dette</button>
+                  <?php } ?>                   
+
+              </div>
+          <?php } ?>
+
+      </div>
+
+  </div>
 </div>
 </div>
 </div>
@@ -222,7 +231,7 @@
 <div class="modal inmodal fade" id="modal-listecommande">
     <div class="modal-dialog">
         <div class="modal-content">
-         <div class="modal-header">
+           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">Choisir la commande</h4>
             <span>Double-cliquez pour selectionner la commande voulue !</span>
@@ -278,6 +287,7 @@
 
 <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-dette.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-rembourser.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
 

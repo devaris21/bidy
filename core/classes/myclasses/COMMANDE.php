@@ -14,23 +14,30 @@ class COMMANDE extends TABLE
 	public $datelivraison;
 	public $zonelivraison_id;
 	public $lieu;
+	public $taux_tva = 0;
 	public $tva = 0;
-	public $montant = 0;
 	public $operation_id = 0;
+	public $montant = 0;
+	public $avance = 0;
+	public $reste = 0;
 	public $etat_id = ETAT::VALIDEE;
 	public $employe_id;
+	public $comment;
 	
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$this->datelivraison = date("Y-m-d");
 		if ($this->datelivraison >= dateAjoute()) {
 			if ($this->lieu != "") {
 				$datas = ZONELIVRAISON::findBy(["id ="=>$this->zonelivraison_id]);
 				if (count($datas) == 1) {
+					 $params = PARAMS::findLastId();
+
 					$this->employe_id = getSession("employe_connecte_id");
 					$this->reference = "BCO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+					$this->taux_tva = $params->tva;
+
 					$data = $this->save();
 				}else{
 					$data->status = false;

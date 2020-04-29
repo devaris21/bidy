@@ -39,12 +39,12 @@
                     </div>
                     <div class="ibox-content"  style="background-color: #fafafa">
                         <form id="formCommande">
-                            <!-- <div>
-                                <label>Date de la livraison <span style="color: red">*</span> </label>
-                                <div class="input-group date">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="datelivraison" class="form-control">
+                            <div>
+                                <label>Date prévue pour livraison <span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" name="datelivraison" value="<?= dateAjoute(2) ?>" class="form-control">
                                 </div>
-                            </div><br> -->
+                            </div><br>
                             <div>
                                 <label>zone de livraison <span style="color: red">*</span> </label>
                                 <div class="input-group">
@@ -63,6 +63,14 @@
                                     <?php Native\BINDING::html("select", "modepayement"); ?>
                                 </div>
                             </div><br>
+                            <div class="no_modepayement_facultatif">
+                                <div>
+                                    <label>Montant avancé<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" value="0" min="0" name="avance" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
                             <div class="modepayement_facultatif">
                                 <div>
                                     <label>Structure d'encaissement<span style="color: red">*</span> </label>
@@ -76,9 +84,14 @@
                                         <span class="input-group-addon"><i class="fa fa-pencil"></i></span><input type="text" name="numero" class="form-control">
                                     </div>
                                 </div>
+                            </div><br>
+                            <div>
+                                <label>Ajouter une note </label>
+                                <textarea class="form-control" rows="4" name="comment"></textarea>
                             </div>
+
                             <input type="hidden" name="client_id" value="<?= getSession("client_id") ?>">
-                        </form><br><br>
+                        </form><br>
                         <h5><span>Total </span> <span class="pull-right montant">0 Fcfa </span></h5>
                         <h5><span>TVA (<?= $params->tva ?> %)</span> <span class="pull-right tva">0 Fcfa </span></h5>
                         <h2 class="font-bold total text-right total">0 Fcfa</h2>

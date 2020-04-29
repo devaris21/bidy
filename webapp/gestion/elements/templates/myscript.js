@@ -24,6 +24,12 @@
             }else{
                 $("div.modepayement_facultatif").hide()
             }
+
+            if($(this).val() != 2){
+                $("div.no_modepayement_facultatif").show()
+            }else{
+                $("div.no_modepayement_facultatif").hide()
+            }
         });
 
 

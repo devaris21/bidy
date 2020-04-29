@@ -52,6 +52,7 @@
 
                                     <div class="col-6 text-right">
                                         <h5><span>Client :</span> <span class="text-uppercase"><?= $commande->groupecommande->client->name() ?></span></h5>
+                                        <h5><span>Livraison prévue pour le:</span> <span class="text-uppercase"><?= datecourt($commande->datelivraison) ?></span></h5>
                                     </div>
                                 </div><br><br>
 
@@ -82,29 +83,51 @@
                                                 </td>
                                             </tr>
                                         <?php } ?> 
-                                        <tr style="height: 30px;"></tr>
+                                        <tr style="height: 20px;"></tr>
                                         <tr style="background-color: #fff">
                                             <td colspan="3" class="text-uppercase text-right"><h4 class="">Total = </h4></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h3 class="text-muted"><?= money($commande->montant - $commande->tva) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                         <tr style="background-color: #fff">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">TVA (<?= $params->tva ?>%) = </h4></td>
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">TVA (<?= $commande->taux_tva ?>%) = </h4></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h4 class="text-muted"><?= money($commande->tva) ?> <?= $params->devise ?></h4></td>
                                         </tr>
 
-                                        <tr style="height: 30px;"></tr>
+                                        <tr style="height: 10px;"></tr>
+                                        <tr></tr>
 
                                         <tr>
-                                            <td colspan="3" class="text-uppercase text-right"><h2 class="">montant à verser = </h2></td>
+                                            <td colspan="3" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h2 class="gras text-success"><?= money($commande->montant) ?> <?= $params->devise ?></h2></td>
+                                        </tr>
+
+                                        <tr style="height: 15px;"></tr>
+
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <h3 class="text-uppercase mp0">Avance sur montant = </h3>
+                                                <?php if ($commande->operation_id == null) { ?>
+                                                    <small>Réglement par prélèvement sur acompte</small>
+                                                <?php }else{ ?>
+                                                    <small>Réglement par <?= $commande->operation->modepayement->name() ?></small>
+                                                <?php } ?>
+                                                
+                                            </td>
+                                            <td></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->avance) ?> <?= $params->devise ?></h3></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "danger":"muted"  ?> ">reste <?= ($commande->operation_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer"  ?> = </h4></td>
+                                            <td></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "danger":"muted"  ?>"><?= money($commande->reste) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <br>
+                                <br><br>
                                 <div class="row text-center" style="margin-top: -2%">
                                     <div class="offset-9 col-3" style="padding-top: 0.5%; height: 100px;">
                                         <span><u>Signature & Cachet</u></span>

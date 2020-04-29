@@ -100,7 +100,7 @@
                         <tr>
                             <td colspan="2"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
                             <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                <td widtd="90" class="text-center"><h2 class="gras"><?= start0(money($groupecommande->reste($produit->getId()))) ?></h2></th>
+                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($produit->getId())) ?></h2></th>
                                 <?php } ?>
                             </tr>
                         </tbody>

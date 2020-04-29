@@ -8,8 +8,8 @@
             <small class="font-bold">Renseigner ces champs pour terminer la livraison</small>
         </div>
         
-            <form id="formValiderLivraison">
-        <div class="row">
+        <form class="formValiderLivraison">
+            <div class="row">
                 <div class="col-md-8">
                     <div class="ibox">
                         <div class="ibox-title">
@@ -79,8 +79,8 @@
                     </div>
 
                 </div>
-        </div>
-            </form>
+            </div>
+        </form>
 
     </div>
 </div>

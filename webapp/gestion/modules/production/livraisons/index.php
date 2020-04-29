@@ -162,7 +162,7 @@
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
-<script type="text/javascript" src="<?= $this->relativePath("../client/script.js") ?>"></script>
+<script type="text/javascript" src="<?= $this->relativePath("../../master/client/script.js") ?>"></script>
 
 
 </body>

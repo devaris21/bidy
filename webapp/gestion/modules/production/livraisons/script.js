@@ -64,7 +64,7 @@ $(function(){
 
 
 
-    $("#formValiderLivraison").submit(function(event) {
+    $(".formValiderLivraison").submit(function(event) {
         Loader.start();
         var url = "../../webapp/gestion/modules/production/livraisons/ajax.php";
         var formdata = new FormData($(this)[0]);

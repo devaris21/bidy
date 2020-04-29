@@ -877,13 +877,17 @@
                                             </div><br> -->
                                            
                                             <div class="row">
-                                                <div class="col-6">
-                                                    <label>% de tva appliquable </label>
+                                                <div class="col-4">
+                                                    <label>% de tva </label>
                                                     <input type="number" number class="form-control" name="tva" value="<?= $params->tva ?>">
-                                                    <input type="hidden" name="id" value="<?= $params->getId() ?>">
+                                                </div><br>
+                                                <div class="col-8">
+                                                    <label>Seuil de tolérance du crédit client </label>
+                                                    <input type="number" number class="form-control" name="seuilCredit" value="<?= $params->seuilCredit ?>">
                                                 </div>
                                                 <div class="col-6">
                                                     <br>
+                                                    <input type="hidden" name="id" value="<?= $params->getId() ?>">
                                                     <button class="btn btn-primary dim "><i class="fa fa-check"></i> Mettre à jour</button>
                                                 </div>
                                             </div>

@@ -22,6 +22,7 @@ class CLIENT extends TABLE
 	public $adresse;
 
 	public $acompte = 0;
+	public $dette = 0;
 	
 
 
@@ -105,13 +106,69 @@ class CLIENT extends TABLE
 	public function debiter(int $montant){
 		$data = new RESPONSE;
 		if (intval($montant) > 0 ) {
-			if (intval($montant) < $this->acompte) {
+			if ($this->acompte >= $montant) {
 				$this->acompte -= intval($montant);
-				$data = $this->save();
+			}else{
+				$this->dette += $montant - $this->acompte;
+				$this->acompte = 0;
+			}	
+			$data = $this->save();	
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+
+	public function dette(int $montant){
+		$data = new RESPONSE;
+		if (intval($montant) > 0 ) {
+			$this->dette += intval($montant);
+			$data = $this->save();			
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+	public function reglerDette(int $montant, Array $post){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			if (intval($montant) <= $this->dette ) {
+				$payement = new OPERATION();
+				$payement->hydrater($post);
+
+				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $montant <= $this->acompte)) {
+
+					if ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+						$this->acompte -= intval($montant);
+						$this->dette -= intval($montant);
+						$data->status = true;
+					}else{
+						$this->dette -= intval($montant);
+						$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
+						$payement->client_id = $this->getId();
+						$payement->comment = "Reglement de la dette du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+						$data = $payement->enregistre();
+						if ($data->status) {
+							$id = $data->lastid;
+							$data = $this->save();
+							$data->setUrl("gestion", "fiches", "boncaisse", $id);
+						}
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Le montant sur son acompte est insuffisant pour regler cette somme";
+				}	
 			}else{
 				$data->status = false;
-				$data->message = "Le montant à débiter est plus élévé que le solde l'acompte du client !";
-			}			
+				$data->message = "Le montant à rembourser doit être inférieur à la dette !";
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
