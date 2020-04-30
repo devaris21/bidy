@@ -57,10 +57,9 @@ class LIVRAISON extends TABLE
 	}
 
 
-	public static function encours(){
-		return static::findBy(["etat_id ="=>ETAT::ENCOURS]);
+	public static function programmee(String $date){
+		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id ="=>ETAT::PARTIEL]);
 	}
-	
 
 
 	public function annuler(){

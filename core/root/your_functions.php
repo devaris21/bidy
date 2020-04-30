@@ -316,7 +316,6 @@ function datecourt3($timestamp)
 
 
 
-
 #fonction pour afficher la date dans son court format
 function datelong($timestamp)
 {

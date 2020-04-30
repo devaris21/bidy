@@ -1,10 +1,10 @@
 
-<div class="modal inmodal fade" id="modal-newlivraison" style="z-index: 99999999">
+<div class="modal inmodal fade" id="modal-programmation-valider" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">Nouveau bon de livraison</h4>
+            <h4 class="modal-title">Validation de la livraison de livraison</h4>
             <small class="font-bold">Renseigner ces champs pour enregistrer la livraison</small>
         </div>
         
@@ -18,19 +18,20 @@
                         <div class="table-responsive">
                             <table class="table  table-striped">
                                 <tbody class="commande">
-                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                        $reste = $groupecommande->reste($produit->getId());
+                                    <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
+                                        $ligne->actualise();
+                                        $reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
                                         if ($reste > 0) { ?>
-                                           <tr class="border-0 border-bottom " id="ligne<?= $produit->getId() ?>" data-id="<?= $produit->getId() ?>">
-                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $produit->getId() ?>)" style="font-size: 18px;"></i></td>
+                                         <tr class="border-0 border-bottom " id="ligne<?= $ligne->produit->getId() ?>" data-id="<?= $ligne->produit->getId() ?>">
+                                            <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $ligne->produit->getId() ?>)" style="font-size: 18px;"></i></td>
                                             <td >
-                                                <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
+                                                <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $ligne->produit->image) ?>">
                                             </td>
                                             <td class="text-left">
-                                                <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
-                                                <small><?= $produit->description ?></small>
+                                                <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
+                                                <small><?= $ligne->produit->description ?></small>
                                             </td>
-                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
+                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $ligne->quantite ?>" max="<?= $reste ?>"></td>
                                             <td> / <?= $reste ?></td>
                                         </tr>
                                     <?php }   
@@ -48,14 +49,13 @@
                     <h5 class="text-uppercase">Finaliser la livraison</h5>
                 </div>
                 <div class="ibox-content"  style="background-color: #fafafa">
-                    <form id="formLivraison">
-                        <input type="hidden" name="datelivraison" value="<?= dateAjoute(2) ?>" class="form-control">
+                    <form id="formValiderLivraisonProgrammee">
                         <div>
                             <label>zone de livraison <span style="color: red">*</span> </label>
                             <div class="input-group">
                                 <select class="select2 form-control" name="zonelivraison_id" style="width: 100%">
                                     <?php 
-                                    $datas = $groupecommande->commandes;
+                                    $datas = $livraison->groupecommande->commandes;
                                     $datas2 = $dt = [];
                                     foreach ($datas as $key => $value) {
                                         if (!in_array($value->zonelivraison_id, $dt)) {
@@ -88,10 +88,9 @@
                                 <?php Native\BINDING::html("select-tableau", Home\CHAUFFEUR::libres(), null, "chauffeur_id"); ?>
                             </div>
                         </div>
-                        <input type="hidden" name="client_id" value="<?= $groupecommande->client_id ?>">
                     </form>
                     <hr/>
-                    <button onclick="validerLivraison()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la livraison</button>
+                    <button onclick="ValiderLivraisonProgrammee()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la livraison</button>
                 </div>
             </div>
 

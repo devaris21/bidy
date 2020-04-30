@@ -51,7 +51,7 @@
                             usort($datas, "comparerDateCreated");
 
                             foreach ($datas as $key => $ligne) { ?>
-                             <tr>
+                               <tr>
                                 <td>
                                     <h5 class="text-uppercase mp0"><?= $ligne->type ?> N°<?= $ligne->reference  ?></h5>
                                     <small><?= datelong($ligne->created)  ?></small>
@@ -81,7 +81,7 @@
                                 }
                                 ?>
 
-                                <?php if ($ligne->type == "commande") { ?>
+                                <?php if ($ligne->type == "commande" && $ligne->operation_id != null) { ?>
                                     <td>
                                         <small>Montant de la commande</small>
                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($ligne->montant) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></h4>
@@ -104,11 +104,20 @@
                                 <?php } ?>
                             </tr>
                         </tbody>
-                    </table><br>
+                    </table><br><hr>
 
-                    <div class="">
-                        <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Lui ajouter nouvelle commande</button>
-                        <button class="btn btn-warning dim pull-right" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire Nouvelle livraison </button>
+                    <div class="row text-center">
+                        <div class="col-md">
+                            <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                        </div>
+
+                        <div class=" col-md">
+                            <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
+                        </div>
+
+                        <div class=" col-md">
+                            <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
+                        </div>
                     </div>
                 </div>
 

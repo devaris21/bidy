@@ -161,7 +161,7 @@ class PRODUIT extends TABLE
 	}
 
 
-	public function livrable(){
+	public function commandee(){
 		$total = 0;
 		$datas = GROUPECOMMANDE::encours();
 		foreach ($datas as $key => $comm) {
@@ -170,6 +170,43 @@ class PRODUIT extends TABLE
 		return $total;
 	}
 
+
+	public function livrable(){
+		$total = 0;
+		//$datas = $this->fourni("ligneproductionjour", ["DATE(created) <= "=>$date]);
+		$datas = $this->fourni("ligneproductionjour");
+		foreach ($datas as $key => $ligne) {
+			$ligne->actualise();
+			if ($ligne->productionjour->etat_id == ETAT::VALIDEE) {
+				$total += $ligne->production;
+				$total -= $ligne->perte;
+			}			
+		}
+		$datas = $this->fourni("lignelivraison");
+		foreach ($datas as $key => $ligne) {
+			$ligne->actualise();
+			if ($ligne->livraison->etat_id != ETAT::ANNULEE) {
+				$total -= $ligne->quantite;
+			}
+		}
+		return $total;
+	}
+
+
+
+	public function enAttente(){
+		$total = 0;
+		//$datas = $this->fourni("ligneproductionjour", ["DATE(created) <= "=>$date]);
+		$datas = $this->fourni("ligneproductionjour");
+		foreach ($datas as $key => $ligne) {
+			$ligne->actualise();
+			if ($ligne->productionjour->etat_id == ETAT::PARTIEL) {
+				$total += $ligne->production;
+				$total -= $ligne->perte;
+			}			
+		}
+		return $total;
+	}
 
 	public function exigence(int $quantite, int $ressource_id){
 		$total = 0;

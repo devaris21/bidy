@@ -54,9 +54,15 @@
                     <li class="" id="commandes">
                         <a href="<?= $this->url("gestion", "production", "commandes") ?>"><i class="fa fa-archive"></i> <span class="nav-label">Commandes</span> <?php if (count($groupes__) > 0) { ?> <span class="label label-warning float-right"><?= count($groupes__) ?></span> <?php } ?></a>
                     </li>
-                    <li class="" id="livraisons">
-                        <a href="<?= $this->url("gestion", "production", "livraisons") ?>"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
+
+                    <li class="groupe">
+                        <a href="#"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li class="" id="livraisons"><a href="<?= $this->url("gestion", "production", "livraisons") ?>">Livraison en cours <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a></li>
+                            <li class="" id="programmes"><a href="<?= $this->url("gestion", "production", "programmes") ?>">Programme de livraison</a></li>
+                        </ul>
                     </li>
+
                     <li class="" id="approvisionnements">
                         <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
                     </li>

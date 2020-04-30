@@ -43,6 +43,21 @@ $(function(){
 		},"html");
 	}
 
+
+	newProgrammation = function(id){	
+		Loader.start();	
+		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		$.post(url, {action:"newProgrammation", id:id}, (data)=>{
+			$("body #modal-programmation").remove();
+			$("body").append(data);
+			$("body #modal-programmation").modal("show");
+			$("select.select2").select2();
+			Loader.stop();	
+		},"html");
+	}
+
+
+
 	fairenewcommande = function(id){	
 		var url = "../../webapp/gestion/modules/master/client/ajax.php";
 		$.post(url, {action:"modalcommande", id:id}, (data)=>{
@@ -169,6 +184,37 @@ $(function(){
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
 					window.open(data.url, "_blank");
+					window.location.reload();
+				}else{
+					Alerter.error('Erreur !', data.message);
+				}
+			}, 'json')
+		})
+	}
+
+
+	validerProgrammation = function(){
+		var formdata = new FormData($("#formLivraison")[0]);
+		var tableau = new Array();
+		$("#modal-programmation .commande tr").each(function(index, el) {
+			var id = $(this).attr('data-id');
+			var val = $(this).find('input').val();
+			var item = id+"-"+val;
+			tableau.push(item);
+		});
+		formdata.append('tableau', tableau);
+		formdata.append('datelivraison', $("#modal-programmation input[name=datelivraison]").val());
+
+		alerty.confirm("Voulez-vous vraiment confirmer la programmation de cette ivraison ?", {
+			title: "Programmation de la livraison",
+			cancelLabel : "Non",
+			okLabel : "OUI, programmer",
+		}, function(){
+			Loader.start();
+			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			formdata.append('action', "validerProgrammation");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				if (data.status) {
 					window.location.reload();
 				}else{
 					Alerter.error('Erreur !', data.message);

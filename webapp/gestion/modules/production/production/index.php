@@ -98,7 +98,7 @@
                                     <tr>
                                         <td style="width: 20%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
-                                            <td><h3 class="text-success text-muted gras" ><?= start0($produit->livrable()) ?></h3></td>
+                                            <td><h3 class="text-success text-muted gras" ><?= start0($produit->commandee()) ?></h3></td>
                                         <?php } ?>
                                     </tr>
                                 </tbody>

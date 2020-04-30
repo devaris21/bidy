@@ -238,7 +238,7 @@
             })
         }
 
-        delete_with_password = function(table, id, cascade=false){
+        deleteWithPassword = function(table, id, cascade=false){
             url = "../../composants/dist/shamman/traitement.php";
             alerty.confirm("Voulez-vous vraiment supprimer cet element ?", {
                 title: "Suppression",

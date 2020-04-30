@@ -21,11 +21,9 @@
 
 
 .ct-series-b line:nth-of-type(n+1) {
-	stroke: #20c997;
-	background-color: #20c997 !important;
+	stroke: green;
 }
 
 .ct-series-a line:nth-of-type(n+1) {
 	stroke: #bbb;
-	background-color: #bbb !important;
 }

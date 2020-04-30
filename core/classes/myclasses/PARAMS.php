@@ -65,7 +65,7 @@ class PARAMS extends TABLE
 	//verifier le temps de latente entre deux actions de l'utilisateur
 	public static function checkTimeout($section){
 		$data = new RESPONSE;
-		$session = 13 * 60;
+		$session = 25 * 60;
 
 		$temps = time() - getSession("last_access");
 		//umpeu moins de 2x le temps;

@@ -9,8 +9,9 @@ $tableau = [];
 foreach (PRODUIT::getAll() as $key => $prod) {
 	$data = new \stdclass();
 	$data->name = $prod->name();
-	$data->stock = $prod->stock(dateAjoute());
-	$data->commande = $prod->livrable();
+	$data->livrable = $prod->livrable();
+	$data->attente = $prod->enAttente();
+	$data->commande = $prod->commandee();
 	$tableau[] = $data;
 }
 

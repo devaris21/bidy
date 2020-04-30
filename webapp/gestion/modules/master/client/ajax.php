@@ -129,104 +129,104 @@ if ($action == "validerCommande") {
 		$produits = explode(",", $tableau);
 		if (count($produits) > 0) {
 
-				if (getSession("total") > 0) {
-					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
-						if ((getSession("total") - intval($avance)) <= $params->seuilCredit ) {
-							if (getSession("commande-encours") != null) {
-								$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
-								if (count($datas) > 0) {
-									$groupecommande = $datas[0];
-									$groupecommande->etat_id = ETAT::ENCOURS;
-									$groupecommande->save();
-								}else{
-									$groupecommande = new GROUPECOMMANDE();
-									$groupecommande->hydrater($_POST);
-									$groupecommande->enregistre();
-								}
+			if (getSession("total") > 0) {
+				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
+					if ((getSession("total") - intval($avance)) <= $params->seuilCredit ) {
+						if (getSession("commande-encours") != null) {
+							$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
+							if (count($datas) > 0) {
+								$groupecommande = $datas[0];
+								$groupecommande->etat_id = ETAT::ENCOURS;
+								$groupecommande->save();
 							}else{
 								$groupecommande = new GROUPECOMMANDE();
 								$groupecommande->hydrater($_POST);
 								$groupecommande->enregistre();
 							}
+						}else{
+							$groupecommande = new GROUPECOMMANDE();
+							$groupecommande->hydrater($_POST);
+							$groupecommande->enregistre();
+						}
 
-							$commande = new COMMANDE();
-							$commande->hydrater($_POST);
-							$commande->groupecommande_id = $groupecommande->getId();
-							$data = $commande->enregistre();
-							if ($data->status) {
-								foreach ($produits as $key => $value) {
-									$lot = explode("-", $value);
-									$id = $lot[0];
-									$qte = end($lot);
-									$datas = PRODUIT::findBy(["id ="=> $id]);
-									if (count($datas) == 1) {
-										$produit = $datas[0];
-										$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
-										if (count($produit->prix_zonelivraisons) > 0) {
-											$prix = $produit->prix_zonelivraisons[0]->price;
-										}else{
-											$prix = 1000;
-										}
-										$montant += $prix * $qte;
-
-										$lignecommande = new LIGNECOMMANDE;
-										$lignecommande->commande_id = $commande->getId();
-										$lignecommande->produit_id = $id;
-										$lignecommande->quantite = $qte;
-										$lignecommande->price =  $prix * $qte;
-										$lignecommande->save();	
-									}
-								}
-
-								$tva = ($montant * $params->tva) / 100;
-								$total = $montant + $tva;
-
-								if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
-									if ($client->acompte >= $total) {
-										$commande->avance = $total;
+						$commande = new COMMANDE();
+						$commande->hydrater($_POST);
+						$commande->groupecommande_id = $groupecommande->getId();
+						$data = $commande->enregistre();
+						if ($data->status) {
+							foreach ($produits as $key => $value) {
+								$lot = explode("-", $value);
+								$id = $lot[0];
+								$qte = end($lot);
+								$datas = PRODUIT::findBy(["id ="=> $id]);
+								if (count($datas) == 1) {
+									$produit = $datas[0];
+									$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
+									if (count($produit->prix_zonelivraisons) > 0) {
+										$prix = $produit->prix_zonelivraisons[0]->price;
 									}else{
-										$commande->avance = $client->acompte;
+										$prix = 1000;
 									}
-									$lot = $client->debiter($total);
+									$montant += $prix * $qte;
 
-								}else{
-
-									if ($total > intval($avance)) {
-										$client->dette($total - intval($avance));
-									}
-
-									$payement = new OPERATION();
-									$payement->hydrater($_POST);
-									$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
-									$payement->montant = $commande->avance;
-									$payement->client_id = $client_id;
-									$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
-									$lot = $payement->enregistre();
-
-									$commande->operation_id = $lot->lastid;
+									$lignecommande = new LIGNECOMMANDE;
+									$lignecommande->commande_id = $commande->getId();
+									$lignecommande->produit_id = $id;
+									$lignecommande->quantite = $qte;
+									$lignecommande->price =  $prix * $qte;
+									$lignecommande->save();	
 								}
-
-								$commande->tva = $tva;
-								$commande->montant = $total;
-								$commande->reste = $commande->montant - $commande->avance;
-								$data = $commande->save();
-
-								$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
-								$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 							}
 
-						}else{
-							$data->status = false;
-							$data->message = "Le crédit restant pour la commande ne doit pas excéder ".money($params->seuilCredit)." ".$params->devise;
+							$tva = ($montant * $params->tva) / 100;
+							$total = $montant + $tva;
+
+							if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+								if ($client->acompte >= $total) {
+									$commande->avance = $total;
+								}else{
+									$commande->avance = $client->acompte;
+								}
+								$lot = $client->debiter($total);
+
+							}else{
+
+								if ($total > intval($avance)) {
+									$client->dette($total - intval($avance));
+								}
+
+								$payement = new OPERATION();
+								$payement->hydrater($_POST);
+								$payement->categorieoperation_id = CATEGORIEOPERATION::PAYEMENT;
+								$payement->montant = $commande->avance;
+								$payement->client_id = $client_id;
+								$payement->comment = "Réglement de la facture pour la commande N°".$commande->reference;
+								$lot = $payement->enregistre();
+
+								$commande->operation_id = $lot->lastid;
+							}
+
+							$commande->tva = $tva;
+							$commande->montant = $total;
+							$commande->reste = $commande->montant - $commande->avance;
+							$data = $commande->save();
+
+							$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);
+							$data->url2 = $data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 						}
+
 					}else{
 						$data->status = false;
-						$data->message = "Le montant de l'avance de la commande est incorrect, verifiez-le!";
+						$data->message = "Le crédit restant pour la commande ne doit pas excéder ".money($params->seuilCredit)." ".$params->devise;
 					}
 				}else{
 					$data->status = false;
-					$data->message = "Veuillez verifier le montant de la commande !";
+					$data->message = "Le montant de l'avance de la commande est incorrect, verifiez-le!";
 				}
+			}else{
+				$data->status = false;
+				$data->message = "Veuillez verifier le montant de la commande !";
+			}
 		}else{
 			$data->status = false;
 			$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
@@ -324,6 +324,79 @@ if ($action == "livraisonCommande") {
 
 
 
+
+if ($action == "validerProgrammation") {
+	if ($datelivraison >= dateAjoute()) {
+		if (getSession("commande-encours") != null) {
+			$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
+			if (count($datas) > 0) {
+				$groupecommande = $datas[0];
+
+				$produits = explode(",", $tableau);
+				if (count($produits) > 0) {
+					$tests = $produits;
+					foreach ($tests as $key => $value) {
+						$lot = explode("-", $value);
+						$id = $lot[0];
+						$qte = end($lot);
+						if ($groupecommande->reste($id) >= $qte) {
+							unset($tests[$key]);
+						}
+					}
+					if (count($tests) == 0) {
+						$livraison = new LIVRAISON();
+						$livraison->hydrater($_POST);
+						$livraison->groupecommande_id = $groupecommande->getId();
+						$livraison->etat_id = ETAT::PARTIEL;
+						$data = $livraison->save();
+						if ($data->status) {
+							foreach ($produits as $key => $value) {
+								$lot = explode("-", $value);
+								$id = $lot[0];
+								$qte = end($lot);
+
+								$datas = PRODUIT::findBy(["id="=>$id]);
+								if (count($datas) > 0) {
+									$produit = $datas[0];
+									$produit->livrer($qte);
+
+									$lignecommande = new LIGNELIVRAISON;
+									$lignecommande->livraison_id = $livraison->getId();
+									$lignecommande->produit_id = $id;
+									$lignecommande->quantite = $qte;
+									$lignecommande->enregistre();
+								}
+								
+							}
+
+							
+							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
+						}	
+					}else{
+						$data->status = false;
+						$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Veuillez vérifier la date de programmation de la livraison !";
+	}
+	echo json_encode($data);
+}
+
+
+
 if ($action == "fichecommande") {
 	$rooter = new ROOTER;
 	$params = PARAMS::findLastId();
@@ -358,6 +431,21 @@ if ($action == "newlivraison") {
 		include("../../../../../composants/assets/modals/modal-newlivraison.php");
 	}
 }
+
+
+if ($action == "newProgrammation") {
+	$rooter = new ROOTER;
+	$params = PARAMS::findLastId();
+	$datas = GROUPECOMMANDE::findBy(["id ="=> $id]);
+	if (count($datas) == 1) {
+		session('commande-encours', $id);
+		$groupecommande = $datas[0];
+		$groupecommande->actualise();
+		$groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
+		include("../../../../../composants/assets/modals/modal-programmation.php");
+	}
+}
+
 
 
 if ($action == "acompte") {
