@@ -80,27 +80,19 @@ class OPERATION extends TABLE
 
 
 	public static function entree(string $date1 = "2020-04-01", string $date2){
-		$datas = OPERATION::findBy(["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
-		foreach ($datas as $key => $ope) {
-			$ope->actualise();
-			if ($ope->categorieoperation->typeoperationcaisse_id != TYPEOPERATIONCAISSE::ENTREE) {
-				unset($datas[$key]);
-			}
-		}
-		return comptage($datas, "montant", "somme");
+		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ?";
+		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::ENTREE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new OPERATION()]; }
+		return $item[0]->montant;
 	}
 
 
 
 	public static function sortie(string $date1 = "2020-04-01", string $date2){
-		$datas = OPERATION::findBy(["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
-		foreach ($datas as $key => $ope) {
-			$ope->actualise();
-			if ($ope->categorieoperation->typeoperationcaisse_id != TYPEOPERATIONCAISSE::SORTIE) {
-				unset($datas[$key]);
-			}
-		}
-		return comptage($datas, "montant", "somme");
+		$requette = "SELECT SUM(montant) as montant  FROM operation, categorieoperation WHERE operation.categorieoperation_id = categorieoperation.id AND categorieoperation.typeoperationcaisse_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? ";
+		$item = OPERATION::execute($requette, [TYPEOPERATIONCAISSE::SORTIE, $date1, $date2]);
+		if (count($item) < 1) {$item = [new OPERATION()]; }
+		return $item[0]->montant;
 	}
 
 
@@ -112,14 +104,10 @@ class OPERATION extends TABLE
 
 
 	public static function versements(string $date1 = "2020-04-01", string $date2){
-		$datas = OPERATION::findBy(["DATE(created) >= " => $date1, "DATE(created) <= " => $date2, "client_id != "=>CLIENT::CLIENTSYSTEME]);
-		foreach ($datas as $key => $ope) {
-			$ope->actualise();
-			if ($ope->categorieoperation_id != CATEGORIEOPERATION::PAYEMENT) {
-				unset($datas[$key]);
-			}
-		}
-		return comptage($datas, "montant", "somme");
+		$requette = "SELECT SUM(montant) as montant  FROM operation WHERE operation.categorieoperation_id = ? AND operation.client_id = ? AND DATE(operation.created) >= ? AND DATE(operation.created) <= ? ";
+		$item = OPERATION::execute($requette, [CATEGORIEOPERATION::PAYEMENT, CLIENT::CLIENTSYSTEME, $date1, $date2]);
+		if (count($item) < 1) {$item = [new OPERATION()]; }
+		return $item[0]->montant;
 	}
 
 

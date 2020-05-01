@@ -37,16 +37,16 @@ class GROUPECOMMANDE extends TABLE
 
 	public function reste(int $produit_id){
 		$total = 0;
-		$datas = $this->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
-		foreach ($datas as $key => $item) {
-			$lots = $item->fourni("lignecommande", ["produit_id ="=>$produit_id]);
-			$total += comptage($lots, "quantite", "somme");
-		}
-		$datas = $this->fourni("livraison", ["etat_id !="=>ETAT::ANNULEE]);
-		foreach ($datas as $key => $item) {
-			$lots = $item->fourni("lignelivraison", ["produit_id ="=>$produit_id]);
-			$total -= comptage($lots, "quantite_livree", "somme");
-		}
+
+		$requette = "SELECT SUM(quantite) as quantite FROM lignecommande, produit, commande, groupecommande WHERE lignecommande.produit_id = produit.id AND lignecommande.commande_id = commande.id AND commande.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND commande.etat_id != ? AND produit.id = ? GROUP BY produit.id";
+		$item = LIGNECOMMANDE::execute($requette, [$this->getId(), ETAT::ANNULEE, $produit_id]);
+		if (count($item) < 1) {$item = [new LIGNECOMMANDE()]; }
+		$total += $item[0]->quantite;
+
+		$requette = "SELECT SUM(quantite_livree) as quantite FROM lignelivraison, produit, livraison, groupecommande WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND livraison.groupecommande_id = groupecommande.id AND groupecommande.id = ? AND livraison.etat_id != ? AND produit.id = ? GROUP BY produit.id";
+		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ANNULEE, $produit_id]);
+		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
+		$total -= $item[0]->quantite;
 		return $total;
 	}
 

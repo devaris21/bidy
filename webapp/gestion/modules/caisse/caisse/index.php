@@ -25,8 +25,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins"><?= money(Home\OPERATION::entree(date("Y")."-01-01" , dateAjoute())) ?></h1>
-                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                            <small>Progession</small>
+                            <!-- <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                            <small>Progession</small> -->
                         </div>
                     </div>
                 </div>
@@ -38,8 +38,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-green"><?= money(Home\OPERATION::entree(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small>
+                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                            <small>Progession</small> -->
                         </div>
                     </div>
                 </div>
@@ -52,8 +52,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-red"><?= money(Home\OPERATION::sortie(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small>
+                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                            <small>Progession</small> -->
                         </div>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins"><?= money(Home\OPERATION::resultat(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small>
+                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                            <small>Progession</small> -->
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                                 <table class="table table-bordered table-hover table-operation">
                                     <thead>
                                         <tr class="text-center text-uppercase">
-                                            <th colspan="3" style="visibility: hidden; width: 65%"></th>
+                                            <th colspan="2" style="visibility: hidden; width: 65%"></th>
                                             <th>Entrée</th>
                                             <th>Sortie</th>
                                             <th>Résultats</th>
@@ -199,7 +199,7 @@
                                     </thead>
                                     <tbody class="tableau">
                                         <tr>
-                                            <td colspan="3">Repport du solde </td>
+                                            <td colspan="2">Repport du solde </td>
                                             <td class="text-center">-</td>
                                             <td class="text-center">-</td>
                                             <td style="background-color: #fafafa" class="text-center"><?= money($repport = $last = Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute(-7))) ?> <?= $params->devise ?></td>
@@ -219,14 +219,14 @@
 
                                                     <span class="pull-right"><i class="fa fa-clock-o"></i> <?= datelong($operation->created) ?></span>
                                                 </h6>
-                                                <i><?= $operation->comment ?></i>
+                                                <i><?= $operation->comment ?> ## <u style="font-size: 9px; font-style: italic;"><?= $operation->structure ?> - <?= $operation->numero ?></u></i>
                                             </td>
-                                            <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
+                                           <!--  <td width="110" class="text-center" style="padding: 0; border-right: 2px dashed grey">
                                              <?php if ($operation->etat_id == Home\ETAT::ENCOURS) { ?>
                                                  <button style="padding: 2px 6px;" onclick="valider(<?= $operation->getId() ?>)" class="cursor simple_tag"><i class="fa fa-file-text-o"></i> Valider</button><span style="display: none">en attente</span>
                                              <?php } ?>
                                              <br><small style="display: inline-block; font-style: 8px; line-height: 12px;"><?= $operation->structure ?> - <?= $operation->numero ?></small>
-                                         </td>
+                                         </td> -->
                                          <?php if ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE) { ?>
                                             <td class="text-center text-green gras" style="padding-top: 12px;">
                                                 <?= money($operation->montant) ?> <?= $params->devise ?>
@@ -244,7 +244,7 @@
                                 <?php } ?>
                                 <tr style="height: 15px;"></tr>
                                 <tr>
-                                    <td style="border-right: 2px dashed grey" colspan="3"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
+                                    <td style="border-right: 2px dashed grey" colspan="2"><h4 class="text-uppercase mp0 text-right">Total des comptes au <?= datecourt(dateAjoute()) ?></h4></td>
                                     <td><h3 class="text-center text-green"><?= money(comptage($entrees, "montant", "somme") + $repport) ?> <?= $params->devise ?></h3></td>
                                     <td><h3 class="text-center text-red"><?= money(comptage($depenses, "montant", "somme")) ?> <?= $params->devise ?></h3></td>
                                     <td style="background-color: #fafafa"><h3 class="text-center text-blue gras"><?= money($last) ?> <?= $params->devise ?></h3></td>

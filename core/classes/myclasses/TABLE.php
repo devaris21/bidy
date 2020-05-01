@@ -461,14 +461,14 @@ abstract class TABLE
 
 
 
-    public function fourni($nomTable, $params = []){
+    public function fourni($nomTable, $params = [], Array $group =[], Array $order = [], int $limit=0, $conn="AND"){
         extract(static::tableName());
         $this->actualise();
         $name = strtolower($nomTable)."s";
         $table .="_id";
         $class =  self::fullyClassName($nomTable);
         $array = array_merge(["$table = "=> $this->getId()], $params);
-        $datas = $class::findBy($array);
+        $datas = $class::findBy($array, $group, $order, $limit, $conn);
         $this->$name = $this->items = $datas;
         return $datas;
     }
