@@ -92,7 +92,8 @@
                                         <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
                                             <i class="fa fa-cubes"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
                                             <span class="float-right">
-                                                <span class="label label-success"><?= money($produit->stock(dateAjoute())) ?></span>
+                                                <span class="label label-success"><?= money($produit->livrable()) ?></span>
+                                                <span class="text-default"><?= money($produit->enAttente()) ?></span>
                                             </span>
                                         </a>
                                     </li>
@@ -286,8 +287,8 @@
  new Chartist.Bar('#ct-chart', {
     labels: [<?php foreach ($tableau as $key => $data){ ?>"<?= $data->name ?>", " ", " ",<?php } ?>],
     series: [
-    [<?php foreach ($tableau as $key => $data){ ?><?= $data->livrable ?>, 0, 0,<?php } ?>],
-    [<?php foreach ($tableau as $key => $data){ ?><?= $data->attente ?> , 0, 0,<?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?><?= $data->attente ?>, 0, 0,<?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?><?= $data->livrable ?> , 0, 0,<?php } ?>],
     [<?php foreach ($tableau as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
     ]
 }, {

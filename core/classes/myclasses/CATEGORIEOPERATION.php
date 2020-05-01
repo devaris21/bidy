@@ -11,14 +11,14 @@ class CATEGORIEOPERATION extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	const PAYEMENT = 1;
-	const REMBOURSEMENT_FOURNISSEUR = 6;
-	const AUTRE_ENTREE = 1;
+	const REMBOURSEMENT_FOURNISSEUR = 2;
+	const AUTRE_ENTREE = 3;
 
-	const APPROVISIONNEMENT = 3;
-	const PAYE = 4;
-	const ENTRETIENVEHICULE = 5;
-	const REMBOURSEMENT = 6;
-	const AUTRE_DEPENSE = 6;
+	const APPROVISIONNEMENT = 4;
+	const PAYE = 5;
+	const ENTRETIENVEHICULE = 6;
+	const REMBOURSEMENT = 7;
+	const AUTRE_DEPENSE = 8;
 
 	
 	public $typeoperationcaisse_id;

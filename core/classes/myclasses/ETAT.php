@@ -11,8 +11,8 @@ class ETAT extends TABLE
 
 		const ANNULEE = 1;
 		const ENCOURS = 2;
-		const VALIDEE = 3;
-		const PARTIEL = 4;
+		const PARTIEL = 3;
+		const VALIDEE = 4;
 
 		public $name;
 		public $class;

@@ -196,14 +196,14 @@ $item->setProtected(1);
 $item->save();
 
 $item = new ETAT();
-$item->name = "Validé";
-$item->class = "primary";
+$item->name = "Partiellement";
+$item->class = "info";
 $item->setProtected(1);
 $item->save();
 
 $item = new ETAT();
-$item->name = "Partiellement";
-$item->class = "info";
+$item->name = "Validé";
+$item->class = "primary";
 $item->setProtected(1);
 $item->save();
 
@@ -263,6 +263,12 @@ $item->save();
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
 $item->name = "Réglement de commande";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
+$item->name = "Remboursement par le fournisseur";
 $item->setProtected(1);
 $item->save();
 

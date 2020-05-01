@@ -20,8 +20,8 @@
 }
 
 
-.ct-series-b line:nth-of-type(n+1) {
-	stroke: green;
+.ct-series-c line:nth-of-type(n+1) {
+	stroke: rgba(210, 140, 14, 0.5);
 }
 
 .ct-series-a line:nth-of-type(n+1) {
