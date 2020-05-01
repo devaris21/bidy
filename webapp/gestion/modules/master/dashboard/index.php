@@ -284,10 +284,11 @@
  // Stocked horizontal bar
 
  new Chartist.Bar('#ct-chart', {
-    labels: [<?php foreach ($tableau as $key => $data){ ?>"<?= $data->name ?>", "", <?php } ?>],
+    labels: [<?php foreach ($tableau as $key => $data){ ?>"<?= $data->name ?>", " ", " ",<?php } ?>],
     series: [
-    [<?php foreach ($tableau as $key => $data){ ?><?= $data->livrable ?>, <?= $data->attente ?>, <?php } ?>],
-    [<?php foreach ($tableau as $key => $data){ ?>0, <?= $data->commande ?> ,<?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?><?= $data->livrable ?>, 0, 0,<?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?><?= $data->attente ?> , 0, 0,<?php } ?>],
+    [<?php foreach ($tableau as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
     ]
 }, {
  stackBars: true,
@@ -296,6 +297,7 @@
         return (value / 1000) + 'k';
     }
 },
+reverseData:true,
 seriesBarDistance: 10,
 horizontalBars: true,
 axisY: {

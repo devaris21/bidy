@@ -186,7 +186,6 @@ class PRODUIT extends TABLE
 
 	public function enAttente(){
 		$total = 0;
-
 		$requette = "SELECT SUM(production) - SUM(perte) as production  FROM ligneproductionjour, produit, productionjour WHERE ligneproductionjour.produit_id = produit.id AND produit.id = ? AND ligneproductionjour.productionjour_id = productionjour.id AND productionjour.etat_id = ? GROUP BY produit.id";
 		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->getId(), ETAT::PARTIEL]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
