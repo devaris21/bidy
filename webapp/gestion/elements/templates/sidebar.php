@@ -110,12 +110,12 @@
                 <li class="" id="configuration">
                     <a href="<?= $this->url("gestion", "parametres", "configuration") ?>"><i class="fa fa-gears"></i> <span class="nav-label">Configuration</span></a>
                 </li>
-                <li class="" id="historiques">
+              <!--   <li class="" id="historiques">
                     <a href="<?= $this->url("gestion", "parametres", "historiques") ?>"><i class="fa fa-clock-o"></i> <span class="nav-label">Historiques</span></a>
                 </li>
                 <li class="" id="abonnement">
                     <a href="<?= $this->url("gestion", "parametres", "abonnement") ?>"><i class="fa fa-star"></i> <span class="nav-label">Abonnement</span> <span class="label label-danger float-right"></span></a>
-                </li>
+                </li> -->
             <?php } ?>
 
         </ul>
