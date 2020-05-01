@@ -59,13 +59,13 @@ class LIVRAISON extends TABLE
 
 	//les livraions programmées du jour
 	public static function programmee(String $date){
-		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id ="=>ETAT::PARTIEL]);
+		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id !="=>ETAT::ANNULEE]);
 	}
 
 
 	//les livraions effectuéez du jour
 	public static function effectuee(String $date){
-		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id !="=>ETAT::PARTIEL, "etat_id !="=>ETAT::ANNULEE]);
+		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id ="=>ETAT::VALIDEE]);
 	}
 
 
@@ -85,7 +85,10 @@ class LIVRAISON extends TABLE
 			$data = $this->save();
 			if ($data->status) {
 				$this->actualise();
-				$this->chauffeur->etat_id = ETATCHAUFFEUR::LIBRE;
+				$this->groupecommande->etat_id = ETAT::ENCOURS;
+				$this->groupecommande->save();
+
+				$this->chauffeur->etat_id = ETATCHAUFFEUR::RAS;
 				$this->chauffeur->save();
 				
 				$this->vehicule->etat_id = ETATVEHICULE::RAS;

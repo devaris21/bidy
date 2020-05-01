@@ -68,8 +68,8 @@
                                             foreach ($produits as $key => $produit) {
                                                 foreach ($production->ligneproductionjours as $key => $ligne) {
                                                     if ($produit->getId() == $ligne->produit_id) { 
-                                                        $requette = "SELECT lignelivraison.produit_id, SUM(quantite) as quantite, SUM(quantite_livree) as livree FROM produit, livraison, lignelivraison WHERE produit.id = lignelivraison.produit_id AND lignelivraison.livraison_id = livraison.id  AND produit.id = ? AND DATE(livraison.created) = ? GROUP BY lignelivraison.produit_id ";
-                                                        $datas = Home\PRODUIT::execute($requette, [$produit->getId(), $production->ladate]);
+                                                        $requette = "SELECT lignelivraison.produit_id, SUM(quantite) as quantite, SUM(quantite_livree) as livree FROM produit, livraison, lignelivraison WHERE produit.id = lignelivraison.produit_id AND lignelivraison.livraison_id = livraison.id AND livraison.etat_id !=? AND livraison.etat_id !=? AND produit.id = ? AND DATE(livraison.created) = ? GROUP BY lignelivraison.produit_id ";
+                                                        $datas = Home\PRODUIT::execute($requette, [Home\ETAT::ANNULEE, Home\ETAT::PARTIEL, $produit->getId(), $production->ladate]);
                                                         if (count($datas) > 0) {
                                                             $item = $datas[0];
                                                         }else{
@@ -90,13 +90,13 @@
                                     <?php } ?>
                                     <tr style="height: 18px;"></tr>
                                     <tr>
-                                        <td style="width: 20%"><h2 class="text-center gras text-uppercase">Stock actuel</h2></td>
+                                        <td style="width: 30%"><h2 class="text-center gras text-uppercase mp0">Stock global actuel</h2><small>stock livrable + productions non rangées</small></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
                                             <td><h2 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h2></td>
                                         <?php } ?>
                                     </tr>
                                     <tr>
-                                        <td style="width: 20%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
+                                        <td style="width: 30%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
                                             <td><h3 class="text-success text-muted gras" ><?= start0($produit->commandee()) ?></h3></td>
                                         <?php } ?>

@@ -3,7 +3,7 @@
 namespace Home;
 
 if ($this->getId() != null) {
-	$datas = OPERATION::findBy(["id ="=> $this->getId()]);
+	$datas = OPERATION::findBy(["id ="=> $this->getId(), 'etat_id !='=>ETAT::ANNULEE]);
 	if (count($datas) > 0) {
 		$operation = $datas[0];
 		$operation->actualise();

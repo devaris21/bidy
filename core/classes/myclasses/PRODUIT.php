@@ -111,8 +111,8 @@ class PRODUIT extends TABLE
 		$total += $item[0]->production;
 
 
-		$requette = "SELECT SUM(quantite) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id != ? AND DATE(livraison.created) <= ? GROUP BY produit.id";
-		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ANNULEE, $date]);
+		$requette = "SELECT SUM(quantite) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id != ?  AND livraison.etat_id != ? AND DATE(livraison.created) <= ? GROUP BY produit.id";
+		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ANNULEE, ETAT::PARTIEL, $date]);
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
 		$total -= $item[0]->quantite;
 
@@ -179,6 +179,9 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
 		$total -= $item[0]->quantite;
 
+		if ($total < 0) {
+			return 0;
+		}
 		return $total;
 	}
 

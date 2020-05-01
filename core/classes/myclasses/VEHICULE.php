@@ -110,11 +110,11 @@ class VEHICULE extends TABLE
 	}
 
 	public static function mission(){
-		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::MISSION]);
+		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::MISSION, 'visibility ='=>1]);
 	}
 
 	public static function entretien(){
-		return static::findBy(["etatvehicule_id ="=> ETATVEHICULE::ENTRETIEN, "etatvehicule_id ="=> ETATVEHICULE::PANNE], [], [], 0, "OR");
+		return array_merge(static::findBy(["etatvehicule_id ="=> ETATVEHICULE::ENTRETIEN]), static::findBy(["etatvehicule_id ="=> ETATVEHICULE::PANNE]));
 	}
 
 

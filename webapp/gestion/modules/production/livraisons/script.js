@@ -25,7 +25,7 @@ $(function(){
     });
 
     
-    annuler = function(id){
+    annulerLivraison = function(id){
         alerty.confirm("Voulez-vous vraiment annuler cette livraison ?", {
             title: "Annuler la livraison",
             cancelLabel : "Non",
@@ -39,7 +39,7 @@ $(function(){
                 okLabel : "Valider"
             }, function(password){
                 Loader.start();
-                $.post(url, {action:"annuler", id:id, password:password}, (data)=>{
+                $.post(url, {action:"annulerLivraison", id:id, password:password}, (data)=>{
                     if (data.status) {
                         window.location.reload()
                     }else{

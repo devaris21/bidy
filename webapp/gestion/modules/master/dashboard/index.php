@@ -23,7 +23,7 @@
                                 <h5>Commandes passés aujourd'hui</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(count(Home\COMMANDE::findBy(["DATE(created) ="=>dateAjoute()]))); ?></h2>
+                                <h2 class="no-margins"><?= start0(count(Home\COMMANDE::findBy(["DATE(created) ="=>dateAjoute(), "etat_id !="=>Home\ETAT::ANNULEE]))); ?></h2>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                         <h2 class="no-margins"><?= start0(count(Home\LIVRAISON::programmee(dateAjoute()))); ?></h2>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h2 class="no-margins"><?= start0(count(Home\LIVRAISON::effectuee(dateAjoute()))); ?></h2>
+                                        <h2 class="no-margins text-green"><?= start0(count(Home\LIVRAISON::effectuee(dateAjoute()))); ?></h2>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                             <div class="ibox-content">
                                 <div class="row text-center">
                                     <div class="col-sm-6 border-right">
-                                        <h2 class="no-margins"><?= start0(count(Home\VEHICULE::getAll())); ?></h2>
+                                        <h2 class="no-margins"><?= start0(count(Home\VEHICULE::findBy(["visibility ="=>1]))); ?></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <h2 class="no-margins"><?= start0(count(Home\MACHINE::getAll())); ?></h2>
@@ -69,7 +69,7 @@
                             <div class="ibox-content">
                                 <div class="row text-center">
                                     <div class="col-sm-6 border-right">
-                                        <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::getAll())) ?></h2>
+                                        <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(["visibility ="=>1]))) ?></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <h2 class="no-margins"><?= start0(count(Home\MANOEUVRE::getAll())); ?></h2>
@@ -292,10 +292,13 @@
     [<?php foreach ($tableau as $key => $data){ ?>0, <?= $data->commande ?>, 0,<?php } ?>],
     ]
 }, {
- stackBars: true,
- axisX: {
+   stackBars: true,
+   axisX: {
     labelInterpolationFnc: function(value) {
-        return (value / 1000) + 'k';
+        if (value >= 1000) {
+            return (value / 1000) + 'k';            
+        }
+        return value;
     }
 },
 reverseData:true,

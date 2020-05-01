@@ -159,6 +159,33 @@ $(function(){
 	}
 
 
+	annulerCommande = function(id){
+		alerty.confirm("Voulez-vous vraiment annuler cette commande. \n Elle implique la suppression de la facture associé, et l'annulation de la dette si il y a! \n Voulez-vous vraiment continuer ?", {
+			title: "Annuler la commande",
+			cancelLabel : "Non",
+			okLabel : "OUI, annuler",
+		}, function(){
+			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
+				title: 'Récupération du mot de passe !',
+				inputType : "password",
+				cancelLabel : "Annuler",
+				okLabel : "Valider"
+			}, function(password){
+				Loader.start();
+				$.post(url, {action:"annulerCommande", id:id, password:password}, (data)=>{
+					if (data.status) {
+						window.location.reload()
+					}else{
+						Alerter.error('Erreur !', data.message);
+					}
+				},"json");
+			})
+		})
+	}
+
+
+
 	validerLivraison = function(){
 		// val = $('.date').data("datepicker").viewDate;
 		// console.log(val);

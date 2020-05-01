@@ -1,6 +1,9 @@
 <?php 
 namespace Home;
 
+//n'oublie pas de configurer la date par defaut PARAMS
+//n'oublie pas d'importer la base de données des marques de vehicules
+
 $datas = ["Abidjan"];
 foreach ($datas as $key => $value) {
 	$item = new ZONELIVRAISON();
@@ -103,6 +106,7 @@ $item->societe = "Devaris 21";
 $item->email = "info@devaris21.com";
 $item->devise = "Fcfa";
 $item->tva = 0;
+$item->seuilCredit = 0;
 $item->setProtected(1);
 $item->enregistre();
 
@@ -131,6 +135,7 @@ $item->email = "info@devaris21.com";
 $item->adresse = "...";
 $item->contact = "...";
 $item->fax = "...";
+$item->visibility = 0;
 $item->setProtected(1);
 $item->save();
 
@@ -203,7 +208,7 @@ $item->save();
 
 $item = new ETAT();
 $item->name = "Validé";
-$item->class = "primary";
+$item->class = "success";
 $item->setProtected(1);
 $item->save();
 
@@ -344,6 +349,7 @@ $item->save();
 $item = new PRODUCTIONJOUR();
 $item->ladate = PARAMS::DATE_DEFAULT;
 $item->comment = "production initial, système !";
+$item->etat_id = ETAT::VALIDEE;
 $item->setProtected(1);
 $item->save();
 

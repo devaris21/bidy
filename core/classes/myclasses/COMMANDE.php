@@ -32,7 +32,7 @@ class COMMANDE extends TABLE
 			if ($this->lieu != "") {
 				$datas = ZONELIVRAISON::findBy(["id ="=>$this->zonelivraison_id]);
 				if (count($datas) == 1) {
-					 $params = PARAMS::findLastId();
+					$params = PARAMS::findLastId();
 
 					$this->employe_id = getSession("employe_connecte_id");
 					$this->reference = "BCO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
@@ -49,11 +49,63 @@ class COMMANDE extends TABLE
 			}
 		}else{
 			$data->status = false;
-			$data->message = "La date de livraison de la commande n'est pas correcte *!";
+			$data->message = "La date de commande de la commande n'est pas correcte *!";
 		}
 		return $data;
 	}
 
+
+	public function annuler(){
+		$data = new RESPONSE;
+		if ($this->etat_id != ETAT::ANNULEE) {
+			$this->actualise();
+			$datas = $this->fourni("lignecommande");
+			$test = true;
+			foreach ($datas as $key => $ligne) {
+				$ligne->actualise();
+				if ($ligne->quantite > $this->groupecommande->reste($ligne->produit->getId())) {
+					$test = false;
+					break;
+				}
+			}
+			if ($test) {
+				$this->etat_id = ETAT::ANNULEE;
+				$this->historique("La commande en reference $this->reference vient d'être annulée !");
+				$data = $this->save();
+				if ($data->status) {
+					$this->actualise();
+					if ($this->operation_id != 0) {
+						$this->operation->supprime();
+						$this->groupecommande->client->dette -= $this->montant - $this->avance;
+						$this->groupecommande->client->save();
+					}else{
+						//paymenet par prelevement banquaire
+						$this->groupecommande->client->acompte += $this->avance;
+						$this->groupecommande->client->dette -= $this->montant - $this->avance;
+						$this->groupecommande->client->save();
+					}
+
+					$this->groupecommande->etat_id = ETAT::ENCOURS;
+					$this->groupecommande->save();
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Cette commande a déjà été entamé, il n'est donc plus possible de pouvour la supprimer !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez plus faire cette opération sur cette commande !";
+		}
+		return $data;
+	}
+
+
+
+
+	public static function CA(string $date1 = "2020-04-01", string $date2){
+		$datas = static::findBy(["etat_id !="=>ETAT::ANNULEE, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2]);
+		return comptage($datas, "montant", "somme");
+	}
 
 
 	public function sentenseCreate(){}

@@ -10,7 +10,7 @@ $data = new RESPONSE;
 
 
 if ($action === "productionjour") {
-	if ($manoeuvres != "" || $groupemanoeuvre_id_rangement != "") {
+	if ($manoeuvres != "" || (isset($groupemanoeuvre_id) && $groupemanoeuvre_id != "")) {
 		$productionjour = PRODUCTIONJOUR::today();
 		$test = true;
 		foreach (RESSOURCE::getAll() as $key => $ressource) {

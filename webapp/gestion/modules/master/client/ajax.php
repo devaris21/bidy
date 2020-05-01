@@ -240,6 +240,33 @@ if ($action == "validerCommande") {
 
 
 
+if ($action == "annulerCommande") {
+	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+	if (count($datas) > 0) {
+		$employe = $datas[0];
+		$employe->actualise();
+		if ($employe->checkPassword($password)) {
+			$datas = COMMANDE::findBy(["id ="=>$id]);
+			if (count($datas) == 1) {
+				$commande = $datas[0];
+				$data = $commande->annuler();
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Votre mot de passe ne correspond pas !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas effectué cette opération !";
+	}
+	echo json_encode($data);
+}
+
+
+
 
 if ($action == "livraisonCommande") {
 	if (getSession("commande-encours") != null) {
@@ -254,7 +281,8 @@ if ($action == "livraisonCommande") {
 					$lot = explode("-", $value);
 					$id = $lot[0];
 					$qte = end($lot);
-					if ($groupecommande->reste($id) >= $qte) {
+					$produit = PRODUIT::findBy(["id ="=>$id])[0];
+					if ($qte > 0 && $groupecommande->reste($id) >= $qte && $qte <= $produit->livrable()) {
 						unset($tests[$key]);
 					}
 				}
@@ -405,6 +433,10 @@ if ($action == "fichecommande") {
 		session('commande-encours', $id);
 		$groupecommande = $datas[0];
 		$groupecommande->actualise();
+
+		$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+		$employe = $datas[0];
+		
 		include("../../../../../composants/assets/modals/modal-groupecommande.php");
 	}
 }

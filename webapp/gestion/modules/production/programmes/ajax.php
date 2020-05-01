@@ -142,7 +142,8 @@ if ($action == "ValiderLivraisonProgrammee") {
 				foreach ($livraison->lignelivraisons as $key => $ligne) {
 					$ligne->actualise();
 					$reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
-					if ($tableau[$ligne->produit->getId()] <= $reste) { 
+					$qte = $tableau[$ligne->produit->getId()];
+					if ($qte <= $reste && $qte <= $ligne->produit->livrable()) { 
 						unset($tableau[$ligne->produit->getId()]);
 					}
 				}

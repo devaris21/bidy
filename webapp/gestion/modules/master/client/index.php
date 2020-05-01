@@ -113,7 +113,7 @@
                                                                     <td><h5 class="text-<?= ($transaction->type == "livraison")? "orange":"green" ?> text-center"> <?= start0(($transaction->type == "livraison")? $ligne->quantite_livree: $ligne->quantite) ?> </h5></td>
                                                                 <?php  } ?>
 
-                                                                <?php if ($transaction->type == "commande" && $transaction->operation_id != null) { ?>
+                                                                <?php if ($transaction->type == "commande" && $transaction->operation_id != 0) { ?>
                                                                     <td>
                                                                         <small>Montant de la commande</small>
                                                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> 

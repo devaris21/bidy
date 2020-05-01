@@ -24,9 +24,7 @@
                             <h5 class="d-inline text-uppercase">Chif. affaire</h5>
                         </div>
                         <div class="ibox-content">
-                            <h1 class="no-margins"><?= money(Home\OPERATION::entree(date("Y")."-01-01" , dateAjoute())) ?></h1>
-                            <!-- <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                            <small>Progession</small> -->
+                            <h1 class="no-margins"><?= money(Home\COMMANDE::CA(date("Y")."-01-01" , dateAjoute())) ?></h1>
                         </div>
                     </div>
                 </div>

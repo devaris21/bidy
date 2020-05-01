@@ -4,7 +4,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">Validation de la livraison de livraison</h4>
+            <h4 class="modal-title">Validation de la livraison</h4>
             <small class="font-bold">Renseigner ces champs pour enregistrer la livraison</small>
         </div>
         
@@ -55,7 +55,7 @@
                             <div class="input-group">
                                 <select class="select2 form-control" name="zonelivraison_id" style="width: 100%">
                                     <?php 
-                                    $datas = $livraison->groupecommande->commandes;
+                                    $datas = $livraison->groupecommande->fourni("commande");
                                     $datas2 = $dt = [];
                                     foreach ($datas as $key => $value) {
                                         if (!in_array($value->zonelivraison_id, $dt)) {

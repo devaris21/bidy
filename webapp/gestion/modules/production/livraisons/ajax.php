@@ -11,7 +11,7 @@ extract($_POST);
 
 
 
-if ($action == "annuler") {
+if ($action == "annulerLivraison") {
 	$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 	if (count($datas) > 0) {
 		$employe = $datas[0];

@@ -79,11 +79,11 @@ class CHAUFFEUR extends PERSONNE
 
 
 	public static function libres(){
-		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS]);
+		return static::findBy(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS]);
 	}
 
 	public static function mission(){
-		return static::getAll(["etatchauffeur_id =" => ETATCHAUFFEUR::MISSION]);
+		return static::findBy(["etatchauffeur_id =" => ETATCHAUFFEUR::MISSION, 'visibility ='=>1]);
 	}
 
 

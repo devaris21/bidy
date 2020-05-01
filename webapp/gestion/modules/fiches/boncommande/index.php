@@ -109,7 +109,7 @@
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <h3 class="text-uppercase mp0">Avance sur montant = </h3>
-                                                <?php if ($commande->operation_id == null) { ?>
+                                                <?php if ($commande->operation_id == 0) { ?>
                                                     <small>Réglement par prélèvement sur acompte</small>
                                                 <?php }else{ ?>
                                                     <small>Réglement par <?= $commande->operation->modepayement->name() ?></small>

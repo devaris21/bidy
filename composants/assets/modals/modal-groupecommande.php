@@ -29,7 +29,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th colspan="2"></th>
+                                <th colspan="3"></th>
                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
                                     <th class="text-center"><?= $produit->name() ?></th>
                                 <?php } ?>
@@ -51,77 +51,86 @@
                             usort($datas, "comparerDateCreated");
 
                             foreach ($datas as $key => $ligne) { ?>
-                               <tr>
-                                <td>
-                                    <h5 class="text-uppercase mp0"><?= $ligne->type ?> N°<?= $ligne->reference  ?></h5>
-                                    <small><?= datelong($ligne->created)  ?></small>
-                                </td>
-                                <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
-                                    <?php if ($ligne->type == "livraison") { ?>
-                                        <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->getId()) ?>"><br><i style="font-size: 18px;" class="fa fa-file-text" style="font-style: 25px;"></i></a>
-                                    <?php }else{ ?>
-                                        <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $ligne->getId()) ?>"><br><i style="font-size: 18px;" class="fa fa-file-text" style="font-style: 25px;"></i></a>
-                                    <?php } ?>                                
-                                </td>
-                                <?php 
-                                foreach (Home\PRODUIT::getAll() as $key => $produit) {
-                                    $test = 0;
-                                    foreach ($ligne->items as $key => $item) {
-                                        if ($item->produit_id == $produit->getId() ) { 
-                                            $test = $item->quantite;
-                                            if ($ligne->type == "livraison") {
-                                                $test = $item->quantite_livree;
+                                <tr>
+                                    <td data-toggle="tooltip" title="Annuler / Supprimer">
+                                        <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
+                                            <?php if ($ligne->type == "commande") { ?>
+                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerCommande(<?= $ligne->getId() ?>)"></i>
+                                            <?php }else{ ?> 
+                                                <i class="fa fa-close fa-3x d-block text-red cursor" onclick="annulerLivraison(<?= $ligne->getId() ?>)"></i>
+                                            <?php } ?> 
+                                        <?php } ?> 
+                                    </td>
+                                    <td>
+                                        <h5 class="text-uppercase mp0"><?= $ligne->type ?> N°<?= $ligne->reference  ?></h5>
+                                        <small><?= datelong($ligne->created)  ?></small>
+                                    </td>
+                                    <td data-toggle="tooltip" title="imprimer le bon de <?= $ligne->type ?>">
+                                        <?php if ($ligne->type == "livraison") { ?>
+                                            <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "bonlivraison", $ligne->getId()) ?>"><br><i class="fa fa-file-text fa-2x d-block"></i></a>
+                                        <?php }else{ ?>
+                                            <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncommande", $ligne->getId()) ?>">
+                                                <i class="d-block fa fa-file-text fa-2x"></i></a>
+                                            <?php } ?>                                
+                                        </td>
+                                        <?php 
+                                        foreach (Home\PRODUIT::getAll() as $key => $produit) {
+                                            $test = 0;
+                                            foreach ($ligne->items as $key => $item) {
+                                                if ($item->produit_id == $produit->getId() ) { 
+                                                    $test = $item->quantite;
+                                                    if ($ligne->type == "livraison") {
+                                                        $test = $item->quantite_livree;
+                                                    }
+                                                    break;
+                                                }
                                             }
-                                            break;
+                                            ?>
+                                            <td><h3 class="text-<?= ($ligne->type == "livraison")? "orange":"green" ?> text-center"> <?= $test  ?> </h3></td>
+                                            <?php
                                         }
-                                    }
-                                    ?>
-                                    <td><h3 class="text-<?= ($ligne->type == "livraison")? "orange":"green" ?> text-center"> <?= $test  ?> </h3></td>
-                                    <?php
-                                }
+                                        ?>
+
+                                        <?php if ($ligne->type == "commande" && $ligne->operation_id != 0) { ?>
+                                            <td>
+                                                <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;">T = <?= money($ligne->montant) ?> <?= $params->devise  ?> </h4>
+                                                <small>Avance <?= money($ligne->avance) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></small>
+                                            </td>
+                                            <td data-toggle="tooltip" title="imprimer le facture">
+                                                <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->operation_id) ?>"><i class="fa fa-file-text fa-2x d-block"></i></a>
+                                            </td>
+                                        <?php }  ?>
+                                    </tr>
+                                <?php }
                                 ?>
 
-                                <?php if ($ligne->type == "commande" && $ligne->operation_id != null) { ?>
-                                    <td>
-                                        <small>Montant de la commande</small>
-                                        <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($ligne->montant) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $ligne->operation->modepayement->name();  ?>">(<?= $ligne->operation->modepayement->initial;  ?>)</small></h4>
-                                    </td>
-                                    <td data-toggle="tooltip" title="imprimer le facture">
-                                        <a target="_blank" href="<?= $rooter->url("gestion", "fiches", "boncaisse", $ligne->operation_id) ?>"><br><i style="font-size: 18px;" class="fa fa-file-text"></i></a>
-                                    </td>
-                                <?php }  ?>
+                                <tr style="height: 20px;"></tr>
 
-                            </tr>
-                        <?php }
-                        ?>
+                                <tr>
+                                    <td colspan="3"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
+                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
+                                        <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($produit->getId())) ?></h2></th>
+                                        <?php } ?>
+                                    </tr>
+                                </tbody>
+                            </table><br><hr>
 
-                        <tr style="height: 20px;"></tr>
+                            <div class="row text-center">
+                                <div class="col-md">
+                                    <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                </div>
 
-                        <tr>
-                            <td colspan="2"><h2 class="text-uppercase text-right">Reste à livrer : </h2></td>
-                            <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                <td widtd="90" class="text-center"><h2 class="gras"><?= money($groupecommande->reste($produit->getId())) ?></h2></th>
-                                <?php } ?>
-                            </tr>
-                        </tbody>
-                    </table><br><hr>
+                                <div class=" col-md">
+                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
+                                </div>
 
-                    <div class="row text-center">
-                        <div class="col-md">
-                            <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                <div class=" col-md">
+                                    <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class=" col-md">
-                            <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
-                        </div>
-
-                        <div class=" col-md">
-                            <button class="btn btn-warning dim" onclick="newlivraison(<?= $groupecommande->getId()  ?>)"><i class="fa fa-truck"></i> Faire livraison aujourd'hui</button>
-                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
-</div>

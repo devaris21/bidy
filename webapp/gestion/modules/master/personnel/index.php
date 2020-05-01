@@ -33,7 +33,7 @@
                                             <h2 class="no-margins"><?= start0(count(Home\MANOEUVRE::getAll())); ?></h2>
                                         </div>
                                         <div class="col-sm-6">
-                                            <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::getAll())); ?></h2>
+                                            <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(['visibility ='=>1]))); ?></h2>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                     <h5 class="text-uppercase">Libres</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::libres())); ?></h2>
+                                    <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS, 'visibility ='=>1]))); ?></h2>
                                 </div>
                             </div>
                         </div>

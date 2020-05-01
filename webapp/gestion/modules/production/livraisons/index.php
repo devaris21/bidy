@@ -126,7 +126,7 @@
                                     <?php if ($livraison->etat_id == Home\ETAT::ENCOURS) { ?>
                                         <button onclick="terminer(<?= $livraison->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Terminer</button>
                                         <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                                            <button onclick="annuler(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
+                                            <button onclick="annulerLivraison(<?= $livraison->getId() ?>)" class="btn btn-white btn-sm"><i class="fa fa-close text-red"></i></button>
                                         <?php } ?>
                                     <?php } ?>
                                 </td>

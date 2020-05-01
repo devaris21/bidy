@@ -55,7 +55,7 @@
                         <?php foreach ($groupes as $key => $commande) {
                             $commande->actualise(); 
                             $datas = $commande->fourni("commande");
-                            $datas1 = $commande->fourni("livraison", ["etat_id !="=>Home\ETAT::ANNULEE, "etat_id !="=>Home\ETAT::VALIDEE,]);
+                            $datas1 = $commande->fourni("livraison", ["etat_id > "=>Home\ETAT::ANNULEE, "etat_id < "=>Home\ETAT::VALIDEE]);
                             $client = $commande->client;
                             ?>
                             <tr class="border-bottom">
