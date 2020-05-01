@@ -34,7 +34,7 @@ if ($this->getId() != null) {
 		$fluxcaisse = $client->fourni("operation");
 		usort($fluxcaisse, "comparerDateCreated2");
 
-		$title = "BIDY | ".$client->name();
+		$title = "BRIXS | ".$client->name();
 
 		session("client_id", $client->getId());
 		

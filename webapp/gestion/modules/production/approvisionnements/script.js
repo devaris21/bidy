@@ -49,7 +49,7 @@ $(function(){
         var url = "../../webapp/gestion/modules/production/approvisionnements/ajax.php";
         var formdata = new FormData($("#formApprovisionnement")[0]);
         var tableau = new Array();
-        $("#modal-approvisionnement .approvisionnement tr").each(function(index, el) {
+        $("#modal-approvisionnement .approvisionnement tr, #modal-approvisionnement_ .approvisionnement tr").each(function(index, el) {
             var id = $(this).attr('data-id');
             var qte = $(this).find('input[name=quantite]').val();
             var prix = $(this).find('input[name=prix]').val();
@@ -59,7 +59,7 @@ $(function(){
         formdata.append('tableau', tableau);
         formdata.append('action', "calcul");
         $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-            $("#modal-approvisionnement tbody.approvisionnement").html(data);
+            $("#modal-approvisionnement tbody.approvisionnement, #modal-approvisionnement_ tbody.approvisionnement").html(data);
 
             formdata.append('action', "total");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){

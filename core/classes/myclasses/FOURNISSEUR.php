@@ -18,8 +18,10 @@ class FOURNISSEUR extends AUTH
 	public $contact;
 	public $email;
 	public $fax;
+	public $description;
+	public $acompte = 0;
+	public $dette = 0;
 	public $image = "default.png";
-
 
 
 
@@ -80,46 +82,154 @@ class FOURNISSEUR extends AUTH
 
 
 
-	public function se_connecter(){
-		$connexion = new CONNEXION;
-		$connexion->prestataire_id = $this->getId();
-		$connexion->connexion_prestataire();
-	}
 
-
-
-	public function se_deconnecter(){
-		$connexion = new CONNEXION;
-		$connexion->prestataire_id = $this->getId();
-		$connexion->deconnexion_prestataire();
-	}
-
-
-	public function last_connexion(){
-		$datas = CONNEXION::findBy(["prestataire_id = "=> $this->getId()], [], ["id"=>"DESC"], 1);
-		if (count($datas) == 1) {
-			$connexion = $datas[0];
-			if ($connexion->date_deconnexion == null) {
-				return date("Y-m-d H:i:s");
+	public function crediter(int $montant, Array $post){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			$payement = new OPERATION();
+			$payement->hydrater($post);
+			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+				$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+				$payement->fournisseur_id = $this->getId();
+				$payement->comment = "Acréditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+				$data = $payement->enregistre();
+				if ($data->status) {
+					$id = $data->lastid;
+					$this->acompte += intval($montant);
+					$data = $this->save();
+					$data->setUrl("gestion", "fiches", "boncaisse", $id);
+				}
 			}else{
-				return $connexion->date_deconnexion;
+				$data->status = false;
+				$data->message = "Vous ne pouvez pas choisir ce mode de payement !";
+			}			
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+	public function rembourser(int $montant, Array $post){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			if ($this->acompte >= intval($montant)) {
+				$payement = new OPERATION();
+				$payement->hydrater($post);
+				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT_FOURNISSEUR;
+					$payement->fournisseur_id = $this->getId();
+					$payement->comment = "Rembourser à partir du acompte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
+					$data = $payement->enregistre();
+					if ($data->status) {
+						$id = $data->lastid;
+						$this->acompte -= intval($montant);
+						$data = $this->save();
+						$data->setUrl("gestion", "fiches", "boncaisse", $id);
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Vous ne pouvez pas choisir ce mode de payement !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le montant à rembourser ne doit pas être supérieur au montant de son acompte!";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+	public function debiter(int $montant){
+		$data = new RESPONSE;
+		if (intval($montant) > 0 ) {
+			if ($this->acompte >= $montant) {
+				$this->acompte -= intval($montant);
+			}else{
+				$this->dette += $montant - $this->acompte;
+				$this->acompte = 0;
+			}	
+			$data = $this->save();	
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+
+	public function dette(int $montant){
+		$data = new RESPONSE;
+		if (intval($montant) > 0 ) {
+			$this->dette += intval($montant);
+			$data = $this->save();			
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+	public function reglerDette(int $montant, Array $post){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			if (intval($montant) <= $this->dette ) {
+				$payement = new OPERATION();
+				$payement->hydrater($post);
+
+				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $montant <= $this->acompte)) {
+
+					if ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+						$this->acompte -= intval($montant);
+						$this->dette -= intval($montant);
+						$data = $this->save();
+					}else{
+						$this->dette -= intval($montant);
+						$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+						$payement->fournisseur_id = $this->getId();
+						$payement->comment = "Reglement de la dette du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
+						$data = $payement->enregistre();
+						if ($data->status) {
+							$id = $data->lastid;
+							$data = $this->save();
+							$data->setUrl("gestion", "fiches", "boncaisse", $id);
+						}
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Le montant sur son acompte est insuffisant pour regler cette somme";
+				}	
+			}else{
+				$data->status = false;
+				$data->message = "Le montant à rembourser doit être inférieur à la dette !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 !";
+		}
+		return $data;
+	}
+
+
+
+	public function versements(string $date1 = "2020-04-01", string $date2){
+		$datas = $this->fourni("operation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
+		foreach ($datas as $key => $ope) {
+			$ope->actualise();
+			if ($ope->categorieoperation->typeoperationcaisse_id != TYPEOPERATIONCAISSE::ENTREE) {
+				unset($datas[$key]);
 			}
 		}
-	}
-
-
-
-
-	public function produits(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>1]);
-	}
-
-	public function services(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>2]);
-	}
-
-	public function vehicules(){
-		return PRODUIT::findBy(["prestataire_id !="=> $this->getId(), "typeproduit_id ="=>3]);
+		return comptage($datas, "montant", "somme");
 	}
 
 

@@ -1,4 +1,4 @@
-<div class="modal inmodal fade" id="modal-rembourser">
+<div class="modal inmodal fade" id="modal-fournisseur-rembourse">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,7 +8,7 @@
             <form method="POST" id="formRembourser">
                 <div class="modal-body">
                     <div class="">
-                        <label>Montant à débiter sur le compte <span1>*</span1></label>
+                        <label>Montant à se faire rembourser <span1>*</span1></label>
                         <div class="form-group">
                             <input type="text" number class="form-control" name="montant" required>
                         </div>
@@ -39,7 +39,7 @@
                     </div>              
                 </div><hr>
                 <div class="container">
-                    <input type="hidden" name="client_id" value="<?= $client->getId() ?>">
+                    <input type="hidden" name="fournisseur_id" value="<?= $fournisseur->getId() ?>">
                     <button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
                     <button class="btn btn-sm dim btn-success pull-right"><i class="fa fa-check"></i> Valider</button>
                 </div>

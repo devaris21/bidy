@@ -1,9 +1,9 @@
 <?php 
 namespace Home;
 
-$title = "BIDY | Toutes les commandes en cours";
+$title = "BRIXS | Tous les fournisseurs";
 
-$productions = PRODUCTIONJOUR::findBy(["etat_id !="=>ETAT::ENCOURS]);
+$fournisseurs = FOURNISSEUR::findBy([]);
 
 
 ?>

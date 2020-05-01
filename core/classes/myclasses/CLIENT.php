@@ -78,22 +78,27 @@ class CLIENT extends TABLE
 		$data = new RESPONSE;
 		$params = PARAMS::findLastId();
 		if (intval($montant) > 0 ) {
-			$payement = new OPERATION();
-			$payement->hydrater($post);
-			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-				$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT;
-				$payement->client_id = $this->getId();
-				$payement->comment = "Rembourser à partir du acompte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
-				$data = $payement->enregistre();
-				if ($data->status) {
-					$id = $data->lastid;
-					$this->acompte -= intval($montant);
-					$data = $this->save();
-					$data->setUrl("gestion", "fiches", "boncaisse", $id);
+			if ($this->acompte >= intval($montant)) {
+				$payement = new OPERATION();
+				$payement->hydrater($post);
+				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT;
+					$payement->client_id = $this->getId();
+					$payement->comment = "Rembourser à partir du acompte du client ".$this->name()." d'un montant de ".money($montant)." ".$params->devise."\n ".$_POST["comment1"];
+					$data = $payement->enregistre();
+					if ($data->status) {
+						$id = $data->lastid;
+						$this->acompte -= intval($montant);
+						$data = $this->save();
+						$data->setUrl("gestion", "fiches", "boncaisse", $id);
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Vous ne pouvez pas choisir ce mode de payement !";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Vous ne pouvez pas choisir ce mode de payement !";
+				$data->message = "Le montant à rembourser ne doit pas être supérieur au montant de son acompte!";
 			}			
 		}else{
 			$data->status = false;

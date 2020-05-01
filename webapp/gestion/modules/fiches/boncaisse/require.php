@@ -8,7 +8,7 @@ if ($this->getId() != null) {
 		$operation = $datas[0];
 		$operation->actualise();
 
-		$title = "BIDY | Bon de caisse ";
+		$title = "BRIXS | Bon de caisse ";
 		
 	}else{
 		header("Location: ../master/clients");

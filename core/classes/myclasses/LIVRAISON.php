@@ -57,9 +57,24 @@ class LIVRAISON extends TABLE
 	}
 
 
+	//les livraions programmées du jour
 	public static function programmee(String $date){
 		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id ="=>ETAT::PARTIEL]);
 	}
+
+
+	//les livraions effectuéez du jour
+	public static function effectuee(String $date){
+		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id !="=>ETAT::PARTIEL, "etat_id !="=>ETAT::ANNULEE]);
+	}
+
+
+	// Supprimer toutes les livraisons programmée qui n'ont pu etre effectuée...
+	public static function ResetProgramme(){
+		$requette = "DELETE FROM livraison WHERE etat_id = ? AND DATE(datelivraison) < ? ";
+		static::query($requette, [ETAT::PARTIEL, dateAjoute()]);
+	}
+
 
 
 	public function annuler(){

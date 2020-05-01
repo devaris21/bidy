@@ -56,13 +56,16 @@
                     </li>
 
                     <li class="groupe">
-                        <a href="#"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons en cours</span> <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a>
+                        <a href="#"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li class="" id="livraisons"><a href="<?= $this->url("gestion", "production", "livraisons") ?>">Livraison en cours <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a></li>
                             <li class="" id="programmes"><a href="<?= $this->url("gestion", "production", "programmes") ?>">Programme de livraison</a></li>
                         </ul>
                     </li>
-
+                    
+                    <li class="" id="fournisseurs">
+                        <a href="<?= $this->url("gestion", "production", "fournisseurs") ?>"><i class="fa fa-address-book-o"></i> <span class="nav-label">Liste des Fournisseurs</span></a>
+                    </li>
                     <li class="" id="approvisionnements">
                         <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnement</span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
                     </li>
@@ -83,7 +86,7 @@
 
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
-                   <li class="" id="comptedujour">
+                 <li class="" id="comptedujour">
                     <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
                 <li class="" id="caisse">
@@ -95,7 +98,7 @@
                         <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
                         <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
                         <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
-                       <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
+                        <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
                     </ul>
                 </li>
                 <li class="dropdown-divider"></li>

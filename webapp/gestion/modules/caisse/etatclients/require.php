@@ -37,7 +37,7 @@ usort($clients, "comparer1");
 $stats = CLIENT::stats($date1, $date2);
 
 
-$title = "BIDY | Etat récapitulatif des clients ";
+$title = "BRIXS | Etat récapitulatif des clients ";
 
 
 ?>

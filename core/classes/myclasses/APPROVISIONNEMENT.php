@@ -12,7 +12,7 @@ class APPROVISIONNEMENT extends TABLE
 
 	public $reference;
 	public $montant = 0;
-	public $operation_id = 1;
+	public $operation_id = 0;
 	public $fournisseur_id = 1;
 	public $employe_id;
 	public $etat_id;

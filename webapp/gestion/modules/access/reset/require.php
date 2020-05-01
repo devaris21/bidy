@@ -1,4 +1,4 @@
 <?php 
 
-$title = "BIDY | J'ai oublié mon mot de passe ";
+$title = "BRIXS | J'ai oublié mon mot de passe ";
 ?>

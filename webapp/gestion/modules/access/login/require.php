@@ -4,5 +4,5 @@
 unset($_GET);
 unset($_POST);
 
-$title = "BIDY | Espace de connexion";
+$title = "BRIXS | Espace de connexion";
 ?>

@@ -12,5 +12,5 @@ $ressources = RESSOURCE::getAll();
 $productionjours = PRODUCTIONJOUR::findBy([],[],["ladate"=>"DESC"], $id);
 usort($productionjours, 'comparerLadate');
 
-$title = "BIDY | Stock des ressources ";
+$title = "BRIXS | Stock des ressources ";
 ?>

@@ -2,7 +2,7 @@
 namespace Home;
 
 
-$title = "BIDY | Historiques & Traçabilité ";
+$title = "BRIXS | Historiques & Traçabilité ";
 
 
 

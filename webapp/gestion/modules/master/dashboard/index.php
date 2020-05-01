@@ -33,7 +33,14 @@
                                 <h5>Livraisons pour aujourd'hui</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(count($groupes__)); ?> / <?= start0(count($livraisons__)); ?></h2>
+                                <div class="row text-center">
+                                    <div class="col-sm-6 border-right">
+                                        <h2 class="no-margins"><?= start0(count(Home\LIVRAISON::programmee(dateAjoute()))); ?></h2>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h2 class="no-margins"><?= start0(count(Home\LIVRAISON::effectuee(dateAjoute()))); ?></h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -43,7 +50,14 @@
                                 <h5>Véhicules / Machines</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(count(Home\VEHICULE::getAll())); ?> / <?= start0(count(Home\MACHINE::getAll())); ?></h2>
+                                <div class="row text-center">
+                                    <div class="col-sm-6 border-right">
+                                        <h2 class="no-margins"><?= start0(count(Home\VEHICULE::getAll())); ?></h2>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h2 class="no-margins"><?= start0(count(Home\MACHINE::getAll())); ?></h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,7 +67,14 @@
                                 <h5>Le personnel</h5>
                             </div>
                             <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(count(array_merge(Home\CHAUFFEUR::getAll(), Home\MANOEUVRE::getAll())))  ?> personnes</h2>
+                                <div class="row text-center">
+                                    <div class="col-sm-6 border-right">
+                                        <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::getAll())) ?></h2>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h2 class="no-margins"><?= start0(count(Home\MANOEUVRE::getAll())); ?></h2>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

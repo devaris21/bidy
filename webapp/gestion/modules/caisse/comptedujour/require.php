@@ -47,5 +47,5 @@ $entretiensv = ENTRETIENVEHICULE::jour($date);
 $entretiensm = ENTRETIENMACHINE::jour($date);
 
 
-$title = "BIDY | Rapport général de la journée ";
+$title = "BRIXS | Rapport général de la journée ";
 ?>

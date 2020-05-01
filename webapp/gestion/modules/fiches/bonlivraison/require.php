@@ -10,7 +10,7 @@ if ($this->getId() != null) {
 
 		$livraison->fourni("lignelivraison");
 
-		$title = "BIDY | Bon de livraison ";
+		$title = "BRIXS | Bon de livraison ";
 		
 	}else{
 		header("Location: ../master/clients");

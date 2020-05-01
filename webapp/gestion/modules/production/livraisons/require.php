@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$title = "BIDY | Toutes les livraisons en cours";
+$title = "BRIXS | Toutes les livraisons en cours";
 
 $livraisons = LIVRAISON::getAll();
 $total = 0;

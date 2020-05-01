@@ -2,7 +2,7 @@
 namespace Home;
 
 
-$title = "BIDY | Configuration de Base";
+$title = "BRIXS | Configuration de Base";
 
 
 ?>

@@ -2,8 +2,9 @@
 namespace Home;
 
 GROUPECOMMANDE::etat();
+LIVRAISON::ResetProgramme();
 
-$title = "BIDY | Tableau de bord";
+$title = "BRIXS | Tableau de bord";
 
 $tableau = [];
 foreach (PRODUIT::getAll() as $key => $prod) {

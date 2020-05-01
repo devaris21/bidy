@@ -10,7 +10,7 @@
                     <div class="">
                         <label>Montant pour le reglement <span1>*</span1></label>
                         <div class="form-group">
-                            <input type="text" number class="form-control" name="montant" max="<?= $client->dette ?>" min="0" required>
+                            <input type="text" number class="form-control" name="montant" value="<?= $client->dette ?>" max="<?= $client->dette ?>" min="0" required>
                         </div>
                     </div>   
                     <div>

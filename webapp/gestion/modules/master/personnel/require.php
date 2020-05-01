@@ -8,5 +8,5 @@ foreach ($groupes as $key => $value) {
 
 $chauffeurs = CHAUFFEUR::findBy(["visibility ="=>1]);
 
-$title = "BIDY | Le personnel";
+$title = "BRIXS | Le personnel";
 ?>

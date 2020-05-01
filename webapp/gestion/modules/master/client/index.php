@@ -21,7 +21,7 @@
                         <div class="ibox-content">
                             <p></p>
                             <div class="">                                
-                               <ul class="nav nav-tabs">
+                             <ul class="nav nav-tabs">
                                 <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Les commandes en cours</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-2"><i class="fa fa-file-text-o"></i> Flux des commandes</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-3"><i class="fa fa-money"></i> Transactions de caisse</a></li>
@@ -30,7 +30,7 @@
 
 
 
-                               <?php if ($employe->isAutoriser("production")) { ?>
+                             <?php if ($employe->isAutoriser("production")) { ?>
 
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
@@ -48,8 +48,8 @@
                                                         <tr>
                                                             <th></th>
                                                             <?php foreach (Home\PRODUIT::getAll() as $key => $produit){ 
-                                                             $reste = $commande->reste($produit->getId());
-                                                             if ($reste > 0) { ?>
+                                                               $reste = $commande->reste($produit->getId());
+                                                               if ($reste > 0) { ?>
                                                                 <th class="text-center"><?= $produit->name() ?></th>
                                                             <?php }
                                                         } ?>
@@ -98,8 +98,8 @@
                                                                     <?php } ?>
                                                                     <th class="text-center mp0" style="background-color: transparent; border: none">
                                                                         <?php if ($transaction->type == "commande") { ?>
-                                                                           <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
-                                                                       <?php }else{ ?>
+                                                                         <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                                                     <?php }else{ ?>
                                                                         <a target="_blank" href="<?= $this->url("gestion", "fiches", "bonlivraison", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de livraison</a>
                                                                     <?php } ?>
                                                                 </th>
@@ -116,63 +116,67 @@
                                                                 <?php if ($transaction->type == "commande" && $transaction->operation_id != null) { ?>
                                                                     <td>
                                                                         <small>Montant de la commande</small>
-                                                                        <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $transaction->operation->modepayement->name();  ?>">(<?= $transaction->operation->modepayement->initial;  ?>)</small></h4>
-                                                                    </td>
-                                                                    <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
-                                                                        <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                            <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
-                                                                        <?php } ?>       
-                                                                    </td>
-                                                                <?php }  ?>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                                        <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> 
+                                                                        <?php if ($transaction->operation_id != 0) { ?>
+                                                                            <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $transaction->operation->modepayement->name();  ?>">(<?= $transaction->operation->modepayement->initial;  ?>)</small>
+                                                                        <?php } ?>   
+                                                                    </h4>
+                                                                </td>
+                                                                <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
+                                                                    <?php if ($employe->isAutoriser("caisse")) { ?>
+                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                    <?php } ?>       
+                                                                </td>
+                                                            <?php }  ?>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    <?php } ?>                                      
-                                </div>
-
-                            </div>
-                        <?php } ?>
-
-
-                        <?php if ($employe->isAutoriser("caisse")) { ?>
-                           <div id="tab-3" class="tab-pane"><br>
-                            <?php foreach ($fluxcaisse as $key => $transaction) {
-                                $transaction->actualise(); ?>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-2 date" style="padding-right: 1%; padding-left: 1%;">
-                                            <i data-toggle="tooltip" tiitle="Imprimer le bon de <?= $transaction->type  ?> " class="fa fa-file-text"></i>
-                                            <?= heurecourt($transaction->created) ?>
-                                            <br/>
-                                            <small class="text-navy"><?= datecourt($transaction->created) ?></small>
-                                        </div>
-                                        <div class="col-10 content">
-                                            <p>
-                                                <span class="">Bon de caisse N°<strong><?= $transaction->reference ?></strong></span>
-                                                <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
-                                                    <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
-                                                    <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                    <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
-                                                </span>
-                                            </p>
-                                            <p class="m-b-xs"><?= $transaction->comment ?> </p>
-                                            <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
-                                        </div>
                                     </div>
-                                </div>
-                            <?php } ?>                 
+                                <?php } ?>                                      
+                            </div>
+
                         </div>
                     <?php } ?>
 
 
-                </div>
+                    <?php if ($employe->isAutoriser("caisse")) { ?>
+                     <div id="tab-3" class="tab-pane"><br>
+                        <?php foreach ($fluxcaisse as $key => $transaction) {
+                            $transaction->actualise(); ?>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-2 date" style="padding-right: 1%; padding-left: 1%;">
+                                        <i data-toggle="tooltip" tiitle="Imprimer le bon de <?= $transaction->type  ?> " class="fa fa-file-text"></i>
+                                        <?= heurecourt($transaction->created) ?>
+                                        <br/>
+                                        <small class="text-navy"><?= datecourt($transaction->created) ?></small>
+                                    </div>
+                                    <div class="col-10 content">
+                                        <p>
+                                            <span class="">Bon de caisse N°<strong><?= $transaction->reference ?></strong></span>
+                                            <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
+                                                <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
+                                                <small>Par <?= $transaction->modepayement->name() ?></small><br>
+                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                            </span>
+                                        </p>
+                                        <p class="m-b-xs"><?= $transaction->comment ?> </p>
+                                        <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>                 
+                    </div>
+                <?php } ?>
+
 
             </div>
+
         </div>
     </div>
+</div>
 </div>
 
 <div class="col-sm-4">
@@ -201,7 +205,7 @@
                         <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
 
                         <?php if ($client->acompte > 0) { ?>
-                           <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
+                         <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
                             class="fa fa-minus"></i> Rembourser le client
                         </button>
                     <?php } ?>
@@ -211,7 +215,7 @@
                     <span>Dette actuelle du client</span><br>
                     <h2 class="font-bold d-inline text-red"><?= money($client->dette) ?> <?= $params->devise  ?></h2> 
                     <?php if ($client->dette > 0) { ?>
-                      <button data-toggle="modal" data-target="#modal-dette" class="cursor bg-danger simple_tag pull-right"><i class="fa fa-money"></i> Régler la dette</button>
+                      <button data-toggle="modal" data-target="#modal-dette" class="cursor bg-danger simple_tag pull-right text-white"><i class="fa fa-money"></i> Régler la dette</button>
                   <?php } ?>                   
 
               </div>
@@ -231,7 +235,7 @@
 <div class="modal inmodal fade" id="modal-listecommande">
     <div class="modal-dialog">
         <div class="modal-content">
-           <div class="modal-header">
+         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">Choisir la commande</h4>
             <span>Double-cliquez pour selectionner la commande voulue !</span>

@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$title = "BIDY | Programmation des livraisons";
+$title = "BRIXS | Programmation des livraisons";
 
 
 ?>

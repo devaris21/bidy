@@ -1,6 +1,6 @@
 <?php 
 namespace Home;
-$title = "BIDY | Renouvellement de l'abonnement ";
+$title = "BRIXS | Renouvellement de l'abonnement ";
 
 $mycompte = MYCOMPTE::findLastId();
 

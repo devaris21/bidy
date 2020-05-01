@@ -22,52 +22,41 @@
                 </div>
             </div>
             <div class="col-sm-3">
-               <div class="row">
-                <div class="col-md-12">
-                    <div class="widget style1 lazur-bg">
-                        <div class="row">
-                            <div class="col-3">
-                                <i class="fa fa-th-large fa-3x"></i>
-                            </div>
-                            <div class="col-9 text-right">
-                                <span> Commandes en cours </span>
-                                <h2 class="font-bold"><?= start0(count([]))  ?></h2>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="wrapper wrapper-content">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Programme de livraison</h5>
-                <div class="ibox-tools">
-                   
-                </div>
-            </div>
-            <div class="ibox-content">
-              <table class="table table-hover table-commande">
-                    <tbody>
-                        <?php for ($i=0; $i < 7; $i++) {
-                            $date = dateAjoute($i);
-                            $datas = Home\LIVRAISON::findBy(["etat_id ="=>Home\ETAT::PARTIEL, "DATE(datelivraison) ="=>$date])
-                            ?>
-                            <tr>
-                                <td><h2 class="gras"><?= datecourt($date) ?></h2></td>
-                                <td style="width: 80%;" class="border-left">
-                                    <div class="row">
-                                        <?php foreach ($datas as $key => $livraison) {
-                                            $livraison->actualise();
-                                            $lots = $livraison->fourni("lignelivraison");
-                                            ?>
-                                            <div class="col-md-6 border-right border-bottom" style="margin-bottom: 2%;">
-                                                <h4><?= $livraison->groupecommande->client->name() ?> 
-                                                || <small onclick="modifier(<?= $livraison->getId() ?>)" class=" cursor"><i class="fa fa-pencil"></i> Modifier</small> 
-                                                <small onclick="deleteWithPassword('livraison', <?= $livraison->getId() ?>)" class="pull-right cursor"><i class="fa fa-close text-red fa-2x"></i></small>&nbsp;&nbsp;&nbsp;
-                                            </h4>
+            <div class="wrapper wrapper-content">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Programme de livraison</h5>
+                        <div class="ibox-tools">
+                         
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                      <table class="table table-hover table-commande">
+                        <tbody>
+                            <?php for ($i=0; $i < 7; $i++) {
+                                $date = dateAjoute($i);
+                                $datas = Home\LIVRAISON::findBy(["etat_id ="=>Home\ETAT::PARTIEL, "DATE(datelivraison) ="=>$date])
+                                ?>
+                                <tr>
+                                    <td><h2 class="gras"><?= datecourt($date) ?></h2></td>
+                                    <td style="width: 80%;" class="border-left">
+                                        <div class="row">
+                                            <?php foreach ($datas as $key => $livraison) {
+                                                $livraison->actualise();
+                                                $lots = $livraison->fourni("lignelivraison");
+                                                ?>
+                                                <div class="col-md-6 border-right border-bottom" style="margin-bottom: 2%;">
+                                                    <h4><?= $livraison->groupecommande->client->name() ?> 
+                                                    || <small onclick="modifier(<?= $livraison->getId() ?>)" class=" cursor"><i class="fa fa-pencil"></i> Modifier</small> 
+                                                    <small onclick="deleteWithPassword('livraison', <?= $livraison->getId() ?>)" class="pull-right cursor"><i class="fa fa-close text-red fa-2x"></i></small>&nbsp;&nbsp;&nbsp;
+                                                </h4>
                                                 <table class="table table-bordered">
                                                     <thead>
                                                         <tr>
@@ -87,23 +76,23 @@
                                                     </tbody>
                                                 </table>
                                                 <?php if ($date == dateAjoute()) { ?>
-                                                   <button style="margin-top: -3%" onclick="validerProg(<?= $livraison->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
-                                                <?php } ?>
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php  } ?>
-                    </tbody>
-                </table>
+                                                 <button style="margin-top: -3%" onclick="validerProg(<?= $livraison->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
+                                             <?php } ?>
+                                         </div>
+                                     <?php } ?>
+                                 </div>
+                             </td>
+                         </tr>
+                     <?php  } ?>
+                 </tbody>
+             </table>
 
-        </div>
-    </div>
-</div>
+         </div>
+     </div>
+ </div>
 
 
-<?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?> 
+ <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?> 
 
 </div>
 </div>

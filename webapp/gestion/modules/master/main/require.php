@@ -1,4 +1,4 @@
 <?php 
 
-$title = "BIDY | Espace d'Administration ";
+$title = "BRIXS | Espace d'Administration ";
 ?>

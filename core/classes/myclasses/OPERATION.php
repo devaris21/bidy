@@ -19,6 +19,7 @@ class OPERATION extends TABLE
 	public $comment;
 	public $client_id = CLIENT::CLIENTSYSTEME;
 	public $manoeuvre_id;
+	public $fournisseur_id;
 	public $structure;
 	public $numero;
 	public $date_approbation;

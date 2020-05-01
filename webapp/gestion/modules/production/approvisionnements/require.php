@@ -3,7 +3,7 @@ namespace Home;
 
 unset_session("ressources");
 
-$title = "BIDY | Toutes les livraisons en cours";
+$title = "BRIXS | Toutes les livraisons en cours";
 
 $approvisionnements = APPROVISIONNEMENT::findBy(["visibility ="=> 1]);
 $total = 0;

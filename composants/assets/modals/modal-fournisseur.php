@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label>Adresse email <span1>*</span1></label>
+                            <label>Adresse email </label>
                             <div class="form-group">
                                 <input type="email" class="form-control" name="email">
                             </div>
@@ -39,11 +39,20 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <label>Fax <span1>*</span1></label>
+                            <label>Fax </label>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="fax">
                             </div>
                         </div>
+                        <div class="col-md-4 col-sm-6">
+                            <label>Description </label>
+                            <div class="form-group">
+                                <textarea class="form-control" name="description" rows="4" placeholder="Ex...fournisseur de ciment"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-sm-4">
                             <label>Photo ou logo</label>
                             <div class="">

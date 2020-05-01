@@ -12,5 +12,5 @@ foreach ($operations as $key => $value) {
 }
 $statistiques = OPERATION::statistiques();
 
-$title = "BIDY | Compte de caisse";
+$title = "BRIXS | Compte de caisse";
 ?>

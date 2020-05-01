@@ -42,5 +42,5 @@ usort($datas2, "comparerPct");
 
 $stats = OPERATION::stats($date1, $date2);
 
-$title = "BIDY | Etat récapitulatif des clients ";
+$title = "BRIXS | Etat récapitulatif des clients ";
 ?>

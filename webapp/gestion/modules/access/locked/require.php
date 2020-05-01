@@ -1,6 +1,6 @@
 <?php 
 namespace Home;
-$title = "BIDY | Session vérouillée ";
+$title = "BRIXS | Session vérouillée ";
 
 $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 if (count($datas) >0) {

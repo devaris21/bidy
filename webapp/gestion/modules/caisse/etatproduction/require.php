@@ -37,5 +37,5 @@ if ($perte > 0) {
 $ressources = RESSOURCE::getAll();
 usort($produits, "comparerPerte");
 
-$title = "BIDY | Etat récapitulatif des produits ";
+$title = "BRIXS | Etat récapitulatif des produits ";
 ?>

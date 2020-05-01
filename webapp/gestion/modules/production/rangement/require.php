@@ -1,7 +1,7 @@
 <?php 
 namespace Home;
 
-$title = "BIDY | Toutes les commandes en cours";
+$title = "BRIXS | Rangements de la production";
 
 $productions = PRODUCTIONJOUR::findBy(["etat_id !="=>ETAT::ENCOURS]);
 

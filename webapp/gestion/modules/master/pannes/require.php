@@ -32,5 +32,5 @@ foreach ($demandes as $key => $value) {
 $lesentretiens = array_merge($pannes, $demandes);
 usort($lesentretiens, "comparerDateCreated");
 
-$title = "BIDY | Pannes  de véhicules/Machine";
+$title = "BRIXS | Pannes  de véhicules/Machine";
 ?>
