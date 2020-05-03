@@ -25,6 +25,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins"><?= money(Home\COMMANDE::CA(date("Y")."-01-01" , dateAjoute())) ?></h1>
+                             <div class="stat-percent font-bold text-warning"><?= money(Home\CLIENT::dettes()) ?></div>
+                            <small>Dette des clients</small>
                         </div>
                     </div>
                 </div>
@@ -36,8 +38,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-green"><?= money(Home\OPERATION::entree(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small> -->
+                            <div class="stat-percent font-bold text-green"><?= money(Home\OPERATION::entree(date("Y")."-01-01" , dateAjoute())) ?></div>
+                            <small>Total annuel</small>
                         </div>
                     </div>
                 </div>
@@ -50,8 +52,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins text-red"><?= money(Home\OPERATION::sortie(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small> -->
+                            <div class="stat-percent font-bold text-red"><?= money(Home\OPERATION::sortie(date("Y")."-01-01" , dateAjoute())) ?></div>
+                            <small>Total annuel</small>
                         </div>
                     </div>
                 </div>
@@ -63,8 +65,8 @@
                         </div>
                         <div class="ibox-content">
                             <h1 class="no-margins"><?= money(Home\OPERATION::resultat(date("Y-m")."-01" , dateAjoute())) ?></h1>
-                           <!--  <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>Progession</small> -->
+                            <div class="stat-percent font-bold text-info"><?= money(Home\OPERATION::resultat(date("Y")."-01-01" , dateAjoute())) ?></div>
+                            <small>Total annuel</small>
                         </div>
                     </div>
                 </div>

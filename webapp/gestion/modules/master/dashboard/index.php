@@ -89,13 +89,11 @@
                             <ul class="list-group clear-list m-t">
                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
                                     <li class="list-group-item">
-                                        <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
-                                            <i class="fa fa-cubes"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
-                                            <span class="float-right">
-                                                <span class="label label-success"><?= money($produit->livrable()) ?></span>
-                                                <span class="text-default"><?= money($produit->enAttente()) ?></span>
-                                            </span>
-                                        </a>
+                                        <i class="fa fa-cubes"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
+                                        <span class="float-right">
+                                            <span class="label label-success"><?= money($produit->livrable()) ?></span>
+                                            <span class="text-default"><?= money($produit->enAttente()) ?></span>
+                                        </span>
                                     </li>
                                 <?php } ?>
                                 <li class="list-group-item"></li>
@@ -143,12 +141,10 @@
                             <ul class="list-group  text-left clear-list m-t">
                                 <?php foreach (Home\RESSOURCE::getAll() as $key => $ressource) { ?>
                                     <li class="list-group-item">
-                                        <a class="text-dark" href="<?= $this->url("gestion", "master", "demandevehicules")  ?>">
-                                            <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
-                                            <span class="float-right">
-                                                <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
-                                            </span>
-                                        </a>
+                                        <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
+                                        <span class="float-right">
+                                            <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
+                                        </span>
                                     </li>
                                 <?php } ?>
                                 <li class="list-group-item"></li>

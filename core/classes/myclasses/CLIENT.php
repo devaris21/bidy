@@ -60,6 +60,11 @@ class CLIENT extends TABLE
 					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
+
+					$payement->acompteClient = $this->acompte;
+					$payement->detteClient = $this->dette;
+					$payement->save();
+
 					$data->setUrl("gestion", "fiches", "boncaisse", $id);
 				}
 			}else{
@@ -90,6 +95,11 @@ class CLIENT extends TABLE
 						$id = $data->lastid;
 						$this->acompte -= intval($montant);
 						$data = $this->save();
+
+						$payement->acompteClient = $this->acompte;
+						$payement->detteClient = $this->dette;
+						$payement->save();
+
 						$data->setUrl("gestion", "fiches", "boncaisse", $id);
 					}
 				}else{
@@ -163,6 +173,11 @@ class CLIENT extends TABLE
 						if ($data->status) {
 							$id = $data->lastid;
 							$data = $this->save();
+
+							$payement->acompteClient = $this->acompte;
+							$payement->detteClient = $this->dette;
+							$payement->save();
+							
 							$data->setUrl("gestion", "fiches", "boncaisse", $id);
 						}
 					}
@@ -182,7 +197,6 @@ class CLIENT extends TABLE
 	}
 
 
-
 	public function versements(string $date1 = "2020-04-01", string $date2){
 		$datas = $this->fourni("operation", ["DATE(created) >= " => $date1, "DATE(created) <= " => $date2]);
 		foreach ($datas as $key => $ope) {
@@ -192,6 +206,12 @@ class CLIENT extends TABLE
 			}
 		}
 		return comptage($datas, "montant", "somme");
+	}
+
+
+
+	public static function dettes(){
+		return comptage(static::getAll(), "dette", "somme");
 	}
 
 
@@ -218,7 +238,7 @@ class CLIENT extends TABLE
 
 			$tableaux[] = $data;
 			///////////////////////
-			
+
 			$index = $fin;
 		}
 		return $tableaux;

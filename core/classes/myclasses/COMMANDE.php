@@ -23,6 +23,9 @@ class COMMANDE extends TABLE
 	public $etat_id = ETAT::VALIDEE;
 	public $employe_id;
 	public $comment;
+
+	public $acompteClient = 0;
+	public $detteClient = 0;
 	
 
 
