@@ -60,6 +60,11 @@ class CLIENT extends TABLE
 					$id = $data->lastid;
 					$this->acompte += intval($montant);
 					$data = $this->save();
+
+					$payement->acompteClient = $this->acompte;
+					$payement->detteClient = $this->dette;
+					$payement->save();
+
 					$data->setUrl("gestion", "fiches", "boncaisse", $id);
 				}
 			}else{
@@ -90,6 +95,11 @@ class CLIENT extends TABLE
 						$id = $data->lastid;
 						$this->acompte -= intval($montant);
 						$data = $this->save();
+
+						$payement->acompteClient = $this->acompte;
+						$payement->detteClient = $this->dette;
+						$payement->save();
+
 						$data->setUrl("gestion", "fiches", "boncaisse", $id);
 					}
 				}else{
@@ -163,6 +173,11 @@ class CLIENT extends TABLE
 						if ($data->status) {
 							$id = $data->lastid;
 							$data = $this->save();
+
+							$payement->acompteClient = $this->acompte;
+							$payement->detteClient = $this->dette;
+							$payement->save();
+							
 							$data->setUrl("gestion", "fiches", "boncaisse", $id);
 						}
 					}

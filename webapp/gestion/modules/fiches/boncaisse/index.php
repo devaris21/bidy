@@ -57,14 +57,33 @@
                                     <div class="text">
                                         <span><?= $operation->categorieoperation->typeoperationcaisse->name() ?> d'un montant de</span> <span class="lettre text-capitalize"><?= enLettre($operation->montant) ?> <?= $params->devise  ?></span><br>
                                         <span>pour <i><?= $operation->comment ?></i>.</span>
-                                        <p class="m-b-xs"><?= $operation->structure ?> - <?= $operation->numero ?></p>
-                                        <br>
-                                    </div><br>
+                                        <p class="m-b-xs"><?= $operation->structure ?> - <?= $operation->numero ?></p><br>
+                                    </div>
 
                                     <div class="text">
                                         <h4><u><?= ($operation->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::SORTIE)?"Bénéficiaire":"Client"  ?> :</u> <span class="text-uppercase"><?= $operation->client->name() ?></span></h4>
-                                    </div><br><br>
+                                    </div>
 
+                                    <?php if($operation->client_id > 1){ ?>
+                                        <table class="table">
+                                            <tbody>
+                                                <tr class="border">
+                                                    <td colspan="3" class="text-right">
+                                                        <h4 class="text-uppercase mp0">Solde de l'acompte du client =</h4>
+                                                    </td>
+                                                    <td></td>
+                                                    <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($operation->acompteClient) ?> <?= $params->devise ?></h3></td>
+                                                </tr>
+                                                <tr class="border">
+                                                    <td colspan="3" class="text-uppercase text-right"><h4 class=" text-red ">Dette totale du client = </h4></td>
+                                                    <td></td>
+                                                    <td colspan="1" class="text-center"><h3 class="gras text-danger"><?= money($operation->detteClient) ?> <?= $params->devise ?></h3></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    <?php } ?>
+
+                                    <br><br>
 
                                     <div class="row">
                                         <div class="col-6">

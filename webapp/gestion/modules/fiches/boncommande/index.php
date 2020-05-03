@@ -95,18 +95,15 @@
                                             <td colspan="1" class="text-center"><h4 class="text-muted"><?= money($commande->tva) ?> <?= $params->devise ?></h4></td>
                                         </tr>
 
-                                        <tr style="height: 10px;"></tr>
-                                        <tr></tr>
+                                        <tr style="height: 35px;"></tr>
 
-                                        <tr>
+                                        <tr class="border">
                                             <td colspan="3" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
                                             <td></td>
                                             <td colspan="1" class="text-center"><h2 class="gras text-success"><?= money($commande->montant) ?> <?= $params->devise ?></h2></td>
                                         </tr>
 
-                                        <tr style="height: 15px;"></tr>
-
-                                        <tr>
+                                        <tr class="border">
                                             <td colspan="3" class="text-right">
                                                 <h3 class="text-uppercase mp0">Avance sur montant = </h3>
                                                 <?php if ($commande->operation_id == 0) { ?>
@@ -119,15 +116,30 @@
                                             <td></td>
                                             <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->avance) ?> <?= $params->devise ?></h3></td>
                                         </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "danger":"muted"  ?> ">reste <?= ($commande->operation_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer"  ?> = </h4></td>
+                                        <tr class="border">
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "warning":"muted"  ?> ">reste <?= ($commande->operation_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer pour cette commande"  ?> = </h4></td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "danger":"muted"  ?>"><?= money($commande->reste) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "warning":"muted"  ?>"><?= money($commande->reste) ?> <?= $params->devise ?></h3></td>
+                                        </tr>
+
+                                        <tr style="height: 45px;"></tr>
+
+                                        <tr class="border">
+                                            <td colspan="3" class="text-right">
+                                                <h4 class="text-uppercase mp0">Solde de l'acompte du client =</h4>
+                                            </td>
+                                            <td></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->acompteClient) ?> <?= $params->devise ?></h3></td>
+                                        </tr>
+                                        <tr class="border">
+                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-red ">Dette totale du client = </h4></td>
+                                            <td></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "danger":"muted"  ?>"><?= money($commande->detteClient) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                     </tbody>
                                 </table>
 
-                                <br><br>
+                                <br><br><br>
                                 <div class="row text-center" style="margin-top: -2%">
                                     <div class="offset-9 col-3" style="padding-top: 0.5%; height: 100px;">
                                         <span><u>Signature & Cachet</u></span>
@@ -136,8 +148,8 @@
                             </div>
 
 
-                            <hr>
-
+                            <br><br><hr class="mp0">
+                            <p class="text-center"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
 
 
 

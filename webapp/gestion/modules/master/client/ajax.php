@@ -206,9 +206,17 @@ if ($action == "validerCommande") {
 								$commande->operation_id = $lot->lastid;
 							}
 
+							$client->actualise();
+							$payement->acompteClient = $client->acompte;
+							$payement->detteClient = $client->dette;
+							$payement->save();
+
 							$commande->tva = $tva;
 							$commande->montant = $total;
 							$commande->reste = $commande->montant - $commande->avance;
+							
+							$commande->acompteClient = $client->acompte;
+							$commande->detteClient = $client->dette;
 							$data = $commande->save();
 
 							$data->url1 = $data->setUrl("gestion", "fiches", "boncaisse", $lot->lastid);

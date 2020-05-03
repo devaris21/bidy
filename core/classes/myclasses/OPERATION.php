@@ -25,6 +25,9 @@ class OPERATION extends TABLE
 	public $date_approbation;
 	public $isModified = 0;
 
+	public $acompteClient = 0;
+	public $detteClient = 0;
+
 
 	public function enregistre(){
 		$data = new RESPONSE;

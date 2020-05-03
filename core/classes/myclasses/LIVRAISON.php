@@ -71,8 +71,17 @@ class LIVRAISON extends TABLE
 
 	// Supprimer toutes les livraisons programmée qui n'ont pu etre effectuée...
 	public static function ResetProgramme(){
-		$requette = "DELETE FROM livraison WHERE etat_id = ? AND DATE(datelivraison) < ? ";
-		static::query($requette, [ETAT::PARTIEL, dateAjoute()]);
+		$datas = LIVRAISON::findBy(["etat_id ="=>ETAT::PARTIEL, "DATE(datelivraison) <"=>dateAjoute()]);
+		foreach ($datas as $key => $livraison) {
+			$livraison->fourni("lignelivraison");
+			foreach ($livraison->lignelivraisons as $key => $value) {
+				$value->delete();
+			}
+			$livraison->delete();
+		}
+		
+		// $requette = "DELETE FROM livraison WHERE etat_id = ? AND DATE(datelivraison) < ? ";
+		// static::query($requette, [ETAT::PARTIEL, dateAjoute()]);
 	}
 
 

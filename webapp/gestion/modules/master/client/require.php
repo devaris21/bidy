@@ -1,6 +1,8 @@
 <?php 
 namespace Home;
 
+GROUPECOMMANDE::etat();
+
 unset_session("produits");
 unset_session("commande-encours");
 
