@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-9 text-right">
                                 <span> Rangements de la production </span>
-                                <h2 class="font-bold"><?= start0(count($productions))  ?></h2>
+                                <h2 class="font-bold"><?= start0(count(Home\PRODUCTIONJOUR::ranges()))  ?></h2>
                             </div>
                         </div>
                     </div>

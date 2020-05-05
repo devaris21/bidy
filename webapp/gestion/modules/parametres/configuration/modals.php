@@ -5,114 +5,9 @@
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
-<div class="modal inmodal fade" id="modal-produit">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Formulaire de produit</h4>
-			</div>
-			<form method="POST" class="formShamman" classname="produit">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-sm-6">
-							<label>Libéllé </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="name" required>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<label>Description </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="description" required>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<label>Stock actuel </label>
-							<div class="form-group">
-								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<label>Illustration du produit</label>
-							<div class="">
-								<img style="width: 80px;" src="" class="img-thumbnail logo">
-								<input class="hide" type="file" name="image">
-								<button type="button" class="btn btn-sm bg-purple pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
-							</div>
-						</div>
-					</div>
-				</div><hr>
-				<div class="container">
-					<input type="hidden" name="id">
-					<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
-					<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
-				</div>
-				<br>
-			</form>
-		</div>
-	</div>
-</div>
+<?php include($this->rootPath("composants/assets/modals/modal-produit.php") );  ?>
 
-
-<div class="modal inmodal fade" id="modal-ressource">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">Formulaire de ressource</h4>
-			</div>
-			<form method="POST" class="formShamman" classname="ressource">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-sm-6">
-							<label>Libéllé </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="name" required>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<label>Unité de mesure </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="unite" required placeholder="Ex... tonne">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-4">
-							<label>abbréviation </label>
-							<div class="form-group">
-								<input type="text" class="form-control" name="abbr" placeholder="Ex... T" required>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<label>Stock actuel </label>
-							<div class="form-group">
-								<input type="number" number class="form-control" name="stock" value="0" min="0" required>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<label>Image ressource</label>
-							<div class="">
-								<img style="width: 80px;" src="" class="img-thumbnail logo">
-								<input class="hide" type="file" name="image">
-								<button type="button" class="btn btn-sm bg-purple pull-right btn_image"><i class="fa fa-image"></i> Ajouter une image</button>
-							</div>
-						</div>
-					</div>
-				</div><hr>
-				<div class="container">
-					<input type="hidden" name="id">
-					<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
-					<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
-				</div>
-				<br>
-			</form>
-		</div>
-	</div>
-</div>
+<?php include($this->rootPath("composants/assets/modals/modal-ressource.php") );  ?>
 
 
 
@@ -135,12 +30,14 @@
 									<div class="col-6">
 										<label>Production</label>
 										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
-
 									</div>
 									<div class="col-6">
 										<label>Rangement</label>
-										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price ?>">
-
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
+									</div>
+									<div class="col-6">
+										<label>Livraison</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
 									</div>
 								</div><br>
 							</div>					
@@ -157,6 +54,52 @@
 		</div>
 	</div>
 </div>
+
+
+
+<div class="modal inmodal fade" id="modal-paye_produit_ferie">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title text-red">Prix de paye du produit les jours fériés</h4>
+			</div>
+			<form method="POST" class="formPayeProduitFerie">
+				<div class="modal-body">
+					<div class="row">
+						<?php $i =0; foreach (Home\PAYEFERIE_PRODUIT::getAll() as $key => $item) {
+							$item->actualise(); ?>
+							<div class="col-sm-6 col-md-4 border-right border-bottom" style="margin-bottom: 2%;">
+								<p class="text-center text-uppercase gras">1 <?= $item->produit->name() ?> est payé à</p>
+								<div class="row">
+									<div class="col-6">
+										<label>Production</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price" value="<?= $item->price ?>">
+									</div>
+									<div class="col-6">
+										<label>Rangement</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_rangement" value="<?= $item->price_rangement ?>">
+									</div>
+									<div class="col-6">
+										<label>Livraison</label>
+										<input type="number" data-id="<?= $item->getId(); ?>" number class="form-control" name="price_livraison" value="<?= $item->price_livraison ?>">
+									</div>
+								</div><br>
+							</div>					
+						<?php } ?>
+					</div>
+				</div><hr>
+				<div class="container">
+					<input type="hidden" name="id">
+					<button type="button" class="btn btn-sm  btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Annuler</button>
+					<button class="btn btn-sm btn-primary pull-right dim"><i class="fa fa-check"></i> enregistrer</button>
+				</div>
+				<br>
+			</form>
+		</div>
+	</div>
+</div>
+
 
 
 <div class="modal inmodal fade" id="modal-zonelivraison">
@@ -229,9 +172,9 @@
 <?php } ?>
 
 
-<?php $i =0; foreach (Home\EXIGENCEPRODUCTION::getAll() as $key => $exigence) {
-	$exigence->actualise(); ?>
-	<div class="modal inmodal fade" id="modal-exigence<?= $exigence->getId() ?>">
+<?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
+	$lots = $produit->fourni('exigenceproduction'); ?>
+	<div class="modal inmodal fade" id="modal-exigence<?= $produit->getId() ?>">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -240,27 +183,23 @@
 				</div>
 				<form method="POST" class="formExigence">
 					<div class="modal-body">
-						<div class="row">
-							<div class="col-sm-8">
-								<h3 class="text-uppercase text-center">Pour la production de <b><?= $exigence->produit->name() ?></b></h3><br>
-							</div>
-							<div class="col-sm-4">
-								<label>Quantité</label>
-								<input data-id="<?= $exigence->getId(); ?>" type="number" number class="form-control" value="<?= $exigence->quantite; ?>">
-							</div>
-						</div>
-						
-						<br><div class="row">
-							<?php $i =0; foreach (Home\RESSOURCE::findBy([], [], ["name"=>"ASC"]) as $key => $ressource) { 
-								$datas = $exigence->fourni("ligneexigenceproduction", ["ressource_id ="=>$ressource->getId()]); ?>
+						<?php foreach ($lots as $key => $ligne) { 
+							$ligne->actualise(); ?>
+							<div class="row input">
 								<div class="col-sm-6">
-									<label><?= $ressource->name() ?> </label>
+									<label>Nombre de <?= $ligne->produit->name() ?></label>
 									<div class="form-group">
-										<input data-id="<?= $datas[0]->getId(); ?>" type="number" number class="form-control" value="<?= $datas[0]->quantite; ?>">
+										<input data-id="<?= $ligne->getId(); ?>" type="number" number class="form-control" value="<?= $ligne->quantite_produit; ?>">
 									</div>
 								</div>
-							<?php } ?>
-						</div>						
+								<div class="col-sm-6">
+									<label><?= $ligne->ressource->name() ?> en <?= $ligne->ressource->unite ?></label>
+									<div class="form-group">
+										<input type="number" number name="quantite_ressource" class="form-control" value="<?= $ligne->quantite_ressource; ?>">
+									</div>
+								</div>
+							</div><hr class="mp3">					
+						<?php } ?>
 					</div><hr>
 					<div class="container">
 						<input type="hidden" name="id">

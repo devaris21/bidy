@@ -57,6 +57,14 @@
                                     <?php Native\BINDING::html("select", "modepayement"); ?>
                                 </div>
                             </div><br>
+                            <div class="no_modepayement_facultatif">
+                                <div>
+                                    <label>Montant avancé<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" value="0" min="0" name="avance" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
                             <div class="modepayement_facultatif">
                                 <div>
                                     <label>Structure d'encaissement<span style="color: red">*</span> </label>

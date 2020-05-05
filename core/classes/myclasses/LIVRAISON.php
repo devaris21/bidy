@@ -18,6 +18,16 @@ class LIVRAISON extends TABLE
 	public $etat_id = ETAT::ENCOURS;
 	public $employe_id = 0;
 	
+	public $isLouer = 0;
+	public $montant_location = 0;
+	public $operation_id = 0;
+	public $nom_tricycle = "";
+	public $paye_tricycle = 0;
+	public $reste = 0;
+	public $chargement_manoeuvre;
+	public $dechargement_manoeuvre;
+	public $isPayer = 0;
+
 	public $datelivraison;
 	public $comment;
 	public $nom_receptionniste;
@@ -32,14 +42,22 @@ class LIVRAISON extends TABLE
 			if (count($datas) == 1) {
 				$datas = VEHICULE::findBy(["id ="=>$this->vehicule_id]);
 				if (count($datas) == 1) {
-					$datas = CHAUFFEUR::findBy(["id ="=>$this->chauffeur_id]);
-					if (count($datas) == 1) {
-						$this->employe_id = getSession("employe_connecte_id");
-						$this->reference = "BLI/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
-						$data = $this->save();
+					if ($this->vehicule_id == VEHICULE::AUTO || ($this->vehicule_id == VEHICULE::TRICYCLE && $this->nom_tricycle != "" && $this->paye_tricycle > 0) || ($this->vehicule_id > VEHICULE::TRICYCLE && $this->chauffeur_id > 0)) {
+
+						if (($this->vehicule_id <= VEHICULE::TRICYCLE) || ($this->vehicule_id > VEHICULE::TRICYCLE && $this->isLouer == 0) || ($this->vehicule_id > VEHICULE::TRICYCLE && $this->isLouer == 1 && $this->montant_location > 0)) {
+							
+							$this->employe_id = getSession("employe_connecte_id");
+							$this->reference = "BLI/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+							$this->reste = $this->paye_tricycle;
+							$data = $this->save();
+
+						}else{
+							$data->status = false;
+							$data->message = "Veuillez renseigner le montant de la location ";
+						}
 					}else{
 						$data->status = false;
-						$data->message = "veuillez selectionner un chauffeur pour la livraison!";
+						$data->message = "Veuillez renseigner tous les champs pour valider la livraison !";
 					}
 				}else{
 					$data->status = false;
@@ -55,6 +73,7 @@ class LIVRAISON extends TABLE
 		}
 		return $data;
 	}
+
 
 
 	//les livraions programmées du jour
@@ -85,6 +104,28 @@ class LIVRAISON extends TABLE
 	}
 
 
+	public function chauffeur(){
+		if ($this->vehicule_id == VEHICULE::AUTO) {
+			return "...";
+		}else if ($this->vehicule_id == VEHICULE::TRICYCLE) {
+			return $this->nom_tricycle;
+		}else{
+			return $this->chauffeur->name();
+		}
+	}
+
+
+	public function vehicule(){
+		if ($this->vehicule_id == VEHICULE::AUTO) {
+			return "SON PROPRE VEHICULE";
+		}else if ($this->vehicule_id == VEHICULE::TRICYCLE) {
+			return "TRICYCLE";
+		}else{
+			return $this->vehicule->name();
+		}
+	}
+
+
 
 	public function annuler(){
 		$data = new RESPONSE;
@@ -97,9 +138,11 @@ class LIVRAISON extends TABLE
 				$this->groupecommande->etat_id = ETAT::ENCOURS;
 				$this->groupecommande->save();
 
-				$this->chauffeur->etat_id = ETATCHAUFFEUR::RAS;
-				$this->chauffeur->save();
-				
+				if ($this->chauffeur_id > 0) {
+					$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
+					$this->chauffeur->save();
+				}
+
 				$this->vehicule->etat_id = ETATVEHICULE::RAS;
 				$this->vehicule->save();
 			}
@@ -121,9 +164,11 @@ class LIVRAISON extends TABLE
 			$data = $this->save();
 			if ($data->status) {
 				$this->actualise();
-				$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
-				$this->chauffeur->save();
-				
+				if ($this->chauffeur_id > 0) {
+					$this->chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
+					$this->chauffeur->save();
+				}
+
 				$this->vehicule->etatvehicule_id = ETATVEHICULE::RAS;
 				$this->vehicule->save();
 
@@ -151,6 +196,39 @@ class LIVRAISON extends TABLE
 		return $total;
 	}
 
+
+
+
+	public function payer(int $montant, Array $post){
+		$data = new RESPONSE;
+		$solde = $this->reste;
+		if ($solde > 0) {
+			if ($solde >= $montant) {
+				if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement->hydrater($post);
+					$payement = new OPERATION();
+					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE_TRICYLE;
+					$payement->manoeuvre_id = $this->getId();
+					$payement->comment = "Réglement de la paye de tricycle ".$this->chauffeur()." pour la commande N°".$this->reference;
+					$data = $payement->enregistre();
+					if ($data->status) {
+						$this->reste -= $montant;
+						$data = $this->save();
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Vous ne pouvez pas utiliser ce mode de payement pour effectuer cette opération !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le montant à verser est plus élévé que sa paye !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous etes déjà à jour pour la paye de ce tricycle !";
+		}
+		return $data;
+	}
 
 
 	public function sentenseCreate(){}

@@ -11,37 +11,23 @@
             <div class="modal-body">
              <div class="row">
                 <div class="col-sm-6">
-                    <label>Type de produit<span1>*</span1></label>
-                    <div class="form-group">
-                        <?php Native\BINDING::html("select", "typeproduit"); ?>
-                    </div>
-                </div>
-                <div class="col-sm-6">
                     <label>Nom du produit<span1>*</span1></label>
                     <div class="form-group">
                         <input type="text" class="form-control" name="name" required>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>Prix <span1>*</span1></label>
-                    <div class="form-group">
-                        <input type="number" class="form-control" name="price" required>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <label>En stock <span1>*</span1></label>
-                    <div class="form-group">
-                        <input type="number" class="form-control" min="0" name="stock">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-6">
                     <label>Description du produit <span1>*</span1></label>
                     <div class="form-group">
                         <textarea rows="4" class="form-control" name="comment" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 unmodified">
+                    <label>En stock <span1>*</span1></label>
+                    <div class="form-group">
+                        <input type="number" class="form-control" min="0" name="stock">
                     </div>
                 </div>
                 <div class="col-sm-6">

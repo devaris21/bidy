@@ -23,7 +23,7 @@ if ($action == "payer") {
 			$datas = MANOEUVRE::findBy(["id ="=>$manoeuvre_id]);
 			if (count($datas) == 1) {
 				$manoeuvre = $datas[0];
-				$data = $manoeuvre->payer($montant, $modepayement_id);
+				$data = $manoeuvre->payer($montant, $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération! Veuillez recommencer";

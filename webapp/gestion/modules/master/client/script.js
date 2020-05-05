@@ -39,6 +39,14 @@ $(function(){
 			$("body").append(data);
 			$("body #modal-newlivraison").modal("show");
 			$("select.select2").select2();
+			$('.i-checks').iCheck({
+				checkboxClass: 'icheckbox_square-green',
+				radioClass: 'iradio_square-green',
+			});
+			$("div.tricycle").hide()
+			$("div.location").hide()
+			$("div.chauffeur").hide()
+			$("div.montant_location").hide()
 			Loader.stop();	
 		},"html");
 	}

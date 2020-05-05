@@ -9,6 +9,15 @@
             <form method="POST" class="formShamman" classname="vehicule">
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-sm-6">
+                            <label>Nom du véhicule <span1>*</span1></label>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-xs" name="etiquette" required >
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="row">
                         <div class="col-md-4 col-sm-6">
                             <label>Immatriculation <span1>*</span1></label>
                             <div class="form-group">

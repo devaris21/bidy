@@ -35,22 +35,25 @@ class PRODUIT extends TABLE
 					}
 				}
 
-				$ligne = new EXIGENCEPRODUCTION();
-				$ligne->produit_id = $data->lastid;
-				$ligne->quantite = 0;
-				$lot = $ligne->enregistre();
+
 				foreach (RESSOURCE::getAll() as $key => $ressource) {
-					$datas = LIGNEEXIGENCEPRODUCTION::findBy(["exigenceproduction_id ="=>$lot->lastid, "ressource_id ="=>$ressource->getId()]);
+					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$data->lastid, "ressource_id ="=>$ressource->getId()]);
 					if (count($datas) == 0) {
-						$ligne = new LIGNEEXIGENCEPRODUCTION();
-						$ligne->exigenceproduction_id = $lot->lastid;
+						$ligne = new EXIGENCEPRODUCTION();
+						$ligne->produit_id = $data->lastid;
+						$ligne->quantite_produit = 0;
 						$ligne->ressource_id = $ressource->getId();
-						$ligne->quantite = 0;
+						$ligne->quantite_ressource = 0;
 						$ligne->enregistre();
 					}					
 				}
 
 				$ligne = new PAYE_PRODUIT();
+				$ligne->produit_id = $data->lastid;
+				$ligne->price = 0;
+				$ligne->enregistre();
+
+				$ligne = new PAYEFERIE_PRODUIT();
 				$ligne->produit_id = $data->lastid;
 				$ligne->price = 0;
 				$ligne->enregistre();
@@ -198,17 +201,46 @@ class PRODUIT extends TABLE
 
 
 	public function exigence(int $quantite, int $ressource_id){
-		$total = 0;
-		$datas = $this->fourni("exigenceproduction");
-		foreach ($datas as $key => $exigence) {
-			if ($exigence->quantite > 0) {
-				$lot =  $exigence->fourni("ligneexigenceproduction", ["ressource_id ="=>$ressource_id]);
-				foreach ($lot as $cle => $item) {
-					$total += ($quantite * $item->quantite) / $exigence->quantite;
-				}
+		$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$this->getId(), "ressource_id ="=>$ressource_id]);
+		if (count($datas) == 1) {
+			$item = $datas[0];
+			if ($item->quantite_produit == 0) {
+				return 0;
 			}
+			return ($quantite * $item->quantite_ressource) / $item->quantite_produit;
 		}
-		return $total;
+		return 0;
+	}
+
+
+	public function coutProduction(String $type, int $quantite){
+		if(isJourFerie(dateAjoute())){
+			$datas = PAYEFERIE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+		}else{
+			$datas = PAYE_PRODUIT::findBy(["produit_id ="=>$this->getId()]);
+		}
+		if (count($datas) > 0) {
+			$ppr = $datas[0];
+			switch ($type) {
+				case 'production':
+				$prix = $ppr->price;
+				break;
+				
+				case 'rangement':
+				$prix = $ppr->price_rangement;
+				break;
+
+				case 'livraison':
+				$prix = $ppr->price_livraison;
+				break;
+
+				default:
+					$prix = $ppr->price;
+				break;
+			}
+			return $quantite * $prix;
+		}
+		return 0;
 	}
 
 

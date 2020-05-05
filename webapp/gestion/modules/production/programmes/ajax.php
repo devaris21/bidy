@@ -130,79 +130,110 @@ if ($action == "ValiderLivraisonProgrammee") {
 			$livraison->actualise();
 			$livraison->fourni("lignelivraison");
 
+			if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+				$avance = 0;
+			}
 
-			$produits = explode(",", $tableau);
-			if (count($produits) > 0) {
-				$tableau = [];
-				foreach ($produits as $key => $value) {
-					$lot = explode("-", $value);
-					$tableau[$lot[0]] = end($lot);
-				}
-				$test = true;
-				foreach ($livraison->lignelivraisons as $key => $ligne) {
-					$ligne->actualise();
-					$reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
-					$qte = $tableau[$ligne->produit->getId()];
-					if ($qte <= $reste && $qte <= $ligne->produit->livrable()) { 
-						unset($tableau[$ligne->produit->getId()]);
+			if ($isLouer == 0 || ((intval($montant_location) - intval($avance) + $groupecommande->client->dette) <= $params->seuilCredit)) {
+
+
+				$produits = explode(",", $tableau);
+				if (count($produits) > 0) {
+					$tableau = [];
+					foreach ($produits as $key => $value) {
+						$lot = explode("-", $value);
+						$tableau[$lot[0]] = end($lot);
 					}
-				}
-
-				if (count($tableau) == 0) {
-					$livraison->hydrater($_POST);
-					$livraison->etat_id = ETAT::ENCOURS;
-					$data = $livraison->enregistre();
-					if ($data->status) {
-						$datas = $livraison->fourni("lignelivraison");
-						foreach ($datas as $cle => $ligne) {
-							$ligne->delete();
+					$test = true;
+					foreach ($livraison->lignelivraisons as $key => $ligne) {
+						$ligne->actualise();
+						$reste = $livraison->groupecommande->reste($ligne->produit->getId()) + $ligne->quantite;
+						$qte = $tableau[$ligne->produit->getId()];
+						if ($qte <= $reste && $qte <= $ligne->produit->livrable()) { 
+							unset($tableau[$ligne->produit->getId()]);
 						}
+					}
 
-						foreach ($produits as $key => $value) {
-							$lot = explode("-", $value);
-							$id = $lot[0];
-							$qte = end($lot);
-
-							$datas = PRODUIT::findBy(["id="=>$id]);
-							if (count($datas) > 0) {
-								$produit = $datas[0];
-								$produit->livrer($qte);
-
-								$lignecommande = new LIGNELIVRAISON;
-								$lignecommande->livraison_id = $livraison->getId();
-								$lignecommande->produit_id = $id;
-								$lignecommande->quantite = $qte;
-								$lignecommande->enregistre();
+					if (count($tableau) == 0) {
+						if ($vehicule_id <= VEHICULE::TRICYCLE) {
+							$_POST["chauffeur_id"] = 0;
+						}
+						$livraison->hydrater($_POST);
+						$livraison->etat_id = ETAT::ENCOURS;
+						$livraison->datelivraison = null;
+						$data = $livraison->enregistre();
+						if ($data->status) {
+							$datas = $livraison->fourni("lignelivraison");
+							foreach ($datas as $cle => $ligne) {
+								$ligne->delete();
 							}
-						}
 
-						if ($vehicule_id != VEHICULE::AUTO) {
-							$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
-							if (count($datas) > 0) {
-								$vehicule = $datas[0];
-								$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
-								$vehicule->save();
-							}
-						}
-						
-						if ($chauffeur_id != CHAUFFEUR::AUTO) {
-							$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
-							if (count($datas) > 0) {
-								$chauffeur = $datas[0];
-								$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
-								$chauffeur->save();
-							}
-						}
+							foreach ($produits as $key => $value) {
+								$lot = explode("-", $value);
+								$id = $lot[0];
+								$qte = end($lot);
 
-						$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
-					}	
+								$datas = PRODUIT::findBy(["id="=>$id]);
+								if (count($datas) > 0) {
+									$produit = $datas[0];
+									$produit->livrer($qte);
+
+									$lignecommande = new LIGNELIVRAISON;
+									$lignecommande->livraison_id = $livraison->getId();
+									$lignecommande->produit_id = $id;
+									$lignecommande->quantite = $qte;
+									$lignecommande->enregistre();
+								}
+							}
+
+							if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
+								$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
+								if (count($datas) > 0) {
+									$vehicule = $datas[0];
+									$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
+									$vehicule->save();
+								}
+
+								if($isLouer == 1 && $montant_location > 0 ){
+									if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+										$lot = $client->debiter($montant_location);
+
+									}else{
+
+										if ($montant_location > intval($avance)) {
+											$client->dette($montant_location - intval($avance));
+										}
+
+										$livraison->actualise();
+										$payement = new OPERATION();
+										$payement->hydrater($_POST);
+										$payement->categorieoperation_id = CATEGORIEOPERATION::LOCATION_LIVRAISON;
+										$payement->montant = $avance;
+										$payement->client_id = $livraison->groupecommande->client_id;
+										$payement->comment = "Réglement pour la location d'engins de livraison pour la livraison N°".$livraison->reference;
+										$lot = $payement->enregistre();
+
+										$livraison->operation_id = $lot->lastid;
+									}
+
+
+								}
+							}
+
+							$data = $livraison->save();
+							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);			
+						}	
+					}else{
+						$data->status = false;
+						$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					}
 				}else{
 					$data->status = false;
-					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
+				$data->message = "Le seuil de credit pour ce client sera dépassé !";
 			}
 		}else{
 			$data->status = false;

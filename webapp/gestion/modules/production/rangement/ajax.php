@@ -31,12 +31,9 @@ if ($action === "rangement") {
 					$range = intval($_POST["range-".$ligne->produit_id]);
 					$ligne->perte = $ligne->production - $range;
 					$ligne->save();
-				}
-				
-				$lots = PAYE_PRODUIT::findBy(["produit_id ="=>$ligne->produit_id]);
-				if (count($lots) > 0) {
-					$ppr = $lots[0];
-					$montant += $range * $ppr->price_rangement;
+
+					$ligne->actualise();
+				$montant += $ligne->produit->coutProduction("rangement", $range);
 				}
 
 
@@ -67,6 +64,7 @@ if ($action === "rangement") {
 
 				$productionjour->hydrater($_POST);
 				$productionjour->dateRangement = dateAjoute();
+				$productionjour->total_rangement = $montant;
 				$productionjour->etat_id = ETAT::VALIDEE;
 				$data = $productionjour->save();
 

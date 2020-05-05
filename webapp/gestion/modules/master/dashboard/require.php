@@ -16,4 +16,19 @@ foreach (PRODUIT::getAll() as $key => $prod) {
 	$tableau[] = $data;
 }
 
+foreach (OPERATION::enAttente() as $key => $item) {
+	$item->actualise();
+	if ($item->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
+		$item->etat_id == ETAT::VALIDEE;
+		$item->save();
+	}
+}
+
+foreach (APPROVISIONNEMENT::findBy(["etat_id ="=>ETAT::VALIDEE]) as $key => $item) {
+	if ($item->getId() != 1) {
+		$item->datelivraison == dateAjoute(-1);
+		$item->save();
+	}
+}
+
 ?>

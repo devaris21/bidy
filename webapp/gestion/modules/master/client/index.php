@@ -141,8 +141,7 @@
                     <?php } ?>
 
 
-                    <?php if ($employe->isAutoriser("caisse")) { ?>
-                     <div id="tab-3" class="tab-pane"><br>
+                    <div id="tab-3" class="tab-pane"><br>
                         <?php foreach ($fluxcaisse as $key => $transaction) {
                             $transaction->actualise(); ?>
                             <div class="timeline-item">
@@ -169,14 +168,13 @@
                             </div>
                         <?php } ?>                 
                     </div>
-                <?php } ?>
 
+
+                </div>
 
             </div>
-
         </div>
     </div>
-</div>
 </div>
 
 <div class="col-sm-4">
@@ -187,9 +185,7 @@
                 <div id="contact-1" class="tab-pane active">
                     <h2><?= $client->name() ?> 
 
-                    <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>
-                        <i onclick="modification('client', <?= $client->getId() ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i>
-                    <?php } ?>
+                    <i onclick="modification('client', <?= $client->getId() ?>)" data-toggle="modal" data-target="#modal-client" class="pull-right fa fa-pencil cursor"></i>
                 </h2>
                 <h4><?= $client->typeclient->name() ?></h4>
                 <address>
@@ -198,28 +194,26 @@
                     <i class="fa fa-envelope"></i>&nbsp; <?= $client->email ?>
                 </address><hr>
 
-                <?php if ($employe->isAutoriser("caisse")) { ?>
-                    <div class="m-b-lg">
-                        <span>Acompte actuel du client</span><br>
-                        <h2 class="font-bold d-inline"><?= money($client->acompte) ?> <?= $params->devise  ?></h2> 
-                        <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
+                <div class="m-b-lg">
+                    <span>Acompte actuel du client</span><br>
+                    <h2 class="font-bold d-inline"><?= money($client->acompte) ?> <?= $params->devise  ?></h2> 
+                    <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
 
-                        <?php if ($client->acompte > 0) { ?>
-                         <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
-                            class="fa fa-minus"></i> Rembourser le client
-                        </button>
-                    <?php } ?>
+                    <?php if ($client->acompte > 0) { ?>
+                     <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
+                        class="fa fa-minus"></i> Rembourser le client
+                    </button>
+                <?php } ?>
 
-                    <hr>
+                <hr>
 
-                    <span>Dette actuelle du client</span><br>
-                    <h2 class="font-bold d-inline text-red"><?= money($client->dette) ?> <?= $params->devise  ?></h2> 
-                    <?php if ($client->dette > 0) { ?>
-                      <button data-toggle="modal" data-target="#modal-dette" class="cursor bg-danger simple_tag pull-right text-white"><i class="fa fa-money"></i> Régler la dette</button>
-                  <?php } ?>                   
+                <span>Dette actuelle du client</span><br>
+                <h2 class="font-bold d-inline text-red"><?= money($client->dette) ?> <?= $params->devise  ?></h2> 
+                <?php if ($client->dette > 0) { ?>
+                  <button data-toggle="modal" data-target="#modal-dette" class="cursor bg-danger simple_tag pull-right text-white"><i class="fa fa-money"></i> Régler la dette</button>
+              <?php } ?>                   
 
-              </div>
-          <?php } ?>
+          </div>
 
       </div>
 

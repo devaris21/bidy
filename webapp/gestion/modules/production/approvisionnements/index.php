@@ -93,13 +93,13 @@
                                         <tbody>
                                             <tr class="no">
                                                 <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) { ?>
-                                                 <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::VALIDEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?></td>
+                                                 <td class="text-center gras <?= ($appro->etat_id == Home\ETAT::VALIDEE)?'text-primary':'' ?>"><?= $ligne->quantite_recu ?> <?= $ligne->ressource->unite ?></td>
                                              <?php   } ?>
                                          </tr>
                                      </tbody>
                                  </table>
                              </td>
-                             <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->operation->montant) ?> <?= $params->devise  ?></h3>
+                             <td><span>Montant</span> <h3 class="gras text-orange"><?= money($appro->montant) ?> <?= $params->devise  ?></h3>
                                 <span><?= $appro->operation->structure ?> - <?= $appro->operation->numero ?></span>
                             </td>
                             <td class="border-left">

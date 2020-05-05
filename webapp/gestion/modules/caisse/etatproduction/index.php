@@ -68,7 +68,7 @@
                                             <td class="text-center"><br><h3 class="gras text-muted"><?= money($produit->stock(dateAjoute1($date1, -1))) ?></h3></td>
                                             <td class="text-center"><br><h3 class="text-green gras"><?= money($produit->production) ?></h3></td>
                                             <td class="text-center"><br><h4 class="text-red"><?= money($produit->perte) ?></h4></td>
-                                            <td class="text-center" ><?= round( ($produit->perte / ($produit->production + $produit->perte) * 100 ), 2) ?> %<br><small>de la production</small></td>
+                                            <td class="text-center" ><?= ($produit->production + $produit->perte > 0)?round( ($produit->perte / ($produit->production + $produit->perte) * 100 ), 2):0 ?> %<br><small>de la production</small></td>
                                             <td class="text-center"><br><h4><?= money($produit->livraison) ?></h4></td>
                                             <td class="text-center" ><h2 class="gras"><?= money($produit->stock(dateAjoute1($date2, 1))) ?></h2></td>
                                         </tr>
@@ -85,10 +85,27 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <h4 class="text-right">Rapport de Consommation des ressources</h4>
-                                    <div>
-                                        <canvas id="radarChart2" height="230"></canvas>
-                                    </div>
+                                    <h4 class="text-right">Coût de production, rangement & livraison</h4><br>
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Production</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_production", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Rangement</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_rangement", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Livraison</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_livraison", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût Tricycle</h4></td>
+                                                <td><h4><?= money(comptage($tricycles, "paye_tricycle", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div><br>
 

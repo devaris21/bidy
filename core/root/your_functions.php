@@ -447,6 +447,65 @@ function depuis($timestamp){
 }
 
 
+
+function isJourFerie($date)
+{
+	$timestamp = strtotime($date);
+
+	$jour = date("d", $timestamp);
+	$mois = date("m", $timestamp);
+	$annee = date("Y", $timestamp);
+	$EstFerie = false;
+// dates fériées fixes
+if($jour == 1 && $mois == 1) $EstFerie = true; // 1er janvier
+if($jour == 1 && $mois == 5) $EstFerie = true; // 1er mai
+//if($jour == 8 && $mois == 5) $EstFerie = true; // 8 mai
+if($jour == 7 && $mois == 8) $EstFerie = true; // 7 Aout
+if($jour == 15 && $mois == 8) $EstFerie = true; // 15 aout
+if($jour == 1 && $mois == 11) $EstFerie = true; // 1 novembre
+if($jour == 11 && $mois == 11) $EstFerie = true; // 11 novembre
+if($jour == 25 && $mois == 12) $EstFerie = true; // 25 décembre
+
+// fetes religieuses mobiles
+$pak = easter_date($annee);
+$jp = date("d", $pak);
+$mp = date("m", $pak);
+if($jp == $jour && $mp == $mois){ $EstFerie = true;} // Pâques
+
+$lpk = mktime(date("H", $pak), date("i", $pak), date("s", $pak), date("m", $pak)
+	, date("d", $pak) +1, date("Y", $pak) );
+$jp = date("d", $lpk);
+$mp = date("m", $lpk);
+if($jp == $jour && $mp == $mois){ $EstFerie = true; }// Lundi de Pâques
+
+$asc = mktime(date("H", $pak), date("i", $pak), date("s", $pak), date("m", $pak)
+	, date("d", $pak) + 39, date("Y", $pak) );
+$jp = date("d", $asc);
+$mp = date("m", $asc);
+if($jp == $jour && $mp == $mois){ $EstFerie = true;}//ascension
+
+$pe = mktime(date("H", $pak), date("i", $pak), date("s", $pak), date("m", $pak),
+	date("d", $pak) + 49, date("Y", $pak) );
+$jp = date("d", $pe);
+$mp = date("m", $pe);
+if($jp == $jour && $mp == $mois) {$EstFerie = true;}// Pentecôte
+
+$lp = mktime(date("H", $asc), date("i", $pak), date("s", $pak), date("m", $pak),
+	date("d", $pak) + 50, date("Y", $pak) );
+$jp = date("d", $lp);
+$mp = date("m", $lp);
+if($jp == $jour && $mp == $mois) {$EstFerie = true;}// lundi Pentecôte
+
+// Samedis et dimanches
+$jour_sem = jddayofweek(unixtojd($timestamp), 0);
+if($jour_sem == 0 /*|| $jour_sem == 6*/) $EstFerie = true;
+// ces deux lignes au dessus sont à retirer si vous ne désirez pas faire
+// apparaitre les
+// samedis et dimanches comme fériés.
+return $EstFerie;
+}
+
+
 function formaterDate($text){
 	verification($text);
 	$tab = explode("/", $text);
@@ -546,7 +605,7 @@ function money($a = 0)
 function start0($a)
 {
 	if (intval($a) < 10 && intval($a) > 0) {
-		return "0".intval($a);
+		return "0".$a;
 	}else{
 		return $a;
 	}

@@ -45,7 +45,7 @@
                                     <h5 class="text-uppercase">Libres</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS, 'visibility ='=>1]))); ?></h2>
+                                    <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(["etatchauffeur_id =" => Home\ETATCHAUFFEUR::RAS, 'visibility ='=>1]))); ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +65,8 @@
 
             <div class="wrapper wrapper-content" id="autos">
 
-             <div class="row">
-                 <div class="col-md-8">
+               <div class="row">
+                   <div class="col-md-8">
                     <div class="ibox" >
                         <div class="ibox-title">
                             <h4 class="text-uppercase"><i class="fa fa-user"></i> Liste des manoeuvres</h4>
@@ -135,6 +135,9 @@
                     <div class="ibox" >
                         <div class="ibox-title">
                             <h4 class="text-uppercase"><i class="fa fa-cab"></i> Liste des chauffeurs</h4>
+                            <div class="ibox-tools">
+                                <button data-toggle="modal" data-target="#modal-chauffeur" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau chauffeur</button>
+                            </div>
                         </div>
                         <div class="ibox-content" style="min-height: 300px;">
                             <?php if (count($chauffeurs) > 0) { ?>
@@ -178,6 +181,8 @@
         </div>
 
         <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+        <?php include($this->rootPath("composants/assets/modals/modal-chauffeur.php")); ?> 
 
 
         <?php 

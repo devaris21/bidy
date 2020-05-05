@@ -74,7 +74,6 @@
                                                 </td>
                                                 <td width="35%" class="desc">
                                                     <h3 class="mp0 text-uppercase gras"><?= $ligne->produit->name() ?><br> <small><?= $ligne->produit->description ?></small></h3>
-                                                    <span><?= $ligne->produit->description ?></span>
                                                 </td>
                                                 <td class="text-center"><h4 class="text-muted"><?= money($ligne->price / $ligne->quantite) ?> <?= $params->devise ?></h4></td>
                                                 <td class="text-center"><h3 style="font-weight: 300px"><i>x <?= $ligne->quantite ?></i></h3></td>

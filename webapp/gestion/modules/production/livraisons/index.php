@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="col-9">
                                             <h5 class="mp0"><?= $livraison->vehicule->typevehicule->name() ?></h5>
-                                            <h6 class="mp0"><?= $livraison->vehicule->name() ?></h6>
+                                            <h6 class="mp0"><?= $livraison->vehicule() ?></h6>
                                         </div>
                                     </div><hr class="mp3">
                                     <h5 class="mp0"><small><?= $livraison->zonelivraison->name() ?></small><br> <?= $livraison->lieu ?></h5>

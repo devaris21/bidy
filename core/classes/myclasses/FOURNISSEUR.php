@@ -29,8 +29,7 @@ class FOURNISSEUR extends AUTH
 		$data = new RESPONSE;
 		if ($this->name != "") {
 			if ($this->adresse != "" && $this->contact != "") {
-				if ($this->emailIsValide($this->email)) {
-					$data = $this->save();
+				$data = $this->save();
 					if ($data->status) {
 						$this->uploading($this->files);
 						// ob_start();
@@ -40,10 +39,6 @@ class FOURNISSEUR extends AUTH
 						// TODO gerer les mails
 						//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
 					}
-				}else{
-					$data->status = false;
-					$data->message = "Veuillez changer votre adresse email !";
-				}
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez renseigner tous les champs marqués d'un * !";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : Dim 03 mai 2020 à 11:46
+-- Généré le : mar. 05 mai 2020 à 23:39
 -- Version du serveur :  10.2.6-MariaDB-log
 -- Version de PHP : 7.2.19
 
@@ -187,7 +187,7 @@ CREATE TABLE `connexion` (
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT 1,
   `valide` int(11) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -370,7 +370,9 @@ CREATE TABLE `etatvehicule` (
 CREATE TABLE `exigenceproduction` (
   `id` int(11) NOT NULL,
   `produit_id` int(20) NOT NULL,
-  `quantite` int(11) NOT NULL,
+  `quantite_produit` int(11) NOT NULL,
+  `ressource_id` int(11) NOT NULL,
+  `quantite_ressource` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT 0,
@@ -466,7 +468,7 @@ CREATE TABLE `history` (
   `protected` int(11) NOT NULL DEFAULT 1,
   `valide` int(11) NOT NULL DEFAULT 1,
   `record_key` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -516,23 +518,6 @@ CREATE TABLE `ligneconsommationjour` (
   `productionjour_id` int(11) NOT NULL,
   `ressource_id` int(11) NOT NULL,
   `consommation` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `protected` int(11) NOT NULL DEFAULT 0,
-  `valide` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ligneexigenceproduction`
---
-
-CREATE TABLE `ligneexigenceproduction` (
-  `id` int(11) NOT NULL,
-  `exigenceproduction_id` int(11) NOT NULL,
-  `ressource_id` int(11) NOT NULL,
-  `quantite` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT 0,
@@ -594,6 +579,15 @@ CREATE TABLE `livraison` (
   `employe_id` int(11) DEFAULT NULL,
   `datelivraison` date DEFAULT NULL,
   `comment` text COLLATE utf8_bin DEFAULT NULL,
+  `isLouer` int(11) NOT NULL,
+  `montant_location` int(11) NOT NULL,
+  `operation_id` int(11) NOT NULL,
+  `nom_tricycle` varchar(50) COLLATE utf8_bin NOT NULL,
+  `paye_tricycle` int(11) NOT NULL,
+  `reste` int(11) NOT NULL,
+  `isPayer` int(11) NOT NULL,
+  `chargement_manoeuvre` varchar(5) COLLATE utf8_bin DEFAULT NULL,
+  `dechargement_manoeuvre` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `nom_receptionniste` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `contact_receptionniste` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -917,7 +911,25 @@ CREATE TABLE `params` (
   `bloquerOrfonds` varchar(11) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT 1,
   `valide` int(11) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `payeferie_produit`
+--
+
+CREATE TABLE `payeferie_produit` (
+  `id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `price_rangement` int(11) NOT NULL,
+  `price_livraison` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `protected` int(11) NOT NULL DEFAULT 0,
+  `valide` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -948,6 +960,7 @@ CREATE TABLE `paye_produit` (
   `produit_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `price_rangement` int(11) NOT NULL,
+  `price_livraison` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT 0,
@@ -1012,6 +1025,9 @@ CREATE TABLE `productionjour` (
   `etat_id` int(11) NOT NULL,
   `groupemanoeuvre_id_rangement` int(11) NOT NULL,
   `dateRangement` date DEFAULT NULL,
+  `total_production` int(11) NOT NULL,
+  `total_rangement` int(11) NOT NULL,
+  `total_livraison` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `protected` int(11) NOT NULL DEFAULT 0,
@@ -1098,7 +1114,7 @@ CREATE TABLE `sexe` (
   `icon` varchar(50) COLLATE utf8_bin NOT NULL,
   `protected` int(11) NOT NULL DEFAULT 1,
   `valide` int(11) NOT NULL DEFAULT 1
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -1439,12 +1455,6 @@ ALTER TABLE `ligneconsommationjour`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `ligneexigenceproduction`
---
-ALTER TABLE `ligneexigenceproduction`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Index pour la table `lignelivraison`
 --
 ALTER TABLE `lignelivraison`
@@ -1520,6 +1530,12 @@ ALTER TABLE `panne`
 -- Index pour la table `params`
 --
 ALTER TABLE `params`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `payeferie_produit`
+--
+ALTER TABLE `payeferie_produit`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1797,12 +1813,6 @@ ALTER TABLE `ligneconsommationjour`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `ligneexigenceproduction`
---
-ALTER TABLE `ligneexigenceproduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `lignelivraison`
 --
 ALTER TABLE `lignelivraison`
@@ -1878,6 +1888,12 @@ ALTER TABLE `panne`
 -- AUTO_INCREMENT pour la table `params`
 --
 ALTER TABLE `params`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `payeferie_produit`
+--
+ALTER TABLE `payeferie_produit`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

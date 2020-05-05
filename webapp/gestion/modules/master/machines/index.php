@@ -172,6 +172,8 @@
 
     <?php include($this->rootPath("composants/assets/modals/modal-demandeentretien.php")); ?> 
     <?php include($this->rootPath("composants/assets/modals/modal-panne.php")); ?> 
+    <?php //include($this->rootPath("composants/assets/modals/modal-vehicule.php")); ?> 
+    <?php //include($this->rootPath("composants/assets/modals/modal-machine.php")); ?> 
 
 </div>
 </div>

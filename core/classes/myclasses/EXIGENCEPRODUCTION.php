@@ -10,15 +10,37 @@ class EXIGENCEPRODUCTION extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	public $produit_id;
-	public $quantite;
+	public $quantite_produit = 0;
+
+	public $ressource_id;
+	public $quantite_ressource = 0;
 	
+
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$this->ladate = dateAjoute();
-		return $this->save();
+		$datas = RESSOURCE::findBy(["id ="=>$this->ressource_id]);
+		if (count($datas) == 1) {
+			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
+			if (count($datas) == 1) {
+				if ($this->quantite_produit >= 0 && $this->quantite_ressource >= 0) {
+					$data = $this->save();
+				}else{
+					$data->status = false;
+					$data->message = "La quantité entrée n'est pas correcte !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'ajout du produit !";
+		}
+		return $data;
 	}
+
 
 
 

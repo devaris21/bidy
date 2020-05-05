@@ -77,7 +77,7 @@ class COMMANDE extends TABLE
 				$data = $this->save();
 				if ($data->status) {
 					$this->actualise();
-					if ($this->operation_id != 0) {
+					if ($this->operation_id > 0) {
 						$this->operation->supprime();
 						$this->groupecommande->client->dette -= $this->montant - $this->avance;
 						$this->groupecommande->client->save();

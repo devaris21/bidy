@@ -137,34 +137,55 @@ if ($action == "validerApprovisionnement") {
 						$qte = $lot[1];
 					};
 					$prix = end($lot);
-					if (intval($qte) > 0 && intval($prix)) {
+					if ($qte > 0 && intval($prix)) {
 						unset($tests[$key]);
 					}
 				}
-				if (count($tests) == 0 && intval(getSession("total")) > 0) {
+
+				$total = getSession("total");
+				if (count($tests) == 0 && intval($total) > 0) {
 					$data->status = true;
 					$data->lastid = null;
-					
-					if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+
+					$approvisionnement = new APPROVISIONNEMENT();
+
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+						if ($fournisseur->acompte >= $total) {
+							$approvisionnement->avance = $total;
+						}else{
+							$approvisionnement->avance = $fournisseur->acompte;
+						}
+						$data = $fournisseur->debiter($total);
+
+					}else{
+
+						if ($total > intval($avance)) {
+							$fournisseur->dette($total - intval($avance));
+						}
+
 						$payement = new OPERATION();
 						$payement->hydrater($_POST);
 						$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-						$payement->montant = getSession("total");
-						$payement->client_id = CLIENT::CLIENTSYSTEME;
+						$payement->montant = $avance;
+						$payement->fournisseur_id = $fournisseur_id;
 						$data = $payement->enregistre();
+
+						$approvisionnement->operation_id = $data->lastid;
+
+						$fournisseur->actualise();
+						$payement->acompteClient = $fournisseur->acompte;
+						$payement->detteClient = $fournisseur->dette;
+						$data = $payement->save();
 					}
 					
 
 					if ($data->status) {
 
-						if ($payement->modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-							$fournisseur->debiter($payement->montant);
-						}
-
-						$approvisionnement = new APPROVISIONNEMENT();
 						$approvisionnement->hydrater($_POST);
-						$approvisionnement->montant = getSession("total");
-						$approvisionnement->operation_id = $data->lastid;
+						if ($approvisionnement->etat_id == ETAT::VALIDEE) {
+							$approvisionnement->datelivraison = date("Y-m-d H:i:s");
+						}
+						$approvisionnement->montant = $total;
 						$data = $approvisionnement->enregistre();
 						if ($data->status) {
 							foreach ($ressources as $key => $value) {
@@ -184,9 +205,11 @@ if ($action == "validerApprovisionnement") {
 								}
 							}
 
-							$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
-							$data = $payement->save();
-							$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
+							if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+								$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
+								$data = $payement->save();
+								$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
+							}
 						}
 					}
 				}else{

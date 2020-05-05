@@ -59,7 +59,7 @@
             <div class="ibox-title">
                 <h5>Toutes les productions non rangées</h5>
                 <div class="ibox-tools">
-
+<button data-toggle="modal" data-target="#modal-fournisseur" style="margin-top: -5%" class="btn btn-primary btn-xs dim"><i class="fa fa-plus"></i> Nouveau fournisseur</button>
                 </div>
             </div>
             <div class="ibox-content">
@@ -98,6 +98,8 @@
 
 
 <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?> 
+
+ <?php include($this->rootPath("composants/assets/modals/modal-fournisseur.php")); ?> 
 
 </div>
 </div>

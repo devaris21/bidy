@@ -27,7 +27,7 @@ foreach ($clients as $key => $client) {
 		$client->versement = $vers;
 		$client->commandes = count($lot1);
 		$client->livraisons = count($lot2);
-		$client->pct = round((($client->versement / $versements)*100), 2 );
+		$client->pct = ($versements > 0)?round((($client->versement / $versements)*100), 2 ):0;
 	}
 }
 

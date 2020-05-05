@@ -49,7 +49,7 @@ foreach ($datas as $key => $value) {
 
 $item = new VEHICULE();
 $item->immatriculation = "...";
-$item->modele = "SON PROPRE VEHICULE";
+$item->modele = "LE VEHICULE DU CLIENT";
 $item->marque_id = 0;
 $item->typevehicule_id = 1;
 $item->groupevehicule_id = 1;
@@ -58,16 +58,17 @@ $item->visibility = 0;
 $item->setProtected(1);
 $item->save();
 
-
-$item = new CHAUFFEUR();
-$item->name = "SON PROPRE CHAUFFEUR";
-$item->lastname = ".";
-$item->adresse = "...";
-$item->contact = "...";
-$item->typepermis = "...";
+$item = new VEHICULE();
+$item->immatriculation = "...";
+$item->modele = "TRICYCLE";
+$item->marque_id = 0;
+$item->typevehicule_id = 1;
+$item->groupevehicule_id = 1;
+$item->prestataire_id = 1;
 $item->visibility = 0;
 $item->setProtected(1);
 $item->save();
+
 
 
 $datas = ["Entreprise", "Particulier"];
@@ -92,7 +93,7 @@ $item->save();
 
 
 
-$datas = ["master", "production", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer"];
+$datas = ["master", "production", "caisse", "parametres", "paye des manoeuvre", "modifier-supprimer", "archives"];
 foreach ($datas as $key => $value) {
 	$item = new ROLE();
 	$item->name = $value;
@@ -279,6 +280,12 @@ $item->save();
 
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
+$item->name = "Location d'engins pour livraison";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::ENTREE;
 $item->name = "Autre entrée en caisse";
 $item->setProtected(1);
 $item->save();
@@ -305,6 +312,12 @@ $item->save();
 $item = new CATEGORIEOPERATION();
 $item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
 $item->name = "Remboursement du client";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Location de tricycle pour livraison";
 $item->setProtected(1);
 $item->save();
 
@@ -378,9 +391,17 @@ $item->enregistre();
 $item = new PRODUIT();
 $item->files = [];
 $item->stock = 100;
-$item->name = "BTC";
+$item->name = "BTC 15";
 $item->class = "Briques en terre compressée";
 $item->enregistre();
+
+$item = new PRODUIT();
+$item->files = [];
+$item->stock = 100;
+$item->name = "BTC 18";
+$item->class = "Briques en terre compressée";
+$item->enregistre();
+
 
 
 $item = new RESSOURCE();
@@ -410,12 +431,10 @@ $item->enregistre();
 $item = new RESSOURCE();
 $item->files = [];
 $item->stock = 100;
-$item->name = "EAU";
-$item->class = "Litre";
-$item->abbr = "L";
+$item->name = "TERRE";
+$item->class = "Tonne";
+$item->abbr = "T";
 $item->enregistre();
-
-
 
 
 $datas = ["standart"];

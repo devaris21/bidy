@@ -32,11 +32,8 @@ if ($action === "productionjour") {
 				$ligne->perte = intval($_POST["perte-".$ligne->produit_id]);
 				$ligne->save();
 
-				$lots = PAYE_PRODUIT::findBy(["produit_id ="=>$ligne->produit_id]);
-				if (count($lots) > 0) {
-					$ppr = $lots[0];
-					$montant += $ligne->production * $ppr->price;
-				}
+				$ligne->actualise();
+				$montant += $ligne->produit->coutProduction("production", $ligne->production);
 			}
 
 			$productionjour->fourni("ligneconsommationjour");
@@ -73,6 +70,7 @@ if ($action === "productionjour") {
 
 			$productionjour->hydrater($_POST);
 			$productionjour->etat_id = ETAT::PARTIEL;
+			$productionjour->total_production = $montant;
 			$productionjour->employe_id = getSession("employe_connecte_id");
 			$data = $productionjour->save();
 		}else{
@@ -85,5 +83,13 @@ if ($action === "productionjour") {
 	}
 	echo json_encode($data);
 }
+
+
+if ($action == "voirPrixParZone") {
+	$params = PARAMS::findLastId();
+	include("../../../../composants/assets/modals/modal-prixparzone.php");
+}
+
+
 
 ?>

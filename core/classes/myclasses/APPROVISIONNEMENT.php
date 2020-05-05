@@ -12,6 +12,8 @@ class APPROVISIONNEMENT extends TABLE
 
 	public $reference;
 	public $montant = 0;
+	public $avance = 0;
+	public $reste = 0;
 	public $operation_id = 0;
 	public $fournisseur_id = 1;
 	public $employe_id;
@@ -55,13 +57,16 @@ class APPROVISIONNEMENT extends TABLE
 			$data = $this->save();
 			if ($data->status) {
 				$this->actualise();
-				$payement = new OPERATION();
-				$payement->categorieoperation_id = CATEGORIEOPERATION::REMBOURSEMENT;
-				$payement->modepayement_id = $this->operation->modepayement_id;
-				$payement->montant = $this->operation->montant;
-				$payement->client_id = CLIENT::CLIENTSYSTEME;
-				$payement->comment = "Remboursement de la facture d'approvisionnement N°".$approvisionnement->reference." dû à son annulation";
-				$data = $payement->enregistre();
+				if ($this->operation_id > 0) {
+					$this->operation->supprime();
+					$this->fournisseur->dette -= $this->montant - $this->avance;
+					$this->fournisseur->save();
+				}else{
+						//paymenet par prelevement banquaire
+					$this->fournisseur->acompte += $this->avance;
+					$this->fournisseur->dette -= $this->montant - $this->avance;
+					$this->fournisseur->save();
+				}
 			}
 		}else{
 			$data->status = false;

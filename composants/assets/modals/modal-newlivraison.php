@@ -49,7 +49,6 @@
                 </div>
                 <div class="ibox-content"  style="background-color: #fafafa">
                     <form id="formLivraison">
-                        <input type="hidden" name="datelivraison" value="<?= dateAjoute(2) ?>" class="form-control">
                         <div>
                             <label>zone de livraison <span style="color: red">*</span> </label>
                             <div class="input-group">
@@ -82,12 +81,78 @@
                                 <?php Native\BINDING::html("select-tableau", Home\VEHICULE::ras(), null, "vehicule_id"); ?>
                             </div>
                         </div><br>
-                        <div>
+
+                        <div class="chauffeur">
                             <label>Chauffeur de la livraison <span style="color: red">*</span> </label>                                
                             <div class="input-group">
                                 <?php Native\BINDING::html("select-tableau", Home\CHAUFFEUR::libres(), null, "chauffeur_id"); ?>
-                            </div>
+                            </div><br>
                         </div>
+
+                        <div class="location">
+                            <label>Location de véhicule <span style="color: red">*</span> </label>  
+                            <div class="input-group">
+                                <select class="form-control select2" name="isLouer" style="width: 100%">
+                                    <option value="0">Non, pas de location de véhicule</option>
+                                    <option value="1">Oui, faire louer véhicule</option>
+                                </select>
+                            </div>
+                        </div><br>
+                        <div class="montant_location">
+                            <label class="gras">Montant de la location <span style="color: red">*</span> </label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="number" number name="montant_location" class="form-control" value="0" min="0">
+                            </div><br>
+                            <div class="no_modepayement_facultatif">
+                                <div>
+                                    <label>Montant avancé pour réglement<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" value="0" min="0" name="avance" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>Mode de payement <span style="color: red">*</span> </label>                                
+                                <div class="input-group">
+                                    <?php Native\BINDING::html("select", "modepayement"); ?>
+                                </div>
+                            </div><br>
+                            <div class="modepayement_facultatif">
+                                <div>
+                                    <label>Structure d'encaissement<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-bank"></i></span><input type="text" name="structure" class="form-control">
+                                    </div>
+                                </div><br>
+                                <div>
+                                    <label>N° numero dédié<span style="color: red">*</span> </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span><input type="text" name="numero" class="form-control">
+                                    </div>
+                                </div>
+                            </div><br>
+                        </div>
+
+                        <div class="tricycle">
+                            <div>
+                                <label>Nom & prénom du chauffeur tricycle<span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span><input type="text" name="nom_tricycle" class="form-control" >
+                                </div>
+                            </div><br>
+                            <div>
+                                <label>Montant à payer au chauffeur tricycle<span style="color: red">*</span> </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-money"></i></span><input type="text" name="paye_tricycle" class="form-control" value="0" min="0" >
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div>
+                            <label><input class="i-checks cursor" type="checkbox" name="chargement_manoeuvre" checked > Chargement par nos manoeuvres</label>
+                            <label><input class="i-checks cursor" type="checkbox" name="dechargement_manoeuvre" checked > Déchargement par nos manoeuvres</label>
+                        </div><br>
+
                         <input type="hidden" name="client_id" value="<?= $groupecommande->client_id ?>">
                     </form>
                     <hr/>
