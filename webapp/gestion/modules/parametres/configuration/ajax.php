@@ -28,30 +28,23 @@ if ($action == "prix") {
 
 if ($action == "exigence") {
 	$items = explode(",", $tableau);
-	$exi = $items[0];
-	$data = explode("-", $exi);
-	$id = $data[0]; $val = end($data);
-	$datas = EXIGENCEPRODUCTION::findBy(["id ="=> $id]);
-	if (count($datas) == 1) {
-		$pz = $datas[0];
-		$pz->quantite = intval($val);
-		$data = $pz->save();
-	}
-	unset($items[0]);
-
 	foreach ($items as $key => $value) {
-		$data = explode("-", $value);
-		$id = $data[0];
-		$val = end($data);
-		$datas = LIGNEEXIGENCEPRODUCTION::findBy(["id ="=> $id]);
+		$lot = explode("-", $value);
+		$id = $lot[0]; 
+		$prod = $lot[1];
+		$res= $lot[2];
+
+		$datas = EXIGENCEPRODUCTION::findBy(["id ="=>$id]);
 		if (count($datas) == 1) {
-			$pz = $datas[0];
-			$pz->quantite = intval($val);
-			$data = $pz->save();
+			$ligne = $datas[0];
+			$ligne->quantite_produit = $prod;
+			$ligne->quantite_ressource = $res;
+			$data = $ligne->enregistre();
 		}
 	}
 	echo json_encode($data);
 }
+
 
 
 if ($action == "formPayeProduit") {
@@ -80,8 +73,66 @@ if ($action == "formPayeProduit") {
 			$data = $pz->save();
 		}
 	}
+
+	$items = explode(",", $tableau2);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price_livraison = intval($val);
+			$data = $pz->save();
+		}
+	}
 	echo json_encode($data);
 }
+
+
+
+if ($action == "formPayeProduitFerie") {
+	$items = explode(",", $tableau);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYEFERIE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price = intval($val);
+			$data = $pz->save();
+		}
+	}	
+
+	$items = explode(",", $tableau1);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYEFERIE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price_rangement = intval($val);
+			$data = $pz->save();
+		}
+	}
+
+	$items = explode(",", $tableau2);
+	foreach ($items as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0]; $val = end($data);
+
+		$datas = PAYEFERIE_PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$pz = $datas[0];
+			$pz->price_livraison = intval($val);
+			$data = $pz->save();
+		}
+	}
+	echo json_encode($data);
+}
+
 
 
 

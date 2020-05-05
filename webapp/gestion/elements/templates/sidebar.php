@@ -39,6 +39,9 @@
                 <li class="" id="clients">
                     <a href="<?= $this->url("gestion", "master", "clients") ?>"><i class="fa fa-users"></i> <span class="nav-label">Liste des clients</span></a>
                 </li>
+                <li class="" id="operation">
+                    <a href="<?= $this->url("gestion", "master", "operation") ?>"><i class="fa fa-money"></i> <span class="nav-label">Opération de caisse</span></a>
+                </li>
                 <li class="dropdown-divider"></li>
 
 
@@ -58,8 +61,9 @@
                     <li class="groupe">
                         <a href="#"><i class="fa fa-truck"></i> <span class="nav-label">Livraisons <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="" id="livraisons"><a href="<?= $this->url("gestion", "production", "livraisons") ?>">Livraison en cours <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a></li>
                             <li class="" id="programmes"><a href="<?= $this->url("gestion", "production", "programmes") ?>">Programme de livraison</a></li>
+                            <li class="" id="livraisons"><a href="<?= $this->url("gestion", "production", "livraisons") ?>">Livraison en cours <?php if (count($livraisons__) > 0) { ?> <span class="label label-warning float-right"><?= count($livraisons__) ?></span> <?php } ?></a></li>
+                            <li class="" id="tricycle"><a href="<?= $this->url("gestion", "production", "tricycle") ?>">Livraisons tricycle</a></li>
                         </ul>
                     </li>
                     

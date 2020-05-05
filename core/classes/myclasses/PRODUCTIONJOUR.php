@@ -16,6 +16,10 @@ class PRODUCTIONJOUR extends TABLE
 	public $employe_id = 0;
 	public $etat_id = ETAT::ENCOURS;
 	public $dateRangement ;
+
+	public $total_rangement = 0;
+	public $total_production = 0 ;
+	public $total_livraison = 0 ;
 	
 
 
@@ -73,6 +77,11 @@ class PRODUCTIONJOUR extends TABLE
 		}
 	}
 
+
+
+	public static function ranges(){
+		return static::findBy(["etat_id ="=>ETAT::VALIDEE]);
+	}
 
 	public function sentenseCreate(){}
 	public function sentenseUpdate(){}

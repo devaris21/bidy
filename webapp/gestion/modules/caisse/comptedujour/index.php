@@ -48,7 +48,7 @@
                         <div class="row">
                             <div class="col-sm-9" style="border-right: 2px solid black">
 
-                               <?php if ($employe->isAutoriser("production")) { ?>
+                             <?php if ($employe->isAutoriser("production")) { ?>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <h3 class="text-uppercase text-center">Commandes</h3>
@@ -120,18 +120,18 @@
                                                             <tr>
                                                                 <?php foreach ($livraison->lignelivraisons as $key => $ligne) {
                                                                     if ($ligne->quantite > 0) { ?>
-                                                                     <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
-                                                                     <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
-                                                                 <?php   } 
-                                                             } ?>
-                                                         </tr>
-                                                     </tbody>
-                                                 </table>
-                                                 <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
-                                                 <hr>
-                                             <?php } ?>
-                                         </div>
-                                     <?php }else{ ?>
+                                                                       <td data-toogle="tooltip" title="effectivement livré" class="text-center text-green"><?= $ligne->quantite_livree ?></td>
+                                                                       <td data-toogle="tooltip" title="perte" class="text-center text-red"><?= $ligne->quantite - $ligne->quantite_livree  ?></td>
+                                                                   <?php   } 
+                                                               } ?>
+                                                           </tr>
+                                                       </tbody>
+                                                   </table>
+                                                   <h6 class="mp0 pull-right"><span>Véhicule :</span> <span class="text-uppercase"><?= $livraison->vehicule->name() ?></span></h6>
+                                                   <hr>
+                                               <?php } ?>
+                                           </div>
+                                       <?php }else{ ?>
                                         <p class="text-center text-muted italic">Aucune livraison ce jour </p>
                                     <?php } ?>
                                 </div>
@@ -307,6 +307,20 @@
                                 <?php } ?>
                             </ul><br>
                             <hr>
+
+
+                            <h4 class="text-uppercase">Coût de la production</h4><br>   
+
+                            <h6 class="text-uppercase">Coût de production</h6>
+                            <h3 class="text-info"><?= money($productionjour->total_production); ?> <?= $params->devise ?></h3>
+
+                            <h6 class="text-uppercase">Coût de Rangement</h6>
+                            <h3 class="text-blue"><?= money($productionjour->total_rangement); ?> <?= $params->devise ?></h3>
+
+                            <h6 class="text-uppercase">Coût de livraison</h6>
+                            <h3 class="text-warning"><?= money($productionjour->total_livraison); ?> <?= $params->devise ?></h3>
+                            <hr>
+
 
                             <?php if ($employe->isAutoriser("caisse")) { ?>
                                 <h4 class="text-uppercase">SOLDE DU COMPTE</h4>

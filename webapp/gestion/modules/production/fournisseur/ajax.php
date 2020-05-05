@@ -18,8 +18,8 @@ if ($action == "acompte") {
 		if ($employe->checkPassword($password)) {
 			$datas = FOURNISSEUR::findBy(["id=" => $fournisseur_id]);
 			if (count($datas) > 0) {
-				$client = $datas[0];
-				$data = $client->crediter(intval($montant), $_POST);
+				$fournisseur = $datas[0];
+				$data = $fournisseur->crediter(intval($montant), $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
@@ -45,8 +45,8 @@ if ($action == "dette") {
 		if ($employe->checkPassword($password)) {
 			$datas = FOURNISSEUR::findBy(["id=" => $fournisseur_id]);
 			if (count($datas) > 0) {
-				$client = $datas[0];
-				$data = $client->reglerDette(intval($montant), $_POST);
+				$fournisseur = $datas[0];
+				$data = $fournisseur->reglerDette(intval($montant), $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
@@ -71,8 +71,8 @@ if ($action == "rembourser") {
 		if ($employe->checkPassword($password)) {
 			$datas = FOURNISSEUR::findBy(["id=" => $fournisseur_id]);
 			if (count($datas) > 0) {
-				$client = $datas[0];
-				$data = $client->rembourser(intval($montant), $_POST);
+				$fournisseur = $datas[0];
+				$data = $fournisseur->rembourser(intval($montant), $_POST);
 			}else{
 				$data->status = false;
 				$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";

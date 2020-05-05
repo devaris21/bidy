@@ -2,9 +2,14 @@
   body, .page-wrapper, .wrapper{
     padding-top: 2%;
     background-color: #fff !important;
+    color: #000;
   }
   .footer, .header, .page-heading{
     display: none !important;
+  }
+
+  td{
+    border: 1px solid #000;
   }
 }
 

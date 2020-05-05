@@ -71,16 +71,15 @@ class MANOEUVRE extends PERSONNE
 	}
 
 
-	public function payer(int $montant, int $modepayement_id){
+	public function payer(int $montant, Array $post){
 		$data = new RESPONSE;
 		$solde = $this->solde();
 		if ($solde > 0) {
 			if ($solde >= $montant) {
 				if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+					$payement->hydrater($post);
 					$payement = new OPERATION();
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE;
-					$payement->modepayement_id = $modepayement_id;
-					$payement->montant = $montant;
 					$payement->manoeuvre_id = $this->getId();
 					$payement->comment = "Réglement de la paye de ".$this->name();
 					$data = $payement->enregistre();

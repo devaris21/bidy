@@ -11,11 +11,13 @@ class VEHICULE extends TABLE
 	public static $namespace = __NAMESPACE__;
 
 	const AUTO = 1;
+	const TRICYCLE = 2;
 
 	public $typevehicule_id;
 	public $groupevehicule_id;
 	public $prestataire_id = 1;
 	public $immatriculation;
+	public $etiquette;
 	public $chasis;
 	public $image = "default.jpg";
 	public $nb_place;
@@ -95,8 +97,7 @@ class VEHICULE extends TABLE
 
 
 	public function name(){
-		$this->actualise();
-		return $this->marque->name." ".$this->modele." immatriculé ".$this->immatriculation;
+		return $this->etiquette;
 	}
 
 

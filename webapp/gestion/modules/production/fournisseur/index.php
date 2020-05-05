@@ -21,7 +21,7 @@
                         <div class="ibox-content">
                             <p></p>
                             <div class="">                                
-                             <ul class="nav nav-tabs">
+                               <ul class="nav nav-tabs">
                                 <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> Approvision. en cours</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-2"><i class="fa fa-file-text-o"></i> Flux d'approvisionnements</a></li>
                                 <li><a class="nav-link" data-toggle="tab" href="#tab-3"><i class="fa fa-money"></i> Transactions de caisse</a></li>
@@ -30,7 +30,7 @@
 
 
 
-                             <?php if ($employe->isAutoriser("production")) { ?>
+                               <?php if ($employe->isAutoriser("production")) { ?>
 
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
@@ -119,65 +119,67 @@
                                                                     <td>
                                                                         <small>Montant de la commande</small>
                                                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($appro->montant) ?> <?= $params->devise  ?> 
-                                                                        <?php if ($appro->operation_id != 0) { ?>
-                                                                            <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $appro->operation->modepayement->name();  ?>">(<?= $appro->operation->modepayement->initial;  ?>)</small>
+                                                                        <?php if ($appro->operation_id > 0) { ?>
+                                                                            <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $appro->operation->modepayement->name(); ?>">(<?= $appro->operation->modepayement->initial; ?>)</small>
                                                                         <?php } ?>
                                                                     </h4>
                                                                 </td>
-                                                                <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
+                                                                <?php if ($appro->operation_id > 0) { ?>
+                                                                 <td class="text-center" data-toggle="tooltip" title="imprimer le facture">
                                                                     <?php if ($employe->isAutoriser("caisse")) { ?>
-                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $appro->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
+                                                                        <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncaisse", $appro->operation->getId()) ?>"><i class="fa fa-file-text fa-2x"></i></a>
                                                                     <?php } ?>       
                                                                 </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                    <?php } ?>                                      
-                                </div>
-
-                            </div>
-                        <?php } ?>
-
-
-                        <?php if ($employe->isAutoriser("caisse")) { ?>
-                         <div id="tab-3" class="tab-pane"><br>
-                            <?php foreach ($fluxcaisse as $key => $transaction) {
-                                $transaction->actualise(); ?>
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-2 date" style="padding-right: 1%; padding-left: 1%;">
-                                            <i data-toggle="tooltip" tiitle="Imprimer le bon" class="fa fa-file-text"></i>
-                                            <?= heurecourt($transaction->created) ?>
-                                            <br/>
-                                            <small class="text-navy"><?= datecourt($transaction->created) ?></small>
-                                        </div>
-                                        <div class="col-10 content">
-                                            <p>
-                                                <span class="">Bon de caisse N°<strong><?= $transaction->reference ?></strong></span>
-                                                <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
-                                                    <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
-                                                    <small>Par <?= $transaction->modepayement->name() ?></small><br>
-                                                    <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
-                                                </span>
-                                            </p>
-                                            <p class="m-b-xs"><?= $transaction->comment ?> </p>
-                                            <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
-                                        </div>
                                     </div>
-                                </div>
-                            <?php } ?>                 
+                                <?php } ?>                                      
+                            </div>
+
                         </div>
                     <?php } ?>
 
 
-                </div>
+                    <?php if ($employe->isAutoriser("caisse")) { ?>
+                       <div id="tab-3" class="tab-pane"><br>
+                        <?php foreach ($fluxcaisse as $key => $transaction) {
+                            $transaction->actualise(); ?>
+                            <div class="timeline-item">
+                                <div class="row">
+                                    <div class="col-2 date" style="padding-right: 1%; padding-left: 1%;">
+                                        <i data-toggle="tooltip" tiitle="Imprimer le bon" class="fa fa-file-text"></i>
+                                        <?= heurecourt($transaction->created) ?>
+                                        <br/>
+                                        <small class="text-navy"><?= datecourt($transaction->created) ?></small>
+                                    </div>
+                                    <div class="col-10 content">
+                                        <p>
+                                            <span class="">Bon de caisse N°<strong><?= $transaction->reference ?></strong></span>
+                                            <span class="pull-right text-right <?= ($transaction->categorieoperation->typeoperationcaisse_id == Home\TYPEOPERATIONCAISSE::ENTREE)?"text-green":"text-red" ?>">
+                                                <span class="gras" style="font-size: 16px"><?= money($transaction->montant) ?> <?= $params->devise ?> <?= ($transaction->etat_id == Home\ETAT::ENCOURS)?"*":"" ?></span> <br>
+                                                <small>Par <?= $transaction->modepayement->name() ?></small><br>
+                                                <a href="<?= $this->url("gestion", "fiches", "boncaisse", $transaction->getId())  ?>" target="_blank" class="simple_tag"><i class="fa fa-file-text-o"></i> Bon de caisse</a>
+                                            </span>
+                                        </p>
+                                        <p class="m-b-xs"><?= $transaction->comment ?> </p>
+                                        <p class="m-b-xs"><?= $transaction->structure ?> - <?= $transaction->numero ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>                 
+                    </div>
+                <?php } ?>
+
 
             </div>
+
         </div>
     </div>
+</div>
 </div>
 
 <div class="col-sm-4">
@@ -242,9 +244,9 @@
 
 <?php 
 foreach ($approvisionnements as $key => $appro) {
- $appro->actualise();
- $appro->fourni("ligneapprovisionnement");
- include($this->rootPath("composants/assets/modals/modal-approvisionnement2.php"));
+   $appro->actualise();
+   $appro->fourni("ligneapprovisionnement");
+   include($this->rootPath("composants/assets/modals/modal-approvisionnement2.php"));
 } 
 ?>
 

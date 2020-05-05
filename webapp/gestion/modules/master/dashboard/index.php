@@ -149,6 +149,7 @@
                                 <?php } ?>
                                 <li class="list-group-item"></li>
                             </ul>
+
                             <?php if ($employe->isAutoriser("production")) { ?>
                                 <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
                             <?php } ?>

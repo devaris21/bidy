@@ -85,10 +85,27 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <h4 class="text-right">Rapport de Consommation des ressources</h4>
-                                    <div>
-                                        <canvas id="radarChart2" height="230"></canvas>
-                                    </div>
+                                    <h4 class="text-right">Coût de production, rangement & livraison</h4><br>
+                                    <table class="table ">
+                                        <tbody>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Production</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_production", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Rangement</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_rangement", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût de Livraison</h4></td>
+                                                <td><h4><?= money(comptage($productions, "total_livraison", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h4 class="text-uppercase">Coût Tricycle</h4></td>
+                                                <td><h4><?= money(comptage($tricycles, "paye_tricycle", "somme")) ?> <?= $params->devise ?></h4></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div><br>
 

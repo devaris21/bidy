@@ -17,7 +17,7 @@ $(function(){
 
     $("#top-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("table.table-commande tr:not[no]").filter(function() {
+        $("table.table-commande tr:not(no)").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
@@ -81,6 +81,14 @@ $(function(){
             $("body").append(data);
             $("body #modal-programmation-valider").modal("show");
             $("select.select2").select2();
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            $("div.tricycle").hide()
+            $("div.location").hide()
+            $("div.chauffeur").hide()
+            $("div.montant_location").hide()
             Loader.stop();    
         },"html");
     }

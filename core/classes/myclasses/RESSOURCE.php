@@ -28,17 +28,14 @@ class RESSOURCE extends TABLE
 				$this->uploading($this->files);
 
 				foreach (PRODUIT::getAll() as $key => $produit) {
-					$lots = $produit->fourni("exigenceproduction");
-					if (count($lots) == 1 ) {
-						$exi = $lots[0];
-						$datas = LIGNEEXIGENCEPRODUCTION::findBy(["exigenceproduction_id ="=>$exi->getId(), "ressource_id ="=>$data->lastid]);
-						if (count($datas) == 0) {
-							$ligne = new LIGNEEXIGENCEPRODUCTION();
-							$ligne->exigenceproduction_id = $exi->getId();
-							$ligne->ressource_id = $data->lastid;
-							$ligne->quantite = 0;
-							$ligne->enregistre();
-						}
+					$datas = EXIGENCEPRODUCTION::findBy(["produit_id ="=>$produit->getId(), "ressource_id ="=>$data->lastid]);
+					if (count($datas) == 0) {
+						$ligne = new EXIGENCEPRODUCTION();
+						$ligne->ressource_id = $data->lastid;
+						$ligne->quantite_produit = 0;
+						$ligne->produit_id = $produit->getId();
+						$ligne->quantite_ressource = 0;
+						$ligne->enregistre();
 					}
 				}
 
@@ -125,15 +122,15 @@ class RESSOURCE extends TABLE
 
 
 	public function exigence(int $quantite, int $produit_id){
-		$total = 0;
-		$datas = $this->fourni("exigenceproduction");
-		foreach ($datas as $key => $exigence) {
-			$lot =  $exigence->fourni("ligneexigenceproduction", ["ressource_id ="=>$ressource_id])();
-			foreach ($lot as $cle => $item) {
-				$total += ($quantite * $item->quantite) / $exigence->quantite;
+		$datas = EXIGENCEPRODUCTION::findBy(["ressource_id ="=>$this->getId(), "produit_id ="=>$produit_id]);
+		if (count($datas) == 1) {
+			$item = $datas[0];
+			if ($item->quantite_ressource == 0) {
+				return 0;
 			}
+			return ($quantite * $item->quantite_produit) / $item->quantite_ressource;
 		}
-		return $total;
+		return 0;
 	}
 
 

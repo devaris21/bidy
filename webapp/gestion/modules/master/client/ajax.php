@@ -31,7 +31,7 @@ if ($action == "newproduit") {
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
 				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
 				<td >
-					<img style="width: 40px" src="<?= $rooter->stockage("images", "produit", $produit->image) ?>">
+					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
 				</td>
 				<td class="text-left">
 					<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
@@ -85,7 +85,7 @@ if ($action == "calcul") {
 			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
 				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
 				<td >
-					<img style="width: 40px" src="<?= $rooter->stockage("images", "produit", $produit->image) ?>">
+					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
 				</td>
 				<td class="text-left">
 					<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
@@ -131,7 +131,7 @@ if ($action == "validerCommande") {
 
 			if (getSession("total") > 0) {
 				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
-					if ((getSession("total") - intval($avance)) <= $params->seuilCredit ) {
+					if ((getSession("total") - intval($avance) + $client->dette) <= $params->seuilCredit ) {
 						if (getSession("commande-encours") != null) {
 							$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
 							if (count($datas) > 0) {
@@ -204,12 +204,12 @@ if ($action == "validerCommande") {
 								$lot = $payement->enregistre();
 
 								$commande->operation_id = $lot->lastid;
-							}
 
-							$client->actualise();
-							$payement->acompteClient = $client->acompte;
-							$payement->detteClient = $client->dette;
-							$payement->save();
+								$client->actualise();
+								$payement->acompteClient = $client->acompte;
+								$payement->detteClient = $client->dette;
+								$payement->save();
+							}
 
 							$commande->tva = $tva;
 							$commande->montant = $total;
@@ -277,75 +277,121 @@ if ($action == "annulerCommande") {
 
 
 if ($action == "livraisonCommande") {
+	$params = PARAMS::findLastId();
 	if (getSession("commande-encours") != null) {
 		$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
 		if (count($datas) > 0) {
 			$groupecommande = $datas[0];
+			$groupecommande->actualise();
 
-			$produits = explode(",", $tableau);
-			if (count($produits) > 0) {
-				$tests = $produits;
-				foreach ($tests as $key => $value) {
-					$lot = explode("-", $value);
-					$id = $lot[0];
-					$qte = end($lot);
-					$produit = PRODUIT::findBy(["id ="=>$id])[0];
-					if ($qte > 0 && $groupecommande->reste($id) >= $qte && $qte <= $produit->livrable()) {
-						unset($tests[$key]);
+			if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+				$avance = 0;
+			}
+
+			if ($isLouer == 0 || ((intval($montant_location) - intval($avance) + $groupecommande->client->dette) <= $params->seuilCredit)) {
+
+				$produits = explode(",", $tableau);
+				if (count($produits) > 0) {
+					$tests = $produits;
+					foreach ($tests as $key => $value) {
+						$lot = explode("-", $value);
+						$id = $lot[0];
+						$qte = end($lot);
+						$produit = PRODUIT::findBy(["id ="=>$id])[0];
+						if ($qte > 0 && $groupecommande->reste($id) >= $qte && $qte <= $produit->livrable()) {
+							unset($tests[$key]);
+						}
 					}
-				}
-				if (count($tests) == 0) {
-					$livraison = new LIVRAISON();
-					$livraison->hydrater($_POST);
-					$livraison->groupecommande_id = $groupecommande->getId();
-					$data = $livraison->enregistre();
-					if ($data->status) {
-						foreach ($produits as $key => $value) {
-							$lot = explode("-", $value);
-							$id = $lot[0];
-							$qte = end($lot);
-
-							$datas = PRODUIT::findBy(["id="=>$id]);
-							if (count($datas) > 0) {
-								$produit = $datas[0];
-								$produit->livrer($qte);
-
-								$lignecommande = new LIGNELIVRAISON;
-								$lignecommande->livraison_id = $livraison->getId();
-								$lignecommande->produit_id = $id;
-								$lignecommande->quantite = $qte;
-								$lignecommande->enregistre();
-							}
-							
+					if (count($tests) == 0) {
+						$livraison = new LIVRAISON();
+						if ($vehicule_id <= VEHICULE::TRICYCLE) {
+							$_POST["chauffeur_id"] = 0;
 						}
+						$livraison->hydrater($_POST);
+						$livraison->groupecommande_id = $groupecommande->getId();
+						$data = $livraison->enregistre();
+						if ($data->status) {
+							$montant = 0;
+							$productionjour = PRODUCTIONJOUR::today();
 
-						if ($vehicule_id != VEHICULE::AUTO) {
-							$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
-							if (count($datas) > 0) {
-								$vehicule = $datas[0];
-								$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
-								$vehicule->save();
+							foreach ($produits as $key => $value) {
+								$lot = explode("-", $value);
+								$id = $lot[0];
+								$qte = end($lot);
+
+								$datas = PRODUIT::findBy(["id="=>$id]);
+								if (count($datas) > 0) {
+									$produit = $datas[0];
+									$produit->livrer($qte);
+
+									$paye = $produit->coutProduction("livraison", $qte);
+									if (isset($chargement_manoeuvre) && $chargement_manoeuvre == "on") {
+										$montant += $paye / 2;
+									}
+
+									if (isset($dechargement_manoeuvre) && $dechargement_manoeuvre == "on") {
+										$montant += $paye / 2;
+									}
+
+									$lignecommande = new LIGNELIVRAISON;
+									$lignecommande->livraison_id = $livraison->getId();
+									$lignecommande->produit_id = $id;
+									$lignecommande->quantite = $qte;
+									$lignecommande->enregistre();
+								}
 							}
-						}
-						
-						if ($chauffeur_id != CHAUFFEUR::AUTO) {
-							$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
-							if (count($datas) > 0) {
-								$chauffeur = $datas[0];
-								$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
-								$chauffeur->save();
+
+							$productionjour->total_livraison += $montant;
+							$productionjour->save();
+
+							if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
+								$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
+								if (count($datas) > 0) {
+									$vehicule = $datas[0];
+									$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
+									$vehicule->save();
+								}
+
+								if($isLouer == 1 && $montant_location > 0 ){
+									if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+										$lot = $client->debiter($montant_location);
+
+									}else{
+
+										if ($montant_location > intval($avance)) {
+											$client->dette($montant_location - intval($avance));
+										}
+
+										$livraison->actualise();
+										$payement = new OPERATION();
+										$payement->hydrater($_POST);
+										$payement->categorieoperation_id = CATEGORIEOPERATION::LOCATION_LIVRAISON;
+										$payement->montant = $avance;
+										$payement->client_id = $livraison->groupecommande->client_id;
+										$payement->comment = "Réglement pour la location d'engins de livraison pour la livraison N°".$livraison->reference;
+										$lot = $payement->enregistre();
+
+										$livraison->operation_id = $lot->lastid;
+									}
+
+
+								}
 							}
-						}
-						
-						$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
-					}	
+
+							$data = $livraison->save();
+							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
+						}	
+					}else{
+						$data->status = false;
+						$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					}
 				}else{
 					$data->status = false;
-					$data->message = "Veuillez à bien vérifier les quantités des différents produits à livrer, certaines sont incorrectes !";
+					$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
 				}
 			}else{
 				$data->status = false;
-				$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
+				$data->message = "Le seuil de credit pour ce client sera dépassé !";
 			}
 		}else{
 			$data->status = false;
@@ -402,10 +448,10 @@ if ($action == "validerProgrammation") {
 									$lignecommande->quantite = $qte;
 									$lignecommande->enregistre();
 								}
-								
+
 							}
 
-							
+
 							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 						}	
 					}else{
@@ -444,7 +490,7 @@ if ($action == "fichecommande") {
 
 		$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
 		$employe = $datas[0];
-		
+
 		include("../../../../../composants/assets/modals/modal-groupecommande.php");
 	}
 }

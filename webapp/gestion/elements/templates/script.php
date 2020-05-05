@@ -44,6 +44,7 @@
     <!-- iCheck -->
     <script src="<?= $this->rootPath("composants/dist/js/plugins/iCheck/icheck.min.js") ?>"></script>
 
+
      <!-- idle-timer -->
     <script src="<?= $this->rootPath("composants/dist/js/plugins/idle-timer/idle-timer.min.js") ?>"></script>
 
