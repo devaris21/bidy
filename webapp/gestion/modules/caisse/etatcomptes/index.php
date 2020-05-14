@@ -144,7 +144,7 @@
                                         <?php }  ?>
 
                                         <?php if (count($datas1) > 2) { ?>
-                                            <li><b><?= $datas1[0]->pct + $datas1[1]->pct ?>%</b> de vos dépenses concernent <b>"<?= $datas1[0]->name() ?>"</b> et <b>"<?= $datas1[1]->name() ?>"</b></li>
+                                            <li><b><?= $datas1[0]->pct + $datas1[1]->pct ?>%</b> de vos entrées en caisse concernent <b>"<?= $datas1[0]->name() ?>"</b> et <b>"<?= $datas1[1]->name() ?>"</b></li>
                                         <?php }  ?>
                                     </ul><hr>
 

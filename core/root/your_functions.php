@@ -217,8 +217,12 @@ function rgb2hex($rgb) {
 }
 
 // fonction qui compare les valeurs post_name l'une à l'autre
-function comparerPct($a, $b) {
+function comparerPct_($a, $b) {
 	return -strcmp($a->pct, $b->pct);
+}
+
+function comparerPct($a, $b) {
+	return strcmp($a->pct, $b->pct);
 }
 
 function comparerLadate($a, $b) {

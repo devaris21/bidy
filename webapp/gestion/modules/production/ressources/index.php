@@ -81,7 +81,7 @@
                                                     ?>
                                                     <td>
                                                         <h3 class="d-inline text-red gras"><?= start0($ligne->consommation) ?></h3> &nbsp; | &nbsp;
-                                                        <h4 class="d-inline text-green"><?= start0($item->quantite) ?></h4>
+                                                        <h4 class="d-inline text-green"><?= start0(round($item->quantite, 2)) ?></h4>
                                                     </td>
                                                 <?php }
                                             }

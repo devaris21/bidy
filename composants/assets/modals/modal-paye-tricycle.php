@@ -10,7 +10,7 @@
                     <div class="">
                         <label>Montant à payer<span1>*</span1></label>
                         <div class="form-group">
-                            <input type="number" number class="form-control" name="montant" value="<?= $livraison->paye_tricycle  ?>" max="<?= $livraison->paye_tricycle  ?>" required>
+                            <input type="number" number class="form-control" name="montant" value="<?= $livraison->reste  ?>" max="<?= $livraison->reste  ?>" required>
                         </div>
                     </div>
                     <div class="">

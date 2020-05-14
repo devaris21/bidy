@@ -18,7 +18,7 @@ foreach (PRODUIT::getAll() as $key => $prod) {
 
 foreach (OPERATION::enAttente() as $key => $item) {
 	$item->actualise();
-	if ($item->categorieoperation->typeoperationcaisse_id == TYPEOPERATIONCAISSE::SORTIE) {
+	if ($item->categorieoperation->typeoperationcaisse->getId() == TYPEOPERATIONCAISSE::SORTIE) {
 		$item->etat_id == ETAT::VALIDEE;
 		$item->save();
 	}

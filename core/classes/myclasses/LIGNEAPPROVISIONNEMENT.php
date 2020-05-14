@@ -26,7 +26,7 @@ class LIGNEAPPROVISIONNEMENT extends TABLE
 			if (count($datas) == 1) {
 				if ($this->quantite > 0 ) {
 					$this->quantite_recu = $this->quantite;
-					if ($this->price > 0 ) {
+					if ($this->price >= 0 ) {
 						$data = $this->save();
 					}else{
 						$data->status = false;

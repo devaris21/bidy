@@ -1,5 +1,6 @@
 $(function(){
 
+    var total = 0;
     $("tr.fini").hide()
 
     $("input[type=checkbox].onoffswitch-checkbox").change(function(event) {
@@ -64,6 +65,7 @@ $(function(){
             formdata.append('action', "total");
             $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                 $(".total").html(data.total);
+                total = data.total;
             }, 'json')
         }, 'html')
         return formdata;
@@ -82,17 +84,38 @@ $(function(){
             cancelLabel : "Non",
             okLabel : "OUI, confirmer",
         }, function(){
-            Loader.start();
-            var url = "../../webapp/gestion/modules/production/approvisionnements/ajax.php";
-            formdata.append('action', "validerApprovisionnement");
-            $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-                if (data.status) {
-                    window.open(data.url, "_blank");
-                    window.location.reload();
-                }else{
-                    Alerter.error('Erreur !', data.message);
-                }
-            }, 'json')
+            if (parseInt(total) == 0) {
+                alerty.confirm("Le montant total de cet approvisionnement est de 0F ! Est-il vraiment exact?", {
+                    title: "Attention",
+                    cancelLabel : "Non",
+                    okLabel : "OUI, confirmer",
+                }, function(){
+                    Loader.start();
+                    var url = "../../webapp/gestion/modules/production/approvisionnements/ajax.php";
+                    formdata.append('action', "validerApprovisionnement");
+                    $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+                        if (data.status) {
+                            window.open(data.url, "_blank");
+                            window.location.reload();
+                        }else{
+                            Alerter.error('Erreur !', data.message);
+                        }
+                    }, 'json')
+                })
+            }else{
+                Loader.start();
+                var url = "../../webapp/gestion/modules/production/approvisionnements/ajax.php";
+                formdata.append('action', "validerApprovisionnement");
+                $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+                    if (data.status) {
+                        window.open(data.url, "_blank");
+                        window.location.reload();
+                    }else{
+                        Alerter.error('Erreur !', data.message);
+                    }
+                }, 'json')
+            }
+
         })
     }
 

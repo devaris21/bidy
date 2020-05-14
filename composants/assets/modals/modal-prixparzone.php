@@ -14,7 +14,7 @@
                     <thead>
                         <tr>
                             <th colspan="2"></th>
-                            <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
+                            <?php foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $produit) { ?>
                                 <th class="text-center"><?= $produit->name() ?></th>
                             <?php } ?>
                         </tr>

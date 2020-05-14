@@ -137,47 +137,49 @@ if ($action == "validerApprovisionnement") {
 						$qte = $lot[1];
 					};
 					$prix = end($lot);
-					if ($qte > 0 && intval($prix)) {
+					if ($qte > 0) {
 						unset($tests[$key]);
 					}
 				}
 
-				$total = getSession("total");
-				if (count($tests) == 0 && intval($total) > 0) {
+
+				$approvisionnement = new APPROVISIONNEMENT();
+				if (count($tests) == 0) {
+
+					$total = getSession("total");
 					$data->status = true;
 					$data->lastid = null;
 
-					$approvisionnement = new APPROVISIONNEMENT();
+					if (intval($total) > 0) {
+						if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+							if ($fournisseur->acompte >= $total) {
+								$approvisionnement->avance = $total;
+							}else{
+								$approvisionnement->avance = $fournisseur->acompte;
+							}
+							$data = $fournisseur->debiter($total);
 
-					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
-						if ($fournisseur->acompte >= $total) {
-							$approvisionnement->avance = $total;
 						}else{
-							$approvisionnement->avance = $fournisseur->acompte;
+
+							if ($total > intval($avance)) {
+								$fournisseur->dette($total - intval($avance));
+							}
+
+							$payement = new OPERATION();
+							$payement->hydrater($_POST);
+							$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+							$payement->montant = $avance;
+							$payement->fournisseur_id = $fournisseur_id;
+							$data = $payement->enregistre();
+
+							$approvisionnement->operation_id = $data->lastid;
+
+							$fournisseur->actualise();
+							$payement->acompteClient = $fournisseur->acompte;
+							$payement->detteClient = $fournisseur->dette;
+							$data = $payement->save();
 						}
-						$data = $fournisseur->debiter($total);
-
-					}else{
-
-						if ($total > intval($avance)) {
-							$fournisseur->dette($total - intval($avance));
-						}
-
-						$payement = new OPERATION();
-						$payement->hydrater($_POST);
-						$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
-						$payement->montant = $avance;
-						$payement->fournisseur_id = $fournisseur_id;
-						$data = $payement->enregistre();
-
-						$approvisionnement->operation_id = $data->lastid;
-
-						$fournisseur->actualise();
-						$payement->acompteClient = $fournisseur->acompte;
-						$payement->detteClient = $fournisseur->dette;
-						$data = $payement->save();
 					}
-					
 
 					if ($data->status) {
 
@@ -205,7 +207,7 @@ if ($action == "validerApprovisionnement") {
 								}
 							}
 
-							if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+							if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && $total > 0) {
 								$payement->comment = "Réglement de la facture d'approvisionnement N°".$approvisionnement->reference;
 								$data = $payement->save();
 								$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);

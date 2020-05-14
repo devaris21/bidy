@@ -151,10 +151,10 @@
 
         resetPassword = function(table, id){
             url = "../../composants/dist/shamman/traitement.php";
-            alerty.confirm("Voulez-vous vraiment bloquer tout accès à cette personne ?", {
+            alerty.confirm("Voulez-vous vraiment reinitialiser les accès de cette personne ?", {
                 title: "Restriction d'accès",
                 cancelLabel : "Non",
-                okLabel : "OUI, bloquer",
+                okLabel : "OUI, reinitialiser",
             }, function(){
                 alerty.prompt("Entrer votre mot de passe pour confirmer l'opération !", {
                     title: 'Récupération du mot de passe !',
@@ -163,7 +163,7 @@
                     okLabel : "Valider"
                 }, function(password){
                     Loader.start();
-                    $.post(url, {action:"resetPassword", table:table, id:id}, (data)=>{
+                    $.post(url, {action:"resetPassword", table:table, id:id, password:password}, (data)=>{
                         if (data.status) {
                             window.location.reload()
                         }else{

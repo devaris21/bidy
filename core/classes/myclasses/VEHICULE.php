@@ -97,7 +97,7 @@ class VEHICULE extends TABLE
 
 
 	public function name(){
-		return $this->etiquette;
+		return $this->modele." ".$this->etiquette;
 	}
 
 
@@ -115,7 +115,7 @@ class VEHICULE extends TABLE
 	}
 
 	public static function entretien(){
-		return array_merge(static::findBy(["etatvehicule_id ="=> ETATVEHICULE::ENTRETIEN]), static::findBy(["etatvehicule_id ="=> ETATVEHICULE::PANNE]));
+			return array_merge(static::findBy(["etatvehicule_id ="=> ETATVEHICULE::ENTRETIEN]), static::findBy(["etatvehicule_id ="=> ETATVEHICULE::PANNE]));
 	}
 
 

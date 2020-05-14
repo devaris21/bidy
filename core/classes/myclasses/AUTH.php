@@ -93,19 +93,19 @@ abstract class AUTH extends TABLE
 	public function resetPassword(){
 		$this->is_new = 1;
 		$this->login = substr(uniqid(), 6);
-		$pass = substr(uniqid(), 5);
+		$this->pass = $pass = substr(uniqid(), 6);
 		$this->password = hasher($pass);
 		$this->historique("Reinitialisation des parametres de connexion de ".$this->name());
 		$data = $this->save();
-		if ($data->status) {
-			ob_start();
-			//TODO mettre le mail a jour
-			include(__DIR__."/../../../composants/assets/mails/reset.php");
-			$contenu = ob_get_contents();
-			ob_end_clean();
-			EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);
-			$data->setUrl("amb", "start", "select");
-		}
+		// if ($data->status && false) {
+		// 	ob_start();
+		// 	//TODO mettre le mail a jour
+		// 	include(__DIR__."/../../../composants/assets/mails/reset.php");
+		// 	$contenu = ob_get_contents();
+		// 	ob_end_clean();
+		// 	EMAIL::send([$this->email], "Reinitialisation de vos parametres de connexion", $contenu);
+		// 	$data->setUrl("amb", "start", "select");
+		// }
 		return $data;
 	}
 

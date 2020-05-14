@@ -16,7 +16,7 @@
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
-                <h2 class="text-uppercase text-warning gras">Les livraisons para trycicle en cours</h2>
+                <h2 class="text-uppercase text-warning gras">Les livraisons par trycicle en cours</h2>
                 <div class="container">
                     <!-- <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les livraisons passées</div>
@@ -123,8 +123,8 @@
                                 </td>
                                 <td>
                                     <a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Bon de livraison</a><br>
-                                    <h3 class="text-center"><?= money($livraison->paye_tricycle) ?> <?= $params->devise ?></h3>
-                                    <?php if ($livraison->isPayer == 0) { ?>
+                                    <h3 class="text-center"><?= money($livraison->reste) ?> <?= $params->devise ?></h3>
+                                    <?php if ($livraison->isPayer == 0 && $livraison->reste > 0) { ?>
                                         <button data-toggle="modal" data-target="#modal-paye-tricycle<?= $livraison->getId() ?>" class="btn btn-primary btn-sm"><i class="fa fa-money"></i> Payer le tricycle</button>
                                     <?php } ?>
                                 </td>
@@ -146,7 +146,7 @@
 
     <?php 
     foreach ($livraisons as $key => $livraison) {
-        if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
+        if ($livraison->etat_id == Home\ETAT::VALIDEE) { 
             include($this->rootPath("composants/assets/modals/modal-paye-tricycle.php"));
         } 
     } 

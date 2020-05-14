@@ -200,7 +200,6 @@
                     <i class="fa fa-envelope"></i>&nbsp; <?= $fournisseur->email ?>
                 </address><hr>
 
-                <?php if ($employe->isAutoriser("caisse")) { ?>
                     <div class="m-b-lg">
                         <span>Acompte actuel chez le fournisseur</span><br>
                         <h2 class="font-bold d-inline"><?= money($fournisseur->acompte) ?> <?= $params->devise  ?></h2> 
@@ -221,7 +220,6 @@
                         <?php } ?>                   
 
                     </div>
-                <?php } ?>
 
             </div>
 

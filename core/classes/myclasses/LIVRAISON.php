@@ -204,15 +204,16 @@ class LIVRAISON extends TABLE
 		$solde = $this->reste;
 		if ($solde > 0) {
 			if ($solde >= $montant) {
-				if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-					$payement->hydrater($post);
-					$payement = new OPERATION();
+				$payement = new OPERATION();
+				$payement->hydrater($post);
+				if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
 					$payement->categorieoperation_id = CATEGORIEOPERATION::PAYE_TRICYLE;
 					$payement->manoeuvre_id = $this->getId();
 					$payement->comment = "Réglement de la paye de tricycle ".$this->chauffeur()." pour la commande N°".$this->reference;
 					$data = $payement->enregistre();
 					if ($data->status) {
 						$this->reste -= $montant;
+						$this->isPayer = 1;
 						$data = $this->save();
 					}
 				}else{

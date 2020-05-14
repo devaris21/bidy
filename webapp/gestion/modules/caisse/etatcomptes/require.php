@@ -35,8 +35,8 @@ foreach ($datas as $key => $item) {
 
 
 
-usort($datas1, "comparerPct");
-usort($datas2, "comparerPct");
+usort($datas1, "comparerPct_");
+usort($datas2, "comparerPct_");
 
 
 
