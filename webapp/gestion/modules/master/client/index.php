@@ -117,7 +117,7 @@
                                                                     <td>
                                                                         <small>Montant de la commande</small>
                                                                         <h4 class="mp0 text-uppercase" style="margin-top: -1.5%;"><?= money($transaction->montant) ?> <?= $params->devise  ?> 
-                                                                        <?php if ($transaction->operation_id != 0) { ?>
+                                                                        <?php if ($transaction->operation_id > 0) { ?>
                                                                             <small style="font-weight: normal;;" data-toggle="tooltip" title="Payement par <?= $transaction->operation->modepayement->name();  ?>">(<?= $transaction->operation->modepayement->initial;  ?>)</small>
                                                                         <?php } ?>   
                                                                     </h4>
