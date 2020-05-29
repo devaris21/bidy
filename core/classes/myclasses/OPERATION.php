@@ -27,6 +27,7 @@ class OPERATION extends TABLE
 
 	public $acompteClient = 0;
 	public $detteClient = 0;
+	public $image;
 
 
 	public function enregistre(){
@@ -50,6 +51,9 @@ class OPERATION extends TABLE
 						
 						if (intval($this->montant) > 0) {
 							$data = $this->save();
+							if ($data->status) {
+								$this->uploading($this->files);
+							}
 						}else{
 							$data->status = false;
 							$data->message = "Le montant pour cette opération est incorrecte, verifiez-le !";
@@ -71,6 +75,30 @@ class OPERATION extends TABLE
 			$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !!";
 		}
 		return $data;
+	}
+
+
+
+	public function uploading(Array $files){
+		//les proprites d'images;
+		$tab = ["image"];
+		if (is_array($files) && count($files) > 0) {
+			$i = 0;
+			foreach ($files as $key => $file) {
+				if ($file["tmp_name"] != "") {
+					$image = new FICHIER();
+					$image->hydrater($file);
+					if ($image->is_image()) {
+						$a = substr(uniqid(), 5);
+						$result = $image->upload("images", "operations", $a);
+						$name = $tab[$i];
+						$this->$name = $result->filename;
+						$this->save();
+					}
+				}	
+				$i++;			
+			}			
+		}
 	}
 
 

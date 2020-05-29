@@ -16,9 +16,9 @@
 
           <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-sm-9">
-                <h2 class="text-uppercase text-green gras">Rangements de la production</h2>
+                <h2 class="text-uppercase text-green gras">Liste des fournisseurs</h2>
                 <div class="container">
-                    <div class="row">
+                   <!--  <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les rangements passées</div>
                         <div class="offset-1"></div>
                         <div class="col-xs-4">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-sm-3">
@@ -44,7 +44,7 @@
                                 <i class="fa fa-th-large fa-3x"></i>
                             </div>
                             <div class="col-9 text-right">
-                                <span> Rangements de la production </span>
+                                <span> Tous les fournisseurs </span>
                                 <h2 class="font-bold"><?= start0(count($fournisseurs))  ?></h2>
                             </div>
                         </div>

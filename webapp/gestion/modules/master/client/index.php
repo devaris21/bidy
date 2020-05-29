@@ -200,8 +200,11 @@
                     <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
 
                     <?php if ($client->acompte > 0) { ?>
-                     <button type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim btn-block"><i
+                     <button style="font-size: 11px" type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim"><i
                         class="fa fa-minus"></i> Rembourser le client
+                    </button>
+                    <button style="font-size: 11px" type="button" data-toggle="modal" data-target="#modal-transfert-acompte" class="btn btn-success dim"><i
+                        class="fa fa-share"></i> Transfert de fonds
                     </button>
                 <?php } ?>
 
@@ -287,6 +290,7 @@
 <?php include($this->rootPath("composants/assets/modals/modal-acompte.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-dette.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-rembourser.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-transfert-acompte.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
 
 </div>

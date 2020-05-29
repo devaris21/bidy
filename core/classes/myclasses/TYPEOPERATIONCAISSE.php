@@ -11,6 +11,7 @@ class TYPEOPERATIONCAISSE extends TABLE
 
 	const ENTREE = 1;
 	const SORTIE = 2;
+	const TRANSFERT_DE_FOND = 3;
 
 	public $name;
 

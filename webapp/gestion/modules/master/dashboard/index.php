@@ -18,7 +18,7 @@
             <div class="animated fadeInRightBig">
                 <div class="row" >
                     <div class="col-lg-3">
-                        <div class="ibox ">
+                        <div class="ibox cursor" onclick="modal('#modal-listecommande')">
                             <div class="ibox-title">
                                 <h5>Commandes passés aujourd'hui</h5>
                             </div>
@@ -206,6 +206,7 @@
                                 <table class="table table-hover no-margins">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Client</th>
                                             <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
                                                 <th class="text-center"><?= $produit->name() ?></th>
@@ -219,6 +220,7 @@
                                             $livraison->actualise();
                                             $datas = $livraison->fourni("lignelivraison"); ?>
                                             <tr>
+                                                <td title="Voir le bon de livraison"><a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                 <td><?= $livraison->groupecommande->client->name()  ?></td>
                                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 
                                                     $a = ""; ?>
@@ -254,29 +256,88 @@
             <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
             <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
 
+
+            <div class="modal inmodal fade" id="modal-listecommande">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Liste des commandes en cours</h4>
+                        <span>Double-cliquez pour selectionner la commande voulue !</span>
+                    </div>
+                    <form method="POST">
+                        <div class="modal-body">
+                            <table class="table table-bordered table-commande">
+                                <tbody>
+                                    <?php foreach (Home\COMMANDE::findBy(["DATE(created) ="=>dateAjoute(), "etat_id !="=>Home\ETAT::ANNULEE]) as $key => $commande) {
+                                        $commande->actualise(); 
+                                        $datas = $commande->fourni("lignecommande");
+                                        ?>
+                                        <tr class="border-bottom">
+                                            <td class="project-title border-right">
+                                                <h3 class="text-uppercase">Commande N°<?= $commande->reference ?></h3>
+                                                <h5 class="text-uppercase text-muted">de <a href="<?= $this->url("gestion", "master", "client", $commande->groupecommande->client_id)  ?>"><?= $commande->groupecommande->client->name() ?></a></h5>
+                                                <h5><?= $commande->zonelivraison->name() ?> / <?= $commande->lieu ?></h5>
+                                                <h5>Commande passée à <?= heurecourt($commande->created) ?></h5>
+                                            </td>
+                                            <td class="border-right">
+                                                <h4>Eigence de la commande</h4>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <?php foreach ($datas as $key => $ligne) {
+                                                            $ligne->actualise(); ?>
+                                                                <th class="text-center"><?= $ligne->produit->name() ?></th>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <?php foreach ($datas as $key => $ligne) { ?>
+                                                                <td class="text-center"><?= start0($ligne->quantite) ?></td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <br>
+                                                   <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $commande->getId())  ?>" target="_blank" class="btn btn-primary dim"><i class="fa fa-file-text-o"></i> Bon de commande</a>
+                                            </td>
+                                        </tr>
+                                    <?php  } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+
+
     </div>
+</div>
 
 
-    <?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
+<?php include($this->rootPath("webapp/gestion/elements/templates/script.php")); ?>
 
-    <script type="text/javascript" src="<?= $this->relativePath("../../production/programmes/script.js") ?>"></script>
+<script type="text/javascript" src="<?= $this->relativePath("../../production/programmes/script.js") ?>"></script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
 
-            var id = "<?= $this->getId();  ?>";
-            if (id == 1) {
-                setTimeout(function() {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('Content de vous revoir de nouveau!', 'Bonjour <?= $employe->name(); ?>');
-                }, 1300);
-            }
+        var id = "<?= $this->getId();  ?>";
+        if (id == 1) {
+            setTimeout(function() {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.success('Content de vous revoir de nouveau!', 'Bonjour <?= $employe->name(); ?>');
+            }, 1300);
+        }
 
 
  // Stocked horizontal bar

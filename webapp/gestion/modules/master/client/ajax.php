@@ -613,6 +613,52 @@ if ($action == "rembourser") {
 }
 
 
+
+if ($action == "transferer") {
+	if ($client_id != $client_id_receive) {
+		$datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+		if (count($datas) > 0) {
+			$employe = $datas[0];
+			$employe->actualise();
+			if ($employe->checkPassword($password)) {
+				$datas = CLIENT::findBy(["id=" => $client_id]);
+				if (count($datas) > 0) {
+					$client = $datas[0];
+
+					$datas = CLIENT::findBy(["id=" => $client_id_receive]);
+					if (count($datas) > 0) {
+						$client2 = $datas[0];
+						$data = $client->transferer(intval($montant), $client2);
+						if ($data->status) {
+							$transfert = new TRANSFERT();
+							$transfert->hydrater($_POST);
+							$transfert->enregistre();
+						}
+					}else{
+						$data->status = false;
+						$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
+					}
+				}else{
+					$data->status = false;
+					$data->message = "Une erreur s'est produite lors de l'opération, veuillez recommencer !";
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Votre mot de passe ne correspond pas !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Vous ne pouvez pas effectué cette opération !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Vous ne pouvez pas vous transferer des fonds";
+	}
+
+	echo json_encode($data);
+}
+
+
 if ($action == "annuler") {
 	$datas = MISSION::findBy(["id ="=> $id]);
 	if (count($datas) == 1) {

@@ -78,7 +78,9 @@ class LIVRAISON extends TABLE
 
 	//les livraions programmées du jour
 	public static function programmee(String $date){
-		return static::findBy(["DATE(datelivraison) ="=>$date, "etat_id !="=>ETAT::ANNULEE]);
+		$array1 = static::findBy(["DATE(datelivraison) ="=>$date]);
+		$array2 = static::findBy(["etat_id ="=>ETAT::ENCOURS]);
+		return array_merge($array1, $array2);
 	}
 
 

@@ -22,7 +22,7 @@ foreach ($datas as $key => $value) {
 }
 
 
-$datas = ["Entrée de caisse", "Sortie de caisse"];
+$datas = ["Entrée de caisse", "Sortie de caisse", "Transfert de fonds"];
 foreach ($datas as $key => $value) {
 	$item = new TYPEOPERATIONCAISSE();
 	$item->name = $value;

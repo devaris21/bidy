@@ -79,6 +79,31 @@ class CLIENT extends TABLE
 	}
 
 
+
+	public function transferer(int $montant, CLIENT $client){
+		$data = new RESPONSE;
+		$params = PARAMS::findLastId();
+		if (intval($montant) > 0 ) {
+			if ($this->acompte >= intval($montant)) {
+				$data = $this->debiter(intval($montant));
+				if ($data->status) {
+					$client->acompte += intval($montant);
+					$data = $client->save();
+				}
+			}else{
+				$data->status = false;
+				$data->message = "Le montant à transferer ne doit pas être supérieur au montant de son acompte!";
+			}			
+		}else{
+			$data->status = false;
+			$data->message = "Veuillez saisir un montant en chiffre supérieur à 0 pour le transfert !";
+		}
+		return $data;
+	}
+
+
+
+
 	public function rembourser(int $montant, Array $post){
 		$data = new RESPONSE;
 		$params = PARAMS::findLastId();

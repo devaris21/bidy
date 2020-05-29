@@ -198,9 +198,7 @@ abstract class TABLE
             $data->mode ="update";
             //c'est une mise a jour (update)
             $id = $this->getId();
-            if ($this->modified == null) {
-                $this->setModified();
-            }
+            $this->setModified();
             $requette = "UPDATE $table SET $setter WHERE id=$id";
         }else{
             $data->mode ="insert";

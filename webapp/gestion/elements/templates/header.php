@@ -9,6 +9,9 @@
                 </form>
             </div>
             <ul class="nav navbar-top-links navbar-right">
+                <li class="border-right">
+                    <img src="<?= $this->stockage("images", "societe", $params->devise)  ?>" alt="<?= $params->societe ?>" style="height: 60px; margin-right: 3%;">
+                </li>
                 <li class="border-right gras <?= (isJourFerie(dateAjoute(1)))?"text-red":"text-muted" ?>">
                     <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
                     <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
