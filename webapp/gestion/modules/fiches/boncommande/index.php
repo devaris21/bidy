@@ -148,7 +148,7 @@
 
 
                             <br><br><hr class="mp0">
-                            <p class="text-center"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
+                            <p class="text-center"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont été mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
 
 
 

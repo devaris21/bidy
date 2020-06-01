@@ -102,6 +102,18 @@ class VEHICULE extends TABLE
 
 
 
+	public static function etat(){
+		foreach (static::getAll() as $key => $vehicule) {
+			$datas = $vehicule->fourni("livraison", ["etat_id ="=>ETAT::ENCOURS]);
+			$vehicule->etatvehicule_id = ETATVEHICULE::RAS;
+			if (count($datas) > 0) {
+				$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
+			}
+			$vehicule->save();
+		}
+	} 
+
+
 ////////////////////////////////////////////////////////////////////////////
 
 

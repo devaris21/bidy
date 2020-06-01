@@ -470,10 +470,10 @@ function isJourFerie($date)
 	$tab[] = $paques;
 	$tab[] = dateAjoute1($paques, 1); // Lundi de paques
 	$tab[] = dateAjoute1($paques, 40); // Ascension
-	$tab[] = dateAjoute1($paques, 51); // Pentecote
+	$tab[] = dateAjoute1($paques, 50); // Pentecote
 	$tab[] = dateAjoute1($paques, 51); // Lundi de Pentecote
 
-	if (in_array(date("w"), [0,6])) {
+	if (in_array(date("w"), [0])) { // samedi(6) et dimanche(0)
 		$tab[] = dateAjoute();
 	}
 

@@ -34,8 +34,14 @@
 
                                 <div id="tab-1" class="tab-pane active"><br>
                                     <div class="row container-fluid">
-                                        <button type="button" <?= (count($groupes) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim float-right"><i class="fa fa-plus"></i> Nouvelle commande </button>
-                                    </div>
+                                        <div class="col-6 text-left">
+                                            <button <?= (count($groupes) > 0)?" onclick='newcommande()' ": "data-toggle=modal data-target='#modal-newcommande'" ?>  class="btn btn-primary btn-sm dim"><i class="fa fa-plus"></i> Nouvelle commande </button>                                            
+                                        </div>
+
+                                        <div class="col-6 text-right">
+                                            <button data-toggle=modal data-target='#modal-vente' class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> Vente directe </button>    
+                                        </div>
+                                    </div><br><br>
                                     <div class="">
                                         <?php if (count($groupes) > 0) { ?>
 
@@ -195,16 +201,17 @@
                 </address><hr>
 
                 <div class="m-b-lg">
+                    <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button>
                     <span>Acompte actuel du client</span><br>
                     <h2 class="font-bold d-inline"><?= money($client->acompte) ?> <?= $params->devise  ?></h2> 
-                    <button data-toggle="modal" data-target="#modal-acompte" class="cursor simple_tag pull-right"><i class="fa fa-plus"></i> Crediter acompte</button><br><br>
+                    <br><br><br>
 
                     <?php if ($client->acompte > 0) { ?>
                      <button style="font-size: 11px" type="button" data-toggle="modal" data-target="#modal-rembourser" class="btn btn-danger dim"><i
                         class="fa fa-minus"></i> Rembourser le client
                     </button>
                     <button style="font-size: 11px" type="button" data-toggle="modal" data-target="#modal-transfert-acompte" class="btn btn-success dim"><i
-                        class="fa fa-share"></i> Transfert de fonds
+                        class="fa fa-share"></i> Transfert de fond
                     </button>
                 <?php } ?>
 
@@ -292,6 +299,7 @@
 <?php include($this->rootPath("composants/assets/modals/modal-rembourser.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-transfert-acompte.php")); ?>  
 <?php include($this->rootPath("composants/assets/modals/modal-newcommande.php")); ?>  
+<?php include($this->rootPath("composants/assets/modals/modal-vente.php")); ?>  
 
 </div>
 </div>

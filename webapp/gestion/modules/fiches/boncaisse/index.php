@@ -102,7 +102,8 @@
 
 
                             <hr><hr>
-                            <p class="text-center"><small><i>* Aucun remboursement n'est admis après réglement !</i></small></p>
+                            <p class="text-center mp0"><small><i>* Aucun remboursement n'est admis après réglement !</i></small></p>
+                            <p class="text-center mp0"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont été mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
 
                         </div>
                     </div>

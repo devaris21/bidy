@@ -87,12 +87,14 @@ $(function(){
 			$("tbody.commande").append(data);
 			$("button[data-id ="+id+"]").hide(200);
 			calcul()
+			calcul_vente()
 		},"html");
 	});
 
 
 	$("body").on("change", "tbody.commande input", function() {
 		calcul()
+		calcul_vente()
 	})
 
 
@@ -102,12 +104,14 @@ $(function(){
 			$("tbody.commande tr#ligne"+id).hide(400).remove();
 			$("button[data-id ="+id+"]").show(200);
 			calcul()
+			calcul_vente()
 		},"html");
 	}
 
 
 	$("body").on("change", "select[name=zonelivraison_id]", function(){
 		calcul()
+		calcul_vente()
 	})
 
 
@@ -138,7 +142,6 @@ $(function(){
 		return formdata;
 	}
 
-
 	validerCommande = function(){
 		formdata = calcul();
 		alerty.confirm("Voulez-vous vraiment valider la commande ?", {
@@ -148,23 +151,68 @@ $(function(){
 		}, function(){
 			Loader.start();
 			var url = "../../webapp/gestion/modules/master/client/ajax.php";
-
-			// val = $("input[name=datelivraison]").data('datepicker');
-			// console.log(val)
-			// let debut =val.format('YYYY-MM-DD');
-			// console.log(debut)
 			formdata.append('action', "validerCommande");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
 					window.open(data.url, "_blank");
 					window.location.reload();
-					window.open(data.url1, "_blank");
 				}else{
 					Alerter.error('Erreur !', data.message);
 				}
 			}, 'json')
 		})
 	}
+
+
+
+	calcul_vente = function(){
+		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		var formdata = new FormData($("#formVente")[0]);
+		var tableau = new Array();
+		$("#modal-vente .commande tr").each(function(index, el) {
+			var id = $(this).attr('data-id');
+			var val = $(this).find('input').val();
+			var item = id+"-"+val;
+			tableau.push(item);
+		});
+		formdata.append('tableau', tableau);
+		formdata.append('action', "calcul");
+		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+			$("#modal-vente tbody.commande").html(data);
+
+			formdata.append('action', "total");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				$(".tva").html(data.tva);
+				$(".montant").html(data.montant);
+				$(".total").html(data.total);
+			}, 'json')
+		}, 'html')
+		
+		$("#actualise").hide(200);
+		return formdata;
+	}
+
+	validerVente = function(){
+		formdata = calcul_vente();
+		alerty.confirm("Voulez-vous vraiment valider la vente directe ?", {
+			title: "Validation de la vente directe",
+			cancelLabel : "Non",
+			okLabel : "OUI, valider",
+		}, function(){
+			Loader.start();
+			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			formdata.append('action', "validerVente");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				if (data.status) {
+					window.open(data.url, "_blank");
+					window.location.reload();
+				}else{
+					Alerter.error('Erreur !', data.message);
+				}
+			}, 'json')
+		})
+	}
+	
 
 
 	annulerCommande = function(id){

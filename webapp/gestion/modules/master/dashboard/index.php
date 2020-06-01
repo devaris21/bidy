@@ -220,6 +220,7 @@
                                             $livraison->actualise();
                                             $datas = $livraison->fourni("lignelivraison"); ?>
                                             <tr>
+                                                <th><?= $livraison->datelivraison  ?></th>
                                                 <td title="Voir le bon de livraison"><a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                                                 <td><?= $livraison->groupecommande->client->name()  ?></td>
                                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 

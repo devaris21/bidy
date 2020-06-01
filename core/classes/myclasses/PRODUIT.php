@@ -98,12 +98,6 @@ class PRODUIT extends TABLE
 	}
 
 
-	public function livrer(int $quantite){
-		$this->stock -= $quantite;
-		$data = $this->save();	
-	}
-
-
 
 	public function stock(String $date){
 		$total = 0;

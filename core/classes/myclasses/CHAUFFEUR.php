@@ -75,6 +75,19 @@ class CHAUFFEUR extends PERSONNE
 
 
 
+	public static function etat(){
+		foreach (static::getAll() as $key => $chauffeur) {
+			$datas = $chauffeur->fourni("livraison", ["etat_id ="=>ETAT::ENCOURS]);
+			$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::RAS;
+			if (count($datas) > 0) {
+				$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
+			}
+			$chauffeur->save();
+		}
+	} 
+
+
+
 
 	public static function libres(){
 		return static::findBy(["etatchauffeur_id =" => ETATCHAUFFEUR::RAS]);

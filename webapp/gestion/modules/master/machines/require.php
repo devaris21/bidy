@@ -1,6 +1,7 @@
 <?php 
 namespace Home;
 
+VEHICULE::etat();
 $vehicules = VEHICULE::findBy(["visibility ="=>1]);
 
 $machines = MACHINE::getAll();

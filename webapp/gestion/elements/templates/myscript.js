@@ -55,7 +55,11 @@
         });
 
 
-
+        $("div.tricycle").hide()
+        $("div.location").hide()
+        $("div.chauffeur").hide()
+        $("div.montant_location").hide()
+        
         $("body").on("change", "select[name=vehicule_id]", function(event) {
             //son vehicule
             if($(this).val() == 1){
@@ -79,6 +83,7 @@
     });
 
 
+        $("select[name=isLouer]").change();
         $("body").on("change", "select[name=isLouer]", function(event) {
             if($(this).val() == 0){
                 $("div.montant_location").hide()

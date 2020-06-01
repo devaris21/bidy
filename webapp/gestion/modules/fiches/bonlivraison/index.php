@@ -75,13 +75,13 @@
                                             <img style="width: 100%; height: 60px" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">
                                         </td>
                                         <td class="desc">
-                                            <h3 class="mp0 text-uppercase gras"><br><?= $ligne->produit->name() ?></h3>
+                                            <h3 class="mp0 text-uppercase gras"><?= $ligne->produit->name() ?></h3>
                                             <span><?= $ligne->produit->description ?></span>
                                         </td>
-                                        <td class="text-center"><br><h2 class="gras"><?= start0(money($ligne->quantite)) ?></h2></td>
-                                        <td class="text-center"><br><h2><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->quantite_livree : "" ?></h2></td>
-                                        <td class="text-center text-red"><br><h3><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE) ? start0($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
-                                        <td class="text-center gras text-muted"><br><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->reste : "" ?></h3></td>
+                                        <td class="text-center"><h2 class="gras"><?= money($ligne->quantite) ?></h2></td>
+                                        <td class="text-center"><h2><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->quantite_livree : "" ?></h2></td>
+                                        <td class="text-center text-red"><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE) ? start0($ligne->quantite - $ligne->quantite_livree) : "" ?></h3></td>
+                                        <td class="text-center gras text-muted"><h3><?= ($livraison->etat_id == Home\ETAT::VALIDEE)? $ligne->reste : "" ?></h3></td>
                                     </tr>
                                 <?php } ?>                            
                             </tbody>
