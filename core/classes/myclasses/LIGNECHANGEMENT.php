@@ -5,29 +5,29 @@ use Native\EMAIL;
 /**
  * 
  */
-class LIGNECOMMANDE extends TABLE
+class LIGNECHANGEMENT extends TABLE
 {
 	public static $tableName = __CLASS__;
 	public static $namespace = __NAMESPACE__;
 
-	public $commande_id;
+	public $changement_id;
 	public $produit_id;
-	public $quantite;
-	public $price = 0;
+	public $quantite_avant;
+	public $quantite_apres;
 
 
 
 	public function enregistre(){
 		$data = new RESPONSE;
-		$datas = COMMANDE::findBy(["id ="=>$this->commande_id]);
+		$datas = CHANGEMENT::findBy(["id ="=>$this->changement_id]);
 		if (count($datas) == 1) {
 			$datas = PRODUIT::findBy(["id ="=>$this->produit_id]);
 			if (count($datas) == 1) {
-				if ($this->quantite > 0) {
+				if ($this->quantite_avant >= 0 && $this->quantite_apres >= 0) {
 					$data = $this->save();
 				}else{
 					$data->status = false;
-					$data->message = "La quantité n'est pas correcte !";
+					$data->message = "Les quantités ne sont pas correctes !";
 				}
 			}else{
 				$data->status = false;

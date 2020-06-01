@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="col-6 text-right">
-                                <h5><span>Véhicule de livraison :</span><br> <span class="text-uppercase"><?= $livraison->vehicule() ?></span></h5>
+                                <h5><span>Véhicule de livraison :</span> <span class="text-uppercase"><?= $livraison->vehicule() ?></span></h5>
                                 <h5><span>Chauffeur de la livraison :</span> <span class="text-uppercase"><?= $livraison->chauffeur() ?></span></h5>
                             </div>
                         </div><br><br>

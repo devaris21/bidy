@@ -118,6 +118,61 @@ if ($action == "total") {
 
 
 
+if ($action == "calcul_vente") {
+	$params = PARAMS::findLastId();
+	$rooter = new ROOTER;
+	$montant = 0;
+	$produits = explode(",", $tableau);
+	foreach ($produits as $key => $value) {
+		$data = explode("-", $value);
+		$id = $data[0];
+		$val = end($data);
+		$datas = PRODUIT::findBy(["id ="=> $id]);
+		if (count($datas) == 1) {
+			$produit = $datas[0];
+			$produit->fourni("prix_zonelivraison", ["zonelivraison_id ="=> $zonelivraison_id]);
+			if (count($produit->prix_zonelivraisons) > 0) {
+				$prix = $produit->prix_zonelivraisons[0]->price;
+			}else{
+				$prix = 1000;
+			}
+			$montant += $prix * $val;
+			?>
+			<tr class="border-0 border-bottom " id="ligne<?= $id ?>" data-id="<?= $id ?>">
+				<td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $id ?>)" style="font-size: 18px;"></i></td>
+				<td >
+					<img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
+				</td>
+				<td class="text-left">
+					<h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
+					<small><?= $produit->description ?></small>
+				</td>
+				<td><h5 class="price" data-price="<?= $prix  ?>"><?= money($prix) ?> <?= $params->devise ?></h5></td>
+				<td><h4>X</h4></td>
+				<td width="70"><input type="text" number class="form-control text-center gras" value="<?= $val ?>" style="padding: 3px"></td>
+				<td class="text-right"><h4 class="" style="font-weight: normal;"><?= money($prix*$val) ?> <?= $params->devise ?></h4></td>
+			</tr>
+			<?php
+		}
+	}
+
+	$tva = ($montant * $params->tva) / 100;
+	session("montant_", $montant);
+	session("tva_", $tva);
+	session("total_", $montant + $tva);
+}
+
+
+if ($action == "total_vente") {
+	$params = PARAMS::findLastId();
+	$data = new \stdclass();
+	$data->tva = money(getSession("tva_"))." ".$params->devise;
+	$data->montant = money(getSession("montant_"))." ".$params->devise;
+	$data->total = money(getSession("total_"))." ".$params->devise;
+	echo json_encode($data);
+}
+
+
 
 
 if ($action == "validerCommande") {
@@ -131,6 +186,10 @@ if ($action == "validerCommande") {
 
 			if (getSession("total") > 0) {
 				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
+
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+						$avance = getSession("total");
+					}
 					if ((getSession("total") - intval($avance) + $client->dette) <= $params->seuilCredit ) {
 						if (getSession("commande-encours") != null) {
 							$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
@@ -285,9 +344,13 @@ if ($action == "validerVente") {
 		$produits = explode(",", $tableau);
 		if (count($produits) > 0) {
 
-			if (getSession("total") > 0) {
-				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total") && intval($avance) > 0)) {
-					if ((getSession("total") - intval($avance) + $client->dette) <= $params->seuilCredit ) {
+			if (getSession("total_") > 0) {
+				if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE || ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE && intval($avance) <= getSession("total_") && intval($avance) > 0)) {
+
+					if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
+						$avance = getSession("total_");
+					}
+					if ((getSession("total_") - intval($avance) + $client->dette) <= $params->seuilCredit ) {
 
 						$tests = $produits;
 						foreach ($tests as $key => $value) {
@@ -390,9 +453,6 @@ if ($action == "validerVente") {
 								$commande->reste = $commande->montant - $commande->avance;
 
 								
-
-								$data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
-
 								if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
 									$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
 									if (count($datas) > 0) {
@@ -435,16 +495,19 @@ if ($action == "validerVente") {
 								}
 
 								$client->actualise();
-								$payement->acompteClient = $client->acompte;
-								$payement->detteClient = $client->dette;
-								$payement->save();
-								
+								if ($modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+									$payement->acompteClient = $client->acompte;
+									$payement->detteClient = $client->dette;
+									$payement->save();
+								}
+
 								$commande->acompteClient = $client->acompte;
 								$commande->detteClient = $client->dette;
 								$data = $commande->save();
 
+								$livraison->save();
+								$data->setUrl("gestion", "fiches", "boncommande", $data->lastid);
 
-								$data = $livraison->save();
 							}
 
 						}else{
@@ -652,7 +715,6 @@ if ($action == "validerProgrammation") {
 								$datas = PRODUIT::findBy(["id="=>$id]);
 								if (count($datas) > 0) {
 									$produit = $datas[0];
-									$produit->livrer($qte);
 
 									$lignecommande = new LIGNELIVRAISON;
 									$lignecommande->livraison_id = $livraison->getId();
@@ -685,6 +747,84 @@ if ($action == "validerProgrammation") {
 	}else{
 		$data->status = false;
 		$data->message = "Veuillez vérifier la date de programmation de la livraison !";
+	}
+	echo json_encode($data);
+}
+
+
+
+if ($action == "validerChangement") {
+	if (getSession("commande-encours") != null) {
+		$datas = GROUPECOMMANDE::findBy(["id ="=>getSession("commande-encours")]);
+		if (count($datas) > 0) {
+			$grcom = $datas[0];
+			$datas = $grcom->fourni("commande");
+			$com = end($datas);
+			$grcom->etat_id = ETAT::VALIDEE;
+			$grcom->save();
+
+			$groupecommande = new GROUPECOMMANDE();
+			$groupecommande->hydrater($_POST);
+			$groupecommande->enregistre();
+
+			$produits = explode(",", $tableau);
+			if (count($produits) > 0) {
+
+				$commande = new COMMANDE();
+				$commande->hydrater($_POST);
+				$commande->zonelivraison_id = $com->zonelivraison_id;
+				$commande->lieu = $com->lieu;
+				$commande->datelivraison = $com->datelivraison;
+				if ($commande->datelivraison < dateAjoute()) {
+					$commande->datelivraison = dateAjoute();
+				}
+				$commande->groupecommande_id = $groupecommande->getId();
+				$commande->setId(null);
+				$data = $commande->enregistre();
+
+				$changement = new CHANGEMENT();
+				$changement->hydrater($_POST);
+				$changement->groupecommande_id = $grcom->getId();
+				$changement->groupecommande_id_new = $groupecommande->getId();
+				$data = $changement->enregistre();
+
+				if ($data->status) {
+					foreach ($produits as $key => $value) {
+						$lot = explode("-", $value);
+						$id = $lot[0];
+						$qte = end($lot);
+
+						$datas = PRODUIT::findBy(["id="=>$id]);
+						if (count($datas) > 0) {
+							$produit = $datas[0];
+							$lignecommande = new LIGNECOMMANDE;
+							$lignecommande->commande_id = $commande->getId();
+							$lignecommande->produit_id = $id;
+							$lignecommande->quantite = $qte;
+							$lignecommande->price = 0;
+							$lignecommande->enregistre();
+
+							$lignechangement = new LIGNECHANGEMENT;
+							$lignechangement->changement_id = $changement->getId();
+							$lignechangement->produit_id = $id;
+							$lignechangement->quantite_avant = $grcom->reste($id);
+							$lignechangement->quantite_apres = $qte;
+							$lignechangement->enregistre();
+						}
+
+					}				
+				}	
+			}else{
+				$data->status = false;
+				$data->message = "Veuillez selectionner des produits et leur quantité pour passer la commande !";
+			}
+		}else{
+			$data->status = false;
+			$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
+		}
+	}else{
+		$data->status = false;
+		$data->message = "Une erreur s'est produite lors de l'operation, veuillez recommencer !";
 	}
 	echo json_encode($data);
 }
@@ -741,6 +881,21 @@ if ($action == "newProgrammation") {
 		$groupecommande->actualise();
 		$groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
 		include("../../../../../composants/assets/modals/modal-programmation.php");
+	}
+}
+
+
+
+if ($action == "changement") {
+	$rooter = new ROOTER;
+	$params = PARAMS::findLastId();
+	$datas = GROUPECOMMANDE::findBy(["id ="=> $id]);
+	if (count($datas) == 1) {
+		session('commande-encours', $id);
+		$groupecommande = $datas[0];
+		$groupecommande->actualise();
+		$groupecommande->fourni("commande", ["etat_id !="=>ETAT::ANNULEE]);
+		include("../../../../../composants/assets/modals/modal-changement.php");
 	}
 }
 

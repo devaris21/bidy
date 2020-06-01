@@ -85,7 +85,7 @@ class FOURNISSEUR extends AUTH
 			$payement = new OPERATION();
 			$payement->hydrater($post);
 			if ($payement->modepayement_id != MODEPAYEMENT::PRELEVEMENT_ACOMPTE) {
-				$payement->categorieoperation_id = CATEGORIEOPERATION::APPROVISIONNEMENT;
+				$payement->categorieoperation_id = CATEGORIEOPERATION::FOURNISSEUR_ACOMPTE;
 				$payement->fournisseur_id = $this->getId();
 				$payement->comment = "Acréditation du compte du fournisseur ".$this->name()." d'un montant de ".money($montant)." ".$params->devise;
 				$data = $payement->enregistre();

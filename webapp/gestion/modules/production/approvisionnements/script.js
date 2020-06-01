@@ -95,7 +95,6 @@ $(function(){
                     formdata.append('action', "validerApprovisionnement");
                     $.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
                         if (data.status) {
-                            window.open(data.url, "_blank");
                             window.location.reload();
                         }else{
                             Alerter.error('Erreur !', data.message);

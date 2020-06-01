@@ -51,6 +51,17 @@ $(function(){
 		},"html");
 	}
 
+	changement = function(id){	
+		Loader.start();	
+		var url = "../../webapp/gestion/modules/master/client/ajax.php";
+		$.post(url, {action:"changement", id:id}, (data)=>{
+			$("body #modal-changement").remove();
+			$("body").append(data);
+			$("body #modal-changement").modal("show");
+			$("select.select2").select2();
+			Loader.stop();	
+		},"html");
+	}
 
 	newProgrammation = function(id){	
 		Loader.start();	
@@ -132,13 +143,11 @@ $(function(){
 
 			formdata.append('action', "total");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-				$(".tva").html(data.tva);
-				$(".montant").html(data.montant);
-				$(".total").html(data.total);
+				$("#modal-newcommande .tva").html(data.tva);
+				$("#modal-newcommande .montant").html(data.montant);
+				$("#modal-newcommande .total").html(data.total);
 			}, 'json')
 		}, 'html')
-		
-		$("#actualise").hide(200);
 		return formdata;
 	}
 
@@ -176,19 +185,17 @@ $(function(){
 			tableau.push(item);
 		});
 		formdata.append('tableau', tableau);
-		formdata.append('action', "calcul");
+		formdata.append('action', "calcul_vente");
 		$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 			$("#modal-vente tbody.commande").html(data);
 
-			formdata.append('action', "total");
+			formdata.append('action', "total_vente");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
-				$(".tva").html(data.tva);
-				$(".montant").html(data.montant);
-				$(".total").html(data.total);
+				$("#modal-vente .tva").html(data.tva);
+				$("#modal-vente .montant").html(data.montant);
+				$("#modal-vente .total").html(data.total);
 			}, 'json')
 		}, 'html')
-		
-		$("#actualise").hide(200);
 		return formdata;
 	}
 
@@ -296,6 +303,36 @@ $(function(){
 			Loader.start();
 			var url = "../../webapp/gestion/modules/master/client/ajax.php";
 			formdata.append('action', "validerProgrammation");
+			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
+				if (data.status) {
+					window.location.reload();
+				}else{
+					Alerter.error('Erreur !', data.message);
+				}
+			}, 'json')
+		})
+	}
+
+
+	validerChangement = function(){
+		var formdata = new FormData($("#formChangement")[0]);
+		var tableau = new Array();
+		$("#modal-changement .commande tr").each(function(index, el) {
+			var id = $(this).attr('data-id');
+			var val = $(this).find('input').val();
+			var item = id+"-"+val;
+			tableau.push(item);
+		});
+		formdata.append('tableau', tableau);
+
+		alerty.confirm("Voulez-vous vraiment confirmer la changement de ces produits ?", {
+			title: "Changement de produits",
+			cancelLabel : "Non",
+			okLabel : "OUI, changer",
+		}, function(){
+			Loader.start();
+			var url = "../../webapp/gestion/modules/master/client/ajax.php";
+			formdata.append('action', "validerChangement");
 			$.post({url:url, data:formdata, contentType:false, processData:false}, function(data){
 				if (data.status) {
 					window.location.reload();

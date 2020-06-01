@@ -327,6 +327,19 @@ $item->name = "Autre dépense";
 $item->setProtected(1);
 $item->save();
 
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Achat de stock de produit ";
+$item->setProtected(1);
+$item->save();
+
+$item = new CATEGORIEOPERATION();
+$item->typeoperationcaisse_id = TYPEOPERATIONCAISSE::SORTIE;
+$item->name = "Acreditation du compte de fournisseur";
+$item->setProtected(1);
+$item->save();
+
+
 
 
 $item = new EMPLOYE();

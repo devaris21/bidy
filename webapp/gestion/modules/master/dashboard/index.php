@@ -143,7 +143,7 @@
                                     <li class="list-group-item">
                                         <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
                                         <span class="float-right">
-                                            <span class="label label-primary"><?= money($ressource->stock(dateAjoute())) ?> <?= $ressource->abbr ?></span>
+                                            <span class="label label-primary"><?= round($ressource->stock(dateAjoute()), 2) ?> <?= $ressource->abbr ?></span>
                                         </span>
                                     </li>
                                 <?php } ?>

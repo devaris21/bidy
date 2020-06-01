@@ -122,13 +122,17 @@
                                 </tbody>
                             </table><br><hr>
 
-                            <div class="row text-center">
+                            <div class="row text-center" style="font-size: 12px">
                                 <div class="col-md">
-                                    <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Faire nouvelle commande</button>
+                                    <button class="btn btn-primary dim" onclick="fairenewcommande(<?= $groupecommande->getId() ?>)"><i class="fa fa-cart-plus"></i> Nouvelle commande</button>
                                 </div>
 
                                 <div class=" col-md">
-                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-truck"></i> Programmer livraison </button>
+                                    <button class="btn btn-default dim" onclick="changement(<?= $groupecommande->getId() ?>)"><i class="fa fa-refresh"></i> Changement de produits </button>
+                                </div>
+
+                                <div class=" col-md">
+                                    <button class="btn btn-success dim" onclick="newProgrammation(<?= $groupecommande->getId() ?>)"><i class="fa fa-calendar"></i> Programmer livraison </button>
                                 </div>
 
                                 <div class=" col-md">
