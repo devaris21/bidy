@@ -31,8 +31,12 @@
                                                 <h4 class="mp0 text-uppercase"><?= $ligne->produit->name() ?></h4>
                                                 <small><?= $ligne->produit->description ?></small>
                                             </td>
-                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $ligne->quantite ?>" max="<?= $reste ?>"></td>
+                                            <td width="105"><input type="number" number name="livree" class="form-control text-center gras" value="<?= $ligne->quantite ?>" max="<?= $reste ?>"></td>
                                             <td> / <?= $reste ?></td>
+                                             <td width="130">
+                                                <label>Perte chargement</label>
+                                                <input type="number" number name="perte" class="form-control text-center gras text-danger" value="0">
+                                            </td>
                                         </tr>
                                     <?php }   
                                 } ?>
@@ -79,13 +83,13 @@
                         <div>
                             <label>Véhicule de la livraison <span style="color: red">*</span> </label>                                
                             <div class="input-group">
-                                <?php Native\BINDING::html("select-tableau", Home\VEHICULE::ras(), null, "vehicule_id"); ?>
+                                <?php Native\BINDING::html("select", "vehicule"); ?>
                             </div>
                         </div><br>
                            <div class="chauffeur">
                             <label>Chauffeur de la livraison <span style="color: red">*</span> </label>                                
                             <div class="input-group">
-                                <?php Native\BINDING::html("select-tableau", Home\CHAUFFEUR::libres(), null, "chauffeur_id"); ?>
+                                <?php Native\BINDING::html("select", "chauffeur"); ?>
                             </div><br>
                         </div>
 

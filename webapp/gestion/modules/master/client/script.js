@@ -255,13 +255,19 @@ $(function(){
 		// return false;
 		var formdata = new FormData($("#formLivraison")[0]);
 		var tableau = new Array();
+		var tableau1 = new Array();
 		$("#modal-newlivraison .commande tr").each(function(index, el) {
 			var id = $(this).attr('data-id');
-			var val = $(this).find('input').val();
+			var val = $(this).find('input[name=livree]').val();
 			var item = id+"-"+val;
 			tableau.push(item);
+
+			var val = $(this).find('input[name=perte]').val();
+			var item = id+"-"+val;
+			tableau1.push(item);
 		});
 		formdata.append('tableau', tableau);
+		formdata.append('tableau1', tableau1);
 
 		alerty.confirm("Voulez-vous vraiment confirmer la livraison de ces produits ?", {
 			title: "livraison de la commande",
@@ -286,13 +292,19 @@ $(function(){
 	validerProgrammation = function(){
 		var formdata = new FormData($("#formLivraison")[0]);
 		var tableau = new Array();
+		var tableau1 = new Array();
 		$("#modal-programmation .commande tr").each(function(index, el) {
 			var id = $(this).attr('data-id');
-			var val = $(this).find('input').val();
+			var val = $(this).find('input[livree]').val();
 			var item = id+"-"+val;
 			tableau.push(item);
+
+			var val = $(this).find('input[perte]').val();
+			var item = id+"-"+val;
+			tableau1.push(item);
 		});
 		formdata.append('tableau', tableau);
+		formdata.append('tableau1', tableau1);
 		formdata.append('datelivraison', $("#modal-programmation input[name=datelivraison]").val());
 
 		alerty.confirm("Voulez-vous vraiment confirmer la programmation de cette ivraison ?", {

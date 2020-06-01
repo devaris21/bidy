@@ -415,6 +415,8 @@ if ($action == "validerVente") {
 										$lignecommande->produit_id = $id;
 										$lignecommande->quantite = $qte;
 										$lignecommande->enregistre();	
+										$lignecommande->reste = $groupecommande->reste($id);
+										$lignecommande->save();
 									}
 								}
 
@@ -558,6 +560,7 @@ if ($action == "livraisonCommande") {
 
 				$produits = explode(",", $tableau);
 				if (count($produits) > 0) {
+					$produits1 = explode(",", $tableau1);
 					$tests = $produits;
 					foreach ($tests as $key => $value) {
 						$lot = explode("-", $value);
@@ -574,6 +577,9 @@ if ($action == "livraisonCommande") {
 							$_POST["chauffeur_id"] = 0;
 						}
 						if ($vehicule_id == VEHICULE::AUTO){
+							$livraison->nom_receptionniste = $groupecommande->client->name();
+							$livraison->contact_receptionniste = $groupecommande->client->contact;
+							$livraison->datelivraison = dateAjoute();
 							$livraison->etat_id = ETAT::VALIDEE;
 						}
 						$livraison->hydrater($_POST);
@@ -582,6 +588,11 @@ if ($action == "livraisonCommande") {
 						if ($data->status) {
 							$montant = 0;
 							$productionjour = PRODUCTIONJOUR::today();
+
+							foreach ($produits1 as $key => $value) {
+								$lot = explode("-", $value);
+								$array[$lot[0]] = end($lot);
+							}
 
 							foreach ($produits as $key => $value) {
 								$lot = explode("-", $value);
@@ -605,7 +616,10 @@ if ($action == "livraisonCommande") {
 									$lignecommande->livraison_id = $livraison->getId();
 									$lignecommande->produit_id = $id;
 									$lignecommande->quantite = $qte;
+									$lignecommande->perte = $array[$id];
 									$lignecommande->enregistre();
+									$lignecommande->reste = $groupecommande->reste($id);
+									$lignecommande->save();
 								}
 							}
 
@@ -691,6 +705,7 @@ if ($action == "validerProgrammation") {
 
 				$produits = explode(",", $tableau);
 				if (count($produits) > 0) {
+					$produits1 = explode(",", $tableau1);
 					$tests = $produits;
 					foreach ($tests as $key => $value) {
 						$lot = explode("-", $value);
@@ -705,8 +720,19 @@ if ($action == "validerProgrammation") {
 						$livraison->hydrater($_POST);
 						$livraison->groupecommande_id = $groupecommande->getId();
 						$livraison->etat_id = ETAT::PARTIEL;
+						if ($vehicule_id == VEHICULE::AUTO){
+							$livraison->nom_receptionniste = $groupecommande->client->name();
+							$livraison->contact_receptionniste = $groupecommande->client->contact;
+							$livraison->datelivraison = dateAjoute();
+							$livraison->etat_id = ETAT::VALIDEE;
+						}
 						$data = $livraison->save();
 						if ($data->status) {
+							foreach ($produits1 as $key => $value) {
+								$lot = explode("-", $value);
+								$array[$lot[0]] = end($lot);
+							}
+
 							foreach ($produits as $key => $value) {
 								$lot = explode("-", $value);
 								$id = $lot[0];
@@ -720,11 +746,53 @@ if ($action == "validerProgrammation") {
 									$lignecommande->livraison_id = $livraison->getId();
 									$lignecommande->produit_id = $id;
 									$lignecommande->quantite = $qte;
+									$lignecommande->perte = $array[$id];
 									$lignecommande->enregistre();
+									$lignecommande->reste = $groupecommande->reste($id);
+									$lignecommande->save();
 								}
 
 							}
 
+							if ($vehicule_id != VEHICULE::AUTO && $vehicule_id != VEHICULE::TRICYCLE) {
+								$datas = VEHICULE::findBy(["id="=>$vehicule_id]);
+								if (count($datas) > 0) {
+									$vehicule = $datas[0];
+									$vehicule->etatvehicule_id = ETATVEHICULE::MISSION;
+									$vehicule->save();
+								}
+
+								$datas = CHAUFFEUR::findBy(["id="=>$chauffeur_id]);
+								if (count($datas) > 0) {
+									$chauffeur = $datas[0];
+									$chauffeur->etatchauffeur_id = ETATCHAUFFEUR::MISSION;
+									$chauffeur->save();
+								}
+
+								if($isLouer == 1 && $montant_location > 0 ){
+									if ($modepayement_id == MODEPAYEMENT::PRELEVEMENT_ACOMPTE ) {
+										$lot = $client->debiter($montant_location);
+
+									}else{
+
+										if ($montant_location > intval($avance)) {
+											$client->dette($montant_location - intval($avance));
+										}
+
+										$livraison->actualise();
+										$payement = new OPERATION();
+										$payement->hydrater($_POST);
+										$payement->categorieoperation_id = CATEGORIEOPERATION::LOCATION_LIVRAISON;
+										$payement->montant = $avance;
+										$payement->client_id = $livraison->groupecommande->client_id;
+										$payement->comment = "Réglement pour la location d'engins de livraison pour la livraison N°".$livraison->reference;
+										$lot = $payement->enregistre();
+
+										$livraison->operation_id = $lot->lastid;
+									}
+
+								}
+							}
 
 							$data->setUrl("gestion", "fiches", "bonlivraison", $data->lastid);				
 						}	

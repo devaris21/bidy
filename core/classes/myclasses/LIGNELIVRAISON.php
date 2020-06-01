@@ -13,9 +13,10 @@ class LIGNELIVRAISON extends TABLE
 	public $livraison_id;
 	public $produit_id;
 	public $quantite;
-
-	public $reste = 0;
 	public $quantite_livree;
+	public $reste = 0;
+
+	public $perte = 0;
 
 
 	public function enregistre(){

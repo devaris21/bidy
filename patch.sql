@@ -136,3 +136,5 @@ AUTO_INCREMENT=1
 ALTER TABLE `produit` ADD COLUMN `stock` INT NOT NULL DEFAULT 0 COMMENT 'le stock initial' AFTER `description`;
 
 ALTER TABLE `ressource` ADD COLUMN `stock` INT NOT NULL DEFAULT 0 COMMENT 'le stock initial' AFTER `abbr`;
+
+ALTER TABLE `lignelivraison` ADD COLUMN `perte` INT(11) NULL AFTER `reste`;

@@ -21,7 +21,7 @@
                                     <?php foreach (Home\PRODUIT::getAll() as $key => $produit) {
                                         $reste = $groupecommande->reste($produit->getId());
                                         if ($reste > 0) { ?>
-                                           <tr class="border-0 border-bottom " id="ligne<?= $produit->getId() ?>" data-id="<?= $produit->getId() ?>">
+                                         <tr class="border-0 border-bottom " id="ligne<?= $produit->getId() ?>" data-id="<?= $produit->getId() ?>">
                                             <td><i class="fa fa-close text-red cursor" onclick="supprimeProduit(<?= $produit->getId() ?>)" style="font-size: 18px;"></i></td>
                                             <td >
                                                 <img style="width: 40px" src="<?= $rooter->stockage("images", "produits", $produit->image) ?>">
@@ -30,8 +30,12 @@
                                                 <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
                                                 <small><?= $produit->description ?></small>
                                             </td>
-                                            <td width="105"><input type="number" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
-                                            <td> / <?= $reste ?></td>
+                                            <td width="105"><input type="number" name="livree" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
+                                            <td><br> / <?= $reste ?></td>
+                                            <td width="130">
+                                                <label>Perte chargement</label>
+                                                <input type="number" number name="perte" class="form-control text-center gras text-danger" value="0">
+                                            </td>
                                         </tr>
                                     <?php }   
                                 } ?>

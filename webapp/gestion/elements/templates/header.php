@@ -12,7 +12,7 @@
                 <li class="border-right">
                     <img src="<?= $this->stockage("images", "societe", $params->image)  ?>" alt="<?= $params->societe ?>" style="height: 60px; margin-right: 3%;">
                 </li>
-                <li class="border-right gras <?= (isJourFerie(dateAjoute()))?"text-red":"text-muted" ?>">
+                <li class="border-right gras <?= (isJourFerie(dateAjoute()))?"text-red":"text-muted" ?>" style="padding-left: 2%">
                     <span class="m-r-sm welcome-message text-uppercase" id="date_actu"></span> 
                     <span class="m-r-sm welcome-message gras" id="heure_actu"></span> 
                 </li>
