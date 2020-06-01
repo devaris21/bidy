@@ -29,6 +29,7 @@
             $groupes__ = Home\GROUPECOMMANDE::encours();
             $livraisons__ = Home\LIVRAISON::encours();
             $approvisionnements__ = Home\APPROVISIONNEMENT::encours();
+            $achatstock__ = Home\ACHATSTOCK::encours();
             $datas1__ = array_merge(Home\PANNE::encours(), Home\DEMANDEENTRETIEN::encours(), Home\ENTRETIENVEHICULE::encours(), Home\ENTRETIENMACHINE::encours());
 
             ?>
@@ -72,6 +73,9 @@
                     </li>
                     <li class="" id="approvisionnements">
                         <a href="<?= $this->url("gestion", "production", "approvisionnements") ?>"><i class="fa fa-bus"></i> <span class="nav-label">Approvisionnements </span> <?php if (count($approvisionnements__) > 0) { ?> <span class="label label-warning float-right"><?= count($approvisionnements__) ?></span> <?php } ?></a>
+                    </li>
+                    <li class="" id="achatstock">
+                        <a href="<?= $this->url("gestion", "production", "achatstock") ?>"><i class="fa fa-reply"></i> <span class="nav-label">Achat de stocks </span> <?php if (count($achatstock__) > 0) { ?> <span class="label label-warning float-right"><?= count($achatstock__) ?></span> <?php } ?></a>
                     </li>
                     <li class="dropdown-divider"></li>
                 <?php } ?>

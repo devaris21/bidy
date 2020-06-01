@@ -34,9 +34,9 @@
                         <h5 class="float-left">Pour les <?= $this->getId()  ?> derniers jours</h5>
                         <div class="float-right">
                             <div class="btn-group text-right">
-                                <a href="<?= $this->url("gestion", "master", "ressources", 7) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 7)?"active":"" ?>"><i class="fa fa-calendar"></i> la semaine</a>
-                                <a href="<?= $this->url("gestion", "master", "ressources", 15) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 15)?"active":"" ?>"><i class="fa fa-calendar"></i> la quinzaine</a>
-                                <a href="<?= $this->url("gestion", "master", "ressources", 30) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 30)?"active":"" ?>"><i class="fa fa-calendar"></i> le mois</a>
+                                <a href="<?= $this->url("gestion", "production", "ressources", 7) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 7)?"active":"" ?>"><i class="fa fa-calendar"></i> la semaine</a>
+                                <a href="<?= $this->url("gestion", "production", "ressources", 15) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 15)?"active":"" ?>"><i class="fa fa-calendar"></i> la quinzaine</a>
+                                <a href="<?= $this->url("gestion", "production", "ressources", 30) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 30)?"active":"" ?>"><i class="fa fa-calendar"></i> le mois</a>
                             </div>
                         </div>
                     </div>

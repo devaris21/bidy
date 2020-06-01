@@ -13,4 +13,7 @@ foreach ($operations as $key => $value) {
 $statistiques = OPERATION::statistiques();
 
 $title = "BRIXS | Compte de caisse";
+
+
+
 ?>

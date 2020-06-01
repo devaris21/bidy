@@ -32,9 +32,9 @@
                         <h5 class="float-left">Pour les <?= $this->getId() ?> derniers jours</h5>
                         <div class="float-right">
                             <div class="btn-group text-right">
-                                <a href="<?= $this->url("gestion", "master", "ressources", 7) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 7)?"active":"" ?>"><i class="fa fa-calendar"></i> la semaine</a>
-                                <a href="<?= $this->url("gestion", "master", "ressources", 15) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 15)?"active":"" ?>"><i class="fa fa-calendar"></i> la quinzaine</a>
-                                <a href="<?= $this->url("gestion", "master", "ressources", 30) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 30)?"active":"" ?>"><i class="fa fa-calendar"></i> le mois</a>
+                                <a href="<?= $this->url("gestion", "production", "production", 7) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 7)?"active":"" ?>"><i class="fa fa-calendar"></i> la semaine</a>
+                                <a href="<?= $this->url("gestion", "production", "production", 15) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 15)?"active":"" ?>"><i class="fa fa-calendar"></i> la quinzaine</a>
+                                <a href="<?= $this->url("gestion", "production", "production", 30) ?>" class="btn btn-xs btn-white <?= ($this->getId() == 30)?"active":"" ?>"><i class="fa fa-calendar"></i> le mois</a>
                             </div>
                         </div>
                     </div>
@@ -90,13 +90,13 @@
                                     <?php } ?>
                                     <tr style="height: 18px;"></tr>
                                     <tr>
-                                        <td style="width: 30%"><h2 class="text-center gras text-uppercase mp0">Stock global actuel</h2><small>stock livrable + productions non rangées</small></td>
+                                        <td style="width: 20%"><h3 class="text-center gras text-uppercase mp0">Stock global actuel</h3><small>stock livrable + productions non rangées</small></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
                                             <td><h2 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h2></td>
                                         <?php } ?>
                                     </tr>
                                     <tr>
-                                        <td style="width: 30%"><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
+                                        <td><h3 class="text-center gras text-muted text-uppercase">En commande</h3></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
                                             <td><h3 class="text-success text-muted gras" ><?= start0($produit->commandee()) ?></h3></td>
                                         <?php } ?>

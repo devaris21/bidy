@@ -16,6 +16,7 @@ class CATEGORIEOPERATION extends TABLE
 	const AUTRE_ENTREE = 4;
 
 	const APPROVISIONNEMENT = 5;
+	const ACHATSTOCK = 11;
 	const PAYE = 6;
 	const ENTRETIENVEHICULE = 7;
 	const REMBOURSEMENT = 8;

@@ -113,6 +113,11 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		$total += $item[0]->production;
 
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneachatstock, produit, achatstock WHERE ligneachatstock.produit_id = produit.id AND produit.id = ? AND ligneachatstock.achatstock_id = achatstock.id AND DATE(achatstock.created) <= ? GROUP BY produit.id";
+		$item = LIGNEACHATSTOCK::execute($requette, [$this->getId(), $date]);
+		if (count($item) < 1) {$item = [new LIGNEACHATSTOCK()]; }
+		$total += $item[0]->quantite;
+
 
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id != ?  AND livraison.etat_id != ? AND DATE(livraison.created) <= ? GROUP BY produit.id";
 		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ANNULEE, ETAT::PARTIEL, $date]);
@@ -176,6 +181,10 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
 		$total += $item[0]->production;
 
+		$requette = "SELECT SUM(quantite_recu) as quantite  FROM ligneachatstock, produit, achatstock WHERE ligneachatstock.produit_id = produit.id AND produit.id = ? AND ligneachatstock.achatstock_id = achatstock.id AND achatstock.etat_id = ? GROUP BY produit.id";
+		$item = LIGNEACHATSTOCK::execute($requette, [$this->getId(), ETAT::VALIDEE]);
+		if (count($item) < 1) {$item = [new LIGNEACHATSTOCK()]; }
+		$total += $item[0]->quantite;
 
 		$requette = "SELECT SUM(quantite) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id IN (?, ?) GROUP BY produit.id";
 		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ENCOURS, ETAT::VALIDEE]);
@@ -235,7 +244,7 @@ class PRODUIT extends TABLE
 				break;
 
 				default:
-					$prix = $ppr->price;
+				$prix = $ppr->price;
 				break;
 			}
 			return $quantite * $prix;
