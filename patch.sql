@@ -115,6 +115,22 @@ AUTO_INCREMENT=1
 ;
 
 
+CREATE TABLE `ligneautrepertejour` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`productionjour_id` INT(11) NOT NULL,
+	`produit_id` INT(11) NOT NULL,
+	`perte` INT(11) NOT NULL,
+	`created` DATETIME NULL DEFAULT NULL,
+	`modified` DATETIME NULL DEFAULT NULL,
+	`protected` INT(11) NOT NULL DEFAULT '0',
+	`valide` INT(11) NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_bin'
+ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC
+AUTO_INCREMENT=1
+;
 
 
 ALTER TABLE `produit` ADD COLUMN `stock` INT NOT NULL DEFAULT 0 COMMENT 'le stock initial' AFTER `description`;

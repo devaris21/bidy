@@ -20,9 +20,18 @@
                         <div class="row">
                             <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
                                 <div class="col-sm col-md">
-                                    <label><b><?= $produit->name() ?></b> produite</label>
+                                    <label><b><?= $produit->name() ?></b> produits</label>
                                     <input type="number" data-toggle="tooltip" title="Production du jour" value="0" min=0 number class="gras form-control text-center" name="prod-<?= $produit->getId() ?>">
-                                    <input type="hidden" value="0" name="perte-<?= $produit->getId() ?>">
+                                </div>
+                            <?php } ?>
+                        </div><br>
+
+                        <h3 class="text-uppercase"><u>Autres perte du jour</u></h3>
+                        <div class="row">
+                            <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
+                                <div class="col-sm col-md">
+                                    <label class="text-danger"><b><?= $produit->name() ?></b> perdus</label>
+                                    <input type="number" value="0" min=0 number class="gras form-control text-center text-danger" name="perte-<?= $produit->getId() ?>">
                                 </div>
                             <?php } ?>
                         </div><br>
@@ -61,7 +70,7 @@
                             </div>
                         </div>
 
-
+<hr>
                         <div class="">
                             <button class="btn pull-right dim btn-primary" ><i class="fa fa-check"></i> Mettre à jour le rapport</button>
                         </div><br>

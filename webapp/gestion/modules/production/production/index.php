@@ -39,6 +39,20 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="carre bg-success"></div><span>Quantité produite</span>
+                            </div>
+                            <div class="col-sm">
+                                <div class="carre bg-primary"></div><span>Quantité rangée</span>
+                            </div>
+                            <div class="col-sm">
+                                <div class="carre bg-dark"></div><span>Quantité livrée</span>
+                            </div>
+                            <div class="col-sm">
+                                <div class="carre bg-danger"></div><span>Quantité perdue</span>
+                            </div>
+                        </div><br>
                         <div class="">
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -79,8 +93,9 @@
                                                         }
                                                         ?>
                                                         <td class="">
-                                                            <h3 class="d-inline text-success gras"><?= start0($ligne->production) ?></h3> &nbsp; | &nbsp;
-                                                            <h4 class="d-inline"><?= start0($item->livree) ?></h4> &nbsp; | &nbsp;
+                                                            <h5 class="d-inline text-success gras"><?= start0($ligne->production) ?></h5> &nbsp; | &nbsp;
+                                                            <h5 class="d-inline text-green gras"><?= start0($ligne->production - $ligne->perte) ?></h5> &nbsp; | &nbsp;
+                                                            <h5 class="d-inline"><?= start0($produit->livree($production->ladate, $production->ladate)) ?></h5><br>
                                                             <small class="text-red"><?= start0($ligne->perte + ($item->quantite - $item->livree)) ?></small>
                                                         </td>
                                                     <?php }

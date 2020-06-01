@@ -29,12 +29,18 @@ if ($action === "productionjour") {
 			$productionjour->fourni("ligneproductionjour");
 			foreach ($productionjour->ligneproductionjours as $cle => $ligne) {
 				$ligne->production = intval($_POST["prod-".$ligne->produit_id]);
-				$ligne->perte = intval($_POST["perte-".$ligne->produit_id]);
 				$ligne->save();
 
 				$ligne->actualise();
 				$montant += $ligne->produit->coutProduction("production", $ligne->production);
 			}
+
+			$productionjour->fourni("ligneautrepertejour");
+			foreach ($productionjour->ligneautrepertejours as $cle => $ligne) {
+				$ligne->perte = intval($_POST["perte-".$ligne->produit_id]);
+				$ligne->save();
+			}
+
 
 			$productionjour->fourni("ligneconsommationjour");
 			foreach ($productionjour->ligneconsommationjours as $cle => $ligne) {
