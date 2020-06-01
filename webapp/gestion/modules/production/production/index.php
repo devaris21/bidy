@@ -92,7 +92,7 @@
                                     <tr>
                                         <td style="width: 20%"><h3 class="text-center gras text-uppercase mp0">Stock global actuel</h3><small>stock livrable + productions non rangées</small></td>
                                         <?php foreach ($produits as $key => $produit) { ?>
-                                            <td><h2 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h2></td>
+                                            <td><h3 class="text-green gras" ><?= start0($produit->stock(dateAjoute())) ?></h3></td>
                                         <?php } ?>
                                     </tr>
                                     <tr>

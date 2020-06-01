@@ -14,7 +14,6 @@ class PRODUIT extends TABLE
 	public $name;
 	public $description = "";
 	public $image = "default.png";
-
 	public $stock = 0;
 
 
@@ -58,12 +57,12 @@ class PRODUIT extends TABLE
 				$ligne->price = 0;
 				$ligne->enregistre();
 
-				$ligne = new LIGNEPRODUCTIONJOUR();
-				$ligne->productionjour_id = 1;
-				$ligne->produit_id = $data->lastid;
-				$ligne->production = $this->stock;
-				$ligne->setCreated(PARAMS::DATE_DEFAULT);
-				$ligne->save();
+				// $ligne = new LIGNEPRODUCTIONJOUR();
+				// $ligne->productionjour_id = 1;
+				// $ligne->produit_id = $data->lastid;
+				// $ligne->production = $this->stock;
+				// $ligne->setCreated(PARAMS::DATE_DEFAULT);
+				// $ligne->save();
 
 			}
 		}else{
@@ -124,7 +123,7 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
 		$total -= $item[0]->quantite;
 
-		return $total;
+		return $total + intval($this->stock);
 	}
 
 
@@ -191,6 +190,7 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
 		$total -= $item[0]->quantite;
 
+		$total += intval($this->stock);
 		if ($total < 0) {
 			return 0;
 		}

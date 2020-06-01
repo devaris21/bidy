@@ -16,7 +16,6 @@ class RESSOURCE extends TABLE
 	public $unite;
 	public $abbr;
 	public $image = "default.png";
-
 	public $stock = 0;
 
 
@@ -39,17 +38,17 @@ class RESSOURCE extends TABLE
 					}
 				}
 
-				$ligne = new LIGNEAPPROVISIONNEMENT();
-				$ligne->approvisionnement_id = 1;
-				$ligne->ressource_id = $data->lastid;
-				$ligne->quantite = $ligne->quantite_recu = $this->stock;
-				$ligne->save();
+				// $ligne = new LIGNEAPPROVISIONNEMENT();
+				// $ligne->approvisionnement_id = 1;
+				// $ligne->ressource_id = $data->lastid;
+				// $ligne->quantite = $ligne->quantite_recu = $this->stock;
+				// $ligne->save();
 
-				$ligne = new LIGNECONSOMMATIONJOUR();
-				$ligne->productionjour_id = 1;
-				$ligne->ressource_id = $data->lastid;
-				$ligne->consommation = 0;
-				$ligne->save();
+				// $ligne = new LIGNECONSOMMATIONJOUR();
+				// $ligne->productionjour_id = 1;
+				// $ligne->ressource_id = $data->lastid;
+				// $ligne->consommation = 0;
+				// $ligne->save();
 			}
 		}else{
 			$data->status = false;
@@ -105,7 +104,7 @@ class RESSOURCE extends TABLE
 		if (count($item) < 1) {$item = [new LIGNECONSOMMATIONJOUR()]; }
 		$total -= $item[0]->consommation;
 
-		return $total;
+		return $total + $this->stock;
 	}
 
 
