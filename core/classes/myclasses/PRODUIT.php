@@ -101,6 +101,8 @@ class PRODUIT extends TABLE
 
 	public function stock(String $date){
 		$total = 0;
+		$total += intval($this->stock);
+
 		$requette = "SELECT SUM(production) - SUM(perte) as production  FROM ligneproductionjour, produit, productionjour WHERE ligneproductionjour.produit_id = produit.id AND produit.id = ? AND ligneproductionjour.productionjour_id = productionjour.id AND DATE(productionjour.ladate) <= ? GROUP BY produit.id";
 		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->getId(), $date]);
 		if (count($item) < 1) {$item = [new LIGNEPRODUCTIONJOUR()]; }
@@ -111,19 +113,19 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEACHATSTOCK()]; }
 		$total += $item[0]->quantite;
 
-
 		$requette = "SELECT SUM(perte) as perte  FROM ligneautrepertejour, produit, productionjour WHERE ligneautrepertejour.produit_id = produit.id AND produit.id = ? AND ligneautrepertejour.productionjour_id = productionjour.id AND DATE(productionjour.ladate) <= ? GROUP BY produit.id";
 		$item = LIGNEAUTREPERTEJOUR::execute($requette, [$this->getId(), $date]);
 		if (count($item) < 1) {$item = [new LIGNEAUTREPERTEJOUR()]; }
 		$total -= $item[0]->perte;
 
-		$requette = "SELECT SUM(quantite) + SUM(perte) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id != ?  AND livraison.etat_id != ? AND DATE(livraison.created) <= ? GROUP BY produit.id";
-		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ANNULEE, ETAT::PARTIEL, $date]);
+		$requette = "SELECT SUM(quantite) as quantite, SUM(perte) as perte FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id IN (?, ?) AND DATE(livraison.created) <= ? GROUP BY produit.id";
+		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ENCOURS, ETAT::VALIDEE, $date]);
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
-		$total -= $item[0]->quantite;
+		$total -= $item[0]->quantite + $item[0]->perte;
 
-		return $total + intval($this->stock);
+		return $total;
 	}
+
 
 
 
@@ -148,10 +150,10 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEAUTREPERTEJOUR()]; }
 		$total += $item[0]->perte;
 
-		$requette = "SELECT SUM(quantite)-SUM(quantite_livree)+SUM(perte) as quantite FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND livraison.etat_id != ? AND produit.id = ? AND DATE(lignelivraison.created) >= ? AND DATE(lignelivraison.created) <= ? GROUP BY produit.id";
+		$requette = "SELECT SUM(quantite)-SUM(quantite_livree) as quantite, SUM(perte) as perte FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND livraison.etat_id != ? AND produit.id = ? AND DATE(lignelivraison.created) >= ? AND DATE(lignelivraison.created) <= ? GROUP BY produit.id";
 		$item = LIGNELIVRAISON::execute($requette, [ETAT::ANNULEE, $this->getId(), $date1, $date2]);
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
-		$total += $item[0]->quantite;
+		$total += $item[0]->quantite + $item[0]->perte;
 
 		return $total;
 	}
@@ -178,6 +180,7 @@ class PRODUIT extends TABLE
 
 	public function livrable(){
 		$total = 0;
+		$total += intval($this->stock);
 
 		$requette = "SELECT SUM(production) - SUM(perte) as production  FROM ligneproductionjour, produit, productionjour WHERE ligneproductionjour.produit_id = produit.id AND produit.id = ? AND ligneproductionjour.productionjour_id = productionjour.id AND productionjour.etat_id = ? GROUP BY produit.id";
 		$item = LIGNEPRODUCTIONJOUR::execute($requette, [$this->getId(), ETAT::VALIDEE]);
@@ -189,18 +192,16 @@ class PRODUIT extends TABLE
 		if (count($item) < 1) {$item = [new LIGNEACHATSTOCK()]; }
 		$total += $item[0]->quantite;
 
-
 		$requette = "SELECT SUM(perte) as perte  FROM ligneautrepertejour, produit, productionjour WHERE ligneautrepertejour.produit_id = produit.id AND produit.id = ? AND ligneautrepertejour.productionjour_id = productionjour.id AND productionjour.etat_id IN (?, ?) GROUP BY produit.id";
 		$item = LIGNEAUTREPERTEJOUR::execute($requette, [$this->getId(), ETAT::PARTIEL, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNEAUTREPERTEJOUR()]; }
 		$total -= $item[0]->perte;
 
-		$requette = "SELECT SUM(quantite)+SUM(perte) as quantite  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id IN (?, ?) GROUP BY produit.id";
+		$requette = "SELECT SUM(quantite)as quantite, SUM(perte) as perte  FROM lignelivraison, produit, livraison WHERE lignelivraison.produit_id = produit.id AND lignelivraison.livraison_id = livraison.id AND produit.id = ? AND livraison.etat_id IN (?, ?) GROUP BY produit.id";
 		$item = LIGNELIVRAISON::execute($requette, [$this->getId(), ETAT::ENCOURS, ETAT::VALIDEE]);
 		if (count($item) < 1) {$item = [new LIGNELIVRAISON()]; }
-		$total -= $item[0]->quantite;
+		$total -= $item[0]->quantite + $item[0]->perte;
 
-		$total += intval($this->stock);
 		if ($total < 0) {
 			return 0;
 		}

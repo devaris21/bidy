@@ -91,7 +91,10 @@ if ($action == "get_data") {
 				foreach ($data->ligneproductionjours as $key => $value) {
 					$prod = "prod-".$value->produit_id;
 					$data->$prod = $value->production;
+				}
 
+				$data->fourni("ligneautrepertejour");
+				foreach ($data->ligneautrepertejours as $key => $value) {
 					$perte = "perte-".$value->produit_id;
 					$data->$perte = $value->perte;
 				}

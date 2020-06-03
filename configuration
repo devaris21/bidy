@@ -4,9 +4,8 @@ $configs =  [
 
 	// Informations concernant votre applicaton
 	"metadata" => [
-		"appname"      => "Mon application",
-		"description"  => "C'est ma premiere application avec le framework SHAMMAN",
-		"organization" => "DGIMA | Plateforme de collecte de données",
+		"appname"      => "BRIXS",
+		"description"  => "Application de gestion de briqueterie industrielle",
 		"email"        => "infos@shamman.com",
 		"website"      => "https://www.shamman.com"
 	],

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 02 juin 2020 à 00:46
+-- Généré le : jeu. 04 juin 2020 à 02:24
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.3.2
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `achatstock` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
+  `reference` varchar(40) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `avance` int(11) NOT NULL,
   `reste` int(11) NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE `achatstock` (
 
 CREATE TABLE `approvisionnement` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
+  `reference` varchar(40) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `avance` int(11) NOT NULL,
   `reste` int(11) NOT NULL,
@@ -66,6 +66,8 @@ CREATE TABLE `approvisionnement` (
   `employe_id` int(11) NOT NULL,
   `comment` text COLLATE utf8_bin,
   `employe_id_reception` int(11) DEFAULT NULL,
+  `acompteFournisseur` int(11) DEFAULT NULL,
+  `detteFournisseur` int(11) DEFAULT NULL,
   `visibility` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -197,7 +199,7 @@ CREATE TABLE `client` (
 
 CREATE TABLE `commande` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
+  `reference` varchar(40) COLLATE utf8_bin NOT NULL,
   `groupecommande_id` int(20) NOT NULL,
   `zonelivraison_id` int(11) NOT NULL,
   `lieu` varchar(200) COLLATE utf8_bin NOT NULL,
@@ -672,7 +674,7 @@ CREATE TABLE `ligneproductionjour` (
 
 CREATE TABLE `livraison` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin DEFAULT NULL,
+  `reference` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `groupecommande_id` int(20) NOT NULL,
   `zonelivraison_id` int(11) DEFAULT NULL,
   `lieu` varchar(200) COLLATE utf8_bin DEFAULT NULL,
@@ -787,127 +789,6 @@ CREATE TABLE `marque` (
   `valide` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Déchargement des données de la table `marque`
---
-
-INSERT INTO `marque` (`id`, `name`, `logo`, `created`, `modified`, `protected`, `valide`) VALUES
-(1, 'ABARTH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(2, 'ACURA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(3, 'ALFA ROMEO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(4, 'ALPINA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(5, 'AMC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(6, 'ASR', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(7, 'ASTON MARTIN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(8, 'AUDI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(9, 'BENTLEY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(10, 'BMW', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(11, 'BRILLIANCE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(12, 'BUGATTI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(13, 'BUICK', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(14, 'CADILLAC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(15, 'CHERY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(16, 'CHEVROLET', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(17, 'CHRYSLER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(18, 'CIZETA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(19, 'CORVETTE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(20, 'COVINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(21, 'DACIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(22, 'DAEWOO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(23, 'DAIHATSU', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(24, 'DATSUN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(25, 'DKW', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(26, 'DODGE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(27, 'EAGLE', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(28, 'FARBIO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(29, 'FERRARI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(30, 'FIAT', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(31, 'FISKER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(32, 'FORD', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(33, 'GEELY', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(34, 'GEO', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(35, 'GMC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(36, 'GREAT WALL', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(37, 'HOLDEN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(38, 'HONDA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(39, 'HORCH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(40, 'HUMMER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(41, 'HYUNDAI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(42, 'INFINITI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(43, 'ISUZU', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(44, 'JAGUAR', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(45, 'JEEP', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(46, 'KIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(47, 'KOENIGSEGG', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(48, 'LADA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(49, 'LAMBORGHINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(50, 'LANCIA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(51, 'LAND ROVER', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(52, 'LEBLANC', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(53, 'LEXUS', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(54, 'LINCOLN', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(55, 'LOTUS', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(56, 'MAHINDRA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(57, 'MARUTI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(58, 'MASERATI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(59, 'MAYBACH', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(60, 'MAZDA', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(61, 'MERCEDES-BENZ', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(62, 'MG', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(63, 'MINI', '', NULL, '2019-10-28 14:12:43', 0, 1),
-(64, 'MITSUBISHI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(65, 'MORGAN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(66, 'MOSKVICH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(67, 'NANJING', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(68, 'NAZA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(69, 'NISSAN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(70, 'NOBLE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(71, 'OLDSMOBILE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(72, 'OPEL', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(73, 'PAGANI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(74, 'PANOZ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(75, 'PEUGEOT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(76, 'PIAGGIO', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(77, 'PLYMOUTH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(78, 'PONTIAC', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(79, 'PORSCHE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(80, 'PERODUA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(81, 'PROTON', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(82, 'RAPP MOTERNWERKE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(83, 'RENAULT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(84, 'ROEWE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(85, 'ROLLS-ROYCE', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(86, 'ROVER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(87, 'ROSSION', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(88, 'SAAB', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(89, 'SATURN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(90, 'SCION', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(91, 'SEAT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(92, 'SKODA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(93, 'SMART', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(94, 'SPYKER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(95, 'SSANGYONG', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(96, 'STEALTH', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(97, 'SUZUKI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(98, 'TATA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(99, 'TESLA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(100, 'TOYOTA', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(101, 'TONIQ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(102, 'TRABANT', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(103, 'VAUXHALL', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(104, 'VECTOR', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(105, 'VENTURI', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(106, 'VOLKSWAGEN', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(107, 'VOLVO', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(108, 'WANDERER', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(109, 'WARTBURG', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(110, 'WESTFIELD', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(111, 'ZASTAVA ', '', NULL, '2019-10-28 14:12:44', 0, 1),
-(112, 'DISCOVERY', NULL, '2019-10-18 12:21:02', '2019-10-28 14:12:44', 0, 1),
-(113, 'CHANGAN', NULL, '2019-10-18 12:22:32', '2019-10-28 14:12:44', 0, 1),
-(114, 'OUTLANDER', NULL, '2019-10-28 11:09:31', '2019-10-28 14:12:44', 0, 1),
-(115, 'DAF', NULL, NULL, NULL, 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -949,7 +830,7 @@ CREATE TABLE `mycompte` (
 CREATE TABLE `operation` (
   `id` int(11) NOT NULL,
   `categorieoperation_id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
+  `reference` varchar(40) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `manoeuvre_id` int(11) DEFAULT NULL,
@@ -963,7 +844,9 @@ CREATE TABLE `operation` (
   `etat_id` int(11) NOT NULL,
   `employe_id` int(11) NOT NULL,
   `date_approbation` datetime DEFAULT NULL,
-  `image` text COLLATE utf8_bin,
+  `image1` text COLLATE utf8_bin,
+  `image2` text COLLATE utf8_bin,
+  `image3` text COLLATE utf8_bin,
   `isModified` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -1255,7 +1138,7 @@ CREATE TABLE `suggestion` (
 
 CREATE TABLE `transfert` (
   `id` int(11) NOT NULL,
-  `reference` varchar(20) COLLATE utf8_bin NOT NULL,
+  `reference` varchar(40) COLLATE utf8_bin NOT NULL,
   `montant` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
   `client_id_receive` int(11) NOT NULL,
@@ -2053,7 +1936,7 @@ ALTER TABLE `manoeuvredurangement`
 -- AUTO_INCREMENT pour la table `marque`
 --
 ALTER TABLE `marque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `modepayement`

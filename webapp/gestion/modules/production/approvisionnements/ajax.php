@@ -209,6 +209,11 @@ if ($action == "validerApprovisionnement") {
 								$data = $payement->save();
 								$data->setUrl("gestion", "fiches", "boncaisse", $data->lastid);
 							}
+
+							$fournisseur->actualise();
+							$approvisionnement->acompteFournisseur = $fournisseur->acompte;
+							$approvisionnement->detteFournisseur = $fournisseur->dette;
+							$data = $approvisionnement->save();
 						}
 					}
 				}else{
