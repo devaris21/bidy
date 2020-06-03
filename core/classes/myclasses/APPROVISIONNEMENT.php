@@ -22,14 +22,22 @@ class APPROVISIONNEMENT extends TABLE
 	public $comment;
 	public $datelivraison;
 
+	public $acompteFournisseur = 0;
+	public $detteFournisseur = 0;
+	
+
 
 	public function enregistre(){
 		$data = new RESPONSE;
 		$datas = FOURNISSEUR::findBy(["id ="=>$this->fournisseur_id]);
 		if (count($datas) == 1) {
 			if ($this->montant >= 0 ) {
-				$this->reference = "APP/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
+				$this->reference = "APPRO/".date('dmY')."-".strtoupper(substr(uniqid(), 5, 6));
 				$this->employe_id = getSession("employe_connecte_id");
+				if ($this->etat_id == ETAT::VALIDEE) {
+					$this->datelivraison = date("Y-m-d H:i:s");
+					$this->employe_id_reception = getSession("employe_connecte_id");
+				}
 				$data = $this->save();
 			}else{
 				$data->status = false;

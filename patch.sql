@@ -4,6 +4,16 @@
 
 ALTER TABLE `operation` ADD `image` TEXT NULL AFTER `date_approbation`;
 
+ALTER TABLE `operation`
+	CHANGE COLUMN `image` `image1` TEXT NULL COLLATE 'utf8_bin' AFTER `date_approbation`,
+	ADD COLUMN `image2` TEXT NULL AFTER `image1`,
+	ADD COLUMN `image3` TEXT NULL AFTER `image2`;
+
+
+ALTER TABLE `approvisionnement`
+	ADD COLUMN `acompteFournisseur` INT(11) NULL DEFAULT NULL AFTER `employe_id_reception`,
+	ADD COLUMN `detteFournisseur` INT(11) NULL DEFAULT NULL AFTER `acompteFournisseur`;
+	
 
 CREATE TABLE `transfert` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,

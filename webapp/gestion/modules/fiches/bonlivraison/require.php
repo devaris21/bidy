@@ -13,10 +13,10 @@ if ($this->getId() != null) {
 		$title = "BRIXS | Bon de livraison ";
 		
 	}else{
-		header("Location: ../master/clients");
+		header("Location: ../production/livraisons");
 	}
 }else{
-	header("Location: ../master/clients");
+	header("Location: ../production/livraisons");
 }
 
 ?>

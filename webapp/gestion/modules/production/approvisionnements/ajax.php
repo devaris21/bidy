@@ -184,9 +184,6 @@ if ($action == "validerApprovisionnement") {
 					if ($data->status) {
 
 						$approvisionnement->hydrater($_POST);
-						if ($approvisionnement->etat_id == ETAT::VALIDEE) {
-							$approvisionnement->datelivraison = date("Y-m-d H:i:s");
-						}
 						$approvisionnement->montant = $total;
 						$data = $approvisionnement->enregistre();
 						if ($data->status) {

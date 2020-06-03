@@ -15,7 +15,7 @@
                         Loader.stop();
                         $(".modal").modal('hide');
                     }else{
-                        if(name == "client") {
+                        if(name == "client" && data.mode != "update") {
                             window.location.href = data.url;
                         }else{
                             window.location.reload();                            

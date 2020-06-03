@@ -103,6 +103,7 @@
                                 <span><?= $appro->operation->structure ?> - <?= $appro->operation->numero ?></span>
                             </td>
                             <td class="border-left">
+                                  <a href="<?= $this->url("gestion", "fiches", "bonapprovisionnement", $appro->getId()) ?>" target="_blank" class="btn btn-block btn-white btn-sm"><i class="fa fa-file-text text-blue"></i> Voir la fiche</a><br>
                                 <?php if ($appro->etat_id == Home\ETAT::ENCOURS) { ?>
                                     <button onclick="terminer(<?= $appro->getId() ?>)" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
                                     <?php if ($employe->isAutoriser("modifier-supprimer")) { ?>

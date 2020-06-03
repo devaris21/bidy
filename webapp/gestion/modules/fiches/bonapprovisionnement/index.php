@@ -37,22 +37,23 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-7 text-right">
-                                        <h2 class="title text-uppercase gras text-blue">Bon de commande</h2>
-                                        <h3 class="text-uppercase">N°<?= $commande->reference  ?></h3>
-                                        <h5><?= datelong($commande->created)  ?></h5>  
-                                        <h4><small>Bon édité par :</small> <span class="text-uppercase"><?= $commande->employe->name() ?></span></h4>
+                                        <h2 class="title text-uppercase gras text-blue">Fiche d'approvisionnement</h2>
+                                        <h3 class="text-uppercase">N°<?= $appro->reference  ?></h3>
+                                        <h5><?= datelong($appro->created)  ?></h5>  
+                                        <h4><small>Fiche éditéé par :</small> <span class="text-uppercase"><?= $appro->employe->name() ?></span></h4>
+                                        <h4><small>Fiche validéé par :</small> <span class="text-uppercase"><?= $appro->employe_reception->name() ?></span></h4>
                                     </div>
                                 </div><hr class="mp3">
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <h5><span>Zone de livraison :</span> <span class="text-uppercase"><?= $commande->zonelivraison->name() ?></span></h5>   
-                                        <h5><span>Lieu de livraison :</span> <span class="text-uppercase"><?= $commande->lieu ?></span></h5>                              
+                                        <h5><span>Date de commande :</span> <span class="text-uppercase"><?= datelong($appro->created) ?></span></h5>   
+                                        <h5><span>Date de livraison :</span> <span class="text-uppercase"><?= datelong($appro->datelivraison) ?></span></h5>                              
                                     </div>
 
                                     <div class="col-6 text-right">
-                                        <h5><span>Client :</span> <span class="text-uppercase"><?= $commande->groupecommande->client->name() ?></span></h5>
-                                        <h5><span>Livraison prévue pour le:</span> <span class="text-uppercase"><?= datecourt($commande->datelivraison) ?></span></h5>
+                                        <h5><span>Fournisseur :</span> <span class="text-uppercase"><?= $appro->fournisseur->name() ?></span></h5>
+                                        <h5><span>Contacts :</span> <span class="text-uppercase"><?= $appro->fournisseur->contact ?></span></h5>
                                     </div>
                                 </div><br><br>
 
@@ -61,79 +62,69 @@
                                         <tr class="text-center">
                                             <th colspan="2"></th>
                                             <th>Prix unitaire</th>
+                                            <th></th>
                                             <th>Quantité</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($commande->lignecommandes as $key => $ligne) {
+                                        <?php foreach ($appro->ligneapprovisionnements as $key => $ligne) {
                                             $ligne->actualise(); ?>
                                             <tr>
                                                 <td width="55">
-                                                    <img style="width: 120%" src="<?= $this->stockage("images", "produits", $ligne->produit->image) ?>">                        
+                                                    <img style="width: 120%" src="<?= $this->stockage("images", "ressources", $ligne->ressource->image) ?>">                        
                                                 </td>
                                                 <td width="35%" class="desc">
-                                                    <h3 class="mp0 text-uppercase gras"><?= $ligne->produit->name() ?><br> <small><?= $ligne->produit->description ?></small></h3>
+                                                    <h3 class="mp0 text-uppercase gras"><?= $ligne->ressource->name() ?><br> <small class="text-lowercase">en <?= $ligne->ressource->unite ?></small></h3>
                                                 </td>
                                                 <td class="text-center"><h4 class="text-muted"><?= money($ligne->price / $ligne->quantite) ?> <?= $params->devise ?></h4></td>
-                                                <td class="text-center"><h3 style="font-weight: 300px"><i>x <?= $ligne->quantite ?></i></h3></td>
+                                                <td><h3>X</h3></td>
+                                                <td class="text-center"><h3 style="font-weight: 300px"><i><?= $ligne->quantite ?> <?= $ligne->ressource->abbr ?></i></h3></td>
                                                 <td class="text-center" width="25%">
                                                     <h3 class="gras"><?= money($ligne->price) ?> <?= $params->devise ?></h3>
                                                 </td>
                                             </tr>
                                         <?php } ?> 
-                                        <tr style="height: 20px;"></tr>
-                                        <tr style="background-color: #fff">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">Total = </h4></td>
-                                            <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="text-muted"><?= money($commande->montant - $commande->tva) ?> <?= $params->devise ?></h3></td>
-                                        </tr>
-                                        <tr style="background-color: #fff">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class="">TVA (<?= $commande->taux_tva ?>%) = </h4></td>
-                                            <td></td>
-                                            <td colspan="1" class="text-center"><h4 class="text-muted"><?= money($commande->tva) ?> <?= $params->devise ?></h4></td>
-                                        </tr>
-
                                         <tr style="height: 35px;"></tr>
-
+                            
                                         <tr class="border">
-                                            <td colspan="3" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
+                                            <td colspan="4" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h2 class="gras text-success"><?= money($commande->montant) ?> <?= $params->devise ?></h2></td>
+                                            <td colspan="1" class="text-center"><h2 class="gras text-success"><?= money($appro->montant) ?> <?= $params->devise ?></h2></td>
                                         </tr>
 
                                         <tr class="border">
-                                            <td colspan="3" class="text-right">
+                                            <td colspan="4" class="text-right">
                                                 <h3 class="text-uppercase mp0">Avance sur montant = </h3>
-                                                <?php if ($commande->operation_id == 0) { ?>
+                                                <?php if ($appro->operation_id == 0) { ?>
                                                     <small>Réglement par prélèvement sur acompte</small>
                                                 <?php }else{ ?>
-                                                    <small>Réglement par <?= $commande->operation->modepayement->name() ?></small>
+                                                    <small>Réglement par <?= $appro->operation->modepayement->name() ?></small>
                                                 <?php } ?>
                                                 
                                             </td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->avance) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($appro->avance) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                         <tr class="border">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-<?= ($commande->reste > 0) ? "warning":"muted"  ?> ">reste <?= ($commande->operation_id == null && $commande->reste == 0 ) ? "dans le compte":"à payer pour cette commande"  ?> = </h4></td>
+                                            <td colspan="4" class="text-uppercase text-right"><h4 class=" text-<?= ($appro->reste > 0) ? "warning":"muted"  ?> ">reste <?= ($appro->operation_id == null && $appro->reste == 0 ) ? "dans le compte":"à payer pour cette commande"  ?> = </h4></td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "warning":"muted"  ?>"><?= money($commande->reste) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($appro->reste > 0) ? "warning":"muted"  ?>"><?= money($appro->reste) ?> <?= $params->devise ?></h3></td>
                                         </tr>
 
                                         <tr style="height: 45px;"></tr>
 
                                         <tr class="border">
-                                            <td colspan="3" class="text-right">
-                                                <h4 class="text-uppercase mp0">Solde de l'acompte du client =</h4>
+                                            <td colspan="4" class="text-right">
+                                                <h4 class="text-uppercase mp0">Solde de l'acompte du fournisseur =</h4>
                                             </td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($commande->acompteClient) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-"><?= money($appro->acompteFournisseur) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                         <tr class="border">
-                                            <td colspan="3" class="text-uppercase text-right"><h4 class=" text-red ">Dette totale du client = </h4></td>
+                                            <td colspan="4" class="text-uppercase text-right"><h4 class=" text-red ">Dette totale chez le fournisseur = </h4></td>
                                             <td></td>
-                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($commande->reste > 0) ? "danger":"muted"  ?>"><?= money($commande->detteClient) ?> <?= $params->devise ?></h3></td>
+                                            <td colspan="1" class="text-center"><h3 class="gras text-<?= ($appro->reste > 0) ? "danger":"muted"  ?>"><?= money($appro->detteFournisseur) ?> <?= $params->devise ?></h3></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -145,7 +136,7 @@
                                             <tbody>
                                                 <tr style="height: 60px">
                                                     <td class="gras">Observation : </td>
-                                                    <td><?= $commande->comment ?></td>
+                                                    <td><?= $appro->comment ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -159,7 +150,7 @@
 
                                 <br><br>
                             <br><br><hr class="mp0">
-                            <p class="text-center"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont été mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
+                            <p class="text-center"><small><i>* Cette fiche ne peut en aucun cas valoir ou remplacer la facture normale pour cette opération. Elle est éditée à titre indicatif !</i></small></p>
 
 
 

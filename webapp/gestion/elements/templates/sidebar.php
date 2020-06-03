@@ -43,6 +43,9 @@
                 <li class="" id="operation">
                     <a href="<?= $this->url("gestion", "master", "operation") ?>"><i class="fa fa-money"></i> <span class="nav-label">Opération de caisse</span></a>
                 </li>
+                <li class="" id="rechercher">
+                    <a href="<?= $this->url("gestion", "master", "rechercher") ?>"><i class="fa fa-search"></i> <span class="nav-label">Rechercher ...</span></a>
+                </li>
                 <li class="dropdown-divider"></li>
 
 
@@ -94,7 +97,7 @@
 
 
                 <?php if ($employe->isAutoriser("caisse")) { ?>
-                 <li class="" id="comptedujour">
+                   <li class="" id="comptedujour">
                     <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Rapport du Jour</span></a>
                 </li>
                 <li class="" id="caisse">

@@ -343,9 +343,9 @@ abstract class TABLE
         $j = count($proprietes);
         foreach ($proprietes as $key => $value) {
             if ($i == $j) {
-                $where .= "$value LIKE '%$search%'";
+                $where .= "LOWER($value) LIKE  '%$search%'";
             }else{
-                $where .= "$value LIKE '%$search%' OR ";
+                $where .= "LOWER($value) LIKE  '%$search%' OR ";
             }
             $i++;
         }

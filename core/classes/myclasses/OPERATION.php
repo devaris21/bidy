@@ -2,6 +2,7 @@
 namespace Home;
 use Native\RESPONSE;
 use Native\EMAIL;
+use Native\FICHIER;
 /**
  * 
  */
@@ -27,7 +28,9 @@ class OPERATION extends TABLE
 
 	public $acompteClient = 0;
 	public $detteClient = 0;
-	public $image;
+	public $image1;
+	public $image2;
+	public $image3;
 
 
 	public function enregistre(){
@@ -84,7 +87,7 @@ class OPERATION extends TABLE
 
 	public function uploading(Array $files){
 		//les proprites d'images;
-		$tab = ["image"];
+		$tab = ["image1", "image2", "image3"];
 		if (is_array($files) && count($files) > 0) {
 			$i = 0;
 			foreach ($files as $key => $file) {

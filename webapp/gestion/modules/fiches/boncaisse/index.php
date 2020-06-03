@@ -55,7 +55,7 @@
                                     </div><br><br>
 
                                     <div class="text">
-                                        <span><?= $operation->categorieoperation->typeoperationcaisse->name() ?> d'un montant de</span> <span class="lettre text-capitalize"><?= enLettre($operation->montant) ?> <?= $params->devise  ?></span><br>
+                                        <span>Opération de <i><?= $operation->categorieoperation->typeoperationcaisse->name() ?> N°<?= $operation->reference ?></i> d'un montant de</span> <span class="lettre text-capitalize"><?= enLettre($operation->montant) ?> <?= $params->devise  ?></span><br>
                                         <span>pour <i><?= $operation->comment ?></i>.</span>
                                         <p class="m-b-xs"><?= $operation->structure ?> - <?= $operation->numero ?></p><br>
                                     </div>
@@ -82,6 +82,20 @@
                                             </tbody>
                                         </table>
                                     <?php } ?>
+
+                                    <br><br>
+
+                                    <div class="row text-center d-print-none">
+                                        <div class="col-sm">
+                                            <img src="<?= $this->stockage("images", "operations", $operation->image1)  ?>" class="img-responsive img-thumbnail">
+                                        </div>
+                                        <div class="col-sm">
+                                            <img src="<?= $this->stockage("images", "operations", $operation->image2)  ?>" class="img-responsive img-thumbnail">
+                                        </div>
+                                        <div class="col-sm">
+                                            <img src="<?= $this->stockage("images", "operations", $operation->image3)  ?>" class="img-responsive img-thumbnail">
+                                        </div>
+                                    </div>
 
                                     <br><br>
 

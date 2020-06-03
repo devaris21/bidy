@@ -221,7 +221,7 @@
                                             $datas = $livraison->fourni("lignelivraison"); ?>
                                             <tr>
                                                 <td title="Voir le bon de livraison"><a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
-                                                <td><?= $livraison->groupecommande->client->name()  ?></td>
+                                                <td><a href="<?= $this->url("gestion", "master", "client", $livraison->groupecommande->client_id)  ?>"><?= $livraison->groupecommande->client->name() ?></a></td>
                                                 <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 
                                                     $a = ""; ?>
                                                     <?php foreach ($datas as $key => $ligne) { 
