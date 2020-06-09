@@ -30,6 +30,7 @@
                                             </div>
                                             <div class="col-9">
                                                 <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
+                                                <h5 class="mp0"><?= $params->adresse ?></h5>
                                                 <h5 class="mp0"><?= $params->postale ?></h5>
                                                 <h5 class="mp0">Tél: <?= $params->contact ?></h5>
                                                 <h5 class="mp0">Email: <?= $params->email ?></h5>
@@ -86,7 +87,7 @@
                                             </tr>
                                         <?php } ?> 
                                         <tr style="height: 35px;"></tr>
-                            
+                                        
                                         <tr class="border">
                                             <td colspan="4" class="text-uppercase text-right"><h2 class="">montant total à payer = </h2></td>
                                             <td></td>
@@ -148,7 +149,7 @@
                             </div>
 
 
-                                <br><br>
+                            <br><br>
                             <br><br><hr class="mp0">
                             <p class="text-center"><small><i>* Cette fiche ne peut en aucun cas valoir ou remplacer la facture normale pour cette opération. Elle est éditée à titre indicatif !</i></small></p>
 

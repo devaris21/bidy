@@ -30,6 +30,7 @@
                                             </div>
                                             <div class="col-9">
                                                 <h5 class="gras text-uppercase text-orange"><?= $params->societe ?></h5>
+                                                <h5 class="mp0"><?= $params->adresse ?></h5>
                                                 <h5 class="mp0"><?= $params->postale ?></h5>
                                                 <h5 class="mp0">Tél: <?= $params->contact ?></h5>
                                                 <h5 class="mp0">Email: <?= $params->email ?></h5>
@@ -157,7 +158,7 @@
                             </div>
 
 
-                                <br><br>
+                            <br><br>
                             <br><br><hr class="mp0">
                             <p class="text-center"><small><i>* Nous vous prions de vérifier l'exactitude de toutes les informations qui ont été mentionnées sur cette facture avant de quitter nos locaux !</i></small></p>
 

@@ -17,6 +17,7 @@
                             <?php foreach (Home\PRODUIT::findBy([], [], ["name"=>"ASC"]) as $key => $produit) { ?>
                                 <th class="text-center"><?= $produit->name() ?></th>
                             <?php } ?>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,11 +35,13 @@
                                     ?>
                                     <td class="text-center" ><?= money($pz->price); ?> <?= $params->devise ?></td>
                                 <?php } ?>
+                                    <td><a href="<?= $rooter->url("gestion", "fiches", "proforma", $zone->getId()) ?>"><i class="fa fa-file-text-o fa-2x"></i></a></td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
 </div>
-</div>
+

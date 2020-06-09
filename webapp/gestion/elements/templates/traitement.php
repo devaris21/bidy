@@ -2,6 +2,7 @@
 namespace Home;
 require '../../../../core/root/includes.php';
 use Native\RESPONSE;
+use Native\ROOTER;
 extract($_POST);
 
 $data = new RESPONSE;
@@ -92,6 +93,7 @@ if ($action === "productionjour") {
 
 
 if ($action == "voirPrixParZone") {
+	$rooter = new ROOTER;
 	$params = PARAMS::findLastId();
 	include("../../../../composants/assets/modals/modal-prixparzone.php");
 }

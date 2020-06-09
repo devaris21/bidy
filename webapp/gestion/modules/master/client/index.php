@@ -39,7 +39,7 @@
                                         </div>
 
                                         <div class="col-6 text-right">
-                                            <button data-toggle=modal data-target='#modal-vente' class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> Vente directe </button>    
+                                            <button data-toggle=modal data-target='#modal-vente' class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> Nouvelle vente directe </button>    
                                         </div>
                                     </div><br><br>
                                     <div class="">
