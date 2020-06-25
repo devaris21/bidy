@@ -18,7 +18,7 @@
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-warning gras">Les livraisons en cours</h2>
                 <div class="container">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les livraisons passées</div>
                         <div class="offset-1"></div>
                         <div class="col-xs-4">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-sm-3">
@@ -150,8 +150,6 @@
     <?php 
     foreach ($livraisons as $key => $livraison) {
         if ($livraison->etat_id == Home\ETAT::ENCOURS) { 
-            $livraison->actualise();
-            $livraison->fourni("lignelivraison");
             include($this->rootPath("composants/assets/modals/modal-livraison2.php"));
         } 
     } 
