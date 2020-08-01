@@ -18,7 +18,7 @@
             <div class="col-sm-9">
                 <h2 class="text-uppercase text-green gras">Rangements de la production</h2>
                 <div class="container">
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-xs-7 gras ">Afficher même les rangements passées</div>
                         <div class="offset-1"></div>
                         <div class="col-xs-4">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="col-sm-3">
@@ -45,7 +45,7 @@
                             </div>
                             <div class="col-9 text-right">
                                 <span> Rangements de la production </span>
-                                <h2 class="font-bold"><?= start0(count(Home\PRODUCTIONJOUR::ranges()))  ?></h2>
+                                <h2 class="font-bold"><?= start0(count($productions))  ?></h2>
                             </div>
                         </div>
                     </div>
@@ -107,8 +107,7 @@
                                         <tbody>
                                             <tr>
                                                 <td><h4 class="mp0 text-muted">Produite : </h4></td>
-                                                <?php foreach ($production->ligneproductionjours as $key => $ligne) { 
-                                                    $ligne->actualise(); ?>
+                                                <?php foreach ($production->ligneproductionjours as $key => $ligne) { ?>
                                                     <th class="text-center " style="color: #ccc"><?= $ligne->production ?></th>
                                                 <?php } ?>
                                             </tr>
@@ -116,16 +115,14 @@
                                             <?php if ($production->etat_id == Home\ETAT::VALIDEE) { ?>
                                                 <tr>
                                                     <td><h4 class="mp0">Rangées : </h4></td>
-                                                    <?php foreach ($production->ligneproductionjours as $key => $ligne) { 
-                                                        $ligne->actualise(); ?>
+                                                    <?php foreach ($production->ligneproductionjours as $key => $ligne) { ?>
                                                         <th class="text-center"><?= $ligne->production - $ligne->perte ?></th>
                                                     <?php } ?>
                                                 </tr>
 
                                                 <tr>
                                                     <td><h4 class="mp0 text-red">Perte : </h4></td>
-                                                    <?php foreach ($production->ligneproductionjours as $key => $ligne) { 
-                                                        $ligne->actualise(); ?>
+                                                    <?php foreach ($production->ligneproductionjours as $key => $ligne) { ?>
                                                         <th class="text-center text-red"><?= $ligne->perte ?></th>
                                                     <?php } ?>
                                                 </tr>
@@ -161,8 +158,6 @@
     <?php 
     foreach ($productions as $key => $production) {
         if ($production->etat_id == Home\ETAT::PARTIEL) { 
-            $production->actualise();
-            $production->fourni("ligneproductionjour");
             include($this->rootPath("composants/assets/modals/modal-rangement.php"));
         } 
     } 

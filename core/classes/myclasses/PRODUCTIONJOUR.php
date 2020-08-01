@@ -44,9 +44,7 @@ class PRODUCTIONJOUR extends TABLE
 				$ligne->productionjour_id = $pro->getId();
 				$ligne->produit_id = $produit->getId();
 				$ligne->enregistre();
-			}
 
-			foreach (PRODUIT::getAll() as $key => $produit) {
 				$ligne = new LIGNEAUTREPERTEJOUR();
 				$ligne->productionjour_id = $data->lastid;
 				$ligne->produit_id = $produit->getId();
