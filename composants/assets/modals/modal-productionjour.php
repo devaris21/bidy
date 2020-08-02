@@ -48,36 +48,37 @@
                         
 
                         <div class="row">
+                            <input type="hidden" name="groupemanoeuvre_id" value="<?= Home\GROUPEMANOEUVRE::DEFAUT;  ?>">
                             <div class="col-md-6">
-                                <h4 class="text-uppercase"><u>Personnel du jour</u></h4>
-                                <ul>
-                                    <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) {
-                                        $man->actualise(); ?>
-                                        <li><?= $man->manoeuvre->name() ?></li>
-                                    <?php } ?>
-                                </ul><hr class="mp3">
+                         <!--        <h4 class="text-uppercase"><u>Personnel du jour</u></h4>
+                         <ul>
+                             <?php foreach ($productionjour->fourni("manoeuvredujour") as $key => $man) {
+                                 $man->actualise(); ?>
+                                 <li><?= $man->manoeuvre->name() ?></li>
+                             <?php } ?>
+                         </ul><hr class="mp3">
+                         
+                         <b>Le groupe de manoeuvres qui travaillent</b><br>
+                         <?php Native\BINDING::html("radio", "groupemanoeuvre", [$productionjour->groupemanoeuvre_id]) ?><br><br>
+                         
+                         <b>Ou definir manuellement les manoeuvres qui travaillent</b>
+                         <?php Native\BINDING::html("select-multiple", "manoeuvre") ?>
+                                                     </div>
+                         
+                                                     <div class="col-md-4 offset-md-2">
+                         <h4 class="text-uppercase"><u>Ajouter une note</u></h4>
+                         <textarea class="form-control" rows="4" name="comment" placeholder="Ajouter une note..."></textarea>
+                     </div> -->
+                 </div>
 
-                                <b>Le groupe de manoeuvres qui travaillent</b><br>
-                                <?php Native\BINDING::html("radio", "groupemanoeuvre", [$productionjour->groupemanoeuvre_id]) ?><br><br>
-
-                                <b>Ou definir manuellement les manoeuvres qui travaillent</b>
-                                <?php Native\BINDING::html("select-multiple", "manoeuvre") ?>
-                            </div>
-
-                            <div class="col-md-4 offset-md-2">
-                                <h4 class="text-uppercase"><u>Ajouter une note</u></h4>
-                                <textarea class="form-control" rows="4" name="comment" placeholder="Ajouter une note..."></textarea>
-                            </div>
-                        </div>
-
-<hr>
-                        <div class="">
-                            <button class="btn pull-right dim btn-primary" ><i class="fa fa-check"></i> Mettre à jour le rapport</button>
-                        </div><br>
-                    </form>
-                </div>
-
-            </div>
+                 <hr>
+                 <div class="">
+                    <button class="btn pull-right dim btn-primary" ><i class="fa fa-check"></i> Mettre à jour le rapport</button>
+                </div><br>
+            </form>
         </div>
+
     </div>
+</div>
+</div>
 </div>

@@ -6,6 +6,8 @@ GROUPECOMMANDE::etat();
 unset_session("produits");
 unset_session("commande-encours");
 
+$produits = PRODUIT::getAll();
+
 if ($this->getId() != null) {
 	$datas = CLIENT::findBy(["id ="=> $this->getId()]);
 	if (count($datas) > 0) {

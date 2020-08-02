@@ -16,125 +16,33 @@
 
           <div class="wrapper wrapper-content">
             <div class="animated fadeInRightBig">
-                <div class="row" >
-                    <div class="col-lg-3">
-                        <div class="ibox cursor" onclick="modal('#modal-listecommande')">
-                            <div class="ibox-title">
-                                <h5>Commandes passés aujourd'hui</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h2 class="no-margins"><?= start0(count(Home\COMMANDE::findBy(["DATE(created) ="=>dateAjoute(), "etat_id !="=>Home\ETAT::ANNULEE]))); ?></h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Livraisons pour aujourd'hui</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row text-center">
-                                    <div class="col-sm-6 border-right">
-                                        <h2 class="no-margins"><?= start0(count(Home\LIVRAISON::programmee(dateAjoute()))); ?></h2>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h2 class="no-margins text-green"><?= start0(count(Home\LIVRAISON::effectuee(dateAjoute()))); ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Véhicules / Machines</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row text-center">
-                                    <div class="col-sm-6 border-right">
-                                        <h2 class="no-margins"><?= start0(count(Home\VEHICULE::findBy(["visibility ="=>1]))); ?></h2>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h2 class="no-margins"><?= start0(count(Home\MACHINE::getAll())); ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="ibox">
-                            <div class="ibox-title">
-                                <h5>Le personnel</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row text-center">
-                                    <div class="col-sm-6 border-right">
-                                        <h2 class="no-margins"><?= start0(count(Home\CHAUFFEUR::findBy(["visibility ="=>1]))) ?></h2>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h2 class="no-margins"><?= start0(count(Home\MANOEUVRE::getAll())); ?></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="border-bottom white-bg dashboard-header">
-
+                <div class="border-bottom white-bg dashboard-header" style="border-top: dashed 3px #ddd">
+                    <br>
                     <div class="row">
                         <div class="col-md-3">
-                            <h3 class="text-uppercase">Stock des produits</h3>
+                            <div class="text-center">
+                                <img src="<?= $this->stockage("images", "societe", $params->image) ?>" style="height: 70px;" alt=""> 
+                                <h3 class="text-uppercase mp0 text-warning"><?= $params->societe ?></h3>                            
+                            </div>                      
+
+
                             <ul class="list-group clear-list m-t">
-                                <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                    <li class="list-group-item">
-                                        <i class="fa fa-cubes"></i>&nbsp;&nbsp;&nbsp; <?= $produit->name() ?>
-                                        <span class="float-right">
-                                            <span class="label label-success"><?= money($produit->livrable()) ?></span>
-                                            <span class="text-default"><?= money($produit->enAttente()) ?></span>
-                                        </span>
-                                    </li>
-                                <?php } ?>
-                                <li class="list-group-item"></li>
+                                <li class="list-group-item fist-item cursor" data-toggle="modal" data-target="#modal-listecommande">
+                                    Commandes passées aujourd'hui <span class="text-success float-right"><?= start0(count($commandes)); ?></span> 
+                                </li>
+                                <li class="list-group-item cursor" data-toggle="modal" data-target="#modal-listelivraisons">
+                                    Livraisons du jour <span class=" text-success float-right"><?= start0(count($livraisons)); ?> </span>
+                                </li>
+                                <li class="list-group-item"></li><br>
+                                <button onclick="validerCommande()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                             </ul>
-
-                            <a href="<?= $this->url("gestion", "caisse", "comptedujour") ?>" ><button class="btn btn-warning dim btn-block"> <i class="fa fa-file-text-o"></i> Rapport de la journée</button></a>    
-
                         </div>
-                        <div class="col-md-6 border-right border-left">
+                        <div class="col-md-6 border-right border-left text-center">
                             <div class="" style="margin-top: 0%">
                                 <div id="ct-chart" style="height: 270px;"></div>
                             </div>
-                            <h6 class="text-uppercase text-center">Courbe représentative du stock de produits en fonction des commandes actuelles</h6>
-                            <hr class="">
-
-                            <?php if ($employe->isAutoriser("caisse")) { ?>
-                               <!--  <div class="row stat-list">
-                                    <div class="col-4">
-                                        <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
-                                        <small>En caisse actuellement</small>
-                                        <div class="progress progress-mini">
-                                            <div class="progress-bar bg-black" style="width: 100%;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                        <small>Entrées du jour</small>
-                                        <div class="progress progress-mini">
-                                            <div class="progress-bar bg-primary" style="width: 100%;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
-                                        <small>Dépenses du jour</small>
-                                        <div class="progress progress-mini">
-                                            <div class="progress-bar bg-danger" style="width: 100%;"></div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            <?php } ?>
-
+                            <small class="text-uppercase">Courbe représentative du stock de produits en fonction des commandes actuelles</small>
                         </div>
                         <div class="col-md-3 text-center">
                             <h3 class="text-uppercase">Stock des ressources</h3>
@@ -143,179 +51,163 @@
                                     <li class="list-group-item">
                                         <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
                                         <span class="float-right">
-                                            <span class="label label-primary"><?= round($ressource->stock(dateAjoute()), 2) ?> <?= $ressource->abbr ?></span>
+                                            <span class="text-blue gras"><?= round($ressource->stock(dateAjoute()), 2) ?> <?= $ressource->abbr ?></span>
                                         </span>
                                     </li>
                                 <?php } ?>
-                                <li class="list-group-item"></li>
+                                <li class="list-group-item"></li><br>
+                                <button onclick="validerCommande()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
                             </ul>
 
-                            <?php if ($employe->isAutoriser("production")) { ?>
-                                <button data-toggle="modal" data-target="#modal-productionjour" onclick=" modification('productionjour', <?= $productionjour->getId(); ?>) " class="btn btn-primary dim btn-block"><i class="fa fa-cubes"></i> Production de la journée</button>
-                            <?php } ?>
-                            
-
-                            
-                            <!-- <h4 class="text-uppercase text-red"><i class="fa fa-car"></i> Véhicules en livraison</h4>
-                            <div>
-                                <?php 
-                                $vehicules = Home\VEHICULE::mission();
-                                if (count($vehicules) > 0) { ?>
-                                    <table class="table text-left">
-                                        <tbody>
-                                            <?php foreach ($vehicules as $key => $vehicule) {
-                                                $vehicule->actualise();
-                                                ?>
-                                                <tr>    
-                                                    <td>
-                                                        <img alt="image" style="width: 30px;" class="m-t-xs" src="<?= $this->stockage("images", "vehicules", $vehicule->image) ?>">
-                                                    </td>
-                                                    <td class="">
-                                                        <h5 class="text-uppercase gras"><?= $vehicule->marque->name() ?> <?= $vehicule->modele ?></h5>
-                                                        <h6 class=""><?= $vehicule->immatriculation ?></h6>
-                                                    </td>                                      
-                                                    <td class="project-status">
-                                                        <span class="pull-right label label-<?= $vehicule->etatvehicule->class ?>"></span>
-                                                    </td>   
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>    
-                                <?php }else{ ?>
-                                    <p class="text-center text-muted">Aucun pour le moment!</p>
-                                <?php } ?>                         
-                            </div> -->
-
                         </div>
-                    </div>    
-                </div>
-
-                <br>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="ibox ">
-                            <div class="ibox-title">
-                                <h5>Programme de livraison du jour</h5>
-                                <div class="ibox-tools">
-                                    <a href="<?= $this->url("gestion", "production", "programmes") ?>" data-toggle="tooltip" title="Modifier le programme">
-                                        <i class="fa fa-calendar"></i> Modifier le programme
-                                    </a>
-                                </div>
+                    </div>   
+                    <hr style="border-top: dashed 3px #ddd"><br>
+                    <div class="row">
+                        <?php foreach ($tableau as $key => $produit) { ?>
+                            <div class="col-md border-right">
+                                <h6 class="text-uppercase text-center"><img class="border" src="<?= $this->stockage("images", "produits", $produit->image) ?>" style="height: 20px;"> Stock de <u class="gras"><?= $produit->name ?></u></h6>
+                                <ul class="list-group clear-list m-t">
+                                    <li class="list-group-item">
+                                        <i class="fa fa-cubes"></i> <small>Livrable</small>          
+                                        <span class="float-right">
+                                            <span title="en boutique" class="gras text-<?= ($produit->livrable > 0)?"green":"danger" ?>"><?= money($produit->livrable) ?></span>
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa fa-cubes"></i> <small>Non rangée</small>          
+                                        <span class="float-right">
+                                            <small title="en boutique"><?= money($produit->attente) ?></small>
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item"></li>
+                                </ul>
                             </div>
-                            <div class="ibox-content table-responsive">
-                                <table class="table table-hover no-margins">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Client</th>
-                                            <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
-                                                <th class="text-center"><?= $produit->name() ?></th>
-                                            <?php } ?>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach (Home\LIVRAISON::programmee(dateAjoute()) as $key => $livraison) {
-                                            $livraison->actualise();
-                                            $datas = $livraison->fourni("lignelivraison"); ?>
-                                            <tr>
-                                                <td title="Voir le bon de livraison"><a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
-                                                <td><a href="<?= $this->url("gestion", "master", "client", $livraison->groupecommande->client_id)  ?>"><?= $livraison->groupecommande->client->name() ?></a></td>
-                                                <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 
-                                                    $a = ""; ?>
-                                                    <?php foreach ($datas as $key => $ligne) { 
-                                                        if($ligne->produit_id == $produit->getId()){
-                                                            $a = $ligne->quantite;
-                                                            break;
-                                                        } } ?>
-                                                        <th class="text-center"><?= $a ?></th>
-                                                    <?php  } ?>
-                                                    <td class="text-center"><span class="label label-<?= $livraison->etat->class ?>"><?= $livraison->etat->name ?></span> </td>
-                                                    <td class="text-center">
-                                                        <?php if ($livraison->etat_id == Home\ETAT::PARTIEL) { ?>
-                                                            <button onclick="validerProg(<?= $livraison->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
-                                                        <?php } ?>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>               
-
-                    </div>
-
+                        <?php } ?>
+                    </div> 
                 </div>
-            </div>
-            <br>
 
-            <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
-
-            <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
-            <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
-
-
-            <div class="modal inmodal fade" id="modal-listecommande">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Liste des commandes en cours</h4>
-                        <span>Double-cliquez pour selectionner la commande voulue !</span>
-                    </div>
-                    <form method="POST">
-                        <div class="modal-body">
-                            <table class="table table-bordered table-commande">
-                                <tbody>
-                                    <?php foreach (Home\COMMANDE::findBy(["DATE(created) ="=>dateAjoute(), "etat_id !="=>Home\ETAT::ANNULEE]) as $key => $commande) {
-                                        $commande->actualise(); 
-                                        $datas = $commande->fourni("lignecommande");
-                                        ?>
-                                        <tr class="border-bottom">
-                                            <td class="project-title border-right">
-                                                <h3 class="text-uppercase">Commande N°<?= $commande->reference ?></h3>
-                                                <h5 class="text-uppercase text-muted">de <a href="<?= $this->url("gestion", "master", "client", $commande->groupecommande->client_id)  ?>"><?= $commande->groupecommande->client->name() ?></a></h5>
-                                                <h5><?= $commande->zonelivraison->name() ?> / <?= $commande->lieu ?></h5>
-                                                <h5>Commande passée à <?= heurecourt($commande->created) ?></h5>
-                                            </td>
-                                            <td class="border-right">
-                                                <h4>Eigence de la commande</h4>
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <?php foreach ($datas as $key => $ligne) {
-                                                            $ligne->actualise(); ?>
-                                                                <th class="text-center"><?= $ligne->produit->name() ?></th>
-                                                            <?php } ?>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <?php foreach ($datas as $key => $ligne) { ?>
-                                                                <td class="text-center"><?= start0($ligne->quantite) ?></td>
-                                                            <?php } ?>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <br>
-                                                   <a target="_blank" href="<?= $this->url("gestion", "fiches", "boncommande", $commande->getId())  ?>" target="_blank" class="btn btn-primary dim"><i class="fa fa-file-text-o"></i> Bon de commande</a>
-                                            </td>
-                                        </tr>
-                                    <?php  } ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
+        <br>
+
+        <?php include($this->rootPath("webapp/gestion/elements/templates/footer.php")); ?>
+
+        <?php include($this->rootPath("composants/assets/modals/modal-clients.php")); ?> 
+        <?php include($this->rootPath("composants/assets/modals/modal-client.php")); ?> 
 
 
+        <div class="modal inmodal fade" id="modal-listecommande">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                 <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Commandes passées aujourd'hui</h4>
+                    <span>Double-cliquez pour selectionner la commande voulue !</span>
+                </div>
+                <form method="POST">
+                    <div class="modal-body">
+                       <table class="table table-hover no-margins">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Client</th>
+                                <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
+                                    <th class="text-center"><?= $produit->name() ?></th>
+                                <?php } ?>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($commandes as $key => $commande) {
+                                $commande->actualise();
+                                $datas = $commande->fourni("lignecommande"); ?>
+                                <tr>
+                                    <td title="Voir le bon de commande"><a href="<?= $this->url("gestion", "fiches", "boncommande", $commande->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                    <td><a href="<?= $this->url("gestion", "master", "client", $commande->groupecommande->client_id)  ?>"><?= $commande->groupecommande->client->name() ?></a></td>
+                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 
+                                        $a = ""; ?>
+                                        <?php foreach ($datas as $key => $ligne) { 
+                                            if($ligne->produit_id == $produit->getId()){
+                                                $a = $ligne->quantite;
+                                                break;
+                                            } } ?>
+                                            <th class="text-center"><?= $a ?></th>
+                                        <?php  } ?>
+                                        <td class="text-center"><span class="label label-<?= $commande->etat->class ?>"><?= $commande->etat->name ?></span> </td>
+                                        <td class="text-center">
+                                            <?php if ($commande->etat_id == Home\ETAT::PARTIEL) { ?>
+                                                <button onclick="validerProg(<?= $commande->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la commande</button>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+
+
+    <div class="modal inmodal fade" id="modal-listelivraisons">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">livraisons passées aujourd'hui</h4>
+                <span>Double-cliquez pour selectionner la livraison voulue !</span>
+            </div>
+            <form method="POST">
+                <div class="modal-body">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Client</th>
+                                <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { ?>
+                                    <th class="text-center"><?= $produit->name() ?></th>
+                                <?php } ?>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($livraisons as $key => $livraison) {
+                                $livraison->actualise();
+                                $datas = $livraison->fourni("lignelivraison"); ?>
+                                <tr>
+                                    <td title="Voir le bon de livraison"><a href="<?= $this->url("gestion", "fiches", "bonlivraison", $livraison->getId()) ?>" target="_blank"><i class="fa fa-file-text-o fa-2x"></i></a></td>
+                                    <td><a href="<?= $this->url("gestion", "master", "client", $livraison->groupecommande->client_id)  ?>"><?= $livraison->groupecommande->client->name() ?></a></td>
+                                    <?php foreach (Home\PRODUIT::getAll() as $key => $produit) { 
+                                        $a = ""; ?>
+                                        <?php foreach ($datas as $key => $ligne) { 
+                                            if($ligne->produit_id == $produit->getId()){
+                                                $a = $ligne->quantite;
+                                                break;
+                                            } } ?>
+                                            <th class="text-center"><?= $a ?></th>
+                                        <?php  } ?>
+                                        <td class="text-center"><span class="label label-<?= $livraison->etat->class ?>"><?= $livraison->etat->name ?></span> </td>
+                                        <td class="text-center">
+                                            <?php if ($livraison->etat_id == Home\ETAT::PARTIEL) { ?>
+                                                <button onclick="validerProg(<?= $livraison->getId() ?>)" class="cursor simple_tag pull-right"><i class="fa fa-file-text-o"></i> Faire la livraison</button>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div><hr>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 </div>
 
 
@@ -366,6 +258,25 @@ axisY: {
     offset: 80
 }
 });
+
+
+
+ var ctx3 = document.getElementById("polarChart").getContext("2d");
+ new Chart(ctx3, {type: 'polarArea', data: polarData, options:polarOptions});
+
+ var doughnutData = {
+    labels: ["App","Software","Laptop" ],
+    datasets: [{
+        data: [300,50,100],
+        backgroundColor: ["#a3e1d4","#dedede","#b5b8cf"]
+    }]
+} ;
+
+
+var doughnutOptions = {
+    responsive: true
+};
+
 
 });
 </script>

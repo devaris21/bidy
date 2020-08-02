@@ -1,15 +1,13 @@
 <?php 
 namespace Home;
-if ($this->getId() > 0) {
-	$id = $this->getId();
-}else{
-	$id = 7;
-}
 unset_session("ressources");
+$date1 = getSession("date1");
+$date2 = getSession("date2");
+
 
 $ressources = RESSOURCE::getAll();
 
-$productionjours = PRODUCTIONJOUR::findBy([],[],["ladate"=>"DESC"], $id);
+$productionjours = PRODUCTIONJOUR::findBy(["DATE(created) >="=>$date1, "DATE(created) <="=>$date2],[],["ladate"=>"DESC"]);
 usort($productionjours, 'comparerLadate');
 
 $title = "BRIXS | Stock des ressources ";

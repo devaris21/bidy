@@ -77,8 +77,12 @@ class ROOTER extends PATH
 
                 if ($mycompte->expired >= dateAjoute()) {
                        //pour les etats recaps
-                    $datea = dateAjoute(-30);
-                    $dateb = dateAjoute(1);
+                    if (getSession("date1") == null) {
+                        session("date1", dateAjoute(-12));
+                        session("date2", dateAjoute());
+                    }
+                    $date1 = getSession("date1");
+                    $date2 = getSession("date2");
 
                     $productionjour = PRODUCTIONJOUR::today();
                     $productionjour->actualise();

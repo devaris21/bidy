@@ -2,7 +2,7 @@
 <div class="modal inmodal fade" id="modal-newlivraison" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header text-warning">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">Nouveau bon de livraison</h4>
             <small class="font-bold">Renseigner ces champs pour enregistrer la livraison</small>
@@ -30,7 +30,10 @@
                                                 <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
                                                 <small><?= $produit->description ?></small>
                                             </td>
-                                            <td width="105"><input type="number" name="livree" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>"></td>
+                                            <td width="105">
+                                                <label>Quantité à livrée</label>
+                                                <input type="number" name="livree" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>">
+                                            </td>
                                             <td><br> / <?= $reste ?></td>
                                             <td width="130">
                                                 <label>Perte chargement</label>
@@ -160,7 +163,7 @@
                         <input type="hidden" name="client_id" value="<?= $groupecommande->client_id ?>">
                     </form>
                     <hr/>
-                    <button onclick="validerLivraison()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la livraison</button>
+                    <button onclick="validerLivraison()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider la livraison</button>
                 </div>
             </div>
 

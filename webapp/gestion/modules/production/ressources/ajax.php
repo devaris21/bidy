@@ -8,6 +8,15 @@ use Native\RESPONSE;
 $data = new RESPONSE;
 extract($_POST);
 
+if ($action == "filtrer") {
+	session("date1", $date1);
+	session("date2", $date2);
+
+	$data->setUrl("gestion", "production", "ressources");
+	echo json_encode($data);
+}
+
+
 
 if ($action == "newressource") {
 	$params = PARAMS::findLastId();
