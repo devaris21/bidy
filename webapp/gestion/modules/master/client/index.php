@@ -39,13 +39,18 @@
                         <table class="table small m-b-xs">
                             <tbody>
                                 <tr>
+                                    <td>Client depuis </td>
                                     <td>
-                                        <strong>142</strong> Commandes
+                                        <strong><?= depuis($client->created) ?></strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong><?= count($datas1) ?></strong> Commandes
                                     </td>
                                     <td>
-                                        <strong>22</strong> Livraisons
+                                        <strong><?= count($datas2) ?></strong> Livraisons
                                     </td>
-
                                 </tr>
                                 <tr>
                                     <td>
@@ -72,17 +77,17 @@
                         <div class="social-feed-box">
                             <div class="float-right social-action dropdown">
                                 <button data-toggle="dropdown" class="dropdown-toggle btn-white">
-                                 Options
-                             </button>
-                             <ul class="dropdown-menu">
-                                <li class="text-green"><a style="padding: 5px" href="#"><i class="fa fa-plus"></i> Créditer l'acompte</a></li>
+                                   Options
+                               </button>
+                               <ul class="dropdown-menu">
+                                <li class="text-green" data-toggle="modal" data-target="#modal-acompte" ><a style="padding: 5px" href="#"><i class="fa fa-plus"></i> Créditer l'acompte</a></li>
                                 <?php if ($client->acompte > 0) { ?>
-                                    <li class="text-blue"><a style="padding: 5px" href="#"><i class="fa fa-reply"></i> Transferer les fonds</a></li>
-                                    <li class="text-blue"><a style="padding: 5px" href="#"><i class="fa fa-reply"></i> Rembourser l'acompte</a></li>
+                                    <li class="text-blue" data-toggle="modal" data-target="#modal-transfert-acompte"><a style="padding: 5px" href="#"><i class="fa fa-reply"></i> Transferer les fonds</a></li>
+                                    <li class="text-blue" data-toggle="modal" data-target="#modal-rembourser"><a style="padding: 5px" href="#"><i class="fa fa-reply"></i> Rembourser l'acompte</a></li>
                                 <?php } ?> 
                                 <?php if ($client->dette > 0) { ?>
                                     <li class="border"></li>
-                                    <li class="text-danger"><a style="padding: 5px" href="#"><i class="fa fa-minus"></i> Régler la dette</a></li>
+                                    <li class="text-danger" data-toggle="modal" data-target="#modal-dette"><a style="padding: 5px" href="#"><i class="fa fa-minus"></i> Régler la dette</a></li>
                                 <?php } ?> 
                             </ul>
                         </div>
@@ -166,8 +171,8 @@
                                                 <tr>
                                                     <th></th>
                                                     <?php foreach ($produits as $key => $produit){ 
-                                                       $reste = $commande->reste($produit->getId());
-                                                       if ($reste > 0) { ?>
+                                                     $reste = $commande->reste($produit->getId());
+                                                     if ($reste > 0) { ?>
                                                         <th class="text-center"><?= $produit->name() ?></th>
                                                     <?php }
                                                 } ?>
@@ -182,7 +187,6 @@
                                                         <td class="text-center" style="font-size: 20px;"><?= start0($reste) ?></td>
                                                     <?php   } 
                                                 } ?>
-                                                <td style="width: 60px; padding: 0"><button onclick="fichecommande(<?= $commande->getId()  ?>)" style="font-size: 11px; margin-top: 5%; margin-left: 5%;" class="btn btn-success btn-sm dim"><i class="fa fa-plus"></i> de détails </button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -190,8 +194,8 @@
                             </div>
                         <?php } ?>
                     </div>
-
-
+                    <hr>
+                    <br><br>
                     <div class="col-md-11">
                         <h3 class="gras text-uppercase text-muted"><i class="fa fa-history"></i> Historiques des mouvements .........................................................</h3>
                         <?php foreach ($flux as $key => $transaction) {
@@ -266,7 +270,7 @@
 <div class="modal inmodal fade" id="modal-listecommande">
     <div class="modal-dialog">
         <div class="modal-content">
-           <div class="modal-header">
+         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">Choisir la commande</h4>
             <span>Double-cliquez pour selectionner la commande voulue !</span>

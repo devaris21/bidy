@@ -41,7 +41,7 @@ class CONNEXION extends TABLE
 			$connexion->actualise();
 			if ($connexion->date_deconnexion == null) {
 				$connexion->date_deconnexion = date("Y-m-d H:i:s");
-				$connexion->historique("Déconnexion du employe".$connexion->employe->name());
+				$connexion->historique("Deconnexion de l'employe ".$connexion->employe->name());
 				$connexion->save();
 			}
 		}

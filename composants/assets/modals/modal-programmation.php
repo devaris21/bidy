@@ -2,7 +2,7 @@
 <div class="modal inmodal fade" id="modal-programmation" style="z-index: 99999999">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header text-blue">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title">Nouvelle programmation de livraison</h4>
             <small class="font-bold">Renseigner ces champs pour enregistrer la livraison</small>

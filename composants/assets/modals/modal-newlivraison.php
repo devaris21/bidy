@@ -30,7 +30,7 @@
                                                 <h4 class="mp0 text-uppercase"><?= $produit->name() ?></h4>
                                                 <small><?= $produit->description ?></small>
                                             </td>
-                                            <td width="105">
+                                            <td width="130">
                                                 <label>Quantité à livrée</label>
                                                 <input type="number" name="livree" number class="form-control text-center gras" value="<?= $reste ?>" max="<?= $reste ?>">
                                             </td>
