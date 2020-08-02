@@ -1,14 +1,8 @@
 <?php 
 namespace Home;
 
-if ($this->getId() != "") {
-	$tab = explode("@", $this->getId());
-	$date1 = $tab[0];
-	$date2 = $tab[1];
-}else{
-	$date1 = PARAMS::DATE_DEFAULT;
-	$date2 = dateAjoute(1);
-}
+$date1 = getSession("date1");
+$date2 = getSession("date2");
 
 $versements = OPERATION::versements($date1, $date2);
 $clients = CLIENT::findBy(["visibility ="=>1]);

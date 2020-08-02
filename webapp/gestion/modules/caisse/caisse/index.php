@@ -16,6 +16,70 @@
 
 
             <div class="wrapper wrapper-content">
+                 <div class="row">
+                <div class="col-lg-3">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h5 class="text-uppercase">Chiffre d'affaire</h5>
+                                    <h2 class="no-margins">886,200</h2>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <i class="fa fa-wrench fa-5x" style="color: #ddd"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h5 class="text-uppercase">Résultat brut</h5>
+                                    <h2 class="no-margins">886,200</h2>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <i class="fa fa-cubes fa-5x" style="color: #ddd"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox">
+                        <div class="ibox-content bg-warning">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h5 class="text-uppercase">Dette Fournisseur</h5>
+                                    <h2 class="no-margins"><?= money(Home\FOURNISSEUR::dettes()) ?></h2>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <i class="fa fa-eercast fa-5x" style="color: #ddd"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="ibox">
+                        <div class="ibox-content bg-navy">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h5 class="text-uppercase">Dette clientèle</h5>
+                                    <h2 class="no-margins"><?= money(Home\CLIENT::dettes()) ?></h2>
+                                </div>
+                                <div class="col-5 text-right">
+                                    <i class="fa fa-handshake-o fa-5x" style="color: #ddd"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox ">
@@ -42,6 +106,20 @@
                                 <div class="col-lg-9">
                                     <div class="flot-chart">
                                         <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                                    </div><br>
+                                    <div class="row stat-list text-center">
+                                        <div class="col-4 ">
+                                            <h3 class="no-margins text-green"><?= money(Home\OPERATION::entree(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                            <small>Entrées du jour</small>
+                                        </div>
+                                        <div class="col-4 border-left border-right">
+                                            <h2 class="no-margins gras"><?= money(Home\OPERATION::resultat(Home\PARAMS::DATE_DEFAULT , dateAjoute())) ?></h2>
+                                            <small>En caisse actuellement</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <h3 class="no-margins text-red"><?= money(Home\OPERATION::sortie(dateAjoute() , dateAjoute(+1))) ?></h3>
+                                            <small>Dépenses du jour</small>
+                                        </div>
                                     </div><hr>
                                     <div class="row" style="font-size: 10px">
                                         <div class="col-sm">
@@ -100,68 +178,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <div class="col-7">
-                                    <h5 class="text-uppercase">Chiffre d'affaire</h5>
-                                    <h1 class="no-margins">886,200</h1>
-                                </div>
-                                <div class="col-5 text-right">
-                                    <i class="fa fa-wrench fa-5x" style="color: #ddd"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <div class="col-7">
-                                    <h5 class="text-uppercase">Dette Fournisseur</h5>
-                                    <h1 class="no-margins">886,200</h1>
-                                </div>
-                                <div class="col-5 text-right">
-                                    <i class="fa fa-eercast fa-5x" style="color: #ddd"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <div class="col-7">
-                                    <h5 class="text-uppercase">Résultat brut</h5>
-                                    <h1 class="no-margins">886,200</h1>
-                                </div>
-                                <div class="col-5 text-right">
-                                    <i class="fa fa-cubes fa-5x" style="color: #ddd"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox">
-                        <div class="ibox-content  bg-danger">
-                            <div class="row">
-                                <div class="col-7">
-                                    <h5 class="text-uppercase">Dette clientèle</h5>
-                                    <h1 class="no-margins">886,200</h1>
-                                </div>
-                                <div class="col-5 text-right">
-                                    <i class="fa fa-close fa-5x" style="color: #ddd"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
 
 
             <div class="row">

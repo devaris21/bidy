@@ -17,8 +17,8 @@ $(function(){
 
     $("#top-search").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("table.table-commande tr:not(.no)").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        $("table.table-commande tr:not(.no), .social-feed-box").filter(function() {
+            $(this).parent(".col-md-4").toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
 

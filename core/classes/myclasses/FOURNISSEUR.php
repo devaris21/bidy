@@ -30,15 +30,15 @@ class FOURNISSEUR extends AUTH
 		if ($this->name != "") {
 			if ($this->adresse != "" && $this->contact != "") {
 				$data = $this->save();
-					if ($data->status) {
-						$this->uploading($this->files);
+				if ($data->status) {
+					$this->uploading($this->files);
 						// ob_start();
 						// include(__DIR__."/../../sections/home/elements/mails/welcome_prestataire.php");
 						// $contenu = ob_get_contents();
 						// ob_end_clean();
 						// TODO gerer les mails
 						//EMAIL::send([$this->email], "Bienvenue - ARTCI | Gestion du parc auto", $contenu);
-					}
+				}
 			}else{
 				$data->status = false;
 				$data->message = "Veuillez renseigner tous les champs marqués d'un * !";
@@ -227,6 +227,10 @@ class FOURNISSEUR extends AUTH
 		return comptage($datas, "montant", "somme");
 	}
 
+
+	public static function dettes(){
+		return comptage(static::getAll(), "dette", "somme");
+	}
 
 
 

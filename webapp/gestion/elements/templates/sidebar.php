@@ -120,10 +120,10 @@
                     <li class="groupe">
                         <a href="#"><i class="fa fa-file-text-o"></i> <span class="nav-label">Etats récapitulatifs</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients", "$datea@$dateb") ?>">... des clients</a></li>
-                            <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction", "$datea@$dateb") ?>">... de production</a></li>
-                            <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes", "$datea@$dateb") ?>">... des comptes</a></li>
-                            <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel", "$datea@$dateb") ?>">... du personnel</a></li> -->
+                            <li id="etatclients"><a href="<?= $this->url("gestion", "caisse", "etatclients") ?>">... des clients</a></li>
+                            <li id="etatproduction"><a href="<?= $this->url("gestion", "caisse", "etatproduction") ?>">... de production</a></li>
+                            <li id="etatcomptes"><a href="<?= $this->url("gestion", "caisse", "etatcomptes") ?>">... des comptes</a></li>
+                            <!--  <li id="etatpersonnel"><a href="<?= $this->url("gestion", "caisse", "etatpersonnel") ?>">... du personnel</a></li> -->
                         </ul>
                     </li>
                     <li class="dropdown-divider"></li>
