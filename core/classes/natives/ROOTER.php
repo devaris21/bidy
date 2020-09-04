@@ -67,22 +67,27 @@ class ROOTER extends PATH
     public function render(){
         $data = new RESPONSE;
         $data->status = true;
+        $params = PARAMS::findLastId();
+        $mycompte = MYCOMPTE::findLastId();
+
+        $params = PARAMS::findLastId();
+        $mycompte = MYCOMPTE::findLastId();
+        $date1 = dateAjoute(-3);
+        $date2 = dateAjoute(1);
+        if (getSession("date1") != null) {
+            $date1 = getSession("date1");
+        }
+        if (getSession("date2") != null) {
+            $date2 = getSession("date2");
+        }
+
+
         $this->is_admin = in_array($this->section, static::SECTION_ADMIN) ;
         if ($this->is_admin && $this->module != "access") {
             $data = PARAMS::checkTimeout($this->section);
             if ($data->status == true) {
-                $params = PARAMS::findLastId();
-                $mycompte = MYCOMPTE::findLastId();
-
 
                 if ($mycompte->expired >= dateAjoute()) {
-                       //pour les etats recaps
-                    if (getSession("date1") == null) {
-                        session("date1", dateAjoute(-12));
-                        session("date2", dateAjoute());
-                    }
-                    $date1 = getSession("date1");
-                    $date2 = getSession("date2");
 
                     $productionjour = PRODUCTIONJOUR::today();
                     $productionjour->actualise();

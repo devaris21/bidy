@@ -51,7 +51,7 @@
                 <div class="col-lg-3 clients">
                     <div class="contact-box ">
                         <a href="<?= $this->url("gestion", "master", "client", $client->getId()) ?>">
-                            <h3><strong><?= $client->name() ?></strong></h3>
+                            <h5><strong><?= $client->name() ?></strong></h5>
                             <address>
                                 <i class="fa fa-phone"></i>&nbsp; <?= $client->contact ?><br>
                                 <i class="fa fa-map-marker"></i>&nbsp; <?= $client->adresse ?><br>
