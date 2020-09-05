@@ -3,9 +3,10 @@ namespace Native;
 use Native\SHAMMAN;
 use Home\ROLE;
 use Home\EMPLOYE;
-use Home\UTILISATEUR;
+use Home\ENTREPOT;
+use Home\BOUTIQUE;
 use Home\PRODUCTIONJOUR;
-use Home\PRESTATAIRE;
+use Home\EXERCICECOMPTABLE;
 use Home\PARAMS;
 use Home\MYCOMPTE;
 /**
@@ -14,9 +15,9 @@ use Home\MYCOMPTE;
 class ROOTER extends PATH
 {
 
-    private $url;
+    public $url;
     private $language = "fr";
-    public $section = "devaris21";
+    public $section = "master";
     public $module = "start";
     public $page = "select";
     public $id ;
@@ -25,8 +26,8 @@ class ROOTER extends PATH
     private $token;
 
 
-    const SECTION_SIMPLE = ["devaris21"];
-    const SECTION_ADMIN = ["gestion"];
+    const SECTION_SIMPLE = ["main", "fiches"];
+    const SECTION_ADMIN = ["manager", "master", "boutique", "entrepot", "config"];
     const SECTION_STOCKAGE = ["images", "documents"];
 
 
@@ -44,7 +45,7 @@ class ROOTER extends PATH
             $tab = explode("/", strtolower($this->url));
             $this->section = $tab[0];
             if (in_array($this->section, static::SECTION_ADMIN)) {
-                $this->module = "access";
+                $this->module = "main";
                 $this->page = "login";
             }
             if (isset($tab[1]) && $tab[1] != "") {
@@ -67,9 +68,7 @@ class ROOTER extends PATH
     public function render(){
         $data = new RESPONSE;
         $data->status = true;
-        $params = PARAMS::findLastId();
-        $mycompte = MYCOMPTE::findLastId();
-
+        
         $params = PARAMS::findLastId();
         $mycompte = MYCOMPTE::findLastId();
         $date1 = dateAjoute(-3);
@@ -82,62 +81,76 @@ class ROOTER extends PATH
         }
 
 
-        $this->is_admin = in_array($this->section, static::SECTION_ADMIN) ;
-        if ($this->is_admin && $this->module != "access") {
+        if (in_array($this->section, static::SECTION_ADMIN)) {
             $data = PARAMS::checkTimeout($this->section);
             if ($data->status == true) {
 
                 if ($mycompte->expired >= dateAjoute()) {
+                    $exercicecomptable = EXERCICECOMPTABLE::encours();
 
-                    $productionjour = PRODUCTIONJOUR::today();
-                    $productionjour->actualise();
-                    session("lastUrl", $this->url);
+                    $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
+                    if (count($datas) >0) {
+                        $employe = $datas[0];
+                        if ($employe->is_allowed()) {
+                            $tableauDeRoles = [];
+                            foreach ($employe->fourni("role_employe") as $key => $value) {
+                                $tableauDeRoles[] = $value->role_id;
+                            };
+                            if (!in_array($this->module, ROLE::MODULEEXCEPT)) {
+                                $datas = ROLE::findBy(["name ="=>$this->module]);
+                                if (count($datas) == 1) {
+                                    $role = $datas[0];
+                                    if (in_array($role->id, $tableauDeRoles)) {
+                                        $employe->actualise();
 
-                    if ($this->section == "gestion") {
-                        $datas = EMPLOYE::findBy(["id = "=>getSession("employe_connecte_id")]);
-                        if (count($datas) >0) {
-                            $employe = $datas[0];
-                            if ($employe->is_allowed()) {
-                                $tableauDeRoles = [];
-                                foreach ($employe->fourni("role_employe") as $key => $value) {
-                                    $tableauDeRoles[] = $value->role_id;
-                                };
-                                if (!in_array($this->module, ROLE::MODULEEXCEPT)) {
-                                    $datas = ROLE::findBy(["name ="=>$this->module]);
-                                    if (count($datas) == 1) {
-                                        $role = $datas[0];
-                                        if (in_array($role->getId(), $tableauDeRoles)) {
-                                            $employe->actualise();
+                                        $productionjour = PRODUCTIONJOUR::today();
+                                        $productionjour->actualise();
+                                        session("lastUrl", $this->url);
 
-                                        }else{
-                                            $this->new_root("devaris21", "home", "erreur500");
-                                            $this->render();
-                                            return false;
+                                        session("boutique_connecte_id", null);
+                                        session("entrepot_connecte_id", null);
+
+                                        if (!in_array($this->module, ["manager", "config"])) {
+                                            // if ($employe->boutique_id != null) {
+                                            //     $boutique = $employe->boutique;
+                                            //     session("boutique_connecte_id", $boutique->id);
+                                            // }
+                                            if ($employe->entrepot_id != null) {
+                                                $entrepot = $employe->entrepot;
+                                                session("entrepot_connecte_id", $entrepot->id);
+                                            }
                                         }
+
+                                        session("lastUrl", $this->url);
                                     }else{
-                                        $this->new_root("devaris21", "home", "erreur500");
+                                        $this->new_root("main", "home", "erreur500");
                                         $this->render();
                                         return false;
                                     }
+                                }else{
+                                    $this->new_root("main", "home", "erreur500");
+                                    $this->render();
+                                    return false;
                                 }
-                            }else{
-                                $this->new_root("devaris21", "home", "erreur500");
-                                $this->render();
-                                return false;
                             }
                         }else{
-                            $this->new_root($this->section, "access", "login");
+                            $this->new_root("main", "home", "erreur500");
                             $this->render();
                             return false;
                         }
+                    }else{
+                        $this->new_root("main", "access", "login");
+                        $this->render();
+                        return false;
                     }
+
                 }else{
-                    $this->new_root("devaris21", "home", "expired");
+                    $this->new_root("main", "home", "expired");
                     $this->render();
                     return false; 
                 }
             }else{
-                $this->new_root($this->section, "access", "login");
+                $this->new_root("main", "access", "login");
                 $this->render();
                 return false;
             }
@@ -154,66 +167,70 @@ class ROOTER extends PATH
             require realpath($require);
             require realpath($path);
 
-            $token = hasher(bin2hex(random_bytes(32)));
-            session("token", $token);
-            session("verif_token", $token);
+                                            $token = hasher(bin2hex(random_bytes(32)));
+                                                session("token", $token);
+                                                session("verif_token", $token);
 
-        }else{
-            $path = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/index.php";
-            $require = __DIR__."/../../../webapp/devaris21/modules/home/erreur404/require.php";
-            require realpath($require);
-            require realpath($path);
-        }
-    }
+                                            }else{
+                                                $path = __DIR__."/../../../webapp/main/modules/home/erreur404/index.php";
+                                                $require = __DIR__."/../../../webapp/main/modules/home/erreur404/require.php";
+                                                require realpath($require);
+                                            require realpath($path);
+                                }
+                            }
 
 
 
 
     //redefinir la route
-    private function new_root($section, $module, $page="", $id=""){
-        $this->section = $section;
-        $this->module = $module;
-        $this->page   = $page;
-        $this->id     = $id;
-    }
+                            private function new_root($section, $module, $page="", $id=""){
+                                $this->section = $section;
+                                $this->module = $module;
+                                $this->page   = $page;
+                                $this->id     = $id;
+                            }
 
 
 
 
-    public function url($section, $module, $page="", $id=""){
-        return $this->url = "../../$section/$module/$page|$id";
-    }
+                            public function url($section, $module, $page="", $id=""){
+                                return $this->url = "../../$section/$module/$page|$id";
+                            }
 
-    public function setUrl(String $url){
-        $this->url = $url;
-        return $this;
-    }
+                            public function setUrl(String $url){
+                                $this->url = $url;
+                                return $this;
+                            }
 
-    public function getUrl(){
-        return $this->url;
-    }
-
-
-    public function set_module($module)
-    {
-        $this->module = $module;
-        return $this;
-    }
-
-    public function getModule(){
-        return $this->module;
-    }
-
-    public function getPage(){
-        return $this->page;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
+                            public function getUrl(){
+                                return $this->url;
+                            }
 
 
+                            public function set_module($module)
+                            {
+                                $this->module = $module;
+                                return $this;
+                            }
 
-}
-?>
+                            public function getModule(){
+                                return $this->module;
+                            }
+
+                            public function getSection(){
+                                return $this->section;
+                            }
+
+                            public function getPage(){
+                                return $this->page;
+                            }
+
+                            public function getId()
+                            {
+                                return $this->id;
+                            }
+
+
+
+                        }
+                        ?>

@@ -16,6 +16,7 @@ class EMPLOYE extends AUTH
 	public $name;
 	public $is_allowed = 1;
 	public $started;
+	public $entrepot_id;
 	public $email;
 	public $is_new = 1;
 	public $image = "default.png";
