@@ -16,7 +16,7 @@ class RESSOURCE extends TABLE
 	public $unite;
 	public $abbr;
 	public $image = "default.png";
-	public $stock = 0;
+	public $initial = 0;
 
 
 	public function enregistre(){
@@ -41,7 +41,7 @@ class RESSOURCE extends TABLE
 				// $ligne = new LIGNEAPPROVISIONNEMENT();
 				// $ligne->approvisionnement_id = 1;
 				// $ligne->ressource_id = $data->lastid;
-				// $ligne->quantite = $ligne->quantite_recu = $this->stock;
+				// $ligne->quantite = $ligne->quantite_recu = $this->initial;
 				// $ligne->save();
 
 				// $ligne = new LIGNECONSOMMATIONJOUR();
@@ -85,7 +85,7 @@ class RESSOURCE extends TABLE
 
 
 	public function livrer(int $quantite){
-		$this->stock -= $quantite;
+		$this->initial -= $quantite;
 		$data = $this->save();	
 	}
 

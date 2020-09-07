@@ -34,8 +34,7 @@
                                 <li class="list-group-item cursor" data-toggle="modal" data-target="#modal-listelivraisons">
                                     Livraisons du jour <span class=" text-success float-right"><?= start0(count($livraisons)); ?> </span>
                                 </li>
-                                <li class="list-group-item"></li><br>
-                                <button onclick="validerCommande()" class="btn btn-primary btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
+                                <li class="list-group-item"></li>
                             </ul>
                         </div>
                         <div class="col-md-6 border-right border-left text-center">
@@ -51,12 +50,11 @@
                                     <li class="list-group-item">
                                         <i class="fa fa-truck"></i>&nbsp;&nbsp;&nbsp; <?= $ressource->name() ?>
                                         <span class="float-right">
-                                            <span class="text-blue gras"><?= round($ressource->stock(dateAjoute()), 2) ?> <?= $ressource->abbr ?></span>
+                                            <span class="text-blue gras"><?= round($ressource->stock(Home\PARAMS::DATE_DEFAULT, dateAjoute()), 2) ?> <?= $ressource->abbr ?></span>
                                         </span>
                                     </li>
                                 <?php } ?>
-                                <li class="list-group-item"></li><br>
-                                <button onclick="validerCommande()" class="btn btn-warning btn-block dim"><i class="fa fa-check"></i> Valider la commande</button>
+                                <li class="list-group-item"></li>
                             </ul>
 
                         </div>

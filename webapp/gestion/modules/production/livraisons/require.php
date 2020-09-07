@@ -3,12 +3,9 @@ namespace Home;
 
 $title = "BRIXS | Toutes les livraisons en cours";
 
-$livraisons = LIVRAISON::findBy(["etat_id ="=>ETAT::ENCOURS]);
-$total = 0;
-foreach ($livraisons as $key => $liv) {
-	if ($liv->etat_id == ETAT::ENCOURS) {
-		$total++;
-	}
-}
+$encours = LIVRAISON::findBy(["etat_id ="=>ETAT::ENCOURS], [], ["created"=>"DESC"]);
+
+$datas = LIVRAISON::findBy(["etat_id !="=>ETAT::ENCOURS, "DATE(created) >="=>$date1, "DATE(created) <="=>$date2], [], ["created"=>"DESC"]);
+
 
 ?>
